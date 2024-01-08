@@ -13,9 +13,11 @@
     "@supabase/supabase-js": "^2.39.2",
     "@tanstack/react-query": "^5.17.1",
     "next": "14.0.4",
+    "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
+    "react-kakao-maps-sdk": "^1.1.24",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
+    "kakao.maps.d.ts": "^0.1.39",
     "prettier": "^3.1.1",
     "typescript": "^5"
   }
