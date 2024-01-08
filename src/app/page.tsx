@@ -1,5 +1,5 @@
-import Reservation from './components/Reservation';
-import './styles/reset.css';
+import Reservation from '../components/Reservation';
+import '../styles/reset.css';
 
 export default function Home() {
   return (
