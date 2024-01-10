@@ -29,32 +29,24 @@ const addCampPage = () => {
     // TODO : company_id는 나중에 가져온느 로직을 작성해야 한다.
     const companyId = '1fc2b9ca-341a-490c-b995-370eb36e1d5d';
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        // const like = await supabase
-        //   .from('like')
-        //   .select('user(nickname),camp(name)');
-        // console.log(like);
-        const { data, error } = await supabase
-          .from('camp')
-          .insert({
-            name,
-            content,
-            company_id: companyId,
-            address,
-            region,
-            phone,
-            check_in,
-            check_out,
-            layout,
-          })
-          .select();
-        if (data) {
-          alert('등록되었습니다');
-        } else if (error) {
-          alert(error.message);
-        }
-      });
+    const { data, error } = await supabase
+      .from('camp')
+      .insert({
+        name,
+        content,
+        company_id: companyId,
+        address,
+        region,
+        phone,
+        check_in,
+        check_out,
+        layout,
+      })
+      .select();
+    if (data) {
+      alert('등록되었습니다');
+    } else if (error) {
+      alert(error.message);
     }
   };
 
