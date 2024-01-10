@@ -7,69 +7,80 @@ export type Json =
   | Json[];
 
 export interface Database {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never;
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string;
-          query?: string;
-          variables?: Json;
-          extensions?: Json;
-        };
-        Returns: Json;
-      };
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
   public: {
     Tables: {
+      _prisma_migrations: {
+        Row: {
+          applied_steps_count: number;
+          checksum: string;
+          finished_at: string | null;
+          id: string;
+          logs: string | null;
+          migration_name: string;
+          rolled_back_at: string | null;
+          started_at: string;
+        };
+        Insert: {
+          applied_steps_count?: number;
+          checksum: string;
+          finished_at?: string | null;
+          id: string;
+          logs?: string | null;
+          migration_name: string;
+          rolled_back_at?: string | null;
+          started_at?: string;
+        };
+        Update: {
+          applied_steps_count?: number;
+          checksum?: string;
+          finished_at?: string | null;
+          id?: string;
+          logs?: string | null;
+          migration_name?: string;
+          rolled_back_at?: string | null;
+          started_at?: string;
+        };
+        Relationships: [];
+      };
       camp: {
         Row: {
           address: string;
+          check_in: string;
+          check_out: string;
           company_id: string;
-          content: string | null;
+          content: string;
           created_at: string;
           id: string;
-          lat: string;
-          long: string;
-          max_people: number;
-          name: string | null;
-          title: string | null;
+          layout: string;
+          name: string;
+          phone: string;
+          region: string;
         };
         Insert: {
           address: string;
+          check_in: string;
+          check_out: string;
           company_id: string;
-          content?: string | null;
+          content: string;
           created_at?: string;
           id?: string;
-          lat: string;
-          long: string;
-          max_people: number;
-          name?: string | null;
-          title?: string | null;
+          layout: string;
+          name: string;
+          phone: string;
+          region: string;
         };
         Update: {
           address?: string;
+          check_in?: string;
+          check_out?: string;
           company_id?: string;
-          content?: string | null;
+          content?: string;
           created_at?: string;
           id?: string;
-          lat?: string;
-          long?: string;
-          max_people?: number;
-          name?: string | null;
-          title?: string | null;
+          layout?: string;
+          name?: string;
+          phone?: string;
+          region?: string;
         };
         Relationships: [
           {
@@ -77,6 +88,41 @@ export interface Database {
             columns: ['company_id'];
             isOneToOne: false;
             referencedRelation: 'company_user';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      camp_area: {
+        Row: {
+          camp_id: string;
+          id: string;
+          max_people: number;
+          name: string;
+          photo_url: string;
+          price: number;
+        };
+        Insert: {
+          camp_id: string;
+          id?: string;
+          max_people: number;
+          name: string;
+          photo_url: string;
+          price: number;
+        };
+        Update: {
+          camp_id?: string;
+          id?: string;
+          max_people?: number;
+          name?: string;
+          photo_url?: string;
+          price?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'camp_area_camp_id_fkey';
+            columns: ['camp_id'];
+            isOneToOne: false;
+            referencedRelation: 'camp';
             referencedColumns: ['id'];
           },
         ];
@@ -107,7 +153,7 @@ export interface Database {
           },
         ];
       };
-      comments: {
+      comment: {
         Row: {
           content: string;
           created_at: string;
@@ -131,16 +177,16 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: 'comments_post_id_fkey';
+            foreignKeyName: 'comment_post_id_fkey';
             columns: ['post_id'];
             isOneToOne: false;
             referencedRelation: 'post';
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'comments_user_id_fkey';
+            foreignKeyName: 'comment_user_id_fkey';
             columns: ['user_id'];
-            isOneToOne: true;
+            isOneToOne: false;
             referencedRelation: 'user';
             referencedColumns: ['id'];
           },
@@ -148,18 +194,21 @@ export interface Database {
       };
       company_user: {
         Row: {
+          created_at: string;
           email: string;
           id: string;
           name: string;
           password: string;
         };
         Insert: {
+          created_at?: string;
           email: string;
           id?: string;
           name: string;
           password: string;
         };
         Update: {
+          created_at?: string;
           email?: string;
           id?: string;
           name?: string;
@@ -193,24 +242,47 @@ export interface Database {
           },
         ];
       };
+      hashtag: {
+        Row: {
+          camp_id: string;
+          id: string;
+          tag: string | null;
+        };
+        Insert: {
+          camp_id: string;
+          id?: string;
+          tag?: string | null;
+        };
+        Update: {
+          camp_id?: string;
+          id?: string;
+          tag?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'hashtag_camp_id_fkey';
+            columns: ['camp_id'];
+            isOneToOne: false;
+            referencedRelation: 'camp';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       like: {
         Row: {
           camp_id: string | null;
-          created_at: string;
           id: string;
           post_id: string | null;
           user_id: string;
         };
         Insert: {
           camp_id?: string | null;
-          created_at?: string;
           id?: string;
           post_id?: string | null;
           user_id: string;
         };
         Update: {
           camp_id?: string | null;
-          created_at?: string;
           id?: string;
           post_id?: string | null;
           user_id?: string;
@@ -241,45 +313,24 @@ export interface Database {
       };
       post: {
         Row: {
-          camp_id: string | null;
           content: string;
           created_at: string;
           id: string;
           title: string;
-          user_id: string;
         };
         Insert: {
-          camp_id?: string | null;
           content: string;
           created_at?: string;
           id?: string;
           title: string;
-          user_id: string;
         };
         Update: {
-          camp_id?: string | null;
           content?: string;
           created_at?: string;
           id?: string;
           title?: string;
-          user_id?: string;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'post_camp_id_fkey';
-            columns: ['camp_id'];
-            isOneToOne: false;
-            referencedRelation: 'camp';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'post_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'user';
-            referencedColumns: ['id'];
-          },
-        ];
+        Relationships: [];
       };
       post_pic: {
         Row: {
@@ -309,34 +360,34 @@ export interface Database {
       };
       reservation: {
         Row: {
-          camp_id: string | null;
-          check_in_date: string | null;
-          check_out_date: string | null;
-          create_at: string;
-          fee: number | null;
+          camp_id: string;
+          check_in_date: string;
+          check_out_date: string;
+          created_at: string;
+          fee: number;
           id: string;
-          people: number | null;
-          user_id: string | null;
+          people: number;
+          user_id: string;
         };
         Insert: {
-          camp_id?: string | null;
-          check_in_date?: string | null;
-          check_out_date?: string | null;
-          create_at?: string;
-          fee?: number | null;
+          camp_id: string;
+          check_in_date: string;
+          check_out_date: string;
+          created_at?: string;
+          fee: number;
           id?: string;
-          people?: number | null;
-          user_id?: string | null;
+          people: number;
+          user_id: string;
         };
         Update: {
-          camp_id?: string | null;
-          check_in_date?: string | null;
-          check_out_date?: string | null;
-          create_at?: string;
-          fee?: number | null;
+          camp_id?: string;
+          check_in_date?: string;
+          check_out_date?: string;
+          created_at?: string;
+          fee?: number;
           id?: string;
-          people?: number | null;
-          user_id?: string | null;
+          people?: number;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -357,31 +408,31 @@ export interface Database {
       };
       review: {
         Row: {
-          camp_id: string | null;
+          camp_id: string;
           content: string;
           created_at: string;
           id: string;
           rating: number;
           title: string;
-          user_id: string | null;
+          user_id: string;
         };
         Insert: {
-          camp_id?: string | null;
+          camp_id: string;
           content: string;
           created_at?: string;
           id?: string;
           rating: number;
           title: string;
-          user_id?: string | null;
+          user_id: string;
         };
         Update: {
-          camp_id?: string | null;
+          camp_id?: string;
           content?: string;
           created_at?: string;
           id?: string;
           rating?: number;
           title?: string;
-          user_id?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -406,21 +457,21 @@ export interface Database {
           id: string;
           nickname: string;
           password: string;
-          profile_url: string | null;
+          profile_url: string;
         };
         Insert: {
           email: string;
           id?: string;
           nickname: string;
           password: string;
-          profile_url?: string | null;
+          profile_url: string;
         };
         Update: {
           email?: string;
           id?: string;
           nickname?: string;
           password?: string;
-          profile_url?: string | null;
+          profile_url?: string;
         };
         Relationships: [];
       };
@@ -429,185 +480,9 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
-  storage: {
-    Tables: {
-      buckets: {
-        Row: {
-          allowed_mime_types: string[] | null;
-          avif_autodetection: boolean | null;
-          created_at: string | null;
-          file_size_limit: number | null;
-          id: string;
-          name: string;
-          owner: string | null;
-          owner_id: string | null;
-          public: boolean | null;
-          updated_at: string | null;
-        };
-        Insert: {
-          allowed_mime_types?: string[] | null;
-          avif_autodetection?: boolean | null;
-          created_at?: string | null;
-          file_size_limit?: number | null;
-          id: string;
-          name: string;
-          owner?: string | null;
-          owner_id?: string | null;
-          public?: boolean | null;
-          updated_at?: string | null;
-        };
-        Update: {
-          allowed_mime_types?: string[] | null;
-          avif_autodetection?: boolean | null;
-          created_at?: string | null;
-          file_size_limit?: number | null;
-          id?: string;
-          name?: string;
-          owner?: string | null;
-          owner_id?: string | null;
-          public?: boolean | null;
-          updated_at?: string | null;
-        };
-        Relationships: [];
-      };
-      migrations: {
-        Row: {
-          executed_at: string | null;
-          hash: string;
-          id: number;
-          name: string;
-        };
-        Insert: {
-          executed_at?: string | null;
-          hash: string;
-          id: number;
-          name: string;
-        };
-        Update: {
-          executed_at?: string | null;
-          hash?: string;
-          id?: number;
-          name?: string;
-        };
-        Relationships: [];
-      };
-      objects: {
-        Row: {
-          bucket_id: string | null;
-          created_at: string | null;
-          id: string;
-          last_accessed_at: string | null;
-          metadata: Json | null;
-          name: string | null;
-          owner: string | null;
-          owner_id: string | null;
-          path_tokens: string[] | null;
-          updated_at: string | null;
-          version: string | null;
-        };
-        Insert: {
-          bucket_id?: string | null;
-          created_at?: string | null;
-          id?: string;
-          last_accessed_at?: string | null;
-          metadata?: Json | null;
-          name?: string | null;
-          owner?: string | null;
-          owner_id?: string | null;
-          path_tokens?: string[] | null;
-          updated_at?: string | null;
-          version?: string | null;
-        };
-        Update: {
-          bucket_id?: string | null;
-          created_at?: string | null;
-          id?: string;
-          last_accessed_at?: string | null;
-          metadata?: Json | null;
-          name?: string | null;
-          owner?: string | null;
-          owner_id?: string | null;
-          path_tokens?: string[] | null;
-          updated_at?: string | null;
-          version?: string | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'objects_bucketId_fkey';
-            columns: ['bucket_id'];
-            isOneToOne: false;
-            referencedRelation: 'buckets';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      can_insert_object: {
-        Args: {
-          bucketid: string;
-          name: string;
-          owner: string;
-          metadata: Json;
-        };
-        Returns: undefined;
-      };
-      extension: {
-        Args: {
-          name: string;
-        };
-        Returns: string;
-      };
-      filename: {
-        Args: {
-          name: string;
-        };
-        Returns: string;
-      };
-      foldername: {
-        Args: {
-          name: string;
-        };
-        Returns: unknown;
-      };
-      get_size_by_bucket: {
+      insert_camping_data: {
         Args: Record<PropertyKey, never>;
-        Returns: {
-          size: number;
-          bucket_id: string;
-        }[];
-      };
-      search: {
-        Args: {
-          prefix: string;
-          bucketname: string;
-          limits?: number;
-          levels?: number;
-          offsets?: number;
-          search?: string;
-          sortcolumn?: string;
-          sortorder?: string;
-        };
-        Returns: {
-          name: string;
-          id: string;
-          updated_at: string;
-          created_at: string;
-          last_accessed_at: string;
-          metadata: Json;
-        }[];
+        Returns: undefined;
       };
     };
     Enums: {
