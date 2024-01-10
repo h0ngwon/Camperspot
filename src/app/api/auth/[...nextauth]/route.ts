@@ -2,8 +2,11 @@ import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import NaverProvider from 'next-auth/providers/naver';
 import KakaoProvider from 'next-auth/providers/kakao';
+import { supabase } from '../../db';
+import { Tables } from '@/types/supabase';
 
 const handler = NextAuth({
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -45,6 +48,38 @@ const handler = NextAuth({
       clientSecret: process.env.KAKAO_CLIENT_SECRET!,
     }),
   ],
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === 'kakao') {
+        const { data, error } = await supabase
+          .from('user')
+          .select('*')
+          .eq('email', `${user.email}`);
+          
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        if (data?.length === 0) {
+          const kakaoData: Omit<Tables<'user'>, 'id' | 'password'> = {
+            email: user.email as string,
+            profile_url: user.image as string,
+            nickname: user.name as string,
+          };
+          await supabase
+            .from('user')
+            .insert<Omit<Tables<'user'>, 'id' | 'password'>>(kakaoData);
+        }
+      }
+      return true;
+    },
+    async session({ session, user, token }) {
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      return token;
+    },
+  },
 });
 
 export { handler as GET, handler as POST };
