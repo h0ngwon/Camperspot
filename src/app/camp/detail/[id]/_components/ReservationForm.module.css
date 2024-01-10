@@ -1,0 +1,25 @@
+.h3 {
+  text-decoration: underline;
+  text-underline-position: under;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.ul {
+  display: flex;
+  gap: 1rem;
+}
+
+.li {
+  height: 30px;
+  background-color: gainsboro;
+  border-radius: 1rem;
+}
+
+.button {
+  background-color: gainsboro;
+  border-radius: 1rem;
+}
