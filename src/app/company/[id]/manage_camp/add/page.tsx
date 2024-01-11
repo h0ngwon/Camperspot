@@ -7,6 +7,7 @@ import styles from './_components/campForm.module.css';
 import Head from 'next/head';
 import AddressModal from '@/app/company/[id]/manage_camp/add/_components/AddressModal';
 import { Address } from 'react-daum-postcode';
+import { uuid } from 'uuidv4';
 
 const addCampPage = () => {
   const [name, handleName] = useInput();
@@ -28,22 +29,29 @@ const addCampPage = () => {
 
     // TODO : company_id는 나중에 가져온느 로직을 작성해야 한다.
     const companyId = '1fc2b9ca-341a-490c-b995-370eb36e1d5d';
+    const regionSplit = address.split(' ');
+    const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
 
-    const { data, error } = await supabase
+    const { data: campData, error } = await supabase
       .from('camp')
       .insert({
+        id: uuid(),
         name,
         content,
         company_id: companyId,
         address,
-        region,
+        region: regionDoGun,
         phone,
         check_in,
         check_out,
         layout,
       })
       .select();
-    if (data) {
+
+    // facility에서 option 가져오는거
+    const { data: facility } = await supabase.from('facility').select('*');
+
+    if (campData) {
       alert('등록되었습니다');
     } else if (error) {
       alert(error.message);
@@ -76,7 +84,7 @@ const addCampPage = () => {
       </Head>
       <form onSubmit={handleForm} className={styles.formLayout}>
         <input
-          value={name}
+          defaultValue={name}
           onChange={handleName}
           className={styles.gridItem}
           placeholder='캠핑장 이름을 입력해주세요'
@@ -93,50 +101,53 @@ const addCampPage = () => {
             캠핑장 주소찾기
           </button>
           <input
-            value={address}
+            defaultValue={address}
             placeholder='캠핑장 주소찾기를 클릭해주세요'
             required
           />
           {/* <input
-            value={addressDetail}
+            defaultValue={addressDetail}
             onChange={handleAddressDetail}
             placeholder='상세주소를 입력해주세요'
             required
           /> */}
         </div>
-        <input
-          value={content}
+        <textarea
+          defaultValue={content}
           onChange={handleContent}
-          className={styles.gridItem}
+          className={styles.gridItemTextArea}
           placeholder='캠핑장을 소개해주세요'
-        />
+          required
+        ></textarea>
+        <div>
+          <input type='checkbox' id='샤워시설' />
+          <label htmlFor='샤워시설'>샤워시설</label>
+        </div>
         <input
-          value={region}
-          onChange={handleRegion}
-          className={styles.gridItem}
-          placeholder='캠핑장 지역을 입력해주세요'
-        />
-        <input
-          value={phone}
+          defaultValue={phone}
           onChange={handlePhone}
-          type='number'
+          type='tel'
           className={styles.gridItem}
-          placeholder='캠핑장 전화번호를 입력해주세요'
+          placeholder='캠핑장 전화번호를 입력해주세요. 예) 02-000-0000 / 063-000-0000'
+          pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
+          maxLength={13}
+          required
         />
+
         <input
-          value={check_in}
+          defaultValue={check_in}
           onChange={handleCheck_in}
           className={styles.gridItem}
           placeholder='체크인 날짜를 입력해주세요'
         />
         <input
-          value={check_out}
+          defaultValue={check_out}
           onChange={handleCheck_out}
           className={styles.gridItem}
           placeholder='체크아웃 날짜를 입력해주세요'
         />
         <input
-          value={layout}
+          defaultValue={layout}
           onChange={handleLayout}
           className={styles.gridItem}
           placeholder='캠핑장 구조를 입력해주세요'
