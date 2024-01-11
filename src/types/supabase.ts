@@ -18,9 +18,7 @@ export interface Database {
           content: string
           created_at: string
           id: string
-          lat: string
           layout: string
-          long: string
           name: string
           phone: string
           region: string
@@ -33,9 +31,7 @@ export interface Database {
           content: string
           created_at?: string
           id?: string
-          lat: string
           layout: string
-          long: string
           name: string
           phone: string
           region: string
@@ -48,9 +44,7 @@ export interface Database {
           content?: string
           created_at?: string
           id?: string
-          lat?: string
           layout?: string
-          long?: string
           name?: string
           phone?: string
           region?: string
@@ -394,6 +388,61 @@ export interface Database {
           },
           {
             foreignKeyName: "reservation_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "user"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      reservation2: {
+        Row: {
+          camp_id: string
+          check_in_date: string
+          check_out_date: string
+          created_at: string
+          fee: number
+          id: string
+          people: number
+          user_id: string
+        }
+        Insert: {
+          camp_id: string
+          check_in_date: string
+          check_out_date: string
+          created_at?: string
+          fee: number
+          id: string
+          people: number
+          user_id: string
+        }
+        Update: {
+          camp_id?: string
+          check_in_date?: string
+          check_out_date?: string
+          created_at?: string
+          fee?: number
+          id?: string
+          people?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservation2_camp_id_fkey"
+            columns: ["camp_id"]
+            isOneToOne: false
+            referencedRelation: "camp"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservation2_id_fkey"
+            columns: ["id"]
+            isOneToOne: true
+            referencedRelation: "camp_area"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reservation2_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "user"

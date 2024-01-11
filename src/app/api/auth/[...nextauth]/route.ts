@@ -6,7 +6,6 @@ import { supabase } from '../../db';
 import { Tables } from '@/types/supabase';
 
 const handler = NextAuth({
-  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -55,12 +54,12 @@ const handler = NextAuth({
           .from('user')
           .select('*')
           .eq('email', `${user.email}`);
-          
+
         if (error) {
           throw new Error(error.message);
         }
-
-        if (data?.length === 0) {
+        
+        if (!data.length) {
           const kakaoData: Omit<Tables<'user'>, 'id' | 'password'> = {
             email: user.email as string,
             profile_url: user.image as string,

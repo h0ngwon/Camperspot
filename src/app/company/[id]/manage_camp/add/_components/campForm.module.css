@@ -1,0 +1,13 @@
+.formLayout {
+  display: grid;
+  width: 80%;
+  margin: 0 auto;
+  row-gap: 20px;
+}
+.gridItem {
+  height: 30px;
+}
+.address {
+  border: 1px solid #333;
+  height: 20px;
+}
