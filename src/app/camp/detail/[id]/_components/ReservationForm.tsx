@@ -20,14 +20,20 @@ const ReservationForm = () => {
         <input
           type='text'
           id='userName'
-          {...register('name')}
+          {...register('name', {
+            required: true,
+            validate: (value) => (value.trim().length >= 1 ? true : false),
+          })}
           placeholder='이름을 입력해주세요'
         />
         <label htmlFor='phone'>연락처</label>
         <input
           type='text'
           id='phone'
-          {...register('phone')}
+          {...register('phone', {
+            required: true,
+            validate: (value) => (value.trim().length >= 1 ? true : false),
+          })}
           placeholder='예시) 01012345678'
         />
         <div>
@@ -38,7 +44,9 @@ const ReservationForm = () => {
             <li className={styles.li}>신용/카드 결제</li>
             <li className={styles.li}>법인카드</li>
           </ul>
-          <button className={styles.button}>결제하기</button>
+          <button className={styles.button} disabled={!isValid}>
+            결제하기
+          </button>
         </div>
       </form>
     </>
