@@ -23,3 +23,7 @@
   background-color: gainsboro;
   border-radius: 1rem;
 }
+
+.errors {
+  color: red;
+}
