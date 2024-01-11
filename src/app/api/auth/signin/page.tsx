@@ -1,12 +1,14 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
+import SocialButton from './_components/SocialButton';
+import styles from './_styles/SigninPage.module.css';
+import SigninForm from './_components/SigninForm';
 
-const page = () => {
+const SigninPage = () => {
   const { data: session } = useSession();
   console.log(session);
 
-  const [converseUser, setConverseUser] = useState<boolean>(false);
   const [providers, setProviders] = useState(null);
 
   useEffect(() => {
@@ -17,33 +19,16 @@ const page = () => {
   }, []);
 
   return (
-    <>
-      <div className='space-y-4'>
-        <button
-          className='w-full transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'
-          onClick={() =>
-            signIn('kakao', { redirect: true, callbackUrl: '/api/auth/signin' })
-          }
-        >
-          kakao login
-        </button>
-        <button
-          className='w-full transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'
-          onClick={() =>
-            signIn('naver', { redirect: true, callbackUrl: '/api/auth/signin' })
-          }
-        >
-          naver login
-        </button>
-        <button
-          className='w-full transform rounded-md bg-gray-700 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none'
-          onClick={() => signOut()}
-        >
-          로그아웃
-        </button>
+    <div className={styles.container}>
+      <div className={styles['buttons-container']}>
+        <SocialButton provider='kakao' />
+        <SocialButton provider='naver' />
+        <button onClick={() => signOut()}>로그아웃</button>
       </div>
-    </>
+      <span>업체회원이라면?</span>
+      <SigninForm />
+    </div>
   );
 };
 
-export default page;
+export default SigninPage;
