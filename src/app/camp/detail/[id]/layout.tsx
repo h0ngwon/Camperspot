@@ -7,7 +7,6 @@ export default function Layout({
 }) {
   return (
     <>
-      예약 레이아웃
       {children}
       {modal}
     </>

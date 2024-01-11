@@ -1,9 +1,13 @@
-import Reservation from '@/components/Reservation';
+// import ReservationModal from '../_components/ReservationModal';
 
-export default function page() {
+import ReservationModal from '../_components/ReservationModal';
+
+const page = () => {
   return (
-    <section>
-      <button>예약하기</button>
-    </section>
+    <>
+      <ReservationModal />
+    </>
   );
-}
+};
+
+export default page;

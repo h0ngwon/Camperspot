@@ -1,21 +1,35 @@
-import Link from 'next/link';
+'use client';
 import { supabase } from '@/app/api/db';
 import styles from './reservation.module.css';
 import ReservationForm from './ReservationForm';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Reservation } from '@/types/reservation';
 
-const ReservationModal = async () => {
-  const { data: reservation, error } = await supabase
-    .from('reservation')
-    .select(
-      `people,check_in_date,check_out_date,fee,camp_area(name,camp(name))`,
-    );
+const ReservationModal = () => {
+  const [reservation, setReservation] = useState<Reservation | null>();
+  useEffect(() => {
+    const fetchReservation = async () => {
+      const { data, error } = await supabase
+        .from('reservation')
+        .select(
+          `people,check_in_date,check_out_date,fee,camp_area(name,campName:camp(name))`,
+        );
+      setReservation(data);
+    };
+    fetchReservation();
+  }, []);
+  const router = useRouter();
 
   console.log('reservation', reservation);
-  console.log('camp_area', reservation![0].camp_area);
+  console.log('첫번째 예약 구역', reservation?.[0]['camp_area']);
+  console.log('두번째 예약 구역', reservation?.[1]['camp_area']);
+  if (!reservation) return null;
+
   return (
     <div className={styles.modalBackground}>
       <div className={styles.modal}>
-        <Link href='/camp/deatail/aaa' className={styles.closeBtn}>
+        <button onClick={() => router.back()} className={styles.closeBtn}>
           <svg
             width={24}
             viewBox='0 0 24 24'
@@ -26,34 +40,31 @@ const ReservationModal = async () => {
               <path d='M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z'></path>
             </g>
           </svg>
-        </Link>
+        </button>
         <h1 className={styles.h1}>예약 및 결제</h1>
         <h3 className={styles.h3}>예약 정보</h3>
         <p>
-          캠핑장 이름 <span> {reservation![0].camp_area?.camp?.name}</span>
+          캠핑장 이름 <span>{reservation[0].camp_area?.campName?.name}</span>
         </p>
         <p>
-          객실 <span>{reservation![0].camp_area?.name}</span>
+          객실 <span>{reservation[0].camp_area?.name}</span>
         </p>
         <p>
-          인원 <span> {reservation![0].people}</span>
+          인원 <span> {reservation[0].people}</span>
         </p>
         <div>
           <p>
             일시
             <span>
-              {new Date(reservation![0].check_in_date).toLocaleDateString(
-                'ko',
-                {
-                  year: 'numeric',
-                  month: '2-digit',
-                  day: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                },
-              )}
+              {new Date(reservation[0].check_in_date).toLocaleDateString('ko', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
               ~ 체크아웃{' '}
-              {new Date(reservation![0].check_out_date).toLocaleDateString(
+              {new Date(reservation[0].check_out_date).toLocaleDateString(
                 'ko',
                 {
                   year: 'numeric',
@@ -66,10 +77,10 @@ const ReservationModal = async () => {
             </span>
           </p>
           <p>
-            예약 금액 <span>{reservation![0].fee}원</span>
+            예약 금액 <span>{reservation[0].fee}원</span>
           </p>
           <p>
-            총 결제 금액 <span>{reservation![0].fee}원</span>
+            총 결제 금액 <span>{reservation[0].fee}원</span>
           </p>
         </div>
         <ReservationForm />

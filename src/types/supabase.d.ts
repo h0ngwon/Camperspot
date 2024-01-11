@@ -352,6 +352,8 @@ export interface Database {
           camp_area_id: string;
           check_in_date: string;
           check_out_date: string;
+          client_name: string;
+          client_phone: string;
           created_at: string;
           fee: number;
           id: string;
@@ -362,6 +364,8 @@ export interface Database {
           camp_area_id: string;
           check_in_date: string;
           check_out_date: string;
+          client_name: string;
+          client_phone: string;
           created_at?: string;
           fee: number;
           id: string;
@@ -372,6 +376,8 @@ export interface Database {
           camp_area_id?: string;
           check_in_date?: string;
           check_out_date?: string;
+          client_name?: string;
+          client_phone?: string;
           created_at?: string;
           fee?: number;
           id?: string;
@@ -447,6 +453,7 @@ export interface Database {
           nickname: string;
           password: string | null;
           profile_url: string | null;
+          provider: string | null;
         };
         Insert: {
           email: string;
@@ -454,6 +461,7 @@ export interface Database {
           nickname: string;
           password?: string | null;
           profile_url?: string | null;
+          provider?: string | null;
         };
         Update: {
           email?: string;
@@ -461,6 +469,7 @@ export interface Database {
           nickname?: string;
           password?: string | null;
           profile_url?: string | null;
+          provider?: string | null;
         };
         Relationships: [];
       };
