@@ -1,7 +1,7 @@
 'use client';
 import { supabase } from '@/app/api/db';
 import useInput from '@/hooks/useInput';
-import type { TablesInsert } from '@/types/supabase';
+import type { Tables, TablesInsert } from '@/types/supabase';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from './_components/campForm.module.css';
 import Head from 'next/head';
@@ -23,6 +23,18 @@ const addCampPage = () => {
   const [check_out, handleCheck_out] = useInput();
   const [layout, handleLayout] = useInput();
   const [isAddressModal, setAddressModal] = useState(false);
+  const [facility, setFacility] = useState<Tables<'facility'>[]>();
+
+  async function fetchFacilityData() {
+    // facility에서 option 가져오는거
+    const { data: facilityData } = await supabase.from('facility').select('*');
+    if (facilityData) {
+      setFacility(facilityData);
+    }
+  }
+  useEffect(() => {
+    fetchFacilityData();
+  }, []);
 
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -47,9 +59,6 @@ const addCampPage = () => {
         layout,
       })
       .select();
-
-    // facility에서 option 가져오는거
-    const { data: facility } = await supabase.from('facility').select('*');
 
     if (campData) {
       alert('등록되었습니다');
@@ -88,7 +97,6 @@ const addCampPage = () => {
           onChange={handleName}
           className={styles.gridItem}
           placeholder='캠핑장 이름을 입력해주세요'
-          required
         />
 
         <div>
@@ -103,13 +111,12 @@ const addCampPage = () => {
           <input
             defaultValue={address}
             placeholder='캠핑장 주소찾기를 클릭해주세요'
-            required
           />
           {/* <input
             defaultValue={addressDetail}
             onChange={handleAddressDetail}
             placeholder='상세주소를 입력해주세요'
-            required
+            
           /> */}
         </div>
         <textarea
@@ -117,11 +124,16 @@ const addCampPage = () => {
           onChange={handleContent}
           className={styles.gridItemTextArea}
           placeholder='캠핑장을 소개해주세요'
-          required
         ></textarea>
-        <div>
-          <input type='checkbox' id='샤워시설' />
-          <label htmlFor='샤워시설'>샤워시설</label>
+        <div className={styles.facilityWrap}>
+          {facility?.map((item, index) => {
+            return (
+              <div key={index} className={styles.facility}>
+                <input type='checkbox' id={item.id} />
+                <label htmlFor={item.id}>{item.option}</label>
+              </div>
+            );
+          })}
         </div>
         <input
           defaultValue={phone}
@@ -131,7 +143,6 @@ const addCampPage = () => {
           placeholder='캠핑장 전화번호를 입력해주세요. 예) 02-000-0000 / 063-000-0000'
           pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
           maxLength={13}
-          required
         />
 
         <input
