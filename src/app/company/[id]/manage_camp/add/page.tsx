@@ -48,7 +48,6 @@ const addCampPage = () => {
 
     setCheckedFacility([...checkedFacility, value]);
   };
-  console.log(checkedFacility);
 
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,7 +75,16 @@ const addCampPage = () => {
       })
       .select();
 
-    if (campData) {
+    const { data: camp_facility } = await supabase
+      .from('camp_facility')
+      .insert(
+        checkedFacility.map((item) => {
+          return { camp_id: id, facility_id: item };
+        }),
+      )
+      .select();
+
+    if (campData && camp_facility) {
       alert('등록되었습니다');
     } else if (error) {
       alert(error.message);
@@ -99,6 +107,9 @@ const addCampPage = () => {
     }
 
     setAddress(fullAddress);
+    setAddressModal(false);
+  };
+  const handleClickOutsideModal = () => {
     setAddressModal(false);
   };
 
@@ -149,7 +160,7 @@ const addCampPage = () => {
                   type='checkbox'
                   id={item.id}
                   onChange={() => {
-                    onHandleCheckFacility(item.option);
+                    onHandleCheckFacility(item.id);
                   }}
                 />
                 <label htmlFor={item.id}>{item.option}</label>
@@ -171,26 +182,27 @@ const addCampPage = () => {
           defaultValue={check_in}
           onChange={handleCheck_in}
           className={styles.gridItem}
-          placeholder='체크인 날짜를 입력해주세요'
+          placeholder='체크인 가능시간을 입력해주세요'
         />
         <input
           defaultValue={check_out}
           onChange={handleCheck_out}
           className={styles.gridItem}
-          placeholder='체크아웃 날짜를 입력해주세요'
+          placeholder='체크아웃 시간을 입력해주세요'
         />
-        <input
+        {/* <input
           defaultValue={layout}
           onChange={handleLayout}
           className={styles.gridItem}
           placeholder='캠핑장 구조를 입력해주세요'
-        />
+        /> */}
+
         <button type='submit' className={styles.gridItem}>
           등록
         </button>
       </form>
       {isAddressModal && (
-        <div>
+        <div className={styles.modalUP} onClick={handleClickOutsideModal}>
           <AddressModal handleCompleteAddress={handleCompleteAddress} />
         </div>
       )}
