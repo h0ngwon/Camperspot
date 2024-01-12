@@ -1,8 +1,8 @@
 'use client';
-import React from 'react';
-import styles from '../_styles/SignupForm.module.css';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { supabase } from '@/app/api/db';
 import { CompanyUserSignUpType } from '@/types/auth';
+import { useForm } from 'react-hook-form';
+import styles from '../_styles/SignupForm.module.css';
 
 const SignupForm = () => {
   const {
@@ -20,9 +20,16 @@ const SignupForm = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: CompanyUserSignUpType) => {
+    await supabase
+      .from('company_user')
+      .insert<Omit<CompanyUserSignUpType, 'confirmPassword'>>({
+        email: data.email,
+        name: data.name,
+        password: data.password,
+      });
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       <input
