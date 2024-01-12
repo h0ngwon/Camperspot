@@ -1,7 +1,7 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from '../_styles/ReservationForm.module.css';
-import { NAME_REGEX, PHONE_REGEX } from '@/app/utils/regex';
+import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
 import { useState } from 'react';
 import ConfirmModal from './ConfirmModal';
