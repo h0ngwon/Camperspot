@@ -25,9 +25,9 @@ export default function LikeBtn() {
     }
 
     // 사용자가 이미 해당 캠프를 좋아했는지 확인하고 liked 상태를 업데이트
-    const userLiked = camp[0]?.like.some((like) => like.user_id === user_Id);
+    // const userLiked = camp[0]?.like.some((like) => like.user_id === user_Id);
 
-    setLiked(userLiked);
+    // setLiked(userLiked);
   };
 
   useEffect(() => {
