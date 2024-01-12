@@ -24,6 +24,7 @@ const addCampPage = () => {
   const [layout, handleLayout] = useInput();
   const [isAddressModal, setAddressModal] = useState(false);
   const [facility, setFacility] = useState<Tables<'facility'>[]>();
+  const [checkedFacility, setCheckedFacility] = useState<string[]>([]);
 
   async function fetchFacilityData() {
     // facility에서 option 가져오는거
@@ -32,9 +33,22 @@ const addCampPage = () => {
       setFacility(facilityData);
     }
   }
+
   useEffect(() => {
     fetchFacilityData();
   }, []);
+
+  const onHandleCheckFacility = (value: string) => {
+    if (checkedFacility.find((item) => item === value)) {
+      const filterdFacility = checkedFacility.filter((item) => {
+        return item !== value;
+      });
+      return setCheckedFacility(filterdFacility);
+    }
+
+    setCheckedFacility([...checkedFacility, value]);
+  };
+  console.log(checkedFacility);
 
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,11 +57,13 @@ const addCampPage = () => {
     const companyId = '1fc2b9ca-341a-490c-b995-370eb36e1d5d';
     const regionSplit = address.split(' ');
     const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
+    const id = uuid();
+    console.log(id);
 
     const { data: campData, error } = await supabase
       .from('camp')
       .insert({
-        id: uuid(),
+        id,
         name,
         content,
         company_id: companyId,
@@ -129,7 +145,13 @@ const addCampPage = () => {
           {facility?.map((item, index) => {
             return (
               <div key={index} className={styles.facility}>
-                <input type='checkbox' id={item.id} />
+                <input
+                  type='checkbox'
+                  id={item.id}
+                  onChange={() => {
+                    onHandleCheckFacility(item.option);
+                  }}
+                />
                 <label htmlFor={item.id}>{item.option}</label>
               </div>
             );
