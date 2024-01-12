@@ -7,23 +7,19 @@ import { useRouter } from 'next/navigation';
 import { Reservation } from '@/types/reservation';
 
 const ReservationModal = () => {
-  const [reservation, setReservation] = useState<Reservation | null>();
+  const [reservation, setReservation] = useState<Reservation>();
+  const router = useRouter();
   useEffect(() => {
     const fetchReservation = async () => {
       const { data, error } = await supabase
         .from('reservation')
         .select(
-          `people,check_in_date,check_out_date,fee,camp_area(name,campName:camp(name))`,
+          `people,check_in_date,check_out_date,fee,camp_area(id,name,campName:camp(name))`,
         );
-      setReservation(data);
+      setReservation(data!);
     };
     fetchReservation();
   }, []);
-  const router = useRouter();
-
-  console.log('reservation', reservation);
-  console.log('첫번째 예약 구역', reservation?.[0]['camp_area']);
-  console.log('두번째 예약 구역', reservation?.[1]['camp_area']);
   if (!reservation) return null;
 
   return (
@@ -83,7 +79,7 @@ const ReservationModal = () => {
             총 결제 금액 <span>{reservation[0].fee}원</span>
           </p>
         </div>
-        <ReservationForm />
+        <ReservationForm reservation={reservation} />
       </div>
     </div>
   );

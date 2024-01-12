@@ -2,20 +2,50 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from './ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/utils/regex';
+import { supabase } from '@/app/api/db';
+import { Reservation } from '@/types/reservation';
+import { useState } from 'react';
 
 type UserInfo = { name: string; phone: string };
-const ReservationForm = () => {
+const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
   const {
     register,
     handleSubmit,
-    formState: { dirtyFields, errors, isValid },
+    formState: { errors, isValid },
   } = useForm<UserInfo>({
     defaultValues: { name: '', phone: '' },
     mode: 'onChange',
   });
-  const onSubmit: SubmitHandler<UserInfo> = (data) => {
-    console.log(data);
-    //이제 여기서 데이터 추가할 예정!
+  const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
+  const [isActive, setIsActive] = useState<number | null>(null);
+  const toggleActive = (selectMethod: number) => {
+    if (isActive == selectMethod) setIsActive(null);
+    else setIsActive(selectMethod);
+  };
+
+  const { fee, people, check_in_date, check_out_date } = reservation?.[0];
+  const { id } = reservation?.[0].camp_area!;
+  const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
+    console.log(userInfo);
+    const { data, error } = await supabase
+      .from('reservation')
+      .insert({
+        //임의의 id로 추가 (나중에 미래님꺼 받으면 uuid로 변경할 예정)
+        id: 'c1c3be3d-5274-4a6c-94f2-bd8e3c7cc06a',
+        client_name: userInfo.name,
+        client_phone: userInfo.phone,
+        fee,
+        //나중에 로그인한 사용자 유저 아이디로 변경 예정
+        user_id: '3a0a96f1-ea9b-480c-9ad4-c4d8756697d6',
+        check_in_date,
+        check_out_date,
+        people,
+        camp_area_id: id,
+        payment_method: methods[isActive!],
+      })
+      .select();
+    if (data) console.log('데이터 등록 완료!');
+    if (error) console.log('error', error);
   };
   return (
     <>
@@ -60,12 +90,20 @@ const ReservationForm = () => {
         <div>
           <p>결제 수단</p>
           <ul className={styles.ul}>
-            <li className={styles.li}>카카오페이</li>
-            <li className={styles.li}>휴대폰 결제</li>
-            <li className={styles.li}>신용/카드 결제</li>
-            <li className={styles.li}>법인카드</li>
+            {methods.map((method, idx) => (
+              <li
+                key={idx}
+                className={isActive == idx ? styles.selected : styles.li}
+                onClick={() => toggleActive(idx)}
+              >
+                {method}
+              </li>
+            ))}
           </ul>
-          <button className={styles.button} disabled={!isValid}>
+          <button
+            className={styles.button}
+            disabled={!isValid || isActive === null}
+          >
             결제하기
           </button>
         </div>

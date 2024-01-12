@@ -19,6 +19,10 @@
   border-radius: 1rem;
 }
 
+.selected {
+  background-color: gray;
+}
+
 .button {
   background-color: gainsboro;
   border-radius: 1rem;
