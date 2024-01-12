@@ -6,7 +6,7 @@ type Props = {};
 const Header = (props: Props) => {
   return (
     <>
-      <Link href={`/sign-in`} className={styles.linkBtn}>
+      <Link href={`/api/auth/signin`} className={styles.linkBtn}>
         Auth
       </Link>
       <Link href={`/company/aaa/manage_camp/add`} className={styles.linkBtn}>
