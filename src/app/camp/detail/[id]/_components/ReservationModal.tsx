@@ -1,6 +1,6 @@
 'use client';
 import { supabase } from '@/app/api/db';
-import styles from './reservation.module.css';
+import styles from '../_styles/ReservationModal.module.css';
 import ReservationForm from './ReservationForm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
