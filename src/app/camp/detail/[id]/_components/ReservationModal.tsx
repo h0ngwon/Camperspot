@@ -4,7 +4,7 @@ import styles from '../_styles/ReservationModal.module.css';
 import ReservationForm from './ReservationForm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Reservation } from '@/types/reservation';
+import type { Reservation } from '@/types/reservation';
 
 const ReservationModal = () => {
   const [reservation, setReservation] = useState<Reservation>();

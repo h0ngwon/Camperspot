@@ -1,10 +1,12 @@
 'use client';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import styles from './ReservationForm.module.css';
+import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/utils/regex';
 import { supabase } from '@/app/api/db';
-import { Reservation } from '@/types/reservation';
+import type { Reservation } from '@/types/reservation';
 import { useState } from 'react';
+import ConfirmModal from './ConfirmModal';
+import AlertModal from './AlertModal';
 
 type UserInfo = { name: string; phone: string };
 const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
@@ -18,24 +20,26 @@ const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
   });
   const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
   const [isActive, setIsActive] = useState<number | null>(null);
+  const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
+  const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
   const toggleActive = (selectMethod: number) => {
     if (isActive == selectMethod) setIsActive(null);
     else setIsActive(selectMethod);
   };
 
-  const { fee, people, check_in_date, check_out_date } = reservation?.[0];
-  const { id } = reservation?.[0].camp_area!;
   const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
-    console.log(userInfo);
+    const { fee, people, check_in_date, check_out_date } = reservation?.[0];
+    const { id } = reservation?.[0].camp_area!;
+
     const { data, error } = await supabase
       .from('reservation')
       .insert({
-        //임의의 id로 추가 (나중에 미래님꺼 받으면 uuid로 변경할 예정)
-        id: 'c1c3be3d-5274-4a6c-94f2-bd8e3c7cc06a',
+        // 추가 테스트할 경우 다른 uuid로 변경해야함.  (나중에 미래님꺼 받으면 uuid로 변경할 예정)
+        id: 'f8e1c321-03a9-497c-ba6a-74f5a2d20a50',
         client_name: userInfo.name,
         client_phone: userInfo.phone,
         fee,
-        //나중에 로그인한 사용자 유저 아이디로 변경 예정
+        // 나중에 로그인한 사용자 유저 아이디로 변경 예정
         user_id: '3a0a96f1-ea9b-480c-9ad4-c4d8756697d6',
         check_in_date,
         check_out_date,
@@ -44,13 +48,16 @@ const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
         payment_method: methods[isActive!],
       })
       .select();
-    if (data) console.log('데이터 등록 완료!');
+    if (data) {
+      setIsOpenComplete(true);
+      console.log('데이터 등록 완료!');
+    }
     if (error) console.log('error', error);
   };
   return (
     <>
       <h3 className={styles.h3}>결제 정보</h3>
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form onSubmit={() => handleSubmit(onSubmit)} className={styles.form}>
         <label htmlFor='userName'>예약자 명</label>
         <input
           type='text'
@@ -101,13 +108,25 @@ const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
             ))}
           </ul>
           <button
+            type='button'
             className={styles.button}
             disabled={!isValid || isActive === null}
+            onClick={() => setIsOpenConfirm(true)}
           >
             결제하기
           </button>
         </div>
       </form>
+      <ConfirmModal
+        title='예약을 하시겠습니까?'
+        open={isOpenConfirm}
+        onClose={() => setIsOpenConfirm(false)}
+        onConfirm={() => handleSubmit(onSubmit)()}
+      />
+      {/* 확인 모달창 닫고 예약 데이터 추가된 후 알림창 띄워주기  */}
+      {!isOpenConfirm && isOpenComplete && (
+        <AlertModal title='예약이 완료되었습니다' />
+      )}
     </>
   );
 };
