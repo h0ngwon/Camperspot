@@ -1,9 +1,10 @@
+import { Tables } from '@/types/supabase';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import NaverProvider from 'next-auth/providers/naver';
 import KakaoProvider from 'next-auth/providers/kakao';
+import NaverProvider from 'next-auth/providers/naver';
 import { supabase } from '../../db';
-import { Tables } from '@/types/supabase';
+import { SocialDataType } from '@/types/auth';
 
 const handler = NextAuth({
   secret: process.env.NEXT_AUTH_SECRET,
@@ -11,15 +12,34 @@ const handler = NextAuth({
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        email: { label: '이메일', type: 'text' },
+        email: { type: 'text' },
         password: {
-          label: '비밀번호',
           type: 'password',
         },
       },
 
       async authorize(credentials, req) {
-        const {email, password} = credentials
+        if (!credentials) {
+          throw new Error('입력 값이 잘못되었습니다.');
+        }
+        // supabase에서 데이터 가져와서 객체를 만든 후 return
+        const companyUser = await supabase
+          .from('company_user')
+          .select('*')
+          .eq('email', `${credentials?.email}`);
+
+        const userData = companyUser.data?.[0];
+
+        if (userData?.password !== credentials?.password) {
+          throw new Error('비밀번호가 다릅니다.');
+        }
+
+        return {
+          id: userData.id,
+          email: userData.email,
+          name: userData.name,
+          image: null,
+        };
       },
     }),
     NaverProvider({
@@ -45,15 +65,13 @@ const handler = NextAuth({
         }
 
         if (!data.length) {
-          const kakaoData: Omit<Tables<'user'>, 'id' | 'password'> = {
+          const kakaoData: SocialDataType = {
             email: user.email as string,
             profile_url: user.image as string,
             nickname: user.name as string,
             provider: account.provider as string,
           };
-          await supabase
-            .from('user')
-            .insert<Omit<Tables<'user'>, 'id' | 'password'>>(kakaoData);
+          await supabase.from('user').insert<SocialDataType>(kakaoData);
         }
       }
       if (account?.provider === 'naver') {
@@ -73,14 +91,14 @@ const handler = NextAuth({
             nickname: user.name as string,
             provider: account.provider as string,
           };
-          await supabase
-            .from('user')
-            .insert<Omit<Tables<'user'>, 'id' | 'password'>>(naverData);
+          await supabase.from('user').insert<SocialDataType>(naverData);
         }
       }
       console.log('token = ', token);
+
       return token;
     },
+
     // 세션에 로그인한 유저 정보
     async session({ session }) {
       console.log('session = ', session);

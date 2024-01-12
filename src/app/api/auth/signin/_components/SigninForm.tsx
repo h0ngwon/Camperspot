@@ -1,9 +1,8 @@
 'use client';
-import { Tables } from '@/types/supabase';
+import { SigninType } from '@/types/auth';
+import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from '../_styles/SigninForm.module.css';
-
-type SigninType = Pick<Tables<'company_user'>, 'email' | 'password'>;
 
 const SigninForm = () => {
   const {
@@ -11,9 +10,15 @@ const SigninForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<SigninType>({ mode: 'onChange' });
+
   const onSubmit: SubmitHandler<SigninType> = (data) => {
-    console.log(data);
+    signIn('credentials', {
+      email: data.email as string,
+      password: data.password as string,
+      callbackUrl: '/api/auth/signin',
+    });
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       <input
