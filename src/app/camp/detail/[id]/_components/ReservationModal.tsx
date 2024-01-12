@@ -4,10 +4,10 @@ import styles from '../_styles/ReservationModal.module.css';
 import ReservationForm from './ReservationForm';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Reservation } from '@/types/reservation';
+import { ReservationInfo } from '@/types/reservation';
 
 const ReservationModal = () => {
-  const [reservation, setReservation] = useState<Reservation>();
+  const [reservation, setReservation] = useState<ReservationInfo>();
   const router = useRouter();
   useEffect(() => {
     const fetchReservation = async () => {

@@ -357,6 +357,7 @@ export interface Database {
           created_at: string;
           fee: number;
           id: string;
+          payment_method: string;
           people: number;
           user_id: string;
         };
@@ -368,7 +369,8 @@ export interface Database {
           client_phone: string;
           created_at?: string;
           fee: number;
-          id: string;
+          id?: string;
+          payment_method: string;
           people: number;
           user_id: string;
         };
@@ -381,6 +383,7 @@ export interface Database {
           created_at?: string;
           fee?: number;
           id?: string;
+          payment_method?: string;
           people?: number;
           user_id?: string;
         };

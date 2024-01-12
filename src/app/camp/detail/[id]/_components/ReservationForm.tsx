@@ -3,13 +3,16 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/utils/regex';
 import { supabase } from '@/app/api/db';
-import type { Reservation } from '@/types/reservation';
 import { useState } from 'react';
 import ConfirmModal from './ConfirmModal';
 import AlertModal from './AlertModal';
+import { Tables } from '@/types/supabase';
+import { ReservationInfo } from '@/types/reservation';
 
 type UserInfo = { name: string; phone: string };
-const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
+type Reservation = Tables<'reservation'>;
+
+const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   const {
     register,
     handleSubmit,
@@ -33,7 +36,7 @@ const ReservationForm = ({ reservation }: { reservation: Reservation }) => {
 
     const { data, error } = await supabase
       .from('reservation')
-      .insert({
+      .insert<Omit<Reservation, 'created_at'>>({
         // 추가 테스트할 경우 다른 uuid로 변경해야함.  (나중에 미래님꺼 받으면 uuid로 변경할 예정)
         id: 'f8e1c321-03a9-497c-ba6a-74f5a2d20a50',
         client_name: userInfo.name,
