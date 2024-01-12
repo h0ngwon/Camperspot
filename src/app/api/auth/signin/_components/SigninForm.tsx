@@ -1,5 +1,5 @@
 'use client';
-import { SigninType } from '@/types/auth';
+import { CompanyUserSigninType } from '@/types/auth';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styles from '../_styles/SigninForm.module.css';
@@ -9,9 +9,9 @@ const SigninForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<SigninType>({ mode: 'onChange' });
+  } = useForm<CompanyUserSigninType>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<SigninType> = (data) => {
+  const onSubmit: SubmitHandler<CompanyUserSigninType> = (data) => {
     signIn('credentials', {
       email: data.email as string,
       password: data.password as string,

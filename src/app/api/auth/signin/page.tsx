@@ -4,17 +4,15 @@ import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
 import SocialButton from './_components/SocialButton';
 import styles from './_styles/SigninPage.module.css';
 import SigninForm from './_components/SigninForm';
+import Link from 'next/link';
 
 const SigninPage = () => {
   const { data: session } = useSession();
   console.log(session);
 
-  const [providers, setProviders] = useState(null);
-
   useEffect(() => {
     (async () => {
       const res: any = await getProviders();
-      setProviders(res);
     })();
   }, []);
 
@@ -27,7 +25,7 @@ const SigninPage = () => {
       </div>
       <span>업체회원이라면?</span>
       <SigninForm />
-      <span>업체회원이 되고싶으신가요? 회원가입하기</span>
+      <span><Link href='/api/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link></span>
     </div>
   );
 };
