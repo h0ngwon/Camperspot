@@ -15,7 +15,7 @@ const Header = (props: Props) => {
       <Link href={`/camp/detail/aaa`} className={styles.linkBtn}>
         캠프상세
       </Link>
-      <Link href={`/camp/aaa/reservation`} className={styles.linkBtn}>
+      <Link href={`/camp/detail/aaa/reservation`} className={styles.linkBtn}>
         예약
       </Link>
       <Link href={`/company/aaa`} className={styles.linkBtn}>
