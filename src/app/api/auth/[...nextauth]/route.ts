@@ -1,35 +1,113 @@
+import { Tables } from '@/types/supabase';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import KakaoProvider from 'next-auth/providers/kakao';
+import NaverProvider from 'next-auth/providers/naver';
+import { supabase } from '../../db';
+import { SocialDataType } from '@/types/auth';
 
 const handler = NextAuth({
+  secret: process.env.NEXT_AUTH_SECRET,
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. "Sign in with...")
       name: 'Credentials',
-      // `credentials` is used to generate a form on the sign in page.
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: '이메일', type: 'text', placeholder: '이메일 입력' },
-        password: { label: '비밀번호', type: 'password', placeholder: '비밀번호 입력' },
+        email: { type: 'text' },
+        password: {
+          type: 'password',
+        },
       },
+
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: '1', name: 'J Smith', email: 'jsmith@example.com' };
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
-          return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        if (!credentials) {
+          throw new Error('입력 값이 잘못되었습니다.');
         }
+        // supabase에서 데이터 가져와서 객체를 만든 후 return
+        const companyUser = await supabase
+          .from('company_user')
+          .select('*')
+          .eq('email', `${credentials?.email}`);
+
+        const userData = companyUser.data?.[0];
+
+        if (userData?.password !== credentials?.password) {
+          throw new Error('비밀번호가 다릅니다.');
+        }
+
+        return {
+          id: userData.id,
+          email: userData.email,
+          name: userData.name,
+          image: null,
+        };
       },
     }),
+    NaverProvider({
+      clientId: process.env.NAVER_CLIENT_ID!,
+      clientSecret: process.env.NAVER_CLIENT_SECRET!,
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+    }),
   ],
+  callbacks: {
+    // 로그인 시 토큰 발급
+    async jwt({ token, user, account }) {
+      if (account?.provider === 'kakao') {
+        const { data, error } = await supabase
+          .from('user')
+          .select('*')
+          .eq('email', `${user.email}`);
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        if (!data.length) {
+          const kakaoData: SocialDataType = {
+            email: user.email as string,
+            profile_url: user.image as string,
+            nickname: user.name as string,
+            provider: account.provider as string,
+          };
+          await supabase.from('user').insert<SocialDataType>(kakaoData);
+        }
+      }
+      if (account?.provider === 'naver') {
+        const { data, error } = await supabase
+          .from('user')
+          .select('*')
+          .eq('email', `${user.email}`);
+
+        if (error) {
+          throw new Error(error.message);
+        }
+
+        if (!data.length) {
+          const naverData: Omit<Tables<'user'>, 'id' | 'password'> = {
+            email: user.email as string,
+            profile_url: user.image as string,
+            nickname: user.name as string,
+            provider: account.provider as string,
+          };
+          await supabase.from('user').insert<SocialDataType>(naverData);
+        }
+      }
+      console.log('token = ', token);
+
+      return token;
+    },
+
+    // 세션에 로그인한 유저 정보
+    async session({ session }) {
+      console.log('session = ', session);
+      return session;
+    },
+  },
+  pages: {
+    signIn: '/signin',
+  },
 });
 
 export { handler as GET, handler as POST };
