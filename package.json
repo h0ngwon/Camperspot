@@ -12,11 +12,13 @@
     "@sentry/nextjs": "^7.92.0",
     "@supabase/supabase-js": "^2.39.2",
     "@tanstack/react-query": "^5.17.1",
+    "axios": "^1.6.5",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.49.2",
+    "react-icons": "^5.0.0",
     "react-kakao-maps-sdk": "^1.1.24",
     "zustand": "^4.4.7"
   },

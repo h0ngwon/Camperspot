@@ -1,0 +1,22 @@
+.cardWrap {
+    width: 200px;
+}
+
+.photoAndLike {
+    position: relative;
+}
+
+.like {
+    position: absolute;
+    z-index: 3;
+    right: 5px;
+}
+
+.cardMiddle {
+    display: flex;
+}
+
+.cardTag {
+    display: flex;
+    gap: 5px;
+}
