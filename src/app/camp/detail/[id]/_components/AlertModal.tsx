@@ -1,6 +1,6 @@
 'use client';
 import styles from '../_styles/ConfirmModal.module.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -8,7 +8,6 @@ type Props = {
 };
 
 const AlertModal = ({ title }: Props) => {
-  //   const [isTimeOut, setIsTimeOut] = useState(false);
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
