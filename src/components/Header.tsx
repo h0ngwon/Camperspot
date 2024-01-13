@@ -13,7 +13,7 @@ const Header = (props: Props) => {
         캠핑장등록
       </Link>
       <Link
-        href={`/camp/detail/2617a5c6-8cf0-4bf6-95b4-093d06284cac`}
+        href={`/camp/detail/98ad9575-90f8-4d4c-8600-a9e57001df65`}
         className={styles.linkBtn}
       >
         캠프상세
