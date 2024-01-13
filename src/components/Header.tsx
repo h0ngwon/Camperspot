@@ -1,5 +1,7 @@
+'use client';
 import Link from 'next/link';
 import styles from './header.module.css';
+import { signOut } from 'next-auth/react';
 
 type Props = {};
 
@@ -27,6 +29,7 @@ const Header = (props: Props) => {
       <Link href={`/camp`} className={styles.linkBtn}>
         캠핑장 둘러보기
       </Link>
+      <button onClick={() => signOut()}>로그아웃</button>
     </>
   );
 };

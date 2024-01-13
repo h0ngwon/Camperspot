@@ -7,7 +7,7 @@ import { supabase } from '../../db';
 import { SocialDataType } from '@/types/auth';
 
 const handler = NextAuth({
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -94,14 +94,11 @@ const handler = NextAuth({
           await supabase.from('user').insert<SocialDataType>(naverData);
         }
       }
-      console.log('token = ', token);
-
       return token;
     },
 
     // 세션에 로그인한 유저 정보
     async session({ session }) {
-      console.log('session = ', session);
       return session;
     },
   },

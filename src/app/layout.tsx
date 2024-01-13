@@ -19,13 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='ko'>
-      <body className={inter.className}>
-        <AuthSession>
+    <AuthSession>
+      <html lang='ko'>
+        <body className={inter.className}>
           <Header />
           {children}
-        </AuthSession>
-      </body>
-    </html>
+        </body>
+      </html>
+    </AuthSession>
   );
 }
