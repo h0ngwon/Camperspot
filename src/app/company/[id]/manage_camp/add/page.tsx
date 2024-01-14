@@ -250,9 +250,7 @@ const addCampPage = () => {
         </div>
         <div>
           <h3>캠핑장 배치 사진 등록</h3>
-          <label htmlFor='uploadCampPic'>이미지 업로드</label>
           <input
-            id='uploadCampPic'
             type='file'
             onChange={uploadCampPic}
             // ref={imgRef}
