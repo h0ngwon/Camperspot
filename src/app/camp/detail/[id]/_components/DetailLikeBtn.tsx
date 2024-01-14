@@ -5,7 +5,7 @@ import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-export default function LikeBtn() {
+export default function DetailLikeBtn() {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
