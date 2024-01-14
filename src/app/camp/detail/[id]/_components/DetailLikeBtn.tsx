@@ -66,9 +66,9 @@ export default function DetailLikeBtn() {
 
   useEffect(() => {
     if (data) {
-      const result = data.like.some((item) => item.user_id === user_Id);
+      const result = data.like?.some((item) => item.user_id === user_Id);
       setLiked(!!result);
-      setLikeCount(data.like.length);
+      setLikeCount(data.like?.length);
     }
   }, [data]);
 

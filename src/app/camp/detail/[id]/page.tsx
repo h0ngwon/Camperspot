@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import KakaoMap from './_components/KakaoMap';
 import DetailShareBtn from './_components/DetailShareBtn';
 import DetailLikeBtn from './_components/DetailLikeBtn';
+import DetailReview from './_components/DetailReview';
 
 export default function DetailPage() {
   const [camp, setCamp] = useState<any>('');
@@ -15,13 +16,11 @@ export default function DetailPage() {
   useEffect(() => {
     supabase
       .from('camp')
-      .select('*')
+      .select('name')
       .eq('id', params.id)
       .single()
       .then((response: any) => setCamp(response.data));
   }, []);
-
-  // console.log(camp);
 
   return (
     <>
@@ -29,6 +28,8 @@ export default function DetailPage() {
       <DetailLikeBtn />
       <DetailShareBtn />
       <KakaoMap />
+      <p>리뷰</p>
+      <DetailReview />
     </>
   );
 }
