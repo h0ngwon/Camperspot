@@ -9,7 +9,10 @@ const Header = (props: Props) => {
       <Link href={`/api/auth/signin`} className={styles.linkBtn}>
         Auth
       </Link>
-      <Link href={`/company/aaa/manage_camp/add`} className={styles.linkBtn}>
+      <Link
+        href={`/company/aaa/manage_camp/add_camp`}
+        className={styles.linkBtn}
+      >
         캠핑장등록
       </Link>
       <Link href={`/camp/detail/aaa`} className={styles.linkBtn}>

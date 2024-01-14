@@ -11,19 +11,16 @@ import React, {
 } from 'react';
 import styles from './_components/campForm.module.css';
 import Head from 'next/head';
-import AddressModal from '@/app/company/[id]/manage_camp/add/_components/AddressModal';
+import AddressModal from '@/app/company/[id]/manage_camp/add_camp/_components/AddressModal';
 import { Address } from 'react-daum-postcode';
 import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { blob } from 'stream/consumers';
 
 const addCampPage = () => {
   const [name, handleName] = useInput();
   const [content, handleContent] = useInput();
   const [region, handleRegion] = useInput();
-  // zustand를 왜 했냐 지금, 이 address 상태값을 컴포넌트가 멀리 있다. 그래서 전역 상태로 만들었다.
-  // 왜 썻냐? address 상태값을 공유해야한다(add page와 daum 주소 찾기 컴포넌트, 연결이 안돼있다. -> 전역상태를 만듬
-  // 현재는 밑에 있어서 바로 접근이 가능함 -> 그래서 zustand를 사용할 이유가 없다.
   const [address, setAddress] = useState('');
   const [addressDetail, handleAddressDetail] = useInput();
   const [phone, handlePhone] = useInput();
@@ -33,9 +30,11 @@ const addCampPage = () => {
   const [isAddressModal, setAddressModal] = useState(false);
   const [facility, setFacility] = useState<Tables<'facility'>[]>();
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
-  const [campPicture, setCampPicture] = useState<Tables<'camp_pic'>[]>();
+  const [campPicture, setCampPicture] = useState<string[]>([]);
 
   const campId = uuid();
+
+  const imgRef = useRef<HTMLInputElement>(null);
 
   const { data: session } = useSession();
 
@@ -46,29 +45,32 @@ const addCampPage = () => {
       setFacility(facilityData);
     }
   }
-  // const imgRef = useRef<HTMLInputElement>(null);
 
-  const uploadCampPic = async (e: ChangeEvent<HTMLInputElement>) => {
+  // 캠핑장 이미지 업로드
+  async function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
+    // file을 변환해서 이미지로 띄워주는 작업
+
     // const file = imgRef.current?.files;
     if (e.target.files) {
       const file = e.target.files[0];
-      return file;
-    }
-  };
-
-  async function fetchCampPicData() {
-    const { data: campPictureData } = await supabase
-      .from('camp_pic')
-      .select('*');
-    if (campPictureData) {
-      setCampPicture(campPictureData);
+      setCampPicture((prev) => [...prev, URL.createObjectURL(file)]);
     }
   }
+
+  const handleDeleteCampImg = (index: number) => {
+    setCampPicture(
+      (prev) =>
+        prev?.filter((_, idx) => {
+          return index !== idx;
+        }),
+    );
+  };
+
   useEffect(() => {
     fetchFacilityData();
-    fetchCampPicData();
   }, []);
 
+  // 시설 정보 체크, 체크해제 로직
   const onHandleCheckFacility = (value: number) => {
     if (checkedFacility.find((item) => Number(item) === value)) {
       const filterdFacility = checkedFacility.filter((item) => {
@@ -80,10 +82,11 @@ const addCampPage = () => {
     setCheckedFacility([...checkedFacility, value]);
   };
 
+  // Form Submit
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    //
+    // 세션정보 이메일과 company_user정보 이메일이 같은 유저의 id를 가져오는 로직
     const companyEmail = session?.user?.email as string;
     const { data: getCompanyId } = await supabase
       .from('company_user')
@@ -94,6 +97,7 @@ const addCampPage = () => {
     }
     const companyId = getCompanyId[0].id;
 
+    // 지역정보 구분
     const regionSplit = address.split(' ');
     const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
 
@@ -113,6 +117,7 @@ const addCampPage = () => {
       })
       .select();
 
+    // supabase에 체크된 시설정보만 등록하는 로직
     const { data: camp_facility } = await supabase
       .from('camp_facility')
       .insert(
@@ -122,13 +127,31 @@ const addCampPage = () => {
       )
       .select();
 
-    // const avatarFile = event.target.files[0];
-    // const { data: uploadData } = await supabase.storage
-    //   .from('camp_pic')
-    //   .upload('photo_url', avatarFile, {
-    //     cacheControl: '3600',
-    //     upsert: false,
-    //   });
+    //여러개 사진 올라가면 어떻게 테이블에 insert할 것인가
+    // camp_id, path_url
+    // camp_id path,url2
+    campPicture.forEach(async (item) => {
+      const blob = await fetch(item).then((r) => r.blob());
+      const { data, error } = await uploadStorageCampPicData(blob);
+      const BASE_URL =
+        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
+      if (error) return null;
+      // 이거는 table에 올리는 건데 어떻게 올릴지 몰라서 못알려줌
+      await supabase
+        .from('camp_pic')
+        .insert({ camp_id: campId, photo_url: BASE_URL + data?.path })
+        .select();
+    });
+
+    // 등록 눌렀을 시 캠핑장 이미지 업로드
+
+    async function uploadStorageCampPicData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_pic')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
 
     if (campData && camp_facility) {
       alert('등록되었습니다');
@@ -137,6 +160,7 @@ const addCampPage = () => {
     }
   };
 
+  // 주소 검색 로직
   const handleCompleteAddress = (data: Address) => {
     let fullAddress = data.address;
     let extraAddress = '';
@@ -164,15 +188,15 @@ const addCampPage = () => {
       <Head>
         <script src='//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'></script>
       </Head>
-
+      <h1>캠핑장 등록</h1>
       <form onSubmit={handleForm} className={styles.formLayout}>
-        <h1>캠핑장 등록</h1>
         <div>
           <h3>캠핑장 명</h3>
           <input
             defaultValue={name}
             onChange={handleName}
             placeholder='이름을 입력해주세요'
+            required
           />
         </div>
 
@@ -192,6 +216,7 @@ const addCampPage = () => {
             <input
               defaultValue={address}
               placeholder='주소검색하기를 클릭해주세요'
+              required
             />
           </div>
         </div>
@@ -202,6 +227,7 @@ const addCampPage = () => {
             onChange={handleContent}
             className={styles.gridItemTextArea}
             placeholder='캠핑장을 소개해주세요'
+            required
           ></textarea>
         </div>
         <div>
@@ -229,12 +255,14 @@ const addCampPage = () => {
             defaultValue={check_in}
             onChange={handleCheck_in}
             placeholder='체크인 시간을 입력해주세요'
+            required
           />
           <h3>체크아웃 시간</h3>
           <input
             defaultValue={check_out}
             onChange={handleCheck_out}
             placeholder='체크아웃 시간을 입력해주세요'
+            required
           />
         </div>
         <div>
@@ -246,20 +274,30 @@ const addCampPage = () => {
             placeholder='캠핑장 전화번호를 입력해주세요. 예) 02-000-0000 / 063-000-0000'
             pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
             maxLength={13}
+            required
           />
         </div>
         <div>
-          <h3>캠핑장 배치 사진 등록</h3>
+          <h3>캠핑장 사진 등록</h3>
           <input
             type='file'
-            onChange={uploadCampPic}
-            // ref={imgRef}
+            onChange={handleChangeInputImageFile}
+            ref={imgRef}
+            required
           />
-          {/* {campPicture?.filter((item) => {
-            if (item.camp_id === campId) {
-              return <img src={item.photo_url} />;
-            }
-          })} */}
+          {campPicture?.map((item, index) => {
+            return (
+              <div key={item + index}>
+                <img src={item} />
+                <button
+                  type='button'
+                  onClick={() => handleDeleteCampImg(index)}
+                >
+                  x
+                </button>
+              </div>
+            );
+          })}
         </div>
 
         <div>
