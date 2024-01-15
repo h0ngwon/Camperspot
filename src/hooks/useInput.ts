@@ -12,7 +12,7 @@ export default function useInput() {
   ) => {
     setValue(e.target.value);
   };
-  // 배열인데, type이 안맞ㅇ므 얘가 string | (e: ChangeEvent<HTMLInputElement>) => void 이렇게 되어있음
+  // 배열인데, type이 안맞음. 얘가 string | (e: ChangeEvent<HTMLInputElement>) => void 이렇게 되어있음
   // [string,e: ChangeEvent<HTMLInputElement>) => void] 이렇게 명시를 해줘야됨
   return [value, handleChange] as ReturnType;
 }

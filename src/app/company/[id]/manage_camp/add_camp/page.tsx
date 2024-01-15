@@ -25,8 +25,8 @@ const AddCampPage = () => {
   const [address, setAddress] = useState('');
   const [addressDetail, handleAddressDetail] = useInput();
   const [phone, handlePhone] = useInput();
-  const [check_in, handleCheck_in] = useInput();
-  const [check_out, handleCheck_out] = useInput();
+  const [check_in, handleCheck_in] = useState<HTMLSelectElement>();
+  const [check_out, handleCheck_out] = useState<HTMLSelectElement>();
   const [layout, handleLayout] = useInput();
   const [isAddressModal, setAddressModal] = useState(false);
   const [facility, setFacility] = useState<Tables<'facility'>[]>();
@@ -121,8 +121,8 @@ const AddCampPage = () => {
         address,
         region: regionDoGun,
         phone,
-        check_in,
-        check_out,
+        check_in: check_in?.toString(),
+        check_out: check_out?.toString(),
         layout,
       })
       .select();
@@ -223,6 +223,24 @@ const AddCampPage = () => {
     setAddressModal(false);
   };
 
+  // 시간 옵션 생성 함수
+  const generateTimeOptions = () => {
+    const hours = Array.from({ length: 24 }, (_, index) =>
+      String(index).padStart(2, '0'),
+    );
+    const minutes = ['00', '30'];
+    const timeOptions: string[] = [];
+
+    hours.forEach((hour) => {
+      minutes.forEach((minute) => {
+        const time = `${hour}:${minute}`;
+        timeOptions.push(time);
+      });
+    });
+
+    return timeOptions;
+  };
+
   return (
     <>
       <Script src='//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'></Script>
@@ -289,19 +307,21 @@ const AddCampPage = () => {
         </div>
         <div>
           <h3>체크인 시간</h3>
-          <input
-            defaultValue={check_in}
-            onChange={handleCheck_in}
-            placeholder='체크인 시간을 입력해주세요'
-            required
-          />
+          <select value={check_in} onChange={handleCheck_in} required>
+            {generateTimeOptions().map((time) => (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
           <h3>체크아웃 시간</h3>
-          <input
-            defaultValue={check_out}
-            onChange={handleCheck_out}
-            placeholder='체크아웃 시간을 입력해주세요'
-            required
-          />
+          <select value={check_out} onChange={handleCheck_out} required>
+            {generateTimeOptions().map((time) => (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
         </div>
         <div>
           <h3>문의전화</h3>
