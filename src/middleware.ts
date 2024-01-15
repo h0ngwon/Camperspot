@@ -10,7 +10,7 @@ export const middleware = async (req: NextRequest) => {
   console.log('token = ', token);
   const { pathname } = req.nextUrl;
 
-  if (pathname.startsWith('/api')) {
+  if (pathname.startsWith('/auth')) {
     if (token) {
       return NextResponse.redirect(new URL('/', req.url));
     }
@@ -18,5 +18,5 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: ['/api/:path*'],
+  matcher: ['/auth/:path*'],
 };

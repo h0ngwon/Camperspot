@@ -8,7 +8,7 @@ type Props = {};
 const Header = (props: Props) => {
   return (
     <>
-      <Link href={`/api/auth/signin`} className={styles.linkBtn}>
+      <Link href={`/auth/signin`} className={styles.linkBtn}>
         Auth
       </Link>
       <Link href={`/company/aaa/manage_camp/add`} className={styles.linkBtn}>

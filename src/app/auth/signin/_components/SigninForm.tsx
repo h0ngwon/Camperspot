@@ -15,7 +15,7 @@ const SigninForm = () => {
     signIn('credentials', {
       email: data.email as string,
       password: data.password as string,
-      callbackUrl: '/api/auth/signin',
+      callbackUrl: '/auth/signin',
     });
   };
 

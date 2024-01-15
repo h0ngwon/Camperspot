@@ -39,6 +39,7 @@ const handler = NextAuth({
           email: userData.email,
           name: userData.name,
           image: null,
+          role: 'company',
         };
       },
     }),
@@ -54,6 +55,7 @@ const handler = NextAuth({
   callbacks: {
     // 로그인 시 토큰 발급
     async jwt({ token, user, account }) {
+      console.log('account =====', account);
       if (account?.provider === 'kakao') {
         const { data, error } = await supabase
           .from('user')
@@ -70,10 +72,14 @@ const handler = NextAuth({
             profile_url: user.image as string,
             nickname: user.name as string,
             provider: account.provider as string,
+            role: 'user',
           };
           await supabase.from('user').insert<SocialDataType>(kakaoData);
         }
+        token.role = 'user';
+        return token;
       }
+
       if (account?.provider === 'naver') {
         const { data, error } = await supabase
           .from('user')
@@ -90,20 +96,56 @@ const handler = NextAuth({
             profile_url: user.image as string,
             nickname: user.name as string,
             provider: account.provider as string,
+            role: 'user',
           };
           await supabase.from('user').insert<SocialDataType>(naverData);
         }
+        token.role = 'user';
+        return token;
       }
+
+      if (account?.provider === 'credentials') {
+        token.role = 'company';
+      }
+
       return token;
     },
 
     // 세션에 로그인한 유저 정보
-    async session({ session }) {
+    async session({ session, token }) {
+      if (token.role === 'user') {
+        const repData = (
+          await supabase
+            .from('user')
+            .select('*')
+            .eq('email', `${session.user?.email}`)
+            .single()
+        ).data;
+        const userSessionData = {
+          id: repData?.id,
+          role: repData?.role,
+          provider: repData?.provider,
+        };
+        session.user = { ...session.user, ...userSessionData };
+      } else if (token.role === 'company') {
+        const repData = (
+          await supabase
+            .from('company_user')
+            .select('*')
+            .eq('email', `${session.user?.email}`)
+            .single()
+        ).data;
+        const userSessionData = {
+          id: repData?.id,
+          role: repData?.role,
+        };
+        session.user = { ...session.user, ...userSessionData };
+      }
       return session;
     },
   },
   pages: {
-    signIn: '/signin',
+    signIn: '/auth/signin',
   },
 });
 

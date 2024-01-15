@@ -25,7 +25,7 @@ const SigninPage = () => {
       </div>
       <span>업체회원이라면?</span>
       <SigninForm />
-      <span><Link href='/api/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link></span>
+      <span><Link href='/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link></span>
     </div>
   );
 };
