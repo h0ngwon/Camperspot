@@ -13,7 +13,7 @@ const SocialButton = ({ provider }: SocialType) => {
       onClick={() =>
         signIn(`${provider}`, {
           redirect: true,
-          callbackUrl: '/auth/signin',
+          callbackUrl: '/api/auth/signin',
         })
       }
     >

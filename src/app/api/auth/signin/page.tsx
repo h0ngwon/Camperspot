@@ -1,27 +1,27 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
 import SocialButton from './_components/SocialButton';
 import styles from './_styles/SigninPage.module.css';
 import SigninForm from './_components/SigninForm';
 import Link from 'next/link';
-import SignoutButton from './_components/SignoutButton';
 
-const SigninPage = async () => {
-  // const { data: session } = useSession();
-  // console.log(session);
+const SigninPage = () => {
+  const { data: session } = useSession();
+  console.log(session);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const res: any = await getProviders();
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const res: any = await getProviders();
+    })();
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles['buttons-container']}>
         <SocialButton provider='kakao' />
         <SocialButton provider='naver' />
-        <SignoutButton/>
+        <button onClick={() => signOut()}>로그아웃</button>
       </div>
       <span>업체회원이라면?</span>
       <SigninForm />
