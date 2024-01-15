@@ -51,19 +51,6 @@ const addCampPage = () => {
     fetchFacilityData();
   }, []);
 
-  // 파일변환
-  function base64ToBlob(base64: string) {
-    let parts = base64.split(',');
-    let mime = parts[0].match(/:(.*?);/)![1];
-    let byteString = atob(parts[1]);
-    let ab = new ArrayBuffer(byteString.length);
-    let ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mime });
-  }
-
   // 캠핑장 배치 이미지 업로드
   async function handleChangeInputLayoutImageFile(
     e: ChangeEvent<HTMLInputElement>,
