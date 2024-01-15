@@ -6,7 +6,7 @@ export type ReservationInfo = {
   camp_area: {
     id: string;
     name: string;
-    campName: {
+    camp: {
       name: string;
     } | null;
   } | null;
