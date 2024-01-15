@@ -5,6 +5,7 @@ import '../styles/globals.css';
 import Header from '@/components/Header';
 import { SessionProvider } from 'next-auth/react';
 import AuthSession from './_components/AuthSession';
+import Provider from './_components/LikeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,13 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthSession>
-      <html lang='ko'>
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
-      </html>
-    </AuthSession>
+    <html lang='ko'>
+      <body className={inter.className}>
+        <AuthSession>
+          <Provider>
+            <Header />
+            {children}
+          </Provider>
+        </AuthSession>
+      </body>
+    </html>
   );
 }

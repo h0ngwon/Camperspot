@@ -14,7 +14,7 @@ const ReservationModal = () => {
       const { data, error } = await supabase
         .from('reservation')
         .select(
-          `people,check_in_date,check_out_date,fee,camp_area(id,name,campName:camp(name))`,
+          `people,check_in_date,check_out_date,fee,camp_area(id,name,camp(name))`,
         );
       setReservation(data!);
     };
@@ -40,7 +40,7 @@ const ReservationModal = () => {
         <h1 className={styles.h1}>예약 및 결제</h1>
         <h3 className={styles.h3}>예약 정보</h3>
         <p>
-          캠핑장 이름 <span>{reservation[0].camp_area?.campName?.name}</span>
+          캠핑장 이름 <span>{reservation[0].camp_area?.camp?.name}</span>
         </p>
         <p>
           객실 <span>{reservation[0].camp_area?.name}</span>
