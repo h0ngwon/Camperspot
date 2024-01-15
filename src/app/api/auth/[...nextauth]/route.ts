@@ -1,10 +1,11 @@
-import { Tables } from '@/types/supabase';
+import { SocialDataType } from '@/types/auth';
+import { Account, User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import NaverProvider from 'next-auth/providers/naver';
 import { supabase } from '../../db';
-import { SocialDataType } from '@/types/auth';
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -17,7 +18,6 @@ const handler = NextAuth({
           type: 'password',
         },
       },
-
       async authorize(credentials, req) {
         if (!credentials) {
           throw new Error('입력 값이 잘못되었습니다.');
@@ -55,53 +55,12 @@ const handler = NextAuth({
   callbacks: {
     // 로그인 시 토큰 발급
     async jwt({ token, user, account }) {
-      console.log('account =====', account);
       if (account?.provider === 'kakao') {
-        const { data, error } = await supabase
-          .from('user')
-          .select('*')
-          .eq('email', `${user.email}`);
-
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        if (!data.length) {
-          const kakaoData: SocialDataType = {
-            email: user.email as string,
-            profile_url: user.image as string,
-            nickname: user.name as string,
-            provider: account.provider as string,
-            role: 'user',
-          };
-          await supabase.from('user').insert<SocialDataType>(kakaoData);
-        }
-        token.role = 'user';
-        return token;
+        return await makeSocialAccount(user, account, 'kakao', token);
       }
 
       if (account?.provider === 'naver') {
-        const { data, error } = await supabase
-          .from('user')
-          .select('*')
-          .eq('email', `${user.email}`);
-
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        if (!data.length) {
-          const naverData: Omit<Tables<'user'>, 'id' | 'password'> = {
-            email: user.email as string,
-            profile_url: user.image as string,
-            nickname: user.name as string,
-            provider: account.provider as string,
-            role: 'user',
-          };
-          await supabase.from('user').insert<SocialDataType>(naverData);
-        }
-        token.role = 'user';
-        return token;
+        return await makeSocialAccount(user, account, 'naver', token);
       }
 
       if (account?.provider === 'credentials') {
@@ -148,5 +107,34 @@ const handler = NextAuth({
     signIn: '/auth/signin',
   },
 });
+
+const makeSocialAccount = async (
+  user: User,
+  account: Account,
+  provider: string,
+  token: JWT,
+) => {
+  const { data, error } = await supabase
+    .from('user')
+    .select('*')
+    .eq('email', `${user.email}`);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!data.length) {
+    const socialData: SocialDataType = {
+      email: user.email as string,
+      profile_url: user.image as string,
+      nickname: user.name as string,
+      provider: account.provider as string,
+      role: 'user',
+    };
+    await supabase.from('user').insert<SocialDataType>(socialData);
+  }
+  token.role = 'user';
+  return token;
+};
 
 export { handler as GET, handler as POST };
