@@ -1,5 +1,6 @@
 'use client';
 import { FcLike } from 'react-icons/fc';
+// import styles from '../styles/Like.module.css'
 
 import styles from './campList.module.css';
 const Like = () => {

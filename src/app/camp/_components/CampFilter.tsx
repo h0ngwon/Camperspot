@@ -1,39 +1,49 @@
 'use client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 const CampFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-
+  const [selectedItem, setSelectedItem] = useState<string>('인기순');
   const handleOpenDropdown = () => {
     setIsOpen(true);
   };
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+  console.log(params);
+  console.log('searchParams', searchParams);
+  console.log('pathname', pathname);
 
-  const handleCloseDropdown = () => {
+  const handleSelectItem = (e: React.MouseEvent<HTMLLIElement>) => {
+    //컴파일시 e의 타입은알지만 뭐가들어오는지는모르니 as로 다시 지정
+    //브라우저 런타임은 as로 달아두는게 좋음
+    const a = e.target as HTMLLIElement;
+    setSelectedItem(a.textContent!);
     setIsOpen(false);
+    params.set('sort', a.textContent!);
+    console.log(params.toString());
+    replace(`${pathname}?${params.toString()}`);
   };
-
-  const handleSelectItem = (item: string) => {
-    setSelectedItem(item);
-    handleCloseDropdown();
-  };
+  const sortList = ['인기순', '최신순', '별점순', '낮은가격순', '높은가격순'];
 
   return (
     <div>
-      <button onClick={handleOpenDropdown}>드롭다운 열기</button>
-
+      <button onClick={handleOpenDropdown}>{selectedItem}</button>
       {isOpen && (
         <div>
           <ul>
-            <li onClick={() => handleSelectItem('항목 1')}>항목 1</li>
-            <li onClick={() => handleSelectItem('항목 2')}>항목 2</li>
-            <li onClick={() => handleSelectItem('항목 3')}>항목 3</li>
+            {sortList.map((list) => {
+              return (
+                <li key={list} onClick={(e) => handleSelectItem(e)}>
+                  {list}
+                </li>
+              );
+            })}
           </ul>
-          <button onClick={handleCloseDropdown}>드롭다운 닫기</button>
         </div>
       )}
-
-      {selectedItem && <p>선택된 항목: {selectedItem}</p>}
     </div>
   );
 };

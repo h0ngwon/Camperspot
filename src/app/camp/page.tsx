@@ -10,9 +10,17 @@ const Camp = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
+  console.log(searchParams);
+  // const camp = [
+  //   {
+  //     id: 'aaa',
+  //     camp_area: [{ price: '500' }],
+  //     tags: ['hi',;],
+  //   },
+  // ];
   //데이터 가져오기
   const { data: camp, error } = await supabase.from('camp').select(`
-  id,  
+  id,
   name,
     created_at,
     address,

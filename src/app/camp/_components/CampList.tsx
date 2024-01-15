@@ -44,7 +44,7 @@ const CampList = (data: Props) => {
               <p>{d.address}</p>
             </div>
             <ol className={styles.cardTag}>
-              <Hashtag tags={d.hashtag} />
+              {/* <Hashtag tags={d.hashtag} /> */}
             </ol>
           </div>
         );
