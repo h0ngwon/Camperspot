@@ -31,6 +31,7 @@ const addCampPage = () => {
   const [facility, setFacility] = useState<Tables<'facility'>[]>();
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campPicture, setCampPicture] = useState<string[]>([]);
+  const [campLayout, setCampLayout] = useState<string>('');
 
   const campId = uuid();
 
@@ -38,25 +39,55 @@ const addCampPage = () => {
 
   const { data: session } = useSession();
 
+  // facility 테이블에서 option 가져오는거
   async function fetchFacilityData() {
-    // facility에서 option 가져오는거
     const { data: facilityData } = await supabase.from('facility').select('*');
     if (facilityData) {
       setFacility(facilityData);
     }
   }
 
+  useEffect(() => {
+    fetchFacilityData();
+  }, []);
+
+  // 파일변환
+  function base64ToBlob(base64: string) {
+    let parts = base64.split(',');
+    let mime = parts[0].match(/:(.*?);/)![1];
+    let byteString = atob(parts[1]);
+    let ab = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mime });
+  }
+
+  function base64ToFile(base64Data: string, filename = 'file') {
+    let blob = base64ToBlob(base64Data);
+    return new File([blob], filename, { type: blob.type });
+  }
+
+  // 캠핑장 배치 이미지 업로드
+  async function handleChangeInputLayoutImageFile(
+    e: ChangeEvent<HTMLInputElement>,
+  ) {
+    if (e.target.files) {
+      const file = e.target.files[0];
+      // base64ToFile(file)
+      // setCampLayout(file);
+    }
+  }
+
   // 캠핑장 이미지 업로드
   async function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
-    // file을 변환해서 이미지로 띄워주는 작업
-
-    // const file = imgRef.current?.files;
     if (e.target.files) {
       const file = e.target.files[0];
       setCampPicture((prev) => [...prev, URL.createObjectURL(file)]);
     }
   }
-
+  // x버튼 클릭시 이미지 삭제
   const handleDeleteCampImg = (index: number) => {
     setCampPicture(
       (prev) =>
@@ -65,10 +96,6 @@ const addCampPage = () => {
         }),
     );
   };
-
-  useEffect(() => {
-    fetchFacilityData();
-  }, []);
 
   // 시설 정보 체크, 체크해제 로직
   const onHandleCheckFacility = (value: number) => {
@@ -127,16 +154,14 @@ const addCampPage = () => {
       )
       .select();
 
-    //여러개 사진 올라가면 어떻게 테이블에 insert할 것인가
-    // camp_id, path_url
-    // camp_id path,url2
+    //여러개 사진 table에 올리는 로직
     campPicture.forEach(async (item) => {
       const blob = await fetch(item).then((r) => r.blob());
       const { data, error } = await uploadStorageCampPicData(blob);
       const BASE_URL =
         'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
       if (error) return null;
-      // 이거는 table에 올리는 건데 어떻게 올릴지 몰라서 못알려줌
+      // supabase table에 올리는 로직
       await supabase
         .from('camp_pic')
         .insert({ camp_id: campId, photo_url: BASE_URL + data?.path })
@@ -275,6 +300,14 @@ const addCampPage = () => {
             pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
             maxLength={13}
             required
+          />
+        </div>
+        <div>
+          <h3>캠핑장 배치사진 등록</h3>
+          <input
+            type='file'
+            onChange={handleChangeInputLayoutImageFile}
+            ref={imgRef}
           />
         </div>
         <div>
