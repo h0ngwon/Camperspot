@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
+import Image from 'next/image';
 import KakaoMap from './_components/KakaoMap';
 import DetailShareBtn from './_components/DetailShareBtn';
 import DetailLikeBtn from './_components/DetailLikeBtn';
@@ -16,7 +17,7 @@ export default function DetailPage() {
   useEffect(() => {
     supabase
       .from('camp')
-      .select('name')
+      .select('name,camp_pic(photo_url)')
       .eq('id', params.id)
       .single()
       .then((response: any) => setCamp(response.data));
@@ -24,6 +25,9 @@ export default function DetailPage() {
 
   return (
     <>
+      {camp.camp_pic?.map((item: any) => {
+        return <Image src={item} alt='' fill />;
+      })}
       <p>{camp?.name}</p>
       <DetailLikeBtn />
       <DetailShareBtn />
