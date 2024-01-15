@@ -64,19 +64,13 @@ const addCampPage = () => {
     return new Blob([ab], { type: mime });
   }
 
-  function base64ToFile(base64Data: string, filename = 'file') {
-    let blob = base64ToBlob(base64Data);
-    return new File([blob], filename, { type: blob.type });
-  }
-
   // 캠핑장 배치 이미지 업로드
   async function handleChangeInputLayoutImageFile(
     e: ChangeEvent<HTMLInputElement>,
   ) {
     if (e.target.files) {
       const file = e.target.files[0];
-      // base64ToFile(file)
-      // setCampLayout(file);
+      setCampLayout(URL.createObjectURL(file));
     }
   }
 
@@ -154,9 +148,43 @@ const addCampPage = () => {
       )
       .select();
 
-    //여러개 사진 table에 올리는 로직
+    // 등록 눌렀을 시 캠핑장 배치 이미지 업로드
+    async function uploadStorageLayoutData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_layout')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
+    // 배치 이미지 table에 올리는 로직
+    async function uploadLayoutToCampTable() {
+      const blob = await fetch(campLayout).then((r) => r.blob());
+      const { data, error } = await uploadStorageLayoutData(blob);
+      const BASE_URL =
+        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_layout/';
+      if (error) return null;
+      // supabase camp table의 layout에 넣는 로직
+      await supabase
+        .from('camp')
+        .update({ layout: BASE_URL + data?.path })
+        .eq('id', campId);
+    }
+
+    uploadLayoutToCampTable();
+
+    // 등록 눌렀을 시 캠핑장 이미지 업로드
+    async function uploadStorageCampPicData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_pic')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
+
+    // 여러개 사진 table에 올리는 로직
     campPicture.forEach(async (item) => {
       const blob = await fetch(item).then((r) => r.blob());
+      console.log('blob', blob);
       const { data, error } = await uploadStorageCampPicData(blob);
       const BASE_URL =
         'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
@@ -167,16 +195,6 @@ const addCampPage = () => {
         .insert({ camp_id: campId, photo_url: BASE_URL + data?.path })
         .select();
     });
-
-    // 등록 눌렀을 시 캠핑장 이미지 업로드
-
-    async function uploadStorageCampPicData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_pic')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
 
     if (campData && camp_facility) {
       alert('등록되었습니다');
