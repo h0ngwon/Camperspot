@@ -16,8 +16,9 @@ import { Address } from 'react-daum-postcode';
 import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import { blob } from 'stream/consumers';
+import Script from 'next/script';
 
-const addCampPage = () => {
+const AddCampPage = () => {
   const [name, handleName] = useInput();
   const [content, handleContent] = useInput();
   const [region, handleRegion] = useInput();
@@ -32,6 +33,7 @@ const addCampPage = () => {
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campPicture, setCampPicture] = useState<string[]>([]);
   const [campLayout, setCampLayout] = useState<string>('');
+  const [hashtag, setHashtag] = useInput();
 
   const campId = uuid();
 
@@ -215,9 +217,7 @@ const addCampPage = () => {
 
   return (
     <>
-      <Head>
-        <script src='//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'></script>
-      </Head>
+      <Script src='//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'></Script>
       <h1>캠핑장 등록</h1>
       <form onSubmit={handleForm} className={styles.formLayout}>
         <div>
@@ -339,6 +339,15 @@ const addCampPage = () => {
         </div>
 
         <div>
+          <h3>해시태그 추가</h3>
+          <input
+            placeholder='해시태그를 추가해주세요'
+            defaultValue={hashtag}
+            onChange={setHashtag}
+          />
+        </div>
+
+        <div>
           <button type='button'>임시저장</button>
           <button type='submit'>등록하기</button>
         </div>
@@ -352,4 +361,4 @@ const addCampPage = () => {
   );
 };
 
-export default addCampPage;
+export default AddCampPage;

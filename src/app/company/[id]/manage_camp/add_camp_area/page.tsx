@@ -3,13 +3,16 @@ import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import styles from './_components/campAreaForm.module.css';
 import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
+import { uuid } from 'uuidv4';
 type Props = {};
 
-const addCampAreaPage = (props: Props) => {
+const AddCampAreaPage = (props: Props) => {
   const [areaName, handleAreaName] = useInput();
   const [areaMaxPeople, handleAreaMaxPeople] = useInput();
   const [areaPrice, handleAreaPrice] = useInput();
   const [areaImg, setAreaImg] = useState<string>('');
+
+  const id = uuid();
 
   const imgRef = useRef<HTMLInputElement>(null);
 
@@ -30,6 +33,7 @@ const addCampAreaPage = (props: Props) => {
     const { data: campAreaData, error } = await supabase
       .from('camp_area')
       .insert({
+        id,
         camp_id: campId,
         name: areaName,
         max_people: Number(areaMaxPeople),
@@ -37,11 +41,30 @@ const addCampAreaPage = (props: Props) => {
         photo_url: areaImg,
       });
 
-    if (campAreaData) {
-      alert('등록되었습니다');
-    } else if (error) {
-      alert(error.message);
+    // 등록 눌렀을 시 캠핑장 배치 이미지 업로드
+    async function uploadStorageCampAreaData(blob: Blob | File) {
+      const { data, error } = await supabase.storage
+        .from('camp_area_pic')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
     }
+    // 배치 이미지 table에 올리는 로직
+    async function uploadCampAreaTable() {
+      const blob = await fetch(areaImg).then((r) => r.blob());
+      const { data, error } = await uploadStorageCampAreaData(blob);
+      const BASE_URL =
+        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_area_pic/';
+      if (error) return null;
+      // supabase camp table의 layout에 넣는 로직
+      await supabase
+        .from('camp_area')
+        .update({ photo_url: BASE_URL + data?.path })
+        .eq('id', id);
+    }
+
+    uploadCampAreaTable();
+
+    alert('등록완료');
   };
 
   return (
@@ -78,10 +101,12 @@ const addCampAreaPage = (props: Props) => {
           />
           <img src={areaImg} />
         </div>
-        <button type='submit'>등록하기</button>
+        <div>
+          <button type='submit'>등록하기</button>
+        </div>
       </form>
     </>
   );
 };
 
-export default addCampAreaPage;
+export default AddCampAreaPage;
