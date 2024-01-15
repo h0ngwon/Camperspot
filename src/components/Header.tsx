@@ -13,12 +13,15 @@ const Header = (props: Props) => {
         캠핑장등록
       </Link>
       <Link
-        href={`/camp/detail/98ad9575-90f8-4d4c-8600-a9e57001df65`}
+        href={`/camp/detail/d88d1256-6202-469d-81e8-b8d12f629206`}
         className={styles.linkBtn}
       >
         캠프상세
       </Link>
-      <Link href={`/camp/detail/aaa/reservation`} className={styles.linkBtn}>
+      <Link
+        href={`/camp/detail/d88d1256-6202-469d-81e8-b8d12f629206/reservation`}
+        className={styles.linkBtn}
+      >
         예약
       </Link>
       <Link href={`/company/aaa`} className={styles.linkBtn}>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from './kakaoMap.module.css';
+import styles from '../_styles/kakaoMap.module.css';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/app/api/db';
 
@@ -42,7 +42,7 @@ export default function KakaoMap() {
       .eq('id', params.id)
       .single()
       .then((response: any) => {
-        setIsAddress(response.data.address);
+        setIsAddress(response.data?.address);
       });
 
     return () => mapScript.removeEventListener('load', () => {});

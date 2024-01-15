@@ -24,7 +24,7 @@ export default function DetailPage() {
 
   return (
     <>
-      <p>{camp.name}</p>
+      <p>{camp?.name}</p>
       <DetailLikeBtn />
       <DetailShareBtn />
       <KakaoMap />
