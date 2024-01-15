@@ -8,7 +8,7 @@ import Head from 'next/head';
 import AddressModal from '@/app/company/[id]/manage_camp/add/_components/AddressModal';
 import { Address } from 'react-daum-postcode';
 
-const addCampPage = () => {
+const AddCampPage = () => {
   const [name, handleName] = useInput();
   const [content, handleContent] = useInput();
   const [region, handleRegion] = useInput();
@@ -154,4 +154,4 @@ const addCampPage = () => {
   );
 };
 
-export default addCampPage;
+export default AddCampPage;

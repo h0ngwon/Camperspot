@@ -9,39 +9,6 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      _prisma_migrations: {
-        Row: {
-          applied_steps_count: number;
-          checksum: string;
-          finished_at: string | null;
-          id: string;
-          logs: string | null;
-          migration_name: string;
-          rolled_back_at: string | null;
-          started_at: string;
-        };
-        Insert: {
-          applied_steps_count?: number;
-          checksum: string;
-          finished_at?: string | null;
-          id: string;
-          logs?: string | null;
-          migration_name: string;
-          rolled_back_at?: string | null;
-          started_at?: string;
-        };
-        Update: {
-          applied_steps_count?: number;
-          checksum?: string;
-          finished_at?: string | null;
-          id?: string;
-          logs?: string | null;
-          migration_name?: string;
-          rolled_back_at?: string | null;
-          started_at?: string;
-        };
-        Relationships: [];
-      };
       camp: {
         Row: {
           address: string;
@@ -103,7 +70,7 @@ export interface Database {
         };
         Insert: {
           camp_id: string;
-          id?: string;
+          id: string;
           max_people: number;
           name: string;
           photo_url: string;
@@ -123,6 +90,39 @@ export interface Database {
             columns: ['camp_id'];
             isOneToOne: false;
             referencedRelation: 'camp';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      camp_facility: {
+        Row: {
+          camp_id: string | null;
+          facility_id: number | null;
+          id: string;
+        };
+        Insert: {
+          camp_id?: string | null;
+          facility_id?: number | null;
+          id?: string;
+        };
+        Update: {
+          camp_id?: string | null;
+          facility_id?: number | null;
+          id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'camp_facility_camp_id_fkey';
+            columns: ['camp_id'];
+            isOneToOne: false;
+            referencedRelation: 'camp';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'camp_facility_facility_id_fkey';
+            columns: ['facility_id'];
+            isOneToOne: false;
+            referencedRelation: 'facility';
             referencedColumns: ['id'];
           },
         ];
@@ -218,29 +218,18 @@ export interface Database {
       };
       facility: {
         Row: {
-          camp_id: string;
-          id: string;
-          option: string;
+          id: number;
+          option: string | null;
         };
         Insert: {
-          camp_id: string;
-          id?: string;
-          option: string;
+          id?: number;
+          option?: string | null;
         };
         Update: {
-          camp_id?: string;
-          id?: string;
-          option?: string;
+          id?: number;
+          option?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'facility_camp_id_fkey';
-            columns: ['camp_id'];
-            isOneToOne: false;
-            referencedRelation: 'camp';
-            referencedColumns: ['id'];
-          },
-        ];
+        Relationships: [];
       };
       hashtag: {
         Row: {
@@ -360,41 +349,50 @@ export interface Database {
       };
       reservation: {
         Row: {
-          camp_id: string;
+          camp_area_id: string;
           check_in_date: string;
           check_out_date: string;
+          client_name: string;
+          client_phone: string;
           created_at: string;
           fee: number;
           id: string;
+          payment_method: string;
           people: number;
           user_id: string;
         };
         Insert: {
-          camp_id: string;
+          camp_area_id: string;
           check_in_date: string;
           check_out_date: string;
+          client_name: string;
+          client_phone: string;
           created_at?: string;
           fee: number;
           id?: string;
+          payment_method: string;
           people: number;
           user_id: string;
         };
         Update: {
-          camp_id?: string;
+          camp_area_id?: string;
           check_in_date?: string;
           check_out_date?: string;
+          client_name?: string;
+          client_phone?: string;
           created_at?: string;
           fee?: number;
           id?: string;
+          payment_method?: string;
           people?: number;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'reservation_camp_id_fkey';
-            columns: ['camp_id'];
+            foreignKeyName: 'reservation_camp_area_id_fkey';
+            columns: ['camp_area_id'];
             isOneToOne: false;
-            referencedRelation: 'camp';
+            referencedRelation: 'camp_area';
             referencedColumns: ['id'];
           },
           {
@@ -456,22 +454,25 @@ export interface Database {
           email: string;
           id: string;
           nickname: string;
-          password: string;
-          profile_url: string;
+          password: string | null;
+          profile_url: string | null;
+          provider: string | null;
         };
         Insert: {
           email: string;
           id?: string;
           nickname: string;
-          password: string;
-          profile_url: string;
+          password?: string | null;
+          profile_url?: string | null;
+          provider?: string | null;
         };
         Update: {
           email?: string;
           id?: string;
           nickname?: string;
-          password?: string;
-          profile_url?: string;
+          password?: string | null;
+          profile_url?: string | null;
+          provider?: string | null;
         };
         Relationships: [];
       };
@@ -480,10 +481,7 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      insert_camping_data: {
-        Args: Record<PropertyKey, never>;
-        Returns: undefined;
-      };
+      [_ in never]: never;
     };
     Enums: {
       [_ in never]: never;

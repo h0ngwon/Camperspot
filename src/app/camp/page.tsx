@@ -4,22 +4,23 @@ import Spacer from '@/components/Spacer';
 import styles from './camp.module.css';
 import CampFilter from './_components/CampFilter';
 import PageController from './_components/PageController';
+
 //searchParams를 통해 주소로 parameter 가져오기
 const Camp = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  console.log(searchParams);
-  // const camp = [
-  //   {
-  //     id: 'aaa',
-  //     camp_area: [{ price: '500' }],
-  //     tags: ['hi',;],
-  //   },
-  // ];
+  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', searchParams);
+
+  //캐싱이 1순위
+  //camp가 다른화면에서도 필요하다면 reactquery가 필요
+  //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
   //데이터 가져오기
-  const { data: camp, error } = await supabase.from('camp').select(`
+  const { data: camp, error } = await supabase
+    .from('camp')
+    .select(
+      `
   id,
   name,
     created_at,
@@ -29,7 +30,11 @@ const Camp = async ({
     camp_area(id,price),
     camp_pic(id,photo_url),
     hashtag(tag)
-    `);
+    `,
+    )
+    .order('created_at', {
+      ascending: searchParams.sort === '인기순' ? false : true,
+    });
   //한번에 모든 데이터를 가져오는건 비효율적일것,
   //searchParams로 단순히 페이지만 나누는게 아니라 페이지에 따른 데이터를 fetching
   //페이지 나누기
@@ -45,7 +50,7 @@ const Camp = async ({
   //우선시 되고 보안적 이슈가 생길 거 같을때 수정!
   //가져올것!!!!1 좋아요,캠프사진,이름,가격,리뷰(평점,리뷰갯수),주소,해시태그
   //camp_area(price): 최소값 / review(평점):평균,(갯수):length
-  console.log(entiries);
+  // console.log(entiries);
   return (
     <>
       <Spacer y={50} />
