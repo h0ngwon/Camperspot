@@ -185,7 +185,15 @@ const AddCampPage = () => {
         .select();
     });
 
-    if (campData && camp_facility) {
+    const { data: hashtagData } = await supabase
+      .from('hashtag')
+      .insert({
+        camp_id: campId,
+        tag: hashtag,
+      })
+      .select();
+
+    if (campData && camp_facility && hashtagData) {
       alert('등록되었습니다');
     } else if (error) {
       alert(error.message);
