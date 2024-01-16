@@ -1,10 +1,10 @@
 import React from 'react';
-import Photo from './Photo';
 import styles from '../_styles/CampList.module.css';
 import { FaStar } from 'react-icons/fa';
 import Hashtag from './Hashtag';
 import Like from './Like';
 import Link from 'next/link';
+import Photo from './Sample';
 
 type Props = {
   data: {
@@ -24,6 +24,7 @@ const CampList = (data: Props) => {
   // console.log(data.data?.[9].hashtag);
   // console.log(data.data);
   //++++++++++++++++++++++++메타태그심어주기
+  console.log(data.data[0]?.camp_pic);
   return (
     <>
       {data.data.map((camp) => {
@@ -35,7 +36,7 @@ const CampList = (data: Props) => {
           >
             <div className={styles.photoAndLike}>
               <Like />
-              <Photo />
+              <Photo photos={camp.camp_pic} />
             </div>
             {/**<section> 요소를 일반 컨테이너로 사용하지 마세요. 특히 단순한 스타일링이 목적이라면 <div> 요소를 사용해야 합니다. */}
             <div className={styles.cardMiddle}>

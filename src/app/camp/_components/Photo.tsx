@@ -1,31 +1,42 @@
 'use client';
-import Image from 'next/image';
-import React from 'react';
-import pic from '@/asset/abc.png';
+import React, { Component } from 'react';
+import Slider from 'react-slick';
 import styles from '../_styles/Photo.module.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Image from 'next/image';
 
-type Props = {};
-
-const Photo = (props: Props) => {
-  const onHandlePhotoBtn = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
-    e.stopPropagation();
-    console.log('hi');
-  };
-  const url = pic;
-  return (
-    <figure className={styles.picWrap}>
-      <Image src={url} alt='캠핑장 이미지' fill className={styles.pic} />;
-      <button
-        onClick={(e) => onHandlePhotoBtn(e)}
-        className={styles.photoButton}
-      >
-        {'<'}
-      </button>
-      <button className={styles.photoButton}>{'>'}</button>
-    </figure>
-  );
+type PhotoProps = {
+  photos: { id: string; photo_url: string }[];
 };
 
-export default Photo;
+export default class Photo extends Component<PhotoProps> {
+  render() {
+    const { photos } = this.props;
+
+    const settings = {
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
+
+    return (
+      <>
+        <Slider {...settings}>
+          {photos.map((photo) => (
+            <div className={styles.picWrap} key={photo.id}>
+              <Image
+                src={photo.photo_url}
+                alt={`Photo ${photo.id}`}
+                fill
+                className={styles.pic}
+              />
+            </div>
+          ))}
+        </Slider>
+      </>
+    );
+  }
+}
