@@ -1,6 +1,6 @@
 'use client';
 import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import styles from './_components/campAreaForm.module.css';
+import styles from './_styles/CampAreaForm.module.css';
 import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';

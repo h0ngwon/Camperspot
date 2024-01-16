@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import styles from './_components/campForm.module.css';
+import styles from './_styles/CampForm.module.css';
 import Head from 'next/head';
 import AddressModal from '@/app/company/[id]/manage_camp/add_camp/_components/AddressModal';
 import { Address } from 'react-daum-postcode';
