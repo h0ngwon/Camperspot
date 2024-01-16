@@ -1,13 +1,15 @@
-import { Tables } from '@/types/supabase';
+import { SocialDataType } from '@/types/auth';
+import { Account, User } from 'next-auth';
+import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import NaverProvider from 'next-auth/providers/naver';
 import { supabase } from '../../db';
-import { SocialDataType } from '@/types/auth';
+
 
 const handler = NextAuth({
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -17,7 +19,6 @@ const handler = NextAuth({
           type: 'password',
         },
       },
-
       async authorize(credentials, req) {
         if (!credentials) {
           throw new Error('입력 값이 잘못되었습니다.');
@@ -26,9 +27,10 @@ const handler = NextAuth({
         const companyUser = await supabase
           .from('company_user')
           .select('*')
-          .eq('email', `${credentials?.email}`);
+          .eq('email', `${credentials?.email}`)
+          .single();
 
-        const userData = companyUser.data?.[0];
+        const userData = companyUser.data;
 
         if (userData?.password !== credentials?.password) {
           throw new Error('비밀번호가 다릅니다.');
@@ -39,6 +41,7 @@ const handler = NextAuth({
           email: userData.email,
           name: userData.name,
           image: null,
+          role: 'company',
         };
       },
     }),
@@ -55,59 +58,85 @@ const handler = NextAuth({
     // 로그인 시 토큰 발급
     async jwt({ token, user, account }) {
       if (account?.provider === 'kakao') {
-        const { data, error } = await supabase
-          .from('user')
-          .select('*')
-          .eq('email', `${user.email}`);
-
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        if (!data.length) {
-          const kakaoData: SocialDataType = {
-            email: user.email as string,
-            profile_url: user.image as string,
-            nickname: user.name as string,
-            provider: account.provider as string,
-          };
-          await supabase.from('user').insert<SocialDataType>(kakaoData);
-        }
+        return await makeSocialAccount(user, account, 'kakao', token);
       }
+
       if (account?.provider === 'naver') {
-        const { data, error } = await supabase
-          .from('user')
-          .select('*')
-          .eq('email', `${user.email}`);
-
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        if (!data.length) {
-          const naverData: Omit<Tables<'user'>, 'id' | 'password'> = {
-            email: user.email as string,
-            profile_url: user.image as string,
-            nickname: user.name as string,
-            provider: account.provider as string,
-          };
-          await supabase.from('user').insert<SocialDataType>(naverData);
-        }
+        return await makeSocialAccount(user, account, 'naver', token);
       }
-      console.log('token = ', token);
+
+      if (account?.provider === 'credentials') {
+        token.role = 'company';
+      }
 
       return token;
     },
 
     // 세션에 로그인한 유저 정보
-    async session({ session }) {
-      console.log('session = ', session);
+    async session({ session, token }) {
+      if (token.role === 'user') {
+        const repData = (
+          await supabase
+            .from('user')
+            .select('*')
+            .eq('email', `${session.user?.email}`)
+            .single()
+        ).data;
+        const userSessionData = {
+          id: repData?.id,
+          role: repData?.role,
+          provider: repData?.provider,
+        };
+        session.user = { ...session.user, ...userSessionData };
+      } else if (token.role === 'company') {
+        const repData = (
+          await supabase
+            .from('company_user')
+            .select('*')
+            .eq('email', `${session.user?.email}`)
+            .single()
+        ).data;
+        const userSessionData = {
+          id: repData?.id,
+          role: repData?.role,
+        };
+        session.user = { ...session.user, ...userSessionData };
+      }
       return session;
     },
   },
   pages: {
-    signIn: '/signin',
+    signIn: '/auth/signin',
   },
 });
+
+const makeSocialAccount = async (
+  user: User,
+  account: Account,
+  provider: string,
+  token: JWT,
+) => {
+  const { data, error } = await supabase
+    .from('user')
+    .select('*')
+    .eq('email', `${user.email}`);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  if (!data.length) {
+    const socialData: SocialDataType = {
+      email: user.email as string,
+      profile_url: user.image as string,
+      nickname: user.name as string,
+      provider: account.provider as string,
+      role: 'user',
+    };
+    await supabase.from('user').insert<SocialDataType>(socialData);
+  }
+  token.role = 'user';
+  return token;
+};
 
 export { handler as GET, handler as POST };

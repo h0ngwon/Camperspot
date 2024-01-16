@@ -1,9 +1,8 @@
+import Header from '@/components/Header';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import '../styles/reset.css';
 import '../styles/globals.css';
-import Header from '@/components/Header';
-import { SessionProvider } from 'next-auth/react';
+import '../styles/reset.css';
 import AuthSession from './_components/AuthSession';
 import Provider from './_components/CmapProvider';
 

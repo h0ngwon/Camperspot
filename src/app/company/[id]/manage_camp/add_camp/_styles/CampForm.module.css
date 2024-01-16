@@ -1,0 +1,33 @@
+.formLayout {
+  display: grid;
+  width: 80%;
+  margin: 0 auto;
+  row-gap: 20px;
+}
+.gridItem {
+  height: 30px;
+}
+.gridItemTextArea {
+  height: 60px;
+}
+.address {
+  border: 1px solid #333;
+  height: 20px;
+}
+.facilityWrap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.facility {
+  height: 30px;
+}
+.modalUP {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+  padding: 20px;
+}
