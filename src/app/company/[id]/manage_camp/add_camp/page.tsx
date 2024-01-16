@@ -319,6 +319,7 @@ const AddCampPage = () => {
             }}
             required
           >
+            <option value=''>시간 선택</option>
             {generateTimeOptions().map((time) => (
               <option key={time} value={time}>
                 {time}
@@ -333,6 +334,7 @@ const AddCampPage = () => {
             }}
             required
           >
+            <option value=''>시간 선택</option>
             {generateTimeOptions().map((time) => (
               <option key={time} value={time}>
                 {time}
