@@ -7,10 +7,6 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'kuxaffboxknwphgulogp.supabase.co',
       },
-      {
-        protocol: 'https',
-        hostname: 'example.com',
-      },
     ],
   },
 };
