@@ -6,9 +6,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'kuxaffboxknwphgulogp.supabase.co',
+        port: '',
+        pathname: '/storage/v1/object/public/camp_pic/blob:http:/localhost:3000/**',
       },
     ],
   },
-};
+}
+
+
 
 module.exports = nextConfig;

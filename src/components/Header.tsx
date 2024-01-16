@@ -32,7 +32,7 @@ const Header = (props: Props) => {
       <Link href={`/company/aaa/manage_reservation`} className={styles.linkBtn}>
         예약관리
       </Link>
-      <Link href={`/camp`} className={styles.linkBtn}>
+      <Link href={`/camp?sort=인기순&page=1`} className={styles.linkBtn}>
         캠핑장 둘러보기
       </Link>
       <button onClick={() => signOut()}>로그아웃</button>
