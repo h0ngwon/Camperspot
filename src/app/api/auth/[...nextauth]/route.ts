@@ -7,6 +7,7 @@ import KakaoProvider from 'next-auth/providers/kakao';
 import NaverProvider from 'next-auth/providers/naver';
 import { supabase } from '../../db';
 
+
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
