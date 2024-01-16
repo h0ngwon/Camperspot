@@ -62,6 +62,10 @@ const AddCampPage = () => {
       setCampLayout(URL.createObjectURL(file));
     }
   }
+  // 버튼 클릭시 이미지 삭제
+  const handleDeleteCampLayoutImg = () => {
+    setCampLayout('');
+  };
 
   // 캠핑장 이미지 업로드
   async function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
@@ -70,7 +74,7 @@ const AddCampPage = () => {
       setCampPicture((prev) => [...prev, URL.createObjectURL(file)]);
     }
   }
-  // x버튼 클릭시 이미지 삭제
+  // 버튼 클릭시 이미지 삭제
   const handleDeleteCampImg = (index: number) => {
     setCampPicture(
       (prev) =>
@@ -341,7 +345,7 @@ const AddCampPage = () => {
             defaultValue={phone}
             onChange={handlePhone}
             type='tel'
-            placeholder='캠핑장 전화번호를 입력해주세요. 예) 02-000-0000 / 063-000-0000'
+            placeholder='예) 02-000-0000 / 063-000-0000'
             pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
             maxLength={13}
             required
@@ -354,6 +358,16 @@ const AddCampPage = () => {
             onChange={handleChangeInputLayoutImageFile}
             ref={imgRef}
           />
+          {campLayout ? (
+            <div>
+              <img src={campLayout} />
+              <button type='button' onClick={() => handleDeleteCampLayoutImg()}>
+                이미지 삭제
+              </button>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div>
           <h3>캠핑장 사진 등록</h3>
@@ -371,7 +385,7 @@ const AddCampPage = () => {
                   type='button'
                   onClick={() => handleDeleteCampImg(index)}
                 >
-                  x
+                  이미지 삭제
                 </button>
               </div>
             );
