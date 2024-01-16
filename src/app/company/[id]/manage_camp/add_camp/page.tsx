@@ -33,7 +33,8 @@ const AddCampPage = () => {
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campPicture, setCampPicture] = useState<string[]>([]);
   const [campLayout, setCampLayout] = useState<string>('');
-  const [hashtag, setHashtag] = useInput();
+  const [inputHashTag, setInputHashTag] = useState('');
+  const [hashTags, setHashTags] = useState<string[]>([]);
 
   const campId = uuid();
 
@@ -94,6 +95,62 @@ const AddCampPage = () => {
     }
 
     setCheckedFacility([...checkedFacility, value]);
+  };
+
+  // 해시태그
+  const isEmptyValue = (value: string | any[]) => {
+    if (!value.length) {
+      return true;
+    }
+    return false;
+  };
+
+  const addHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const allowedCommand = ['Comma', 'Enter', 'Space', 'NumpadEnter'];
+    if (!allowedCommand.includes(e.code)) return;
+
+    if (isEmptyValue(e.currentTarget.value.trim())) {
+      return setInputHashTag('');
+    }
+
+    let newHashTag = e.currentTarget.value.trim();
+    const regExp = /[\{\}\[\]\/?.;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
+    if (regExp.test(newHashTag)) {
+      newHashTag = newHashTag.replace(regExp, '');
+    }
+    if (newHashTag.includes(',')) {
+      newHashTag = newHashTag.split(',').join('');
+    }
+
+    if (isEmptyValue(newHashTag)) return;
+
+    setHashTags((prevHashTags) => {
+      // return [...new Set([...prevHashTags, newHashTag])];
+      const uniqueHashTags = new Set([...prevHashTags, newHashTag]);
+      return Array.from(uniqueHashTags);
+    });
+
+    setInputHashTag('');
+  };
+
+  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code !== 'Enter' && e.code !== 'NumpadEnter') return;
+    e.preventDefault();
+
+    const regExp = /^[a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ|0-9| \t|]+$/g;
+    if (!regExp.test(e.currentTarget.value)) {
+      setInputHashTag('');
+    }
+  };
+  const changeHashTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputHashTag(e.target.value);
+  };
+  const handleDeleteHashtag = (hashTag: string) => {
+    setHashTags(
+      hashTags.filter((item) => {
+        return item !== hashTag;
+      }),
+    );
   };
 
   // Form Submit
@@ -178,7 +235,6 @@ const AddCampPage = () => {
     // 여러개 사진 table에 올리는 로직
     campPicture.forEach(async (item) => {
       const blob = await fetch(item).then((r) => r.blob());
-      console.log('blob', blob);
       const { data, error } = await uploadStorageCampPicData(blob);
       const BASE_URL =
         'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
@@ -192,10 +248,11 @@ const AddCampPage = () => {
 
     const { data: hashtagData } = await supabase
       .from('hashtag')
-      .insert({
-        camp_id: campId,
-        tag: hashtag,
-      })
+      .insert(
+        hashTags.map((item) => {
+          return { camp_id: campId, tag: item };
+        }),
+      )
       .select();
 
     if (campData && camp_facility && hashtagData) {
@@ -397,11 +454,33 @@ const AddCampPage = () => {
 
         <div>
           <h3>해시태그 추가</h3>
+          {hashTags.length > 0 &&
+            hashTags.map((item) => {
+              return (
+                <div key={item}>
+                  <div className='tag'>{'#' + item}</div>
+                  <button
+                    type='button'
+                    onClick={() => handleDeleteHashtag(item)}
+                  >
+                    x
+                  </button>
+                </div>
+              );
+            })}
           <input
+            value={inputHashTag}
+            onChange={(e) => changeHashTagInput(e)}
+            onKeyUp={(e) => addHashTag(e)}
+            onKeyDown={(e) => keyDownHandler(e)}
+            placeholder='#해시태그를 등록해보세요. (최대 10개)'
+            className='hashTagInput'
+          />
+          {/* <input
             placeholder='해시태그를 추가해주세요'
             defaultValue={hashtag}
             onChange={setHashtag}
-          />
+          /> */}
         </div>
 
         <div>
