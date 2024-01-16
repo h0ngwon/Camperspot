@@ -10,6 +10,7 @@ import DetailReview from './_components/DetailReview';
 import DetailImg from './_components/DetailImg';
 import DetailHashtag from './_components/DetailHashtag';
 import DetailCampZone from './_components/DetailCampZone';
+import DetailFacility from './_components/DetailFacility';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -21,7 +22,7 @@ export default function DetailPage() {
         const { data: camp, error } = await supabase
           .from('camp')
           .select(
-            '*,camp_pic(photo_url),hashtag(tag),camp_facility(facility(*)),camp_area(*),review(*)',
+            '*,camp_pic(photo_url),hashtag(tag),camp_facility(*,facility(*)),camp_area(*),review(*)',
           )
           .eq('id', params.id)
           .single();
@@ -40,8 +41,9 @@ export default function DetailPage() {
     const star = data?.review;
 
     if (star && star.length > 0) {
-      let sum = star.reduce((acc, item) => acc + item.rating, 0);
-      let average = sum / star.length;
+      let average =
+        star.reduce((acc, cur) => acc + cur.rating, 0) / star.length;
+
       return average;
     } else {
       return 0;
@@ -69,7 +71,7 @@ export default function DetailPage() {
       <DetailLikeBtn />
       <DetailShareBtn />
       <h4>시설정보</h4>
-
+      <DetailFacility campFacilty={data?.camp_facility} />
       <h4>캠핑존</h4>
       <DetailCampZone campArea={data} />
       <h4>위치</h4>
