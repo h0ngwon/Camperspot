@@ -4,12 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 
 export default function DetailLikeBtn() {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const params = useParams() as { id: string };
+  const { data: session } = useSession();
 
   const user_Id = '3d5e2b35-98b2-4b85-aa9b-e0f134dfb5c9';
 
@@ -60,7 +62,7 @@ export default function DetailLikeBtn() {
       setLikeCount((prev) => prev + 1);
     },
     onError: (error) => {
-      console.error('뮤테이션 에러:', error);
+      console.error(error);
     },
   });
 

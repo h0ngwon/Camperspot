@@ -1,35 +1,83 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
+import { supabase } from '@/app/api/db';
+import { useQuery } from '@tanstack/react-query';
 import KakaoMap from './_components/KakaoMap';
 import DetailShareBtn from './_components/DetailShareBtn';
 import DetailLikeBtn from './_components/DetailLikeBtn';
 import DetailReview from './_components/DetailReview';
+import DetailImg from './_components/DetailImg';
+import DetailHashtag from './_components/DetailHashtag';
+import DetailCampZone from './_components/DetailCampZone';
+import DetailFacility from './_components/DetailFacility';
 
 export default function DetailPage() {
-  const [camp, setCamp] = useState<any>('');
+  const params = useParams() as { id: string };
 
-  const params = useParams();
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ['camp', params.id],
+    queryFn: async () => {
+      try {
+        const { data: camp, error } = await supabase
+          .from('camp')
+          .select(
+            '*,camp_pic(photo_url),hashtag(tag),camp_facility(*,facility(*)),camp_area(*),review(*)',
+          )
+          .eq('id', params.id)
+          .single();
 
-  useEffect(() => {
-    supabase
-      .from('camp')
-      .select('name')
-      .eq('id', params.id)
-      .single()
-      .then((response: any) => setCamp(response.data));
-  }, []);
+        if (error) {
+          console.log(error);
+        }
+        return camp;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  const avg = () => {
+    const star = data?.review;
+
+    if (star && star.length > 0) {
+      let average =
+        star.reduce((acc, cur) => acc + cur.rating, 0) / star.length;
+
+      return average;
+    } else {
+      return 0;
+    }
+  };
+
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+
+  if (isError) {
+    return <div>에러 발생</div>;
+  }
 
   return (
     <>
-      <p>{camp?.name}</p>
+      <DetailImg campPic={data?.camp_pic} />
+      <p>{data?.name}</p>
+      <p>{data?.address}</p>
+      <p>
+        ★{avg().toFixed(1)}({data?.review.length})
+      </p>
+      <DetailHashtag campHashtag={data?.hashtag} />
+      <p>{data?.content}</p>
       <DetailLikeBtn />
       <DetailShareBtn />
+      <h4>시설정보</h4>
+      <DetailFacility campFacilty={data?.camp_facility} />
+      <h4>캠핑존</h4>
+      <DetailCampZone campArea={data} />
+      <h4>위치</h4>
       <KakaoMap />
       <p>리뷰</p>
-      <DetailReview />
+      <DetailReview review={data?.review} />
     </>
   );
 }
