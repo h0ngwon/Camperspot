@@ -1,56 +1,29 @@
-'use client';
+type Props = {
+  review:
+    | {
+        id: string;
+        title: string;
+        rating: number;
+        camp_id: string;
+        content: string;
+        user_id: string;
+        created_at: string;
+      }[]
+    | undefined;
+};
 
-import { useEffect } from 'react';
-import { supabase } from '@/app/api/db';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-
-export default function DetailReview() {
-  const params = useParams() as { id: string };
-
-  const { isLoading, isError, data } = useQuery({
-    queryKey: ['review'],
-    queryFn: async () => {
-      try {
-        const { data: camp, error } = await supabase
-          .from('camp')
-          .select('id, review(*)')
-          .eq('id', params.id)
-          .single();
-
-        return camp;
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
-
-  const reviewData = data?.review;
-
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
-
-  if (isError) {
-    return <div>에러 발생</div>;
-  }
-
+export default function DetailReview({ review }: Props) {
   return (
-    <div>
-      {reviewData ? (
-        reviewData.map((review) => (
-          <div key={review.id}>
-            <p>{review.title}</p>
-            <p>{review.content}</p>
-            <p>별점</p>
-            <p>{review.rating}</p>
-            <p>유저</p>
-            <p>{review.user_id}</p>
+    <>
+      {review?.map((item) => {
+        return (
+          <div key={item?.id}>
+            <p>{item?.content}</p>
+            <p>★{item?.rating}</p>
+            <p>{item?.created_at}</p>
           </div>
-        ))
-      ) : (
-        <p>리뷰 정보 없음</p>
-      )}
-    </div>
+        );
+      })}
+    </>
   );
 }

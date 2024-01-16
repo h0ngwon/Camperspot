@@ -4,7 +4,7 @@ import { FaStar } from 'react-icons/fa';
 import Hashtag from './Hashtag';
 import Like from './Like';
 import Link from 'next/link';
-import Photo from './Sample';
+import Photo from './Photo';
 
 type Props = {
   data: {
