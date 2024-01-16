@@ -27,7 +27,7 @@ const Header = (props: Props) => {
       <Link href={`/company/aaa`} className={styles.linkBtn}>
         company
       </Link>
-      <Link href={`/company/aaa/manage_reservation`} className={styles.linkBtn}>
+      <Link href={`/company/23bfb168-d019-4c31-8bab-fa46e1e12a9d/manage_reservation`} className={styles.linkBtn}>
         예약관리
       </Link>
       <Link href={`/camp`} className={styles.linkBtn}>
