@@ -1,4 +1,4 @@
-import Button from './Button';
+import Button from '../camp/detail/[id]/_components/Button';
 import styles from '../_styles/ConfirmModal.module.css';
 
 type Props = {
