@@ -1,0 +1,24 @@
+products
+id	name	                          price	       image_url	              labels_id
+1	Soulful Album	                   20	     https://example.com/883738	    1
+2	Really Soulful Album	           25	     https://example.com/229374  	2
+3	Mediocre But Still Soulful Album	5	     https://example.com/447889	    2
+
+labels
+id	  name	        founder	         founded_date
+1	Smooth Sounds	Teddy Smooth	   1989
+2	Love Records	Robin Love	       1990
+3	Butter Music	Teddy Smooth	    1990
+
+
+const { data, error } = await supabase
+  .from('products')
+  .select(`
+    name, 
+    price, 
+    image_url,
+    
+    labels (
+      name
+    )
+  `)

@@ -1,0 +1,18 @@
+.picWrap {
+    width: 450px;
+    height: 350px;
+    position: relative;
+}
+
+.pic {
+    border-radius: 10px;
+    z-index: -1;
+}
+
+.photoButton {
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    cursor: pointer;
+}
