@@ -110,7 +110,7 @@ const AddCampPage = () => {
       return;
     }
     const companyId = getCompanyId[0].id;
-    const companyUserId = session;
+    const companyUserId = session?.user.id;
 
     // 지역정보 구분
     const regionSplit = address.split(' ');
@@ -122,7 +122,7 @@ const AddCampPage = () => {
         id: campId,
         name,
         content,
-        company_id: companyId as string,
+        company_id: companyUserId as string,
         address,
         region: regionDoGun,
         phone,

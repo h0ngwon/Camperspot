@@ -3,8 +3,15 @@ import { supabase } from '@/app/api/db';
 import { CompanyUserSignUpType } from '@/types/auth';
 import { useForm } from 'react-hook-form';
 import styles from '../_styles/SignupForm.module.css';
+import * as bcrypt from 'bcrypt'
 
 const SignupForm = () => {
+  // const hashedPassword = async (password: string) => {
+  //   const salt = await bcrypt.genSaltSync(10);
+  //   const hash = await bcrypt.hashSync(password, salt);
+
+  // };
+
   const {
     register,
     handleSubmit,
@@ -21,13 +28,14 @@ const SignupForm = () => {
   });
 
   const onSubmit = async (data: CompanyUserSignUpType) => {
+    const userData = {
+      email: data.email,
+      name: data.name,
+      password: data.password,
+    };
     await supabase
       .from('company_user')
-      .insert<Omit<CompanyUserSignUpType, 'confirmPassword'>>({
-        email: data.email,
-        name: data.name,
-        password: data.password,
-      });
+      .insert<Omit<CompanyUserSignUpType, 'confirmPassword'>>(userData);
   };
 
   return (
