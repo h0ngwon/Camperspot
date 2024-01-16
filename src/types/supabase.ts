@@ -199,6 +199,7 @@ export interface Database {
           id: string;
           name: string;
           password: string;
+          role: string;
         };
         Insert: {
           created_at?: string;
@@ -206,6 +207,7 @@ export interface Database {
           id?: string;
           name: string;
           password: string;
+          role?: string;
         };
         Update: {
           created_at?: string;
@@ -213,6 +215,7 @@ export interface Database {
           id?: string;
           name?: string;
           password?: string;
+          role?: string;
         };
         Relationships: [];
       };
@@ -234,7 +237,7 @@ export interface Database {
       hashtag: {
         Row: {
           camp_id: string;
-          id?: string;
+          id: string;
           tag: string | null;
         };
         Insert: {
@@ -457,6 +460,7 @@ export interface Database {
           password: string | null;
           profile_url: string | null;
           provider: string | null;
+          role: string;
         };
         Insert: {
           email: string;
@@ -465,6 +469,7 @@ export interface Database {
           password?: string | null;
           profile_url?: string | null;
           provider?: string | null;
+          role?: string;
         };
         Update: {
           email?: string;
@@ -473,6 +478,7 @@ export interface Database {
           password?: string | null;
           profile_url?: string | null;
           provider?: string | null;
+          role?: string;
         };
         Relationships: [];
       };

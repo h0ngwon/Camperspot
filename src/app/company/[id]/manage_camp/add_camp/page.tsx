@@ -25,8 +25,8 @@ const AddCampPage = () => {
   const [address, setAddress] = useState('');
   const [addressDetail, handleAddressDetail] = useInput();
   const [phone, handlePhone] = useInput();
-  const [check_in, handleCheck_in] = useState<HTMLSelectElement>();
-  const [check_out, handleCheck_out] = useState<HTMLSelectElement>();
+  const [check_in, handleCheck_in] = useState<string>('');
+  const [check_out, handleCheck_out] = useState<string>('');
   const [layout, handleLayout] = useInput();
   const [isAddressModal, setAddressModal] = useState(false);
   const [facility, setFacility] = useState<Tables<'facility'>[]>();
@@ -121,8 +121,8 @@ const AddCampPage = () => {
         address,
         region: regionDoGun,
         phone,
-        check_in: check_in?.toString(),
-        check_out: check_out?.toString(),
+        check_in,
+        check_out,
         layout,
       })
       .select();
@@ -307,7 +307,13 @@ const AddCampPage = () => {
         </div>
         <div>
           <h3>체크인 시간</h3>
-          <select value={check_in} onChange={handleCheck_in} required>
+          <select
+            value={check_in}
+            onChange={(e) => {
+              handleCheck_in(e.target.value);
+            }}
+            required
+          >
             {generateTimeOptions().map((time) => (
               <option key={time} value={time}>
                 {time}
@@ -315,7 +321,13 @@ const AddCampPage = () => {
             ))}
           </select>
           <h3>체크아웃 시간</h3>
-          <select value={check_out} onChange={handleCheck_out} required>
+          <select
+            value={check_out}
+            onChange={(e) => {
+              handleCheck_out(e.target.value);
+            }}
+            required
+          >
             {generateTimeOptions().map((time) => (
               <option key={time} value={time}>
                 {time}
