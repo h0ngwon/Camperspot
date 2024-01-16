@@ -26,9 +26,10 @@ const handler = NextAuth({
         const companyUser = await supabase
           .from('company_user')
           .select('*')
-          .eq('email', `${credentials?.email}`);
+          .eq('email', `${credentials?.email}`)
+          .single();
 
-        const userData = companyUser.data?.[0];
+        const userData = companyUser.data;
 
         if (userData?.password !== credentials?.password) {
           throw new Error('비밀번호가 다릅니다.');
