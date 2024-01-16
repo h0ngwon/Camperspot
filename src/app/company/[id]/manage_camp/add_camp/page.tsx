@@ -14,7 +14,7 @@ import Head from 'next/head';
 import AddressModal from '@/app/company/[id]/manage_camp/add_camp/_components/AddressModal';
 import { Address } from 'react-daum-postcode';
 import { uuid } from 'uuidv4';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { blob } from 'stream/consumers';
 import Script from 'next/script';
 
@@ -110,6 +110,7 @@ const AddCampPage = () => {
       return;
     }
     const companyId = getCompanyId[0].id;
+    const companyUserId = session;
 
     // 지역정보 구분
     const regionSplit = address.split(' ');

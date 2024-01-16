@@ -26,6 +26,10 @@ const AddCampAreaPage = (props: Props) => {
       setAreaImg(URL.createObjectURL(file));
     }
   }
+  // 캠핑존 이미지 삭제
+  const handleDeleteAreaImg = () => {
+    setAreaImg('');
+  };
 
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -99,7 +103,14 @@ const AddCampAreaPage = (props: Props) => {
             onChange={handleChangeInputCampArea}
             ref={imgRef}
           />
-          <img src={areaImg} />
+          {areaImg ? (
+            <div>
+              <img src={areaImg} />
+              <button onClick={() => handleDeleteAreaImg()}>이미지 삭제</button>
+            </div>
+          ) : (
+            ''
+          )}
         </div>
         <div>
           <button type='submit'>등록하기</button>
