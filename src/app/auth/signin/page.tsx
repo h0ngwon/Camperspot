@@ -8,7 +8,6 @@ import Link from 'next/link';
 
 const SigninPage = () => {
   const { data: session } = useSession();
-  console.log(session);
 
   useEffect(() => {
     (async () => {
