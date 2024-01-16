@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react';
 
 export default function Home() {
   const { data: session } = useSession();
-  
-  if(session) {
+
+  if (session) {
     console.log(session);
   }
   return <main></main>;
