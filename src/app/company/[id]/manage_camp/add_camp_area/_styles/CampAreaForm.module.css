@@ -7,7 +7,6 @@
 .gridItem {
   height: 30px;
 }
-.address {
-  border: 1px solid #333;
-  height: 20px;
+.gridItemTextArea {
+  height: 60px;
 }
