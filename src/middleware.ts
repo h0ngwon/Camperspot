@@ -1,5 +1,5 @@
 import { getToken } from 'next-auth/jwt';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import { NextRequest, NextResponse } from 'next/server';
 
 export const middleware = async (req: NextRequest) => {
@@ -9,8 +9,8 @@ export const middleware = async (req: NextRequest) => {
     raw: true,
   });
   const session = getSession();
-  console.log('token =================',token)
-  console.log('session =================',session)
+  console.log('token =================', token);
+  console.log('session =================', session);
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith('/auth')) {
@@ -18,7 +18,6 @@ export const middleware = async (req: NextRequest) => {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
-
 };
 
 export const config = {

@@ -1,0 +1,27 @@
+.title {
+    font-size: 32px;
+}
+
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 1920px;
+}
+
+.mainHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 1400px;
+}
+
+.listWrapper {
+    padding: 0 auto;
+}
+
+.camplList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}

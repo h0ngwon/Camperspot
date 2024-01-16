@@ -1,10 +1,10 @@
 import React from 'react';
 import Photo from './Photo';
-import styles from './campList.module.css';
+import styles from '../_styles/CampList.module.css';
 import { FaStar } from 'react-icons/fa';
-import { FcLike } from 'react-icons/fc';
 import Hashtag from './Hashtag';
 import Like from './Like';
+import Link from 'next/link';
 
 type Props = {
   data: {
@@ -23,30 +23,39 @@ const CampList = (data: Props) => {
   // data.data?.forEach((d, i) => console.log(i, d.hashtag));
   // console.log(data.data?.[9].hashtag);
   // console.log(data.data);
+  //++++++++++++++++++++++++메타태그심어주기
   return (
     <>
-      {data.data.map((d) => {
+      {data.data.map((camp) => {
         return (
-          <div className={styles.cardWrap} key={d.id}>
+          <Link
+            href={`http://localhost:3000/camp/detail/${camp.id}`}
+            className={styles.cardWrap}
+            key={camp.id}
+          >
             <div className={styles.photoAndLike}>
               <Like />
               <Photo />
             </div>
-            {/**<section> 요소를 일반 컨테이너로 사용하지 마세요. 특히 단순한 스타일링이 목적이라면 <div> (en-US) 요소를 사용해야 합니다. */}
+            {/**<section> 요소를 일반 컨테이너로 사용하지 마세요. 특히 단순한 스타일링이 목적이라면 <div> 요소를 사용해야 합니다. */}
             <div className={styles.cardMiddle}>
-              <p>{d.name}</p>
-              <p>{d.camp_area[0]?.price}</p>
+              <div className={styles.campInfoBox1}>
+                <p>{camp.name}</p>
+                <p>{camp.camp_area[0]?.price}</p>
+              </div>
             </div>
             <div className={styles.cardMiddle}>
-              <p>
-                <FaStar size='15' color='#fff384' /> 평점(리뷰수)
-              </p>
-              <p>{d.address}</p>
+              <div className={styles.campInfoBox2}>
+                <p>
+                  <FaStar size='15' color='#fff384' /> 평점(리뷰수)
+                </p>
+                <p>{camp.address}</p>
+              </div>
             </div>
             <ol className={styles.cardTag}>
-              {/* <Hashtag tags={d.hashtag} /> */}
+              {/* <Hashtag tags={camp.hashtag} /> */}
             </ol>
-          </div>
+          </Link>
         );
       })}
     </>

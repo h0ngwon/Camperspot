@@ -1,9 +1,13 @@
 import { supabase } from '../api/db';
 import CampList from './_components/CampList';
 import Spacer from '@/components/Spacer';
-import styles from './camp.module.css';
+import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
 import PageController from './_components/PageController';
+
+//supabase쿼리를통해 5개씩 가져오기는 성공, 근데 preview는 갱신이안됨..?
+//그리고 데이터추가시 인기순으로는 보이고 최신순으로는 갱신이안됨
+//sharp 추가
 
 //searchParams를 통해 주소로 parameter 가져오기
 const Camp = async ({
@@ -13,10 +17,10 @@ const Camp = async ({
 }) => {
   console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', searchParams);
 
-  //캐싱이 1순위
-  //camp가 다른화면에서도 필요하다면 reactquery가 필요
-  //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
-  //데이터 가져오기
+  const page = Number(searchParams.page) || 1; // 기본값 1
+  const perPage = 9;
+  const startRange = (page - 1) * perPage;
+  const endRange = startRange + perPage - 1;
   const { data: camp, error } = await supabase
     .from('camp')
     .select(
@@ -32,40 +36,67 @@ const Camp = async ({
     hashtag(tag)
     `,
     )
+    //임의로 인기순:과거순 외 최신순으로 해둠
     .order('created_at', {
       ascending: searchParams.sort === '인기순' ? false : true,
-    });
-  //한번에 모든 데이터를 가져오는건 비효율적일것,
-  //searchParams로 단순히 페이지만 나누는게 아니라 페이지에 따른 데이터를 fetching
-  //페이지 나누기
-  const page = searchParams['page'] ?? '1';
+    })
+    .range(startRange, endRange);
+  //캐싱이 1순위
+  //camp가 다른화면에서도 필요하다면 reactquery가 필요
+  //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
+  //데이터 가져오기
+  //------------------------------------------------------------------------------
+  // const { data: camp, error } = await supabase
+  //   .from('camp')
+  //   .select(
+  //     `
+  // id,
+  // name,
+  //   created_at,
+  //   address,
+  //   region,
+
+  //   camp_area(id,price),
+  //   camp_pic(id,photo_url),
+  //   hashtag(tag)
+  //   `,
+  //   )
+  //   .order('created_at', {
+  //     ascending: searchParams.sort === '인기순' ? false : true,
+  //   });
+  //------------------------------------------------------------------------------
+
+  console.log(camp?.length);
   const per_page = searchParams['per_page'] ?? '5';
 
   const start = (Number(page) - 1) * Number(per_page); //0,5,10...
   const end = start + Number(per_page);
-  const entiries = camp!.slice(start, end);
 
-  //페이지네이션으로 클릭을 할 경우 주소가 변해야지 또...?
   const pageTitle = '전국 인기 캠핑장';
   //우선시 되고 보안적 이슈가 생길 거 같을때 수정!
   //가져올것!!!!1 좋아요,캠프사진,이름,가격,리뷰(평점,리뷰갯수),주소,해시태그
   //camp_area(price): 최소값 / review(평점):평균,(갯수):length
-  // console.log(entiries);
   return (
     <>
       <Spacer y={50} />
-      {/*페이지 컴포넌트도 props로 재활용? */}
-      <div>
-        <h1 className={styles.title}>{pageTitle}</h1>
-        <CampFilter />
-      </div>
-      <main>
-        <CampList data={entiries} />
+      <div className={styles.mainWrapper}>
+        <div className={styles.mainHeader}>
+          <h1 className={styles.title}>{pageTitle}</h1>
+          <CampFilter />
+        </div>
+        <div className={styles.listWrapper}>
+          <div className={styles.camplList}>
+            <CampList data={camp!} />
+          </div>
+        </div>
+        <Spacer y={50} />
+
         <PageController
           hasNextPage={end < camp!.length}
           hasPrevPage={start > 0}
         />
-      </main>
+        <Spacer y={50} />
+      </div>
     </>
   );
 };

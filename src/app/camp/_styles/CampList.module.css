@@ -1,0 +1,46 @@
+.cardWrap {
+    width: 450px;
+}
+
+.photoAndLike {
+    position: relative;
+}
+
+.like {
+    position: absolute;
+    z-index: 3;
+    right: 5px;
+}
+
+.cardMiddle {
+    display: flex;
+}
+
+.campInfoBox1 {
+    display: flex;
+    gap: 10px;
+}
+
+.campInfoBox1>p {
+    font-size: 20px;
+
+}
+
+
+.campInfoBox2 {
+    display: flex;
+}
+
+.campInfoBox2>p {
+    width: 200px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
+}
+
+.cardTag {
+    width: 450px;
+    display: flex;
+    gap: 5px;
+}
