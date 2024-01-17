@@ -12,6 +12,8 @@ import DetailHashtag from './_components/DetailHashtag';
 import DetailCampZone from './_components/DetailCampZone';
 import DetailFacility from './_components/DetailFacility';
 
+import styles from './_styles/Detail.module.css';
+
 export default function DetailPage() {
   const params = useParams() as { id: string };
 
@@ -59,25 +61,30 @@ export default function DetailPage() {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <DetailImg campPic={data?.camp_pic} />
-      <p>{data?.name}</p>
+      <div className={styles.titleWrap}>
+        <h3>{data?.name}</h3>
+        <div className={styles.BtnWrap}>
+          <DetailLikeBtn />
+          <DetailShareBtn />
+        </div>
+      </div>
       <p>{data?.address}</p>
       <p>
         ★{avg().toFixed(1)}({data?.review.length})
       </p>
+      <h4>해시태그</h4>
       <DetailHashtag campHashtag={data?.hashtag} />
       <p>{data?.content}</p>
-      <DetailLikeBtn />
-      <DetailShareBtn />
       <h4>시설정보</h4>
       <DetailFacility campFacilty={data?.camp_facility} />
       <h4>캠핑존</h4>
       <DetailCampZone campArea={data} />
       <h4>위치</h4>
       <KakaoMap />
-      <p>리뷰</p>
+      <h4>리뷰</h4>
       <DetailReview review={data?.review} />
-    </>
+    </div>
   );
 }

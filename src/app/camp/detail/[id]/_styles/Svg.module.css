@@ -1,0 +1,13 @@
+.wrap {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  background: transparent;
+  cursor: pointer;
+}
+
+.svg:hover {
+  opacity: 0.5;
+}

@@ -5,6 +5,8 @@ import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import styles from '../_styles/Svg.module.css';
+import HeartSvg from '../_svg/HeartSvg';
 
 export default function DetailLikeBtn() {
   const [liked, setLiked] = useState(false);
@@ -101,11 +103,11 @@ export default function DetailLikeBtn() {
   };
 
   return (
-    <>
-      <p key={data?.id}>{likeCount}</p>
-      <button onClick={handleLikeBtn}>
-        {liked ? '좋아요 취소' : '좋아요'}
+    <div className={styles.wrap}>
+      <button className={styles.btn} onClick={handleLikeBtn}>
+        <HeartSvg filled={liked} strokeColor='#eee' fillColor='#FF0000' />
       </button>
-    </>
+      <p key={data?.id}>{likeCount}</p>
+    </div>
   );
 }
