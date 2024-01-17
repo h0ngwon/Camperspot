@@ -1,0 +1,105 @@
+.slider {
+    position: relative;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+}
+
+.pho {
+    width: 100px;
+    height: 60px;
+    border-radius: 10px;
+    background-color: yellow;
+}
+
+.aleft {
+    position: absolute;
+    top: 50%;
+    left: 32px;
+    font-size: 3rem;
+    columns: #000;
+}
+
+.aright {
+    position: absolute;
+    top: 50%;
+    right: 32px;
+    font-size: 3rem;
+    columns: #000;
+}
+
+.box {
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 400px;
+    background-color: red;
+    /* transform: translate(-10px); */
+}
+
+.slide {
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 7px #666;
+    width: 600px;
+    height: 400px;
+    background-color: aqua;
+    /* float: left; */
+    filter: drop-shadow(0px 0px 5px #555);
+
+}
+
+.left {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background-color: white;
+    left: 1rem;
+}
+
+.right {
+    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    background-color: white;
+    right: 1rem;
+}
+
+.indicators {
+    display: flex;
+    position: absolute;
+    bottom: 1rem;
+}
+
+.indicator {
+    background-color: white;
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 100%;
+    border: none;
+    outline: none;
+    box-shadow: 0px 0px 5px #555;
+    margin: 0 0.2rem;
+}
+
+.warp {
+    width: 300px;
+    overflow: hidden;
+    background-color: rgb(247, 15, 15);
+    height: 300px;
+    display: flex;
+    /* transform: translate(-300px); */
+}
+
+.inner {
+    width: 280px;
+    height: 300px;
+    background-color: yellow;
+}

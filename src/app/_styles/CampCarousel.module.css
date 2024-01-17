@@ -1,0 +1,45 @@
+.carouselBox {
+    position: relative;
+
+}
+
+.carousel {
+    overflow: hidden;
+    background-color: rgb(51, 153, 136);
+    width: 1200px;
+    display: flex;
+    align-items: center;
+}
+
+.carouselContainer {
+    display: flex;
+
+    transition: transform 0.5s ease-in-out;
+}
+
+.carouselItem {
+    width: 300px;
+}
+
+.btn {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    z-index: 1;
+    cursor: pointer;
+    user-select: none;
+}
+
+.left {
+    left: -25px;
+}
+
+.right {
+    right: -25px;
+
+}
+
+.none {
+    display: none;
+}
