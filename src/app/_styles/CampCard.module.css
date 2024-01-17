@@ -5,9 +5,17 @@
 .popular {
     display: flex;
     align-items: baseline;
+    justify-content: space-between;
+
+
 }
 
-.popular p:first-child {
+.popularIntro {
+    display: flex;
+    align-items: baseline;
+}
+
+.popularIntro p:first-child {
     color: #ec3838;
     font-family: Pretendard;
     font-size: 32px;
@@ -16,7 +24,7 @@
     line-height: normal;
 }
 
-.popular p:nth-child(2) {
+.popularIntro p:nth-child(2) {
     color: rgb(80, 179, 157);
     font-size: 16px;
     font-family: Pretendard;
