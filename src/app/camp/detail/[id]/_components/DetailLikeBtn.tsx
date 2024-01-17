@@ -5,8 +5,9 @@ import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import styles from '../_styles/Svg.module.css';
 import HeartSvg from '../_svg/HeartSvg';
+
+import styles from '../_styles/Svg.module.css';
 
 export default function DetailLikeBtn() {
   const [liked, setLiked] = useState(false);
