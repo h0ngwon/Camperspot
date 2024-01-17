@@ -158,15 +158,15 @@ const AddCampPage = () => {
     e.preventDefault();
 
     // 세션정보 이메일과 company_user정보 이메일이 같은 유저의 id를 가져오는 로직
-    const companyEmail = session?.user?.email as string;
-    const { data: getCompanyId } = await supabase
-      .from('company_user')
-      .select('id')
-      .eq('email', companyEmail);
-    if (!getCompanyId) {
-      return;
-    }
-    const companyId = getCompanyId[0].id;
+    // const companyEmail = session?.user?.email as string;
+    // const { data: getCompanyId } = await supabase
+    //   .from('company_user')
+    //   .select('id')
+    //   .eq('email', companyEmail);
+    // if (!getCompanyId) {
+    //   return;
+    // }
+    // const companyId = getCompanyId[0].id;
     const companyUserId = session?.user.id;
 
     // 지역정보 구분

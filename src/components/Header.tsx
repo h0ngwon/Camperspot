@@ -24,7 +24,7 @@ const Header = (props: Props) => {
         캠핑존 등록
       </Link>
       <Link
-        href={`/company/aaa/manage_company_info`}
+        href={`/company/aaa/manage_company_user_info`}
         className={styles.linkBtn}
       >
         회원정보관리
@@ -41,7 +41,10 @@ const Header = (props: Props) => {
       <Link href={`/company/aaa`} className={styles.linkBtn}>
         company
       </Link>
-      <Link href={`/company/23bfb168-d019-4c31-8bab-fa46e1e12a9d/manage_reservation`} className={styles.linkBtn}>
+      <Link
+        href={`/company/23bfb168-d019-4c31-8bab-fa46e1e12a9d/manage_reservation`}
+        className={styles.linkBtn}
+      >
         예약관리
       </Link>
       <Link href={`/camp?sort=인기순&page=1`} className={styles.linkBtn}>
