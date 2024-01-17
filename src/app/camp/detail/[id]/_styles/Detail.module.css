@@ -13,10 +13,12 @@
 }
 
 .container h3 {
-  font-size: 32px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .container h4 {
-  font-size: 24px;
-  padding: 8px;
+  font-size: 18px;
+  padding: 16px 0;
+  font-weight: bold;
 }

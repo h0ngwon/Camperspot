@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from '../_styles/kakaoMap.module.css';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/app/api/db';
+
+import styles from '../_styles/kakaoMap.module.css';
+import LocationSvg from '../_svg/LocationSvg';
 
 declare global {
   interface Window {
@@ -13,7 +15,7 @@ declare global {
 
 export default function KakaoMap() {
   const [map, setMap] = useState<any>(null);
-  const [isAddress, setIsAddress] = useState(null);
+  const [isAddress, setIsAddress] = useState<string | null>(null);
 
   const params = useParams() as { id: string };
 
@@ -77,8 +79,27 @@ export default function KakaoMap() {
     }
   }, [map, isAddress]);
 
+  const addressCopy = () => {
+    if (isAddress) {
+      navigator.clipboard
+        .writeText(isAddress)
+        .then(() => {
+          alert('복사되었습니다.');
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+
   return (
     <>
+      <div className={styles.addressWrap}>
+        <LocationSvg />
+
+        <div>{isAddress}</div>
+        <button onClick={addressCopy}>복사하기</button>
+      </div>
       <div id='map' className={styles.map} />
     </>
   );

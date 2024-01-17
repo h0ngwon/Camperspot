@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container span {
+  font-weight: normal;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}

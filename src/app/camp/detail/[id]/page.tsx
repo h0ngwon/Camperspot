@@ -11,8 +11,10 @@ import DetailImg from './_components/DetailImg';
 import DetailHashtag from './_components/DetailHashtag';
 import DetailCampZone from './_components/DetailCampZone';
 import DetailFacility from './_components/DetailFacility';
+import DetailAvg from './_components/DetailAvg';
 
 import styles from './_styles/Detail.module.css';
+import LocationSvg from './_svg/LocationSvg';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -24,33 +26,22 @@ export default function DetailPage() {
         const { data: camp, error } = await supabase
           .from('camp')
           .select(
-            '*,camp_pic(photo_url),hashtag(tag),camp_facility(*,facility(*)),camp_area(*),review(*)',
+            '*,camp_pic(photo_url),hashtag(tag),camp_facility(*,facility(*)),camp_area(*),review(*,user(nickname,profile_url))',
           )
           .eq('id', params.id)
           .single();
 
         if (error) {
-          console.log(error);
+          throw error;
         }
+
         return camp;
       } catch (error) {
-        console.log(error);
+        console.error(error);
+        throw error;
       }
     },
   });
-
-  const avg = () => {
-    const star = data?.review;
-
-    if (star && star.length > 0) {
-      let average =
-        star.reduce((acc, cur) => acc + cur.rating, 0) / star.length;
-
-      return average;
-    } else {
-      return 0;
-    }
-  };
 
   if (isLoading) {
     return <div>로딩중</div>;
@@ -70,10 +61,9 @@ export default function DetailPage() {
           <DetailShareBtn />
         </div>
       </div>
+      <LocationSvg />
       <p>{data?.address}</p>
-      <p>
-        ★{avg().toFixed(1)}({data?.review.length})
-      </p>
+      <DetailAvg reviewAvg={data?.review} />
       <h4>해시태그</h4>
       <DetailHashtag campHashtag={data?.hashtag} />
       <p>{data?.content}</p>
@@ -83,7 +73,8 @@ export default function DetailPage() {
       <DetailCampZone campArea={data} />
       <h4>위치</h4>
       <KakaoMap />
-      <h4>리뷰</h4>
+      <h4>리뷰 및 평가</h4>
+      <DetailAvg reviewAvg={data?.review} />
       <DetailReview review={data?.review} />
     </div>
   );
