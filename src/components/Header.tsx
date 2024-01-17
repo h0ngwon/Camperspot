@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
 import styles from './header.module.css';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 type Props = {};
 
 const Header = (props: Props) => {
+  const { data: session } = useSession();
   return (
     <>
       <Link href={`/auth/signin`} className={styles.linkBtn}>
@@ -37,6 +38,9 @@ const Header = (props: Props) => {
       </Link>
       <Link href={`/camp`} className={styles.linkBtn}>
         캠핑장 둘러보기
+      </Link>
+      <Link href={`/profile/${session?.user.id}`} className={styles.linkBtn}>
+        마이페이지
       </Link>
       <button onClick={() => signOut()}>로그아웃</button>
     </>

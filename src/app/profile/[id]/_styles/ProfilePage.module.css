@@ -1,0 +1,11 @@
+.page-container {
+  width: 1920px;
+  display: flex;
+  justify-content: center;
+}
+
+.content-container {
+  width:1200px;
+  display: flex;
+  gap:23px;
+}
