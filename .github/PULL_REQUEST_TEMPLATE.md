@@ -1,11 +1,3 @@
----
-name: "\U0001F9F2 PULL REQUEST"
-about: PULL REQUEST 시 작성해 주세요
-title: ''
-labels: ''
-assignees: ''
----
-
 ## Issue : 🧲 PULL REQUEST
 
 ## #️⃣ 연관된 이슈
