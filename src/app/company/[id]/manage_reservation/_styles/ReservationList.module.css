@@ -2,11 +2,10 @@
   display: flex;
   gap: 1rem;
   border-bottom: 1px solid black;
-  margin-bottom: 1rem;
-}
 .h3 {
   margin: 1rem 0;
 }
+
 
 .input {
   width: 200px;
