@@ -1,5 +1,7 @@
 'use client';
+import React from 'react';
 import { useSession } from 'next-auth/react';
+import Profile from './profile/[id]/_components/Profile';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -7,5 +9,7 @@ export default function Home() {
   if (session) {
     console.log(session);
   }
-  return <main></main>;
+  return <React.Fragment>
+    <Profile/>
+  </React.Fragment>;
 }

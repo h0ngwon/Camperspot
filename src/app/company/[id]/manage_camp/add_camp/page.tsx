@@ -406,7 +406,7 @@ const AddCampPage = () => {
             onChange={handlePhone}
             type='tel'
             placeholder='예) 02-000-0000 / 063-000-0000'
-            pattern='[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}'
+            pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
             maxLength={13}
             required
           />

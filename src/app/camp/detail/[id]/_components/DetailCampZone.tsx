@@ -4,6 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
+import styles from '../_styles/DetailCampZone.module.css';
+import ClockSvg from '../_svg/ClockSvg';
+
 type Props = {
   campArea:
     | {
@@ -14,7 +17,7 @@ type Props = {
         content: string;
         created_at: string;
         id: string;
-        layout: string;
+        layout: string | undefined;
         name: string;
         phone: string;
         region: string;
@@ -65,20 +68,42 @@ type Props = {
 export default function DetailCampZone({ campArea }: Props) {
   const params = useParams();
 
+  const campPrice = (price: number) => {
+    return price.toLocaleString();
+  };
+
   return (
     <>
-      {campArea?.camp_area?.map((area) => {
-        return (
-          <div key={area.id}>
-            <p>{area.name}</p>
-            <p>{area.price}</p>
-            <Image src={area?.photo_url} alt='' width={100} height={100} />
-            <p>{campArea.check_in}</p>
-            <p>{campArea.check_out}</p>
-            <Link href={`/camp/detail/${params.id}/reservation`}>예약하기</Link>
-          </div>
-        );
-      })}
+      <Image src={campArea?.layout} alt='' width={1200} height={220} />
+      <ul className={styles.zoneWrap}>
+        {campArea?.camp_area?.map((area) => {
+          return (
+            <li key={area.id}>
+              <Image src={area?.photo_url} alt='' width={220} height={220} />
+              <div className={styles.zoneCon}>
+                <h5>{area.name}</h5>
+                <div className={styles.clock}>
+                  <ClockSvg />
+                  <p>
+                    입실: <span>{campArea.check_in}</span>시
+                  </p>
+                  ~
+                  <p>
+                    퇴실: <span>{campArea.check_out}</span>시
+                  </p>
+                </div>
+                <p className={styles.people}>최대인원: {area.max_people}명</p>
+                <p className={styles.price}>{campPrice(area.price)}원</p>
+                <div className={styles.reservation}>
+                  <Link href={`/camp/detail/${params.id}/reservation`}>
+                    예약하기
+                  </Link>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }
