@@ -1,0 +1,123 @@
+.wrap {
+    width: 1200px;
+}
+
+.popular {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+
+}
+
+.popularIntro {
+    display: flex;
+    align-items: baseline;
+}
+
+.popularIntro p:first-child {
+    color: #ec3838;
+    font-family: Pretendard;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.popularIntro p:nth-child(2) {
+    color: rgb(80, 179, 157);
+    font-size: 16px;
+    font-family: Pretendard;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.card {
+    width: 265px;
+    height: 417px;
+    padding: 19px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    border-radius: 20px;
+    border: 1px solid #D9D9D9;
+    background: #FFF;
+}
+
+.campIntro {
+    width: 253px;
+    height: 318px;
+    background-color: blue;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.photoWrap {
+    width: 253px;
+    height: 253px;
+    position: relative;
+    background-color: aqua;
+}
+
+.img {
+    border-radius: 16px;
+
+}
+
+.introText {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    padding: 0 16px;
+}
+
+.campName {
+    color: #000;
+
+    /* 24px_SemiBold */
+    font-family: Pretendard;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.blue {
+    color: blue;
+}
+
+.red {
+    color: red;
+}
+
+.addressBox {
+    display: flex;
+}
+
+.campAddress {
+    color: var(--neutral-neutral_400, var(--neutral-400, #ADB0B7));
+
+    /* 16px_Regular */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    /* white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; */
+    width: 100%;
+}
+
+.price {
+    width: 100%;
+    color: #1A2035;
+    font-size: 24px;
+    font-family: Pretendard;
+    font-weight: 600;
+    word-wrap: break-word;
+    text-align: end;
+}
