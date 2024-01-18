@@ -1,11 +1,11 @@
-'use client';
-import React from 'react';
-import styles from '../_styles/Profile.module.css';
-import { useSession } from 'next-auth/react';
+import React from 'react'
 
-const Profile = () => {
-  const {data: session} = useSession();
-  return <div className={styles.container}>{session?.user.id}</div>;
-};
+type Props = {}
 
-export default Profile;
+const Profile = (props: Props) => {
+  return (
+    <div>Profile</div>
+  )
+}
+
+export default Profile
