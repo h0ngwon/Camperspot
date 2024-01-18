@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import React from 'react';
+
+import styles from '../_styles/DetailImg.module.css';
 
 type Props = {
   campPic: { photo_url: string }[] | undefined;
@@ -7,14 +8,14 @@ type Props = {
 
 export default function DetailImg({ campPic }: Props) {
   return (
-    <>
+    <div className={styles.imgWrap}>
       {campPic?.map((photo, index) => {
         return (
           <div key={index}>
-            <Image src={photo?.photo_url} alt='' width={100} height={100} />
+            <Image src={photo?.photo_url} alt='' width={200} height={200} />
           </div>
         );
       })}
-    </>
+    </div>
   );
 }

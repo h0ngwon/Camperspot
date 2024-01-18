@@ -1,4 +1,4 @@
-import React from 'react';
+import styles from '../_styles/DetailHashtag.module.css';
 
 type Props = {
   campHashtag: { tag: string | null }[] | undefined;
@@ -6,9 +6,13 @@ type Props = {
 
 export default function DetailHashtag({ campHashtag }: Props) {
   return (
-    <ul>
+    <ul className={styles.wrap}>
       {campHashtag?.map((tag, index) => {
-        return <li key={index}>{tag.tag}</li>;
+        return (
+          <li className={styles.tag} key={index}>
+            #{tag.tag}
+          </li>
+        );
       })}
     </ul>
   );

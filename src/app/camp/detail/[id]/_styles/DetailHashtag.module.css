@@ -1,0 +1,7 @@
+.wrap {
+  display: flex;
+}
+
+.tag {
+  padding-left: 6px;
+}

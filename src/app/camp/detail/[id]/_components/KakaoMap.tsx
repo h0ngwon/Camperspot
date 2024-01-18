@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import styles from '../_styles/kakaoMap.module.css';
 import { useParams } from 'next/navigation';
-import { supabase } from '@/app/api/db';
+import DetailAddress from './DetailAddress';
+
+import styles from '../_styles/kakaoMap.module.css';
 
 declare global {
   interface Window {
@@ -11,9 +12,12 @@ declare global {
   }
 }
 
-export default function KakaoMap() {
+type Props = {
+  campAddress: string | undefined;
+};
+
+export default function KakaoMap({ campAddress }: Props) {
   const [map, setMap] = useState<any>(null);
-  const [isAddress, setIsAddress] = useState(null);
 
   const params = useParams() as { id: string };
 
@@ -36,15 +40,6 @@ export default function KakaoMap() {
       });
     });
 
-    supabase
-      .from('camp')
-      .select('address')
-      .eq('id', params.id)
-      .single()
-      .then((response: any) => {
-        setIsAddress(response.data?.address);
-      });
-
     return () => mapScript.removeEventListener('load', () => {});
   }, []);
 
@@ -61,7 +56,7 @@ export default function KakaoMap() {
           });
 
           const infowindow = new window.kakao.maps.InfoWindow({
-            content: `<div style="width:150px;text-align:center;padding:6px 0;">${isAddress}</div>`,
+            content: `<div style="width:150px;text-align:center;padding:6px 0;">${campAddress}</div>`,
           });
 
           infowindow.open(map, marker);
@@ -73,12 +68,13 @@ export default function KakaoMap() {
 
   useEffect(() => {
     if (map) {
-      searchAddress(`${isAddress}`);
+      searchAddress(`${campAddress}`);
     }
-  }, [map, isAddress]);
+  }, [map, campAddress]);
 
   return (
     <>
+      <DetailAddress address={campAddress} />
       <div id='map' className={styles.map} />
     </>
   );

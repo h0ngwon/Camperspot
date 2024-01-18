@@ -308,19 +308,16 @@ export interface Database {
           content: string;
           created_at: string;
           id: string;
-          title: string;
         };
         Insert: {
           content: string;
           created_at?: string;
           id?: string;
-          title: string;
         };
         Update: {
           content?: string;
           created_at?: string;
           id?: string;
-          title?: string;
         };
         Relationships: [];
       };
