@@ -4,6 +4,7 @@ import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
 import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import ConfirmModal from '@/app/_components/ConfirmModal';
 import AlertModal from '@/app/_components/AlertModal';
 import { Tables } from '@/types/supabase';
@@ -30,35 +31,54 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
     else setIsActive(selectMethod);
   };
 
-  const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
-    const { fee, people, check_in_date, check_out_date } = reservation?.[0];
-    const { id } = reservation?.[0].camp_area!;
+  const { max_people, price, name } = reservation?.[0]!;
+  const { check_in, check_out } = reservation?.[0].camp!;
 
-    const { data, error } = await supabase
-      .from('reservation')
-      .insert<Omit<Reservation, 'created_at'>>({
-        // 추가 테스트할 경우 다른 uuid로 변경해야함.  (나중에 미래님꺼 받으면 uuid로 변경할 예정)
-        id: 'f8e1c321-03a9-497c-ba6a-74f5a2d20a50',
-        client_name: userInfo.name,
-        client_phone: userInfo.phone,
-        fee,
-        // 나중에 로그인한 사용자 유저 아이디로 변경 예정
-        user_id: '3a0a96f1-ea9b-480c-9ad4-c4d8756697d6',
-        check_in_date,
-        check_out_date,
-        people,
-        camp_area_id: id,
-        payment_method: methods[isActive!],
-      })
-      .select();
-    if (data) {
-      setIsOpenComplete(true);
-      console.log('데이터 등록 완료!');
-    }
-    if (error) console.log('error', error);
+  const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
+    // const { id } = reservation?.[0].camp_area!;
+    // const { data, error } = await supabase
+    //   .from('reservation')
+    //   .insert<Omit<Reservation, 'created_at'>>({
+    //     // 추가 테스트할 경우 다른 uuid로 변경해야함.  (나중에 미래님꺼 받으면 uuid로 변경할 예정)
+    //     id: uuidv4(),
+    //     client_name: userInfo.name,
+    //     client_phone: userInfo.phone,
+    //     fee,
+    //     // 나중에 로그인한 사용자 유저 아이디로 변경 예정
+    //     user_id: '3a0a96f1-ea9b-480c-9ad4-c4d8756697d6',
+    //     check_in_date,
+    //     check_out_date,
+    //     people,
+    //     camp_area_id: id,
+    //     payment_method: methods[isActive!],
+    //   })
+    //   .select();
+    // if (data) {
+    //   setIsOpenComplete(true);
+    //   console.log('데이터 등록 완료!');
+    // }
+    // if (error) console.log('error', error);
   };
+
   return (
     <>
+      <p>
+        인원 <span> {max_people}</span>
+      </p>
+      <div>
+        <p>
+          일시
+          <span>
+            체크인 {check_in}~ 체크아웃 {check_out}
+          </span>
+        </p>
+        <p>
+          예약 금액 <span>{price}원</span>
+        </p>
+        <p>
+          총 결제 금액 <span>{price}원</span>
+        </p>
+      </div>
       <h3 className={styles.h3}>결제 정보</h3>
       <form onSubmit={() => handleSubmit(onSubmit)} className={styles.form}>
         <label htmlFor='userName'>예약자 명</label>
