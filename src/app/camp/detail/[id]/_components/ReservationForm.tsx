@@ -4,8 +4,8 @@ import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
 import { useState } from 'react';
-import ConfirmModal from './ConfirmModal';
-import AlertModal from './AlertModal';
+import ConfirmModal from '@/app/_components/ConfirmModal';
+import AlertModal from '@/app/_components/AlertModal';
 import { Tables } from '@/types/supabase';
 import { ReservationInfo } from '@/types/reservation';
 
