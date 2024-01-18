@@ -1,6 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import styles from '../_styles/Svg.module.css';
+import ShareSvg from '../_svg/ShareSvg';
 
 export default function DetailShareBtn() {
   const params = useParams() as { id: string };
@@ -26,5 +28,9 @@ export default function DetailShareBtn() {
     copyToClipboard(textToCopy);
   };
 
-  return <button onClick={handleCopyClick}>URL 복사하기</button>;
+  return (
+    <button className={styles.btn} onClick={handleCopyClick}>
+      <ShareSvg />
+    </button>
+  );
 }
