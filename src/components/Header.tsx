@@ -21,7 +21,7 @@ const Header = (props: Props) => {
         href={`/company/aaa/manage_camp/bbb/manage_camp_area`}
         className={styles.linkBtn}
       >
-        캠핑존 등록
+        캠핑존 관리
       </Link>
       <Link
         href={`/company/aaa/manage_company_user_info`}
