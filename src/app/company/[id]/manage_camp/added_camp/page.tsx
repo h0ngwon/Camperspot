@@ -12,7 +12,6 @@ type Props = {};
 const ManageAddedCamp = (props: Props) => {
   const { data: session } = useSession();
   const companyUserId = session?.user?.id;
-  console.log(companyUserId);
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['camp', companyUserId],
@@ -46,6 +45,10 @@ const ManageAddedCamp = (props: Props) => {
     return <div>에러 발생</div>;
   }
 
+  const goToUpdateCampPage = (campId: string) => {
+    // 클릭한 캠핑장의 camp_id를 들고 update_camp페이지로 이동하는 로직
+    // useRouter 쓸 예정 (next/navigate)
+  };
   return (
     <>
       {
@@ -89,7 +92,9 @@ const ManageAddedCamp = (props: Props) => {
                     </div>
                   );
                 })}
-                <button>캠핑장수정</button>
+                <button onClick={() => goToUpdateCampPage(item.id)}>
+                  캠핑장수정
+                </button>
                 <button>캠핑장삭제</button>
               </div>
             );

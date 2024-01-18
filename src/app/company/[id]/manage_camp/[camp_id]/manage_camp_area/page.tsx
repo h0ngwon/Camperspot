@@ -1,123 +1,78 @@
 'use client';
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import plusBtn from '../../../../../../asset/ph_plus.png';
+import CampAreaModal from './_components/CampAreaModal';
 import styles from './_styles/CampAreaForm.module.css';
-import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
-import { uuid } from 'uuidv4';
-type Props = {};
+import { useQuery } from '@tanstack/react-query';
 
-const AddCampAreaPage = (props: Props) => {
-  const [areaName, handleAreaName] = useInput();
-  const [areaMaxPeople, handleAreaMaxPeople] = useInput();
-  const [areaPrice, handleAreaPrice] = useInput();
-  const [areaImg, setAreaImg] = useState<string>('');
+const AddCampArea = () => {
+  const [isCampAreaModal, setCampAreaModal] = useState(false);
 
-  const id = uuid();
-
-  const imgRef = useRef<HTMLInputElement>(null);
-
-  // camp_id 가져오는 로직 필요 << 팀원들과 상의
+  // camp id는 이 페이지를 클릭하고 들어올 때 정해짐 << 나중에 campId 들고오는 로직
   const campId = 'd88d1256-6202-469d-81e8-b8d12f629206';
 
-  // 캠핑존 이미지 업로드
-  async function handleChangeInputCampArea(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      setAreaImg(URL.createObjectURL(file));
-    }
-  }
-  // 캠핑존 이미지 삭제
-  const handleDeleteAreaImg = () => {
-    setAreaImg('');
-  };
-
-  const handleForm = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const { data: campAreaData, error } = await supabase
-      .from('camp_area')
-      .insert({
-        id,
-        camp_id: campId,
-        name: areaName,
-        max_people: Number(areaMaxPeople),
-        price: Number(areaPrice),
-        photo_url: areaImg,
-      });
-
-    // 등록 눌렀을 시 캠핑장 배치 이미지 업로드
-    async function uploadStorageCampAreaData(blob: Blob | File) {
-      const { data, error } = await supabase.storage
-        .from('camp_area_pic')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
-    // 배치 이미지 table에 올리는 로직
-    async function uploadCampAreaTable() {
-      const blob = await fetch(areaImg).then((r) => r.blob());
-      const { data, error } = await uploadStorageCampAreaData(blob);
-      const BASE_URL =
-        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_area_pic/';
-      if (error) return null;
-      // supabase camp table의 layout에 넣는 로직
-      await supabase
+  // campId에 맞는 camp area를 들고 와서 map으로 뿌려주는 로직
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['camp_area'],
+    queryFn: async () => {
+      const { data: campAreaInfo } = await supabase
         .from('camp_area')
-        .update({ photo_url: BASE_URL + data?.path })
-        .eq('id', id);
-    }
+        .select('*')
+        .eq('camp_id', campId);
 
-    uploadCampAreaTable();
-
-    alert('등록완료');
-  };
+      return campAreaInfo;
+    },
+  });
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <div>에러 발생</div>;
+  }
 
   return (
-    <>
-      <h1>캠핑존 설정</h1>
-      <form onSubmit={handleForm} className={styles.formLayout}>
-        <div>
-          <h3>캠핑존 이름</h3>
-          <input
-            defaultValue={areaName}
-            onChange={handleAreaName}
-            placeholder='이름을 입력해주세요'
-          />
-        </div>
-        <div>
-          <h3>최대 수용인원</h3>
-          <input
-            defaultValue={areaMaxPeople}
-            onChange={handleAreaMaxPeople}
-            type='number'
-          />
-        </div>
-        <div>
-          <h3>금액</h3>
-          <input defaultValue={areaPrice} onChange={handleAreaPrice} />
-          <span>원</span>
-        </div>
-        <div>
-          <h3>캠핑존 사진 등록</h3>
-          <input
-            type='file'
-            onChange={handleChangeInputCampArea}
-            ref={imgRef}
-          />
-          {areaImg ? (
-            <div>
-              <img src={areaImg} />
-              <button onClick={() => handleDeleteAreaImg()}>이미지 삭제</button>
+    <div className={styles.backWidth}>
+      <div className={styles.campAreaWrap}>
+        {data?.map((camparea) => {
+          return (
+            <div className={styles.addCampArea} key={camparea.id}>
+              <div>
+                <h3>{camparea.name}</h3>
+                <button>x</button>
+              </div>
+              <img />
+              <div>
+                <div>
+                  <p>최대 수용인원</p>
+                  <p>{camparea.max_people}</p>
+                </div>
+                <div>
+                  <p>금액</p>
+                  <p>{camparea.price}원</p>
+                </div>
+              </div>
             </div>
-          ) : (
-            ''
-          )}
+          );
+        })}
+        <div
+          onClick={() => {
+            setCampAreaModal(true);
+          }}
+          className={styles.addCampArea}
+        >
+          <Image src={plusBtn} alt='캠핑존 추가하기 버튼' />
+          <p>캠핑존 추가하기</p>
         </div>
-        <div>
-          <button type='submit'>등록하기</button>
-        </div>
-      </form>
-    </>
+        {isCampAreaModal && (
+          <div className={styles.modalUP}>
+            <CampAreaModal setCampAreaModal={setCampAreaModal} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default AddCampAreaPage;
+export default AddCampArea;
