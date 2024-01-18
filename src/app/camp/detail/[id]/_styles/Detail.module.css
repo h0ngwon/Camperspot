@@ -1,0 +1,35 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.BtnWrap {
+  display: flex;
+}
+
+.container h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container h4 {
+  font-size: 18px;
+  padding: 16px 0;
+  font-weight: bold;
+}
+
+.titleWrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.location {
+  display: flex;
+}
+
+.campInfo {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

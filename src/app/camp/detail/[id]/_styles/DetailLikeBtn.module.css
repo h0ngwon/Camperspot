@@ -1,0 +1,11 @@
+.likeCon {
+  display: flex;
+  align-items: center;
+}
+
+.likeBtn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}

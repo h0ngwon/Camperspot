@@ -1,0 +1,33 @@
+.wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(49%, 1fr));
+  grid-gap: 20px 24px;
+  margin: 8px 0;
+}
+
+.wrap li {
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.con {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #919191;
+  margin: 8px 0;
+  font-size: 12px;
+  line-height: 2;
+}
+
+.content {
+  text-overflow: ellipsis;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 2;
+}

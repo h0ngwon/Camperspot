@@ -1,4 +1,4 @@
-import React from 'react';
+import styles from '../_styles/DetailFacility.module.css';
 
 interface Props {
   campFacilty:
@@ -16,9 +16,11 @@ interface Props {
 
 export default function DetailFacility({ campFacilty }: Props) {
   return (
-    <ul>
+    <ul className={styles.wrap}>
       {campFacilty?.map((item) => (
-        <li key={item.facility?.id}>{item.facility?.option}</li>
+        <li key={item.facility?.id}>
+          <p>{item.facility?.option}</p>
+        </li>
       ))}
     </ul>
   );

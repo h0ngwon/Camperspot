@@ -13,6 +13,13 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'kuxaffboxknwphgulogp.supabase.co',
+<<<<<<< HEAD
+=======
+      },
+      {
+        protocol: 'https',
+        hostname: 'example.com',
+>>>>>>> 8685b3e24f0590636f76d6094d3d81bd6129983d
       },
     ],
   },

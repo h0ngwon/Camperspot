@@ -50,6 +50,9 @@ const Header = (props: Props) => {
       <Link href={`/camp?sort=인기순&page=1`} className={styles.linkBtn}>
         캠핑장 둘러보기
       </Link>
+      <Link href={`/community`} className={styles.linkBtn}>
+        커뮤니티
+      </Link>
       <button onClick={() => signOut()}>로그아웃</button>
     </>
   );
