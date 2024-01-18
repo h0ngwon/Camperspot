@@ -1,3 +1,9 @@
 .wrap {
   display: flex;
 }
+
+.wrap p {
+  font-size: 15px;
+  color: #919191;
+  margin-right: 20px;
+}

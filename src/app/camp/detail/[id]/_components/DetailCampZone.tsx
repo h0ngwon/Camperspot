@@ -17,7 +17,7 @@ type Props = {
         content: string;
         created_at: string;
         id: string;
-        layout: string;
+        layout: string | undefined;
         name: string;
         phone: string;
         region: string;
@@ -73,34 +73,37 @@ export default function DetailCampZone({ campArea }: Props) {
   };
 
   return (
-    <ul className={styles.zoneWrap}>
-      {campArea?.camp_area?.map((area) => {
-        return (
-          <li key={area.id}>
-            <Image src={area?.photo_url} alt='' width={180} height={180} />
-            <div className={styles.zoneCon}>
-              <h5>{area.name}</h5>
-              <div className={styles.clock}>
-                <ClockSvg />
-                <p>
-                  입실: <span>{campArea.check_in}</span>시
-                </p>
-                ~
-                <p>
-                  퇴실: <span>{campArea.check_out}</span>시
-                </p>
+    <>
+      <Image src={campArea?.layout} alt='' width={1200} height={220} />
+      <ul className={styles.zoneWrap}>
+        {campArea?.camp_area?.map((area) => {
+          return (
+            <li key={area.id}>
+              <Image src={area?.photo_url} alt='' width={220} height={220} />
+              <div className={styles.zoneCon}>
+                <h5>{area.name}</h5>
+                <div className={styles.clock}>
+                  <ClockSvg />
+                  <p>
+                    입실: <span>{campArea.check_in}</span>시
+                  </p>
+                  ~
+                  <p>
+                    퇴실: <span>{campArea.check_out}</span>시
+                  </p>
+                </div>
+                <p className={styles.people}>최대인원: {area.max_people}명</p>
+                <p className={styles.price}>{campPrice(area.price)}원</p>
+                <div className={styles.reservation}>
+                  <Link href={`/camp/detail/${params.id}/reservation`}>
+                    예약하기
+                  </Link>
+                </div>
               </div>
-              <p className={styles.people}>최대인원: {area.max_people}명</p>
-              <p className={styles.price}>{campPrice(area.price)}원</p>
-              <div className={styles.reservation}>
-                <Link href={`/camp/detail/${params.id}/reservation`}>
-                  예약하기
-                </Link>
-              </div>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 }

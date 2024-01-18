@@ -3,11 +3,6 @@
   margin: 0 auto;
 }
 
-.titleWrap {
-  display: flex;
-  justify-content: space-between;
-}
-
 .BtnWrap {
   display: flex;
 }
@@ -21,4 +16,20 @@
   font-size: 18px;
   padding: 16px 0;
   font-weight: bold;
+}
+
+.titleWrap {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.location {
+  display: flex;
+}
+
+.campInfo {
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

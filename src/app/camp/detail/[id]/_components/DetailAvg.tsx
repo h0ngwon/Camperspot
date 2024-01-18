@@ -33,9 +33,11 @@ export default function DetailAvg({ reviewAvg }: Props) {
 
   return (
     <div className={styles.container}>
-      <Star />
-      {avg().toFixed(1)}
-      <span>({reviewAvg?.length})</span>
+      <div>
+        <Star />
+        {avg().toFixed(1)}
+      </div>
+      <span>후기 {reviewAvg?.length}개</span>
     </div>
   );
 }

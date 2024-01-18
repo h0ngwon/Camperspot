@@ -18,7 +18,9 @@ export default function DetailFacility({ campFacilty }: Props) {
   return (
     <ul className={styles.wrap}>
       {campFacilty?.map((item) => (
-        <li key={item.facility?.id}>{item.facility?.option}</li>
+        <li key={item.facility?.id}>
+          <p>{item.facility?.option}</p>
+        </li>
       ))}
     </ul>
   );

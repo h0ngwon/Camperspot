@@ -1,0 +1,16 @@
+.addressWrap {
+  display: flex;
+  font-size: 14px;
+  padding: 8px 0;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+}
+
+.addressWrap button {
+  background: transparent;
+  color: #21416b;
+  cursor: pointer;
+}

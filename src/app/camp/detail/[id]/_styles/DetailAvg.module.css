@@ -1,15 +1,24 @@
 .container {
   display: flex;
-  font-size: 20px;
+  align-items: end;
+  font-size: 18px;
   font-weight: bold;
 }
 
+.container div {
+  display: flex;
+  align-items: center;
+}
+
 .container span {
+  font-size: 16px;
+  color: #919191;
   font-weight: normal;
+  margin-left: 4px;
 }
 
 .star {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 17px;
   margin-right: 4px;
 }

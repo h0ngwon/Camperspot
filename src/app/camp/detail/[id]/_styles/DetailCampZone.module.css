@@ -52,6 +52,7 @@
 
 .reservation {
   display: flex;
+  align-items: center;
 }
 
 .reservation a {
@@ -61,7 +62,6 @@
   font-size: 12px;
   text-align: center;
   color: #fff;
-  line-height: 1.5;
   background: #4db635;
   text-decoration: none;
 }

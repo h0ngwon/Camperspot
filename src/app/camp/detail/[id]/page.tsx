@@ -14,7 +14,7 @@ import DetailFacility from './_components/DetailFacility';
 import DetailAvg from './_components/DetailAvg';
 
 import styles from './_styles/Detail.module.css';
-import LocationSvg from './_svg/LocationSvg';
+import DetailAddress from './_components/DetailAddress';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -51,6 +51,8 @@ export default function DetailPage() {
     return <div>에러 발생</div>;
   }
 
+  console.log(data?.layout);
+
   return (
     <div className={styles.container}>
       <DetailImg campPic={data?.camp_pic} />
@@ -61,18 +63,17 @@ export default function DetailPage() {
           <DetailShareBtn />
         </div>
       </div>
-      <LocationSvg />
-      <p>{data?.address}</p>
+      <DetailAddress address={data?.address} />
       <DetailAvg reviewAvg={data?.review} />
-      <h4>해시태그</h4>
       <DetailHashtag campHashtag={data?.hashtag} />
-      <p>{data?.content}</p>
       <h4>시설정보</h4>
       <DetailFacility campFacilty={data?.camp_facility} />
+      <h4>캠핑장 소개</h4>
+      <p className={styles.campInfo}>{data?.content}</p>
       <h4>캠핑존</h4>
       <DetailCampZone campArea={data} />
       <h4>위치</h4>
-      <KakaoMap />
+      <KakaoMap campAddress={data?.address} />
       <h4>리뷰 및 평가</h4>
       <DetailAvg reviewAvg={data?.review} />
       <DetailReview review={data?.review} />
