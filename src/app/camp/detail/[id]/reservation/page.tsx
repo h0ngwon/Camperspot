@@ -1,6 +1,6 @@
 import ReservationModal from '../_components/ReservationModal';
 
-const page = () => {
+const ReservationPage = () => {
   return (
     <>
       <button>예약하기</button>
@@ -10,4 +10,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ReservationPage;
