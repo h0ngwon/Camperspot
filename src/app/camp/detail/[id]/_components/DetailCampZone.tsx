@@ -74,7 +74,7 @@ export default function DetailCampZone({ campArea }: Props) {
 
   return (
     <>
-      <Image src={campArea?.layout} alt='' width={1200} height={220} />
+      <Image src={campArea!.layout!} alt='' width={1200} height={220} />
       <ul className={styles.zoneWrap}>
         {campArea?.camp_area?.map((area) => {
           return (

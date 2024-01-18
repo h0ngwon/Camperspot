@@ -321,6 +321,32 @@ export interface Database {
         };
         Relationships: [];
       };
+      post_hashtag: {
+        Row: {
+          id: string;
+          post_id: string;
+          tag: string;
+        };
+        Insert: {
+          id?: string;
+          post_id: string;
+          tag: string;
+        };
+        Update: {
+          id?: string;
+          post_id?: string;
+          tag?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'post_hashtag_post_id_fkey';
+            columns: ['post_id'];
+            isOneToOne: false;
+            referencedRelation: 'post';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       post_pic: {
         Row: {
           id: string;
