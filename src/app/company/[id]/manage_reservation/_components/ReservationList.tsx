@@ -20,6 +20,13 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
     queryFn: () => getCompanyReservation(companyId),
   });
 
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>{error.message}</p>;
+  if (!reservations?.length) return <p>예약 현황이 없습니다.</p>;
+
+  const firstReservationDate = new Date(reservations?.[0].created_at);
+  const lastReservationDate = new Date(reservations?.at(-1)!.created_at);
+
   const filterReservation = reservations?.filter(
     (reservation) =>
       new Date(reservation.created_at).toDateString() ===
@@ -27,6 +34,7 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
   );
 
   const handleSearch = () => {
+    if (!text.trim()) return;
     setIsSearch(true);
     if (NAME_REGEX.test(text)) {
       setResult(
@@ -65,10 +73,6 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
     setText('');
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
-  if (!reservations?.length) return <p>예약 현황이 없습니다.</p>;
-
   return (
     <>
       <h3 className={styles.h3}>오늘의 예약 현황</h3>
@@ -87,14 +91,38 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
         ))}
       </ul>
       <h3 className={styles.h3}>전체 예약 현황</h3>
-      <input
-        type='text'
-        value={text}
-        placeholder='예약자명, 연락처를 검색하세요.'
-        onChange={(e) => setText(e.target.value)}
-      />
-      <button onClick={handleSearch}>검색</button>
-      <button onClick={handleUndo}>취소</button>
+      <div className={styles.div2}>
+        {new Date(firstReservationDate.setDate(1)).toLocaleString('ko', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })}
+        ~
+        {new Date(
+          new Date(lastReservationDate).setDate(
+            new Date(
+              lastReservationDate.getFullYear(),
+              lastReservationDate.getMonth() + 1,
+              0,
+            ).getDate(),
+          ),
+        ).toLocaleString('ko', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        })}
+        <div>
+          <input
+            className={styles.input}
+            type='text'
+            value={text}
+            placeholder='예약자명, 연락처를 검색하세요.'
+            onChange={(e) => setText(e.target.value)}
+          />
+          <button onClick={handleSearch}>검색</button>
+          <button onClick={handleUndo}>취소</button>
+        </div>
+      </div>
 
       <div className={styles.div}>
         <p>예약일시</p>

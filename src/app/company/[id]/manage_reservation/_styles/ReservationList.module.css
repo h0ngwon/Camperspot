@@ -2,7 +2,20 @@
   display: flex;
   gap: 1rem;
   border-bottom: 1px solid black;
+  margin-bottom: 1rem;
 }
 .h3 {
   margin: 1rem 0;
+}
+
+.input {
+  width: 200px;
+  border-radius: 2rem;
+  padding: 0.3rem;
+}
+
+.div2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
