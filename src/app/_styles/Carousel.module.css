@@ -1,36 +1,11 @@
-.container {
-    width: 1920px;
-    overflow: hidden;
-}
-
-
 .carousel {
+    width: 1920px;
     height: 500px;
-    background: linear-gradient(0deg, #D9D9D9 0%, #D9D9D9 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.10) 100%);
-    transition: 0.5;
-}
-
-
-.carousel div:first-child {
-    background-color: rgb(47, 241, 121);
-}
-
-.carousel div:nth-child(2) {
-    background-color: rgb(233, 73, 73);
-}
-
-.carousel div:nth-child(3) {
-    background-color: rgb(170, 197, 50);
-}
-
-.carousel div:nth-child(4) {
-    background-color: rgb(63, 29, 211);
 }
 
 .inner {
-    width: 1920px;
-    float: left;
     height: 500px;
     font-size: xx-large;
+    background-color: aqua;
 
 }

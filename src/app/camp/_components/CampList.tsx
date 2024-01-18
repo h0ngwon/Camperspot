@@ -38,7 +38,6 @@ const CampList = (data: Props) => {
               <Like />
               <Photo photos={camp.camp_pic} />
             </div>
-            {/**<section> 요소를 일반 컨테이너로 사용하지 마세요. 특히 단순한 스타일링이 목적이라면 <div> 요소를 사용해야 합니다. */}
             <div className={styles.cardMiddle}>
               <div className={styles.campInfoBox1}>
                 <p>{camp.name}</p>

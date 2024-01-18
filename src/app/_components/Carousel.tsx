@@ -1,53 +1,40 @@
 'use client';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
+import React, { Component } from 'react';
+import Slider from 'react-slick';
+// const banners =['image1.jpg', 'image2.jpg', 'image3.jpg', '4']
 import styles from '../_styles/Carousel.module.css';
-const Carousel = () => {
-  const banner = useMemo(() => {
-    return ['image1.jpg', 'image2.jpg', 'image3.jpg'];
-  }, []);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const onHandleCarousel = () => {
-    carouselRef.current!.style.transform = `translateX(${
-      currentIndex * -1920
-    }px)`;
-    if (banner.length === currentIndex + 1) {
-      return setCurrentIndex(0);
-    }
-    setCurrentIndex(currentIndex + 1);
-  };
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-  useEffect(() => {
-    carouselRef.current!.style.width = `${banner.length * 1920}px`;
-  }, [banner]);
+export default class Carousel extends Component {
+  render() {
+    const banners = ['가', '나', '다', '라'];
 
-  useEffect(() => {
-    setTimeout(() => {
-      onHandleCarousel();
-    }, 3000);
-  }, [onHandleCarousel]);
-  return (
-    <>
-      <div className={styles.container}>
-        <div
-          className={`${styles.carousel} ${styles.carouselWidth}`}
-          ref={carouselRef}
-        >
-          {banner.map((item, idx) => (
-            <div className={styles.inner} key={idx}>
-              {item}
-            </div>
-          ))}
+    var settings = {
+      dots: true,
+      infinite: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      pauseOnHover: true,
+      arrows: false,
+    };
+    return (
+      <div>
+        <div className={styles.carousel}>
+          <Slider {...settings}>
+            {banners.map((banner, idx) => {
+              return (
+                <div className={styles.inner} key={idx}>
+                  <h3>{banner}</h3>
+                </div>
+              );
+            })}
+          </Slider>
         </div>
       </div>
-      <button onClick={onHandleCarousel}>
-        일ㄴ어링너랴ㅐㄴ어래ㅑㄴ얼ㄴ야ㅐ
-      </button>
-    </>
-  );
-};
-
-export default Carousel;
-/**
- * 사이즈는 100vh
- */
+    );
+  }
+}

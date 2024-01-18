@@ -1,7 +1,10 @@
 'use client';
-import styles from '../_styles/CampCarousel.module.css';
-import { useState } from 'react';
+
+import React, { Component } from 'react';
+import Slider from 'react-slick';
 import CampCard from './CampCard';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 type Props = {
   camp:
     | {
@@ -14,59 +17,30 @@ type Props = {
     | null;
 };
 
-const CampCarousel = ({ camp }: Props) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHover, setIsHover] = useState(false);
+export default class MultipleItems extends Component<Props> {
+  render() {
+    const { camp } = this.props;
 
-  const nextSlide = () => {
-    setCurrentIndex(currentIndex + 1);
-  };
-  const prevSlide = () => {
-    setCurrentIndex(currentIndex - 1);
-  };
-  // className={`${styles.carouselContainer} ${styles.aaa}`}
-  // className={styles['carouselContainer,carousel']}
-
-  return (
-    <div
-      className={styles.carouselBox}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
-      <div className={styles.carousel}>
-        <ul
-          className={styles.carouselContainer}
-          style={{
-            transform: `translateX(-${currentIndex * 300}px)`,
-          }}
-        >
+    const settings = {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      touchMove: true,
+    };
+    return (
+      <div>
+        <Slider {...settings}>
           {camp!.map((item, index) => (
             <li key={index}>
-              <div className={styles.carouselItem}>
+              <div>
                 <CampCard camp={item} />
               </div>
             </li>
           ))}
-        </ul>
-        <button
-          onClick={prevSlide}
-          className={`${styles.btn} ${styles.left} 
-          ${currentIndex === 0 ? styles.none : ''}
-          ${isHover ? '' : styles.none}`}
-        >
-          {'<'}
-        </button>
-        <button
-          onClick={nextSlide}
-          className={`${styles.btn} ${styles.right} 
-          ${currentIndex > 5 ? styles.none : ''}
-          ${isHover ? '' : styles.none}`}
-        >
-          {'>'}
-        </button>
+        </Slider>
       </div>
-    </div>
-  );
-};
-
-export default CampCarousel;
+    );
+  }
+}
