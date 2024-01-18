@@ -27,20 +27,13 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
   );
 
   const handleSearch = () => {
-    console.log('handleSearch실행!');
     setIsSearch(true);
-    // console.log('text', text, '정규식 여부', NAME_REGEX.test(text));
     if (NAME_REGEX.test(text)) {
-      // 아래 콘솔 코드를 넣으면 또 잘 작동 없애면 잘 작동 x
-      console.log('text', text, '정규식 여부22', NAME_REGEX.test(text));
       setResult(
         reservations?.filter((reservation) => reservation.client_name === text),
       );
     }
-
     if (PHONE_REGEX.test(text)) {
-      // -없이 검색한 경우 -추가해서 필터링
-      console.log('text', text, '폰 정규식 여부33', PHONE_REGEX.test(text));
       if (text.length === 10) {
         const formatPhone = text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
         setResult(
@@ -112,16 +105,13 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
         <p>예약자 연락처</p>
       </div>
       <ul>
-        {/* {!isSearch && */}
-        {!isSearch &&
-          reservations?.map((reservation) => (
-            <Reservation key={reservation.id} reservation={reservation} />
-          ))}
+        {isSearch
+          ? result?.map((s) => <Reservation key={s.id} reservation={s} />)
+          : reservations?.map((reservation) => (
+              <Reservation key={reservation.id} reservation={reservation} />
+            ))}
+        {isSearch && !result?.length && <p>일치하는 예약 정보가 없습니다. </p>}
       </ul>
-      {/* {isSearch && */}
-      {isSearch &&
-        result?.map((s) => <Reservation key={s.id} reservation={s} />)}
-      {isSearch && !result?.length && <p>일치하는 예약 정보가 없습니다.</p>}
     </>
   );
 };
