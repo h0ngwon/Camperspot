@@ -21,9 +21,7 @@ import Script from 'next/script';
 const AddCampPage = () => {
   const [name, handleName] = useInput();
   const [content, handleContent] = useInput();
-  const [region, handleRegion] = useInput();
   const [address, setAddress] = useState('');
-  const [addressDetail, handleAddressDetail] = useInput();
   const [phone, handlePhone] = useInput();
   const [check_in, handleCheck_in] = useState<string>('');
   const [check_out, handleCheck_out] = useState<string>('');

@@ -6,10 +6,13 @@ import styles from './_styles/Camp.module.css';
 import React from 'react';
 import Image from 'next/image';
 import Hashtag from '@/app/camp/_components/Hashtag';
+import { useRouter } from 'next/navigation';
 
 type Props = {};
 
 const ManageAddedCamp = (props: Props) => {
+  const route = useRouter();
+
   const { data: session } = useSession();
   const companyUserId = session?.user?.id;
 
@@ -45,6 +48,10 @@ const ManageAddedCamp = (props: Props) => {
     return <div>에러 발생</div>;
   }
 
+  const handleGoToCampDetail = (campId: string) => {
+    route.push(`/camp/detail/${campId}`);
+  };
+
   const goToUpdateCampPage = (campId: string) => {
     // 클릭한 캠핑장의 camp_id를 들고 update_camp페이지로 이동하는 로직
     // useRouter 쓸 예정 (next/navigate)
@@ -55,7 +62,11 @@ const ManageAddedCamp = (props: Props) => {
         <div className={styles.campWrap}>
           {data?.map((item) => {
             return (
-              <div className={styles.campBox} key={item.id}>
+              <div
+                className={styles.campBox}
+                key={item.id}
+                onClick={() => handleGoToCampDetail(item.id)}
+              >
                 <h1>{item.name}</h1>
                 <p>{item.address}</p>
                 <p>{item.phone}</p>
