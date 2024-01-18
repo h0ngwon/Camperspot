@@ -99,7 +99,7 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
         })}
         ~
         {new Date(
-          new Date(lastReservationDate).setDate(
+          lastReservationDate.setDate(
             new Date(
               lastReservationDate.getFullYear(),
               lastReservationDate.getMonth() + 1,
