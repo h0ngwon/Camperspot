@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import Slider from 'react-slick';
-// const banners =['image1.jpg', 'image2.jpg', 'image3.jpg', '4']
 import styles from '../_styles/Carousel.module.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
