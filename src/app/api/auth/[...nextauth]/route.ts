@@ -67,6 +67,7 @@ const handler = NextAuth({
 
       if (account?.provider === 'credentials') {
         token.role = 'company';
+        console.log(token);
       }
 
       return token;
@@ -133,9 +134,11 @@ const makeSocialAccount = async (
       provider: account.provider as string,
       role: 'user',
     };
+    
     await supabase.from('user').insert<SocialDataType>(socialData);
   }
   token.role = 'user';
+  console.log(token);
   return token;
 };
 

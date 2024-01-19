@@ -8,9 +8,6 @@ export const middleware = async (req: NextRequest) => {
     secret: process.env.NEXTAUTH_SECRET,
     raw: true,
   });
-  // const session = getSession();
-  console.log('token =================', token);
-  // console.log('session =================', session);
   const { pathname } = req.nextUrl;
 
   if (pathname.startsWith('/auth')) {

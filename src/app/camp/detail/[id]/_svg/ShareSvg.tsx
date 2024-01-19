@@ -1,4 +1,4 @@
-import styles from '../_styles/Svg.module.css';
+import styles from '../_styles/Like.module.css';
 
 export default function ShareSvg() {
   return (

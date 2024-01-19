@@ -1,0 +1,7 @@
+.container {
+  width: 892px;
+  height: 878px;
+  flex-shrink: 0;
+  background: #ccc;
+  border-radius:32px;
+}

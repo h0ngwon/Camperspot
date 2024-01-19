@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import styles from '../_styles/Svg.module.css';
+import styles from '../_styles/Like.module.css';
 import ShareSvg from '../_svg/ShareSvg';
 
 export default function DetailShareBtn() {

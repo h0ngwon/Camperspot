@@ -1,0 +1,14 @@
+.sidebar {
+  list-style: none;
+  width: 282px;
+  height: 575px;
+  flex-shrink: 0;
+  background:#ccc;
+  border-radius: 32px;
+}
+
+.sidebar-item {
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 20px;
+}
