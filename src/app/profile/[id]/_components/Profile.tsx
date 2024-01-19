@@ -7,17 +7,11 @@ import { getUserData } from '../_lib/getUserData';
 import styles from '../_styles/Profile.module.css';
 import ModalPortal from '@/components/ModalPortal';
 import Modal from '@/components/Modal';
+import useModalStore from '@/store/modal';
 
 const Profile = () => {
-  const [modalOpen, setModalOpen] = useState<boolean>();
+  const { show, toggleModal } = useModalStore();
 
-  const showModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile'],
@@ -40,12 +34,10 @@ const Profile = () => {
         <div className={styles['nickname-container']}>
           <div className={styles['nickname-header']}>닉네임</div>
           <div className={styles['nickname']}>{data?.nickname}</div>
-          <button onClick={showModal}>프로필 수정</button>
-          {modalOpen && (
+          <button onClick={toggleModal}>프로필 수정</button>
+          {show && (
             <ModalPortal>
-              <Modal onClose={closeModal}>
-                hello
-              </Modal>
+              <Modal>hello</Modal>
             </ModalPortal>
           )}
         </div>
