@@ -1,0 +1,10 @@
+.container {
+    width: 1200px;
+
+}
+
+.regionCard {
+    width: 200px;
+    height: 230px;
+    background-color: rebeccapurple;
+}
