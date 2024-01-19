@@ -10,3 +10,30 @@
   font-weight: 700;
   line-height: normal;
 }
+
+.profile-container {
+  width: 718px;
+  border-bottom: 1px solid;
+  padding: 12px;
+  display: flex;
+}
+
+.profile-container img {
+  border-radius: 50%;
+}
+
+.nickname-container {
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0 64px 73px;
+}
+
+.nickname {
+  margin-top:23px;
+  color: #040404;
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
