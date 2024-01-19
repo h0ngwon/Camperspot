@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/app/api/db';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import HeartSvg from '../_svg/HeartSvg';
+import { supabase } from '@/app/api/db';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
 import styles from '../_styles/Like.module.css';
 
-export default function DetailLikeBtn() {
+export default function CommLikeBtn() {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
@@ -22,13 +22,13 @@ export default function DetailLikeBtn() {
     queryKey: ['like'],
     queryFn: async () => {
       try {
-        const { data: camp, error } = await supabase
-          .from('camp')
+        const { data: post, error } = await supabase
+          .from('post')
           .select('id, like(user_id)')
           .eq('id', params.id)
           .single();
 
-        return camp;
+        return post;
       } catch (error) {
         console.log(error);
       }
@@ -40,7 +40,7 @@ export default function DetailLikeBtn() {
       await supabase
         .from('like')
         .delete()
-        .match({ user_id, camp_id: params.id });
+        .match({ user_id, post_id: params.id });
     },
     onSuccess: () => {
       setLikeCount((prev) => prev - 1);
@@ -55,7 +55,7 @@ export default function DetailLikeBtn() {
       try {
         await supabase.from('like').insert({
           user_id: user_Id,
-          camp_id: params.id,
+          post_id: params.id,
         });
       } catch (error) {
         console.error('좋아요 추가 중 에러 발생:', error);

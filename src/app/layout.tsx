@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/reset.css';
 import AuthSession from './_components/AuthSession';
-import Provider from './_components/CmapProvider';
+import Provider from './_components/CampProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 

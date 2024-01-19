@@ -11,10 +11,10 @@ import DetailImg from './_components/DetailImg';
 import DetailHashtag from './_components/DetailHashtag';
 import DetailCampZone from './_components/DetailCampZone';
 import DetailFacility from './_components/DetailFacility';
-import DetailAvg from './_components/DetailAvg';
+import DetailAddress from './_components/DetailAddress';
 
 import styles from './_styles/Detail.module.css';
-import DetailAddress from './_components/DetailAddress';
+import DetailAvg from './_components/DetailAvg';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -50,8 +50,6 @@ export default function DetailPage() {
   if (isError) {
     return <div>에러 발생</div>;
   }
-
-  console.log(data?.layout);
 
   return (
     <div className={styles.container}>

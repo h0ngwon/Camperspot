@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { useRouter } from 'next/router';
 import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';
 
@@ -13,6 +14,7 @@ export default function page() {
   const [inputHashTag, setInputHashTag] = useState<string>('');
   const [hashTags, setHashTags] = useState<string[]>([]);
 
+  // const router = useRouter();
   const postId = uuid();
 
   // post 테이블에서 option 가져오는거
@@ -131,7 +133,7 @@ export default function page() {
 
         // Supabase 테이블에 이미지 정보 저장
         const BASE_URL =
-          'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
+          'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/post_pic/';
         await supabase
           .from('post_pic')
           .insert({ post_id: postId, photo_url: BASE_URL + data?.path })
@@ -150,6 +152,7 @@ export default function page() {
 
       if (post && post_hashtag) {
         alert('등록되었습니다');
+        // router.push('/community');
       }
     } catch (error) {
       console.error('폼 제출 중 에러 발생:', error);
@@ -175,33 +178,6 @@ export default function page() {
           onChange={handleChangeInputImageFile}
         />
       </label>
-
-      {hashTags.length > 0 &&
-        hashTags.map((item) => {
-          return (
-            <div key={item}>
-              <div className='tag'>{'#' + item}</div>
-              <button type='button' onClick={() => handleDeleteHashtag(item)}>
-                삭제
-              </button>
-            </div>
-          );
-        })}
-      <label>
-        해시태그 :
-        <input
-          id='hashTagInput'
-          value={inputHashTag}
-          onChange={(e) => changeHashTagInput(e)}
-          onKeyUp={(e) => addHashTag(e)}
-          onKeyDown={(e) => keyDownHandler(e)}
-          placeholder='#해시태그를 등록해보세요. (최대 10개)'
-          className='hashTagInput'
-        />
-      </label>
-
-      <button type='submit'>등록</button>
-
       {/* 이미지 미리보기 및 삭제 버튼 */}
       {postPic.map((item, index) => (
         <div key={index}>
@@ -215,6 +191,33 @@ export default function page() {
           </button>
         </div>
       ))}
+
+      <label>
+        해시태그 :
+        <input
+          id='hashTagInput'
+          value={inputHashTag}
+          onChange={(e) => changeHashTagInput(e)}
+          onKeyUp={(e) => addHashTag(e)}
+          onKeyDown={(e) => keyDownHandler(e)}
+          placeholder='#해시태그를 등록해보세요. (최대 10개)'
+          className='hashTagInput'
+        />
+      </label>
+
+      {hashTags.length > 0 &&
+        hashTags.map((item) => {
+          return (
+            <div key={item}>
+              <div className='tag'>{'#' + item}</div>
+              <button type='button' onClick={() => handleDeleteHashtag(item)}>
+                삭제
+              </button>
+            </div>
+          );
+        })}
+
+      <button type='submit'>등록</button>
     </form>
   );
 }
