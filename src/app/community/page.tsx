@@ -3,11 +3,11 @@
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
-import CommSearch from './_components/CommSearch';
-import CommPhoto from './_components/CommPhoto';
-import CommHashTag from './_components/CommHashTag';
+import CommuSearch from './_components/CommuSearch';
+import CommuPhotos from './_components/CommuPhotos';
+import CommuHashTags from './_components/CommuHashTags';
 import { useSession } from 'next-auth/react';
-import CommUser from './_components/CommUser';
+import CommuUsers from './_components/CommuUsers';
 
 export default function Page() {
   const { data: session } = useSession();
@@ -44,16 +44,16 @@ export default function Page() {
 
   return (
     <>
-      <CommSearch />
+      <CommuSearch />
       <Link href={`/community/${userId}/create`}>커뮤니티 글 등록</Link>
       <ul>
         {data?.map((item) => {
           return (
             <li key={item.id}>
-              <CommPhoto photo={item.post_pic} />
+              <CommuPhotos photo={item.post_pic} />
               <p>{item.content}</p>
-              <CommHashTag hashTag={item.post_hashtag} />
-              <CommUser user={item.user} />
+              <CommuHashTags hashTag={item.post_hashtag} />
+              <CommuUsers user={item.user} />
             </li>
           );
         })}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import profileImg from '@/asset/profile.jpeg';
 
 type Props = {
   user: {
@@ -8,19 +9,19 @@ type Props = {
   } | null;
 };
 
-export default function CommUser({ user }: Props) {
+export default function CommuUser({ user }: Props) {
   return (
-    <div>
+    <>
       {user && (
         <div>
           {user.profile_url ? (
             <Image src={user.profile_url} alt='' width={50} height={50} />
           ) : (
-            <div>No profile image available</div>
+            <Image src={profileImg} alt='' fill />
           )}
           <p>{user.nickname}</p>
         </div>
       )}
-    </div>
+    </>
   );
 }

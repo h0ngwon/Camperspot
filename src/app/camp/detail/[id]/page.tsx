@@ -5,7 +5,7 @@ import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import KakaoMap from './_components/KakaoMap';
 import DetailShareBtn from './_components/DetailShareBtn';
-import DetailLikeBtn from './_components/DetailLikeBtn';
+import DetailLikeBtns from './_components/DetailLikeBtns';
 import DetailReview from './_components/DetailReview';
 import DetailImg from './_components/DetailImg';
 import DetailHashtag from './_components/DetailHashtag';
@@ -57,7 +57,7 @@ export default function DetailPage() {
       <div className={styles.titleWrap}>
         <h3>{data?.name}</h3>
         <div className={styles.BtnWrap}>
-          <DetailLikeBtn />
+          <DetailLikeBtns />
           <DetailShareBtn />
         </div>
       </div>

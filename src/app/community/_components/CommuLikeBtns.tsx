@@ -1,34 +1,34 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/app/api/db';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import HeartSvg from '../_svg/HeartSvg';
+import { supabase } from '@/app/api/db';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
 import styles from '../_styles/Like.module.css';
 
-export default function DetailLikeBtn() {
+export default function CommLikeBtns() {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
-  const { data: session } = useSession();
   const params = useParams() as { id: string };
 
-  const userId = session?.user.id as string;
+  const { data: session } = useSession();
+  const user_Id = '3d5e2b35-98b2-4b85-aa9b-e0f134dfb5c9';
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['like'],
     queryFn: async () => {
       try {
-        const { data: camp, error } = await supabase
-          .from('camp')
+        const { data: post, error } = await supabase
+          .from('post')
           .select('id, like(user_id)')
           .eq('id', params.id)
           .single();
 
-        return camp;
+        return post;
       } catch (error) {
         console.log(error);
       }
@@ -40,7 +40,7 @@ export default function DetailLikeBtn() {
       await supabase
         .from('like')
         .delete()
-        .match({ user_id, camp_id: params.id });
+        .match({ user_id, post_id: params.id });
     },
     onSuccess: () => {
       setLikeCount((prev) => prev - 1);
@@ -54,8 +54,8 @@ export default function DetailLikeBtn() {
     mutationFn: async () => {
       try {
         await supabase.from('like').insert({
-          user_id: userId,
-          camp_id: params.id,
+          user_id: user_Id,
+          post_id: params.id,
         });
       } catch (error) {
         console.error('좋아요 추가 중 에러 발생:', error);
@@ -71,7 +71,7 @@ export default function DetailLikeBtn() {
 
   useEffect(() => {
     if (data) {
-      const result = data.like?.some((item) => item.user_id === userId);
+      const result = data.like?.some((item) => item.user_id === user_Id);
       setLiked(!!result);
       setLikeCount(data.like?.length);
     }
@@ -89,7 +89,7 @@ export default function DetailLikeBtn() {
     try {
       if (liked) {
         // 이미 좋아요를 눌렀다면 취소
-        deleteMutation.mutate(userId);
+        deleteMutation.mutate(user_Id);
       } else {
         // 좋아요를 누르지 않았다면 추가
         addMutation.mutate();

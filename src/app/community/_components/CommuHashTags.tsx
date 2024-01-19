@@ -6,7 +6,7 @@ type Props = {
   }[];
 };
 
-export default function CommHashTag({ hashTag }: Props) {
+export default function CommuHashTags({ hashTag }: Props) {
   return (
     <ul>
       {hashTag.map((tag) => {
