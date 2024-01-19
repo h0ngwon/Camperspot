@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { useRouter } from 'next/router';
+
 import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 import type { Tables } from '@/types/supabase';
 
@@ -14,8 +16,11 @@ export default function page() {
   const [inputHashTag, setInputHashTag] = useState<string>('');
   const [hashTags, setHashTags] = useState<string[]>([]);
 
-  // const router = useRouter();
+  const router = useRouter();
   const postId = uuid();
+  const { data: session } = useSession();
+  const userId = session?.user.id as string;
+  const userEmail = session?.user?.email as string;
 
   // post 테이블에서 option 가져오는거
   async function fetchPostData() {
@@ -112,11 +117,32 @@ export default function page() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const { data: user } = await supabase
+      .from('user')
+      .select('id')
+      .eq('email', userEmail);
+    if (!user) {
+      return;
+    }
+
+    const userId = session?.user.id;
+
     try {
+      // user_id를 가져오는 부분 수정
+      const { data: user } = await supabase
+        .from('user')
+        .select('id')
+        .eq('email', userEmail);
+
+      if (!user || !user.length) {
+        console.error('사용자 정보를 찾을 수 없습니다.');
+        return;
+      }
+
       // Supabase에 게시물 등록
       const { data: post } = await supabase
         .from('post')
-        .insert({ id: postId, content })
+        .insert({ id: postId, content, user_id: userId || '' }) // 기본값 설정
         .select();
 
       // 여러개 사진 table에 올리는 로직
@@ -152,7 +178,7 @@ export default function page() {
 
       if (post && post_hashtag) {
         alert('등록되었습니다');
-        // router.push('/community');
+        router.push('/community');
       }
     } catch (error) {
       console.error('폼 제출 중 에러 발생:', error);

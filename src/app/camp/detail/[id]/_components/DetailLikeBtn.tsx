@@ -13,10 +13,10 @@ export default function DetailLikeBtn() {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
+  const { data: session } = useSession();
   const params = useParams() as { id: string };
 
-  const { data: session } = useSession();
-  const user_Id = '3d5e2b35-98b2-4b85-aa9b-e0f134dfb5c9';
+  const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['like'],
@@ -54,7 +54,7 @@ export default function DetailLikeBtn() {
     mutationFn: async () => {
       try {
         await supabase.from('like').insert({
-          user_id: user_Id,
+          user_id: userId,
           camp_id: params.id,
         });
       } catch (error) {
@@ -71,7 +71,7 @@ export default function DetailLikeBtn() {
 
   useEffect(() => {
     if (data) {
-      const result = data.like?.some((item) => item.user_id === user_Id);
+      const result = data.like?.some((item) => item.user_id === userId);
       setLiked(!!result);
       setLikeCount(data.like?.length);
     }
@@ -89,7 +89,7 @@ export default function DetailLikeBtn() {
     try {
       if (liked) {
         // 이미 좋아요를 눌렀다면 취소
-        deleteMutation.mutate(user_Id);
+        deleteMutation.mutate(userId);
       } else {
         // 좋아요를 누르지 않았다면 추가
         addMutation.mutate();
