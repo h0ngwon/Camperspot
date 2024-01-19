@@ -1,5 +1,11 @@
-const ProfilePage = () => {
-  return <div></div>;
+import Profile from './_components/Profile';
+
+const MyPage = () => {
+  return (
+    <div>
+      <Profile />
+    </div>
+  );
 };
 
-export default ProfilePage;
+export default MyPage;

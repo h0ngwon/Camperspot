@@ -11,3 +11,4 @@ export type CompanyUserSignUpType = {
   password: string;
   confirmPassword: string;
 };
+export type Usertype = Omit<SocialDataType, 'role'> | null;
