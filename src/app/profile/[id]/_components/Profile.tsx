@@ -1,46 +1,53 @@
 'use client';
-import { UserType } from '@/types/auth';
 import { useQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
-import styles from '../_styles/Profile.module.css';
 import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { getUserData } from '../_lib/getUserData';
+import styles from '../_styles/Profile.module.css';
+import ModalPortal from '@/components/ModalPortal';
+import Modal from '@/components/Modal';
 
 const Profile = () => {
-  const [profile, setProfile] = useState<UserType>(null);
-  const { data: session, status } = useSession();
-  
-  const fetchUserProfile = async () => {
-    try {
-      const response = await fetch(`/api/profile/${session?.user.id}`, {
-        method: 'GET',
-      });
+  const [modalOpen, setModalOpen] = useState<boolean>();
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-
-      const fetchData: UserType = await response.json();
-      console.log('fetchData==================', fetchData);
-      setProfile(fetchData);
-    } catch (error: any) {
-      console.error(error.message);
-    }
+  const showModal = () => {
+    setModalOpen(true);
   };
 
-  useEffect(() => {
-    fetchUserProfile()
-  }, [session])
-  
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const params = useParams();
+  const { data } = useQuery({
+    queryKey: ['mypage', 'profile'],
+    queryFn: async () => getUserData(params.id as string),
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles['profile-header']}>프로필 관리</div>
       <div className={styles['profile-container']}>
-        <Image src={profile?.profile_url as string} width={120} height={120} alt='profile'/>
+        {data?.profile_url && (
+          <Image
+            src={data?.profile_url as string}
+            width={120}
+            height={120}
+            alt='profile'
+          />
+        )}
+
         <div className={styles['nickname-container']}>
-          <div>닉네임</div>
-          <div className={styles['nickname']}>{profile?.nickname}</div>
+          <div className={styles['nickname-header']}>닉네임</div>
+          <div className={styles['nickname']}>{data?.nickname}</div>
+          <button onClick={showModal}>프로필 수정</button>
+          {modalOpen && (
+            <ModalPortal>
+              <Modal onClose={closeModal}>
+                hello
+              </Modal>
+            </ModalPortal>
+          )}
         </div>
       </div>
     </div>

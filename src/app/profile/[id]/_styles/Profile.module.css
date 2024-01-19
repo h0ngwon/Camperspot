@@ -28,6 +28,15 @@
   margin: 24px 0 64px 73px;
 }
 
+.nickname-header {
+  color: #040404;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
 .nickname {
   margin-top:23px;
   color: #040404;
@@ -36,4 +45,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+}
+
+.modify-btn {
+  margin-top: 23px;
+  font-size:24px;
+  cursor: pointer;
 }
