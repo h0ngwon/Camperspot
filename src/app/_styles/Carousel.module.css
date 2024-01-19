@@ -1,0 +1,11 @@
+.carousel {
+    width: 1920px;
+    height: 500px;
+}
+
+.inner {
+    height: 500px;
+    font-size: xx-large;
+    background-color: aqua;
+
+}
