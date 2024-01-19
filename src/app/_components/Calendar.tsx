@@ -7,19 +7,19 @@ import ReactDatePicker, {
 } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
+import formatDate from '../_utils/date';
 registerLocale('ko', ko);
 
-type Props = {};
+type Props = {
+  dateRange: [Date | null, Date | null];
+  setDateRange: React.Dispatch<
+    React.SetStateAction<[Date | null, Date | null]>
+  >;
+};
 
-const Calendar = (props: Props) => {
-  //   const [startDate, setStartDate] = useState<Date | null>(new Date());
-  //   const [endDate, setEndDate] = useState<Date | null>(new Date());
-  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
-    null,
-    null,
-  ]);
+const Calendar = ({ dateRange, setDateRange }: Props) => {
   const [startDate, endDate] = dateRange;
-  console.log('!!!!!!!!', startDate, endDate);
+
   //컨테이너 꾸미는 로직
   //   const MyContainer = ({ className, children }) => {
   //     return (
@@ -83,6 +83,7 @@ const Calendar = (props: Props) => {
       //     </button>
       //   </div>
       // )}
+
       selectsRange={true}
       startDate={startDate}
       endDate={endDate}

@@ -15,7 +15,6 @@ const Main = () => {
       <PopularCamp />
       <RegionCarousel />
       <PopularCommunity />
-      <Calendar />
       <Spacer y={300} />
     </div>
   );
