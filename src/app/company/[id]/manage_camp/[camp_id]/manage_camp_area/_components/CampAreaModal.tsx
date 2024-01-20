@@ -1,12 +1,19 @@
 'use client';
-import React, { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import styles from './_styles/CampAreaForm.module.css';
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useRef,
+  useState,
+} from 'react';
+import styles from '../_styles/CampAreaForm.module.css';
 import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';
-type Props = {};
+type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
-const AddCampAreaPage = (props: Props) => {
+const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const [areaName, handleAreaName] = useInput();
   const [areaMaxPeople, handleAreaMaxPeople] = useInput();
   const [areaPrice, handleAreaPrice] = useInput();
@@ -45,14 +52,14 @@ const AddCampAreaPage = (props: Props) => {
         photo_url: areaImg,
       });
 
-    // 등록 눌렀을 시 캠핑장 배치 이미지 업로드
+    // 등록 눌렀을 시 캠핑존 이미지 업로드
     async function uploadStorageCampAreaData(blob: Blob | File) {
       const { data, error } = await supabase.storage
         .from('camp_area_pic')
         .upload(window.URL.createObjectURL(blob), blob);
       return { data: data, error };
     }
-    // 배치 이미지 table에 올리는 로직
+    // 캠핑존이미지 table에 올리는 로직
     async function uploadCampAreaTable() {
       const blob = await fetch(areaImg).then((r) => r.blob());
       const { data, error } = await uploadStorageCampAreaData(blob);
@@ -65,15 +72,27 @@ const AddCampAreaPage = (props: Props) => {
         .update({ photo_url: BASE_URL + data?.path })
         .eq('id', id);
     }
-
     uploadCampAreaTable();
 
-    alert('등록완료');
+    if (campAreaData) {
+      alert('등록완료');
+    } else if (error) {
+      console.log(error.message);
+    }
   };
 
   return (
-    <>
-      <h1>캠핑존 설정</h1>
+    <div className={styles.wrap}>
+      <div>
+        <h1>캠핑존 설정</h1>
+        <button
+          onClick={() => {
+            setCampAreaModal(false);
+          }}
+        >
+          x
+        </button>
+      </div>
       <form onSubmit={handleForm} className={styles.formLayout}>
         <div>
           <h3>캠핑존 이름</h3>
@@ -116,8 +135,8 @@ const AddCampAreaPage = (props: Props) => {
           <button type='submit'>등록하기</button>
         </div>
       </form>
-    </>
+    </div>
   );
 };
 
-export default AddCampAreaPage;
+export default CampAreaModal;
