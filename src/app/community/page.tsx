@@ -11,7 +11,7 @@ import CommuUsers from './_components/CommuUsers';
 
 import styles from './_styles/Commu.module.css';
 
-export default function Page() {
+export default function CommunityPage() {
   const { data: session } = useSession();
 
   const userId = session?.user.id as string;
