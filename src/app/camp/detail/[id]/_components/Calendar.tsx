@@ -45,7 +45,7 @@ export const Calendar = ({ onDatesChange }: Props) => {
   return (
     <div>
       <ReactDatePicker
-        dateFormat='yyyy/MM/dd'
+        dateFormat='yyyy-MM-dd'
         selected={startDate}
         minDate={new Date()}
         startDate={startDate}

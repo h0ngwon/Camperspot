@@ -39,15 +39,19 @@ const ReservationModal = () => {
             </g>
           </svg>
         </button>
-        <h1 className={styles.h1}>예약 및 결제</h1>
-        <h3 className={styles.h3}>예약 정보</h3>
-        <p>
-          캠핑장 이름 <span>{reservation.camp?.name}</span>
-        </p>
-        <p>
-          객실 <span>{reservation.name}</span>
-        </p>
-        <ReservationForm reservation={reservation} />
+        <div className={styles.div}>
+          <h1 className={styles.h1}>예약 및 결제</h1>
+          <div className={styles.campInfo}>
+            <h3 className={styles.h3}>예약 정보</h3>
+            <p>
+              캠핑장 이름 <span>{reservation.camp?.name}</span>
+            </p>
+            <p>
+              객실 <span>{reservation.name}</span>
+            </p>
+          </div>
+          <ReservationForm reservation={reservation} />
+        </div>
       </div>
     </div>
   );
