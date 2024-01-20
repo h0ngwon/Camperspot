@@ -1,6 +1,5 @@
 /* 캠핑존 페이지 css */
 .backWidth {
-  width: 1200px;
   margin: 0 auto;
   padding: 40px 0;
 }
@@ -10,11 +9,59 @@
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
-.addCampArea {
-  width: 590px;
+.campArea {
+  max-width: 590px;
   border: 1px solid #333;
   border-radius: 37px;
-  height: 335px;
+  height: 250px;
+  padding: 20px;
+}
+.areaHead {
+  width: 100%;
+  float: left;
+}
+
+.h3 {
+  display: inline;
+  float: left;
+}
+.deleteCardBtn {
+  float: right;
+  cursor: pointer;
+  background: none;
+}
+
+.img {
+  display: block;
+  float: left;
+  margin-top: 20px;
+}
+.textBox {
+  float: left;
+  margin-top: 20px;
+  margin-left: 15px;
+  width: 180px;
+}
+.textAlign {
+  float: left;
+  margin-right: 10px;
+}
+
+.addCampArea {
+  max-width: 590px;
+  border: 1px solid #333;
+  border-radius: 37px;
+  height: 250px;
+  padding: 20px;
+  display: flex;
+  cursor: pointer;
+}
+.btnWrap {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 
 /* 캠핑존 모달 css */
@@ -46,4 +93,8 @@
 }
 .gridItemTextArea {
   height: 60px;
+}
+.addedCampAreaImg {
+  width: 100px;
+  height: 100px;
 }
