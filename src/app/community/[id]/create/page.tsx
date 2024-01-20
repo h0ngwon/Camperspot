@@ -201,6 +201,7 @@ export default function page() {
           type='file'
           accept='image/*'
           onChange={handleChangeInputImageFile}
+          required
         />
       </label>
       {/* 이미지 미리보기 및 삭제 버튼 */}

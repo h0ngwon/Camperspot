@@ -8,7 +8,8 @@ import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import { useSession } from 'next-auth/react';
 import CommuUsers from './_components/CommuUsers';
-import CommuLikeBtn from './_components/CommuLikeBtn';
+
+import styles from './_styles/Commu.module.css';
 
 export default function Page() {
   const { data: session } = useSession();
@@ -44,22 +45,21 @@ export default function Page() {
   }
 
   return (
-    <>
-      <CommuSearch />
+    <div className={styles.container}>
+      {/* <CommuSearch /> */}
       <Link href={`/community/${userId}/create`}>커뮤니티 글 등록</Link>
       <ul>
         {data?.map((item) => {
           return (
-            <li key={item.id}>
-              <CommuPhotos photo={item.post_pic} />
-              <p>{item.content}</p>
-              <CommuHashTags hashTag={item.post_hashtag} />
+            <li className={styles.card} key={item.id}>
               <CommuUsers user={item.user} />
-              <CommuLikeBtn />
+              <CommuPhotos photo={item.post_pic} />
+              <p className={styles.content}>{item.content}</p>
+              <CommuHashTags hashTag={item.post_hashtag} />
             </li>
           );
         })}
       </ul>
-    </>
+    </div>
   );
 }

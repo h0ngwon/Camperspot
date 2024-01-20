@@ -1,0 +1,9 @@
+.wrap {
+  display: flex;
+  margin-top: 8px;
+}
+
+.tag {
+  padding-right: 4px;
+  color: #87a5bd;
+}
