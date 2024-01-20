@@ -96,18 +96,18 @@ export interface Database {
       };
       camp_facility: {
         Row: {
-          camp_id: string | null;
-          facility_id: number | null;
+          camp_id: string;
+          facility_id: number;
           id: string;
         };
         Insert: {
-          camp_id?: string | null;
-          facility_id?: number | null;
+          camp_id: string;
+          facility_id: number;
           id?: string;
         };
         Update: {
-          camp_id?: string | null;
-          facility_id?: number | null;
+          camp_id?: string;
+          facility_id?: number;
           id?: string;
         };
         Relationships: [
@@ -222,15 +222,15 @@ export interface Database {
       facility: {
         Row: {
           id: number;
-          option: string | null;
+          option: string;
         };
         Insert: {
           id?: number;
-          option?: string | null;
+          option: string;
         };
         Update: {
           id?: number;
-          option?: string | null;
+          option?: string;
         };
         Relationships: [];
       };
@@ -238,17 +238,17 @@ export interface Database {
         Row: {
           camp_id: string;
           id: string;
-          tag: string | null;
+          tag: string;
         };
         Insert: {
           camp_id: string;
           id?: string;
-          tag?: string | null;
+          tag: string;
         };
         Update: {
           camp_id?: string;
           id?: string;
-          tag?: string | null;
+          tag?: string;
         };
         Relationships: [
           {
@@ -308,33 +308,70 @@ export interface Database {
           content: string;
           created_at: string;
           id: string;
+          user_id: string;
         };
         Insert: {
           content: string;
           created_at?: string;
           id?: string;
+          user_id: string;
         };
         Update: {
           content?: string;
           created_at?: string;
           id?: string;
+          user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'post_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'user';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      post_hashtag: {
+        Row: {
+          id: string;
+          post_id: string;
+          tag: string;
+        };
+        Insert: {
+          id?: string;
+          post_id: string;
+          tag: string;
+        };
+        Update: {
+          id?: string;
+          post_id?: string;
+          tag?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'post_hashtag_post_id_fkey';
+            columns: ['post_id'];
+            isOneToOne: false;
+            referencedRelation: 'post';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       post_pic: {
         Row: {
           id: string;
-          photo_url: string | null;
+          photo_url: string;
           post_id: string;
         };
         Insert: {
           id?: string;
-          photo_url?: string | null;
+          photo_url: string;
           post_id: string;
         };
         Update: {
           id?: string;
-          photo_url?: string | null;
+          photo_url?: string;
           post_id?: string;
         };
         Relationships: [

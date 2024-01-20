@@ -1,0 +1,120 @@
+.searchBar {
+    display: flex;
+    width: 890px;
+    padding: 8px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 48px;
+    /**/
+    /* border: 1px solid #000; */
+    background-color: #f2f2f2;
+}
+
+.regionSearchBox {
+    display: flex;
+    width: 264px;
+    padding: 0px 24px;
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 10px; */
+}
+
+.regionSearch {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+
+}
+
+.regionSearchText {
+    color: #000;
+
+    /* 14px_Regular */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.regionSearchInput {
+    display: flex;
+    width: 264px;
+    /* padding: 0 20px; */
+    /* padding: 10px 24px; */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    border: none;
+    color: #000;
+
+    /* 14px_Regular */
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    /**/
+    background-color: inherit;
+}
+
+
+.date {
+    display: flex;
+    width: 264px;
+    padding: 0px 20px;
+    /* padding: 10px 24px; */
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 10px; */
+    border-radius: 36px;
+}
+
+.people {
+    display: flex;
+    width: 150px;
+    /* gap: 10px; */
+    justify-content: space-between;
+}
+
+.countBtn {
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+
+}
+
+.disable {
+    cursor: not-allowed;
+}
+
+.count {}
+
+.searchBtn {
+    display: flex;
+    width: 64px;
+    height: 64px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    /* gap: 10px; */
+    flex-shrink: 0;
+    border-radius: 56px;
+}
+
+.active {
+    cursor: pointer;
+
+    background: var(--primary-600, #4DB635);
+
+}
+
+.inactive {
+    cursor: not-allowed;
+
+    background: #a1a0a0
+}
