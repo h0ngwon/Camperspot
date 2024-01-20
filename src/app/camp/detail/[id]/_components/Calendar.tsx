@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useRouter } from 'next/navigation';
 registerLocale('ko', ko);
 
-export const Calendar = () => {
+interface Props {
+  onDatesChange: (dates: [Date, Date], nights: number) => void;
+}
+
+export const Calendar = ({ onDatesChange }: Props) => {
   const currentDate = new Date();
-  const router = useRouter();
   const [startDate, setStartDate] = useState<Date | null>(
     new Date(currentDate.setHours(0, 0, 0, 0)),
   );
@@ -19,15 +21,11 @@ export const Calendar = () => {
     ),
   );
 
-  const onChange = (dates: [Date, Date]) => {
+  const onChange = (dates: [Date, Date], nights: number) => {
+    onDatesChange(dates, nights);
     const [start, end] = dates;
     setStartDate(start);
     setEndDate(end);
-    router.push(
-      `/result?checkIn=${encodeURIComponent(
-        startDate!.toISOString(),
-      )}&checkOut=${encodeURIComponent(endDate!.toISOString())}`,
-    );
   };
   return (
     <div>

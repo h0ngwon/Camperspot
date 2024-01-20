@@ -27,11 +27,12 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   const [isActive, setIsActive] = useState<number | null>(null);
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
+  const [dates, setDates] = useState<[Date, Date]>([new Date(), new Date()]);
+  const [nights, setNights] = useState<number>(1);
   const toggleActive = (selectMethod: number) => {
     if (isActive == selectMethod) setIsActive(null);
     else setIsActive(selectMethod);
   };
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const { max_people, price, name } = reservation?.[0]!;
   const { check_in, check_out } = reservation?.[0].camp!;
@@ -89,14 +90,22 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             <span>
               체크인 {check_in}~ 체크아웃 {check_out}
             </span>
-            <Calendar />
+            <Calendar
+              onDatesChange={(dates) => {
+                setDates(dates);
+                setNights(
+                  Math.abs(dates[1]?.getTime() - dates[0]?.getTime()) /
+                    (1000 * 60 * 60 * 24),
+                );
+              }}
+            />
           </p>
         </div>
         <p>
-          예약 금액 <span>{price}원</span>
+          예약 금액 <span>{nights ? price * nights : price}원</span>
         </p>
         <p>
-          총 결제 금액 <span>{price}원</span>
+          총 결제 금액 <span>{nights ? price * nights : price}원</span>
         </p>
         <h3 className={styles.h3}>결제 정보</h3>
         <label htmlFor='userName'>예약자 명</label>
