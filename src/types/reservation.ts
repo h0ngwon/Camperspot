@@ -1,16 +1,14 @@
-export type ReservationInfo =
-  | {
-      id: string;
-      max_people: number;
-      price: number;
-      name: string;
-      camp: {
-        name: string;
-        check_in: string;
-        check_out: string;
-      } | null;
-    }[]
-  | null;
+export type ReservationInfo = {
+  id: string;
+  max_people: number;
+  price: number;
+  name: string;
+  camp: {
+    name: string;
+    check_in: string;
+    check_out: string;
+  } | null;
+} | null;
 
 export type CompanyReservationInfo = {
   id: string;
