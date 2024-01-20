@@ -7,6 +7,7 @@ import RegionCarousel from './RegionCarousel';
 // className={`${styles.carouselContainer} ${styles.aaa}`}
 // className={styles['carouselContainer,carousel']}
 import styles from '../_styles/Main.module.css';
+import Calendar from './Calendar';
 const Main = () => {
   return (
     <div className={styles.container}>
