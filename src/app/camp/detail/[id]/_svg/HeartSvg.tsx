@@ -1,4 +1,4 @@
-import styles from '../_styles/Svg.module.css';
+import styles from '../_styles/Like.module.css';
 
 type Props = {
   filled?: boolean;

@@ -5,16 +5,16 @@ import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import KakaoMap from './_components/KakaoMap';
 import DetailShareBtn from './_components/DetailShareBtn';
-import DetailLikeBtn from './_components/DetailLikeBtn';
+import DetailLikeBtns from './_components/DetailLikeBtns';
 import DetailReview from './_components/DetailReview';
 import DetailImg from './_components/DetailImg';
 import DetailHashtag from './_components/DetailHashtag';
 import DetailCampZone from './_components/DetailCampZone';
 import DetailFacility from './_components/DetailFacility';
-import DetailAvg from './_components/DetailAvg';
+import DetailAddress from './_components/DetailAddress';
 
 import styles from './_styles/Detail.module.css';
-import DetailAddress from './_components/DetailAddress';
+import DetailAvg from './_components/DetailAvg';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -51,15 +51,13 @@ export default function DetailPage() {
     return <div>에러 발생</div>;
   }
 
-  console.log(data?.layout);
-
   return (
     <div className={styles.container}>
       <DetailImg campPic={data?.camp_pic} />
       <div className={styles.titleWrap}>
         <h3>{data?.name}</h3>
         <div className={styles.BtnWrap}>
-          <DetailLikeBtn />
+          <DetailLikeBtns />
           <DetailShareBtn />
         </div>
       </div>
