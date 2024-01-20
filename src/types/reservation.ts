@@ -29,3 +29,11 @@ export type CompanyReservationInfo = {
     } | null;
   } | null;
 };
+
+export type CampAreaRservationInfo =
+  | {
+      check_in_date: string;
+      check_out_date: string;
+      camp_area_id: string;
+    }[]
+  | null;
