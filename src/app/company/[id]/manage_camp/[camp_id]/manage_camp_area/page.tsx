@@ -5,13 +5,16 @@ import plusBtn from '../../../../../../asset/ph_plus.png';
 import CampAreaModal from './_components/CampAreaModal';
 import styles from './_styles/CampAreaForm.module.css';
 import { supabase } from '@/app/api/db';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+import closeBtn from '../../../../../../asset/closeBtn.png';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
 
   const params = useParams();
+
+  const queryClient = useQueryClient();
 
   // camp id는 이 페이지를 클릭하고 들어올 때 정해짐
   const campId = params.camp_id;
@@ -19,6 +22,9 @@ const AddCampArea = () => {
   const deleteCampArea = useMutation({
     mutationFn: async () => {
       await supabase.from('camp_area').delete().eq('camp_id', campId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
     },
   });
 
@@ -50,19 +56,30 @@ const AddCampArea = () => {
       <div className={styles.campAreaWrap}>
         {data?.map((camparea) => {
           return (
-            <div className={styles.addCampArea} key={camparea.id}>
-              <div>
-                <h3>{camparea.name}</h3>
-                <button onClick={handleDeleteCampArea}>x</button>
+            <div className={styles.campArea} key={camparea.id}>
+              <div className={styles.areaHead}>
+                <h3 className={styles.h3}>{camparea.name}</h3>
+                <button
+                  onClick={handleDeleteCampArea}
+                  className={styles.deleteCardBtn}
+                >
+                  <Image src={closeBtn} alt='삭제버튼' width={30} />
+                </button>
               </div>
-              <img />
-              <div>
+              <Image
+                src={camparea.photo_url}
+                alt='캠핑존 이미지'
+                width={150}
+                height={150}
+                className={styles.img}
+              />
+              <div className={styles.textBox}>
                 <div>
-                  <p>최대 수용인원</p>
-                  <p>{camparea.max_people}</p>
+                  <p className={styles.textAlign}>최대 수용인원</p>
+                  <p>{camparea.max_people}명</p>
                 </div>
                 <div>
-                  <p>금액</p>
+                  <p className={styles.textAlign}>금액</p>
                   <p>{camparea.price}원</p>
                 </div>
               </div>
@@ -75,8 +92,10 @@ const AddCampArea = () => {
           }}
           className={styles.addCampArea}
         >
-          <Image src={plusBtn} alt='캠핑존 추가하기 버튼' />
-          <p>캠핑존 추가하기</p>
+          <div className={styles.btnWrap}>
+            <Image src={plusBtn} alt='캠핑존 추가하기 버튼' />
+            <p>캠핑존 추가하기</p>
+          </div>
         </div>
         {isCampAreaModal && (
           <div className={styles.modalUP}>

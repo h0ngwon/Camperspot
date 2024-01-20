@@ -7,6 +7,8 @@ type Props = {};
 
 const Header = (props: Props) => {
   const { data: session } = useSession();
+
+  const companyId = session?.user.id;
   return (
     <>
       <Link href={`/auth/signin`} className={styles.linkBtn}>
@@ -21,7 +23,10 @@ const Header = (props: Props) => {
       <Link href={`/camp/detail/aaa/reservation`} className={styles.linkBtn}>
         예약
       </Link>
-      <Link href={`/company/aaa`} className={styles.linkBtn}>
+      <Link
+        href={`/company/${companyId}/manage_reservation`}
+        className={styles.linkBtn}
+      >
         company
       </Link>
       <Link

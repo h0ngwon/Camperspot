@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 1200px;
+  margin: 20px auto;
+}
+.left {
+  background: #d9d9d9;
+  width: 360px;
+  height: 100vh;
+}
+.right {
+  width: 840px;
+  padding: 20px;
+}

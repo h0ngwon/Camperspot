@@ -1,0 +1,34 @@
+.sidebarItem {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  text-decoration: none;
+}
+.sidebarItem:hover {
+  background: #bbb;
+}
+.sidebarItemMycamp {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.sidebarItemMycamp:hover {
+  background: #bbb;
+}
+.myCampItem {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  padding-left: 150px;
+  cursor: pointer;
+}
+.myCampItem:hover {
+  background: #bbb;
+}
