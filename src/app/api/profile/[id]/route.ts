@@ -17,3 +17,7 @@ export const GET = async (
     console.log(repository);
   return NextResponse.json(repository.data);
 };
+
+export const POST = async (id: string) => {
+  const repository = await supabase.from('user')
+}
