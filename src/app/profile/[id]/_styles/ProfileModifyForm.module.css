@@ -10,3 +10,7 @@
 .hidden {
   display: none;
 }
+
+.container img {
+  object-fit: cover;
+}

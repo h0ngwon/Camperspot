@@ -18,12 +18,15 @@ const ProfileModifyForm = () => {
       // make preview url
       const imageUrl: string = URL.createObjectURL(imgFile);
       setPrevImage(imageUrl);
-      console.log(file)
-      console.log(prevImage)
     }
   };
+
+  const submitHandler = () => {
+    
+  }
+
   return (
-    <form className={styles.container}>
+    <form className={styles.container} onSubmit={submitHandler}>
       <label>
         <div>
           <Image
