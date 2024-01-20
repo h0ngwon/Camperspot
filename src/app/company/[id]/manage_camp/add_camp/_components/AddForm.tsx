@@ -12,7 +12,7 @@ import CampPicture from './CampPicture';
 import Hashtag from './Hashtag';
 import SearchAddress from './SearchAddress';
 import CheckInOut from './CheckInOut';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 
 const AddForm = () => {
@@ -34,6 +34,8 @@ const AddForm = () => {
   const router = useRouter();
   const params = useParams();
 
+  const queryClient = useQueryClient();
+
   const campId = uuid();
 
   const { data: session } = useSession();
@@ -45,6 +47,7 @@ const AddForm = () => {
   const regionSplit = address.split(' ');
   const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
 
+  // 쿼리문으로 작성한 camp테이블 insert
   const {
     mutate: createCamp,
     isError,
@@ -71,6 +74,9 @@ const AddForm = () => {
         throw new Error(error.message);
       }
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
     },
   });
   if (isError) {
@@ -152,6 +158,9 @@ const AddForm = () => {
 
     if (camp_facility && hashtagData) {
       alert('등록되었습니다');
+      router.push(
+        `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
+      );
     }
   };
 

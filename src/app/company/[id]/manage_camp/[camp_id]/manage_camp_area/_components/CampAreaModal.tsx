@@ -11,6 +11,8 @@ import styles from '../_styles/CampAreaForm.module.css';
 import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';
+import { useParams } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
 const CampAreaModal = ({ setCampAreaModal }: Props) => {
@@ -21,10 +23,10 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
 
   const id = uuid();
 
-  const imgRef = useRef<HTMLInputElement>(null);
+  const params = useParams();
+  const campId = params.camp_id;
 
-  // camp_id 가져오는 로직 필요 << 팀원들과 상의
-  const campId = 'd88d1256-6202-469d-81e8-b8d12f629206';
+  const imgRef = useRef<HTMLInputElement>(null);
 
   // 캠핑존 이미지 업로드
   async function handleChangeInputCampArea(e: ChangeEvent<HTMLInputElement>) {
@@ -38,19 +40,44 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
     setAreaImg('');
   };
 
+  const queryClient = useQueryClient();
+  // 쿼리문으로 작성한 camp_area테이블 insert
+  const {
+    mutate: createCampArea,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase
+        .from('camp_area')
+        .insert({
+          id,
+          camp_id: campId as string,
+          name: areaName,
+          max_people: Number(areaMaxPeople),
+          price: Number(areaPrice),
+          photo_url: areaImg,
+        })
+        .select();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['camp_area'] });
+    },
+  });
+  if (isError) {
+    console.log(error);
+    return <div>에러 발생</div>;
+  }
+
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { data: campAreaData, error } = await supabase
-      .from('camp_area')
-      .insert({
-        id,
-        camp_id: campId,
-        name: areaName,
-        max_people: Number(areaMaxPeople),
-        price: Number(areaPrice),
-        photo_url: areaImg,
-      });
+    createCampArea();
 
     // 등록 눌렀을 시 캠핑존 이미지 업로드
     async function uploadStorageCampAreaData(blob: Blob | File) {
@@ -74,10 +101,11 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
     }
     uploadCampAreaTable();
 
-    if (campAreaData) {
+    if (error) {
+      console.log(error);
+    } else {
       alert('등록완료');
-    } else if (error) {
-      console.log(error.message);
+      setCampAreaModal(false);
     }
   };
 

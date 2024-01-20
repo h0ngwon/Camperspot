@@ -5,13 +5,26 @@ import plusBtn from '../../../../../../asset/ph_plus.png';
 import CampAreaModal from './_components/CampAreaModal';
 import styles from './_styles/CampAreaForm.module.css';
 import { supabase } from '@/app/api/db';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
 
-  // camp id는 이 페이지를 클릭하고 들어올 때 정해짐 << 나중에 campId 들고오는 로직
-  const campId = 'd88d1256-6202-469d-81e8-b8d12f629206';
+  const params = useParams();
+
+  // camp id는 이 페이지를 클릭하고 들어올 때 정해짐
+  const campId = params.camp_id;
+
+  const deleteCampArea = useMutation({
+    mutationFn: async () => {
+      await supabase.from('camp_area').delete().eq('camp_id', campId);
+    },
+  });
+
+  const handleDeleteCampArea = () => {
+    deleteCampArea.mutate();
+  };
 
   // campId에 맞는 camp area를 들고 와서 map으로 뿌려주는 로직
   const { data, isLoading, isError } = useQuery({
@@ -40,7 +53,7 @@ const AddCampArea = () => {
             <div className={styles.addCampArea} key={camparea.id}>
               <div>
                 <h3>{camparea.name}</h3>
-                <button>x</button>
+                <button onClick={handleDeleteCampArea}>x</button>
               </div>
               <img />
               <div>
