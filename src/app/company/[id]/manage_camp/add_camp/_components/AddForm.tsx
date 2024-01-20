@@ -12,7 +12,7 @@ import CampPicture from './CampPicture';
 import Hashtag from './Hashtag';
 import SearchAddress from './SearchAddress';
 import CheckInOut from './CheckInOut';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 
 const AddForm = () => {
@@ -33,6 +33,8 @@ const AddForm = () => {
 
   const router = useRouter();
   const params = useParams();
+
+  const queryClient = useQueryClient();
 
   const campId = uuid();
 
@@ -72,6 +74,9 @@ const AddForm = () => {
         throw new Error(error.message);
       }
       return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
     },
   });
   if (isError) {
