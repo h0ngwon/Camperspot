@@ -78,6 +78,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
     e.preventDefault();
 
     createCampArea();
+
     // 등록 눌렀을 시 캠핑존 이미지 업로드
     async function uploadStorageCampAreaData(blob: Blob | File) {
       const { data, error } = await supabase.storage
