@@ -16,27 +16,25 @@ const ManageAddedCamp = (props: Props) => {
   const { data: session } = useSession();
   const companyUserId = session?.user?.id;
 
-  const { isLoading, isError, data } = useQuery({
+  const { isLoading, isError, error, data } = useQuery({
     queryKey: ['camp', companyUserId],
     queryFn: async ({ queryKey }) => {
       const [, companyUserId] = queryKey; // queryKey에서 companyUserId를 추출
 
-      try {
-        const { data: camp, error } = await supabase
-          .from('camp')
-          .select(
-            '*,camp_pic(*),hashtag(tag),camp_facility(*,facility(*)),camp_area(*),review(*)',
-          )
-          .eq('company_id', companyUserId as string);
+      const { data: camp, error } = await supabase
+        .from('camp')
+        .select(
+          '*,camp_pic(*),hashtag(tag),camp_facility(*,facility(*)),camp_area(*),review(*)',
+        )
+        .eq('company_id', companyUserId as string);
 
-        if (error) {
-          console.log('Supabase Error:', error);
-        }
-
-        return camp;
-      } catch (error) {
-        console.log('Caught an error:', error);
+      if (error) {
+        // console.log('Supabase Error:', error);
+        throw new Error(error.message);
+        // 에러를 감지해서 쿼리문에 선언된 error로 들어가진다
       }
+
+      return camp;
     },
   });
 
@@ -45,6 +43,7 @@ const ManageAddedCamp = (props: Props) => {
   }
 
   if (isError) {
+    console.log(error);
     return <div>에러 발생</div>;
   }
 
