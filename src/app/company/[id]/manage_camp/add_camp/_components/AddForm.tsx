@@ -13,6 +13,7 @@ import Hashtag from './Hashtag';
 import SearchAddress from './SearchAddress';
 import CheckInOut from './CheckInOut';
 import { useMutation } from '@tanstack/react-query';
+import { useParams, useRouter } from 'next/navigation';
 
 const AddForm = () => {
   const [name, handleName] = useInput();
@@ -30,11 +31,15 @@ const AddForm = () => {
   const [hashTags, setHashTags] = useState<string[]>([]);
   const [inputHashTag, setInputHashTag] = useState('');
 
+  const router = useRouter();
+  const params = useParams();
+
   const campId = uuid();
 
   const { data: session } = useSession();
 
-  const companyUserId = session?.user.id;
+  // const companyUserId = session?.user.id;
+  const companyUserId = params.id;
 
   // 지역정보 구분
   const regionSplit = address.split(' ');

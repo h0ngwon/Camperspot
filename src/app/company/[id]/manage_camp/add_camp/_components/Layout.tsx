@@ -29,6 +29,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
         type='file'
         onChange={handleChangeInputLayoutImageFile}
         ref={imgRef}
+        required
       />
       {campLayout ? (
         <div>

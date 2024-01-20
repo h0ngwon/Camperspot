@@ -24,16 +24,12 @@ const Header = (props: Props) => {
       <Link href={`/company/aaa`} className={styles.linkBtn}>
         company
       </Link>
-<<<<<<< HEAD
-
-=======
       <Link
         href={`/company/23bfb168-d019-4c31-8bab-fa46e1e12a9d/manage_reservation`}
         className={styles.linkBtn}
       >
         예약관리
       </Link>
->>>>>>> 7a2d0e45573fa71d4b1a86222015618892a9a10a
       <Link href={`/camp?sort=인기순&page=1`} className={styles.linkBtn}>
         캠핑장 둘러보기
       </Link>
