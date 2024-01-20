@@ -45,6 +45,7 @@ const AddForm = () => {
   const regionSplit = address.split(' ');
   const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
 
+  // 쿼리문으로 작성한 camp테이블 insert
   const {
     mutate: createCamp,
     isError,
@@ -152,6 +153,9 @@ const AddForm = () => {
 
     if (camp_facility && hashtagData) {
       alert('등록되었습니다');
+      router.push(
+        `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
+      );
     }
   };
 
