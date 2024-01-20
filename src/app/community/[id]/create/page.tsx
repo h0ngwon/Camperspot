@@ -83,7 +83,6 @@ export default function page() {
     if (isEmptyValue(newHashTag)) return;
 
     setHashTags((prevHashTags) => {
-      // return [...new Set([...prevHashTags, newHashTag])];
       const uniqueHashTags = new Set([...prevHashTags, newHashTag]);
       return Array.from(uniqueHashTags);
     });

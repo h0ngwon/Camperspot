@@ -1,34 +1,34 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/app/api/db';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import HeartSvg from '../_svg/HeartSvg';
+import { supabase } from '@/app/api/db';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
-import styles from '../_styles/Like.module.css';
+import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
 
-export default function DetailLikeBtns() {
+export default function CommuLikeBtn() {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
-  const { data: session } = useSession();
   const params = useParams() as { id: string };
 
+  const { data: session } = useSession();
   const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['like'],
     queryFn: async () => {
       try {
-        const { data: camp, error } = await supabase
-          .from('camp')
+        const { data: post, error } = await supabase
+          .from('post')
           .select('id, like(user_id)')
           .eq('id', params.id)
           .single();
 
-        return camp;
+        return post;
       } catch (error) {
         console.log(error);
       }
@@ -40,7 +40,7 @@ export default function DetailLikeBtns() {
       await supabase
         .from('like')
         .delete()
-        .match({ user_id, camp_id: params.id });
+        .match({ user_id, post_id: params.id });
     },
     onSuccess: () => {
       setLikeCount((prev) => prev - 1);
@@ -55,7 +55,7 @@ export default function DetailLikeBtns() {
       try {
         await supabase.from('like').insert({
           user_id: userId,
-          camp_id: params.id,
+          post_id: params.id,
         });
       } catch (error) {
         console.error('좋아요 추가 중 에러 발생:', error);
@@ -97,7 +97,6 @@ export default function DetailLikeBtns() {
       setLiked((prevLiked) => !prevLiked);
 
       // 좋아요 상태 변경 후, 캠프 정보 다시 불러오기
-      // fetchCampData();
     } catch (error) {
       console.error('좋아요 상태를 업데이트하는 중 오류 발생', error);
     }
@@ -106,7 +105,7 @@ export default function DetailLikeBtns() {
   return (
     <div className={styles.wrap}>
       <button className={styles.btn} onClick={handleLikeBtn}>
-        <HeartSvg filled={liked} strokeColor='#eee' fillColor='#FF0000' />
+        <HeartSvg filled={liked} strokeColor='#353535' fillColor='#FF0000' />
       </button>
       <p key={data?.id}>{likeCount}</p>
     </div>

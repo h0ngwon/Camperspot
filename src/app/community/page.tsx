@@ -8,6 +8,7 @@ import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import { useSession } from 'next-auth/react';
 import CommuUsers from './_components/CommuUsers';
+import CommuLikeBtn from './_components/CommuLikeBtn';
 
 export default function Page() {
   const { data: session } = useSession();
@@ -54,6 +55,7 @@ export default function Page() {
               <p>{item.content}</p>
               <CommuHashTags hashTag={item.post_hashtag} />
               <CommuUsers user={item.user} />
+              <CommuLikeBtn />
             </li>
           );
         })}

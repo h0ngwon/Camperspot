@@ -16,7 +16,7 @@ const PopularCamp = async () => {
     `,
     )
     .range(0, 9);
-  console.log(camp);
+  // console.log(camp);
   const a = 'red';
   /* <p className={`${a === 'blue' ? styles.blue : styles.red}`}>text</p> */
   return (

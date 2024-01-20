@@ -5,10 +5,10 @@ import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import KakaoMap from './_components/KakaoMap';
 import DetailShareBtn from './_components/DetailShareBtn';
-import DetailLikeBtns from './_components/DetailLikeBtns';
-import DetailReview from './_components/DetailReview';
+import DetailLikeBtn from './_components/DetailLikeBtn';
+import DetailReviews from './_components/DetailReviews';
 import DetailImg from './_components/DetailImg';
-import DetailHashtag from './_components/DetailHashtag';
+import DetailHashtags from './_components/DetailHashtags';
 import DetailCampZone from './_components/DetailCampZone';
 import DetailFacility from './_components/DetailFacility';
 import DetailAddress from './_components/DetailAddress';
@@ -57,13 +57,13 @@ export default function DetailPage() {
       <div className={styles.titleWrap}>
         <h3>{data?.name}</h3>
         <div className={styles.BtnWrap}>
-          <DetailLikeBtns />
+          <DetailLikeBtn />
           <DetailShareBtn />
         </div>
       </div>
       <DetailAddress address={data?.address} />
       <DetailAvg reviewAvg={data?.review} />
-      <DetailHashtag campHashtag={data?.hashtag} />
+      <DetailHashtags campHashtag={data?.hashtag} />
       <h4>시설정보</h4>
       <DetailFacility campFacilty={data?.camp_facility} />
       <h4>캠핑장 소개</h4>
@@ -74,7 +74,7 @@ export default function DetailPage() {
       <KakaoMap campAddress={data?.address} />
       <h4>리뷰 및 평가</h4>
       <DetailAvg reviewAvg={data?.review} />
-      <DetailReview review={data?.review} />
+      <DetailReviews review={data?.review} />
     </div>
   );
 }

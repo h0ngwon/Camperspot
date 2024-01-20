@@ -8,7 +8,7 @@ type Props = {
   }[];
 };
 
-export default function CommuPhoto({ photo }: Props) {
+export default function CommuPhotos({ photo }: Props) {
   return (
     <ul>
       {photo.map((pic) => (
