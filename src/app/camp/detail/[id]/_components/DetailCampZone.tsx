@@ -67,7 +67,7 @@ type Props = {
 
 export default function DetailCampZone({ campArea }: Props) {
   const params = useParams();
-
+  const { layout } = campArea!;
   const campPrice = (price: number) => {
     return price.toLocaleString();
   };

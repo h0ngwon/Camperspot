@@ -20,7 +20,7 @@ export default function ReviewStarSvg({ filled }: Props) {
         fill={filled ? '#FFD700' : 'none'}
         stroke='#E7AC00'
         stroke-width='0.5'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       ></path>
     </svg>
   );
