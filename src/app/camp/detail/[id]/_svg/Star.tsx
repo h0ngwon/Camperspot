@@ -19,7 +19,7 @@ export default function Star() {
         fill='#fdbd00'
         stroke='#E7AC00'
         stroke-width='0.5'
-        stroke-linejoin='round'
+        strokeLinejoin='round'
       ></path>
     </svg>
   );
