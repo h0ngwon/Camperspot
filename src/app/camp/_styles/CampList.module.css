@@ -2,6 +2,11 @@
     width: 450px;
 }
 
+.link {
+    text-decoration-line: none;
+    color: inherit;
+}
+
 .photoAndLike {
     position: relative;
 }
