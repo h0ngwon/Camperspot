@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useRef } from 'react';
+import styles from '../_styles/CampForm.module.css';
 
 type Props = {
   campLayout: string;
@@ -33,7 +34,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
       />
       {campLayout ? (
         <div>
-          <img src={campLayout} />
+          <img src={campLayout} className={styles.layoutImg} />
           <button type='button' onClick={() => handleDeleteCampLayoutImg()}>
             이미지 삭제
           </button>

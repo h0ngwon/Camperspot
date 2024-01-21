@@ -5,6 +5,7 @@ import { signOut, useSession } from 'next-auth/react';
 import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import styles from '../_styles/CompanyHeader.module.css';
 
 type Props = {};
 
@@ -43,18 +44,32 @@ const CompanyHeader = (props: Props) => {
 
   const handleClickMyCamp = () => {
     setMyCamp(true);
+    if (isClickMyCamp === true) {
+      setMyCamp(false);
+    }
   };
   const handleGoToCampArea = (campId: string) => {
     route.push(`/company/${companyId}/manage_camp/${campId}/manage_camp_area`);
   };
   return (
     <>
-      <Link href={`/company/${companyId}/manage_camp/add_camp`}>
+      <Link
+        href={`/company/${companyId}/manage_reservation`}
+        className={styles.sidebarItem}
+      >
+        예약관리
+      </Link>
+      <Link
+        href={`/company/${companyId}/manage_camp/add_camp`}
+        className={styles.sidebarItem}
+      >
         캠핑장등록
       </Link>
       {campData && (
         <div>
-          <h1 onClick={handleClickMyCamp}>내캠핑장</h1>
+          <h1 onClick={handleClickMyCamp} className={styles.sidebarItemMycamp}>
+            내캠핑장
+          </h1>
           {isClickMyCamp ? (
             <ul>
               {campData.length !== 0
@@ -63,6 +78,7 @@ const CompanyHeader = (props: Props) => {
                       <li
                         key={item.id}
                         onClick={() => handleGoToCampArea(item.id)}
+                        className={styles.myCampItem}
                       >
                         {item.name}
                       </li>
@@ -75,11 +91,12 @@ const CompanyHeader = (props: Props) => {
           )}
         </div>
       )}
-      <Link href={`/company/${companyId}/manage_company_user_info`}>
+      <Link
+        href={`/company/${companyId}/manage_company_user_info`}
+        className={styles.sidebarItem}
+      >
         회원정보관리
       </Link>
-      <Link href={`/company/${companyId}/manage_reservation`}>예약관리</Link>
-      <button onClick={() => signOut()}>로그아웃</button>
     </>
   );
 };
