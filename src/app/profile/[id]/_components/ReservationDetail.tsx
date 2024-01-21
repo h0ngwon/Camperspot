@@ -8,7 +8,6 @@ import ReservationList from './ReservationList';
 export const ReservationDetail = () => {
   const params = useParams();
   const { id: userId } = params;
-  console.log('params', userId);
   const {
     isLoading,
     error,
@@ -30,12 +29,10 @@ export const ReservationDetail = () => {
     (reservation) =>
       new Date(reservation.check_out_date).getTime() < new Date().getTime(),
   );
-  console.log('이용 예정', plannedReservation);
-  console.log('지난 예약', passedReservation);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
-  console.log('data', reservations);
+
   return (
     <>
       <h3 className={styles.h3}>예약 현황</h3>
@@ -49,7 +46,7 @@ export const ReservationDetail = () => {
       </div>
       <div className={styles.divider}></div>
       <ul>
-        <ReservationList reservations={plannedReservation} isPlanned={true} />
+        <ReservationList reservations={plannedReservation!} isPlanned={true} />
       </ul>
       <p>이용 후</p>
       <div className={styles.div}>
@@ -60,7 +57,7 @@ export const ReservationDetail = () => {
       </div>
       <div className={styles.divider}></div>
       <ul>
-        <ReservationList reservations={passedReservation} isPlanned={false} />
+        <ReservationList reservations={passedReservation!} isPlanned={false} />
       </ul>
     </>
   );

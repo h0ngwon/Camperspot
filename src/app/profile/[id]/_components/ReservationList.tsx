@@ -1,18 +1,22 @@
+'use client';
 import { UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationList.module.css';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
+import { useState } from 'react';
+import ReservationDetailModal from './ReservationDetailModal';
 
 const ReservationList = ({
   reservations,
   isPlanned,
 }: {
-  reservations: UserReservationInfo;
+  reservations: UserReservationInfo[];
   isPlanned: boolean;
 }) => {
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState<boolean>(false);
   const handleCopy = (address: string) => {
     copy(address);
-    toast.success('클립보드에 복사되었습니다', { position: 'top-right' });
+    toast.success('클립보드에 복사되었습니다');
   };
   return (
     <>
@@ -43,7 +47,6 @@ const ReservationList = ({
                 month: '2-digit',
                 day: '2-digit',
               })}`}</p>
-              {/* <p className={styles.date}>{check_out_date}</p> */}
               {isPlanned && (
                 <p>
                   {address}
@@ -57,7 +60,15 @@ const ReservationList = ({
               )}
               {!isPlanned && <button>다시 예약</button>}
               {!isPlanned && <button>리뷰 쓰기</button>}
-              <button>상세 보기</button>
+              <button onClick={() => setIsOpenDetailModal(true)}>
+                상세 보기
+              </button>
+              {isOpenDetailModal && (
+                <ReservationDetailModal
+                  reservation={reservation}
+                  onClose={() => setIsOpenDetailModal(false)}
+                />
+              )}
             </li>
           );
         })}
