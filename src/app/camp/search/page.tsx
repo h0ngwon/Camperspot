@@ -53,7 +53,7 @@ const SearchPage = async ({ searchParams }: Props) => {
         </div>
         <div className={styles.listWrapper}>
           <div className={styles.camplList}>
-            {/* <CampList data={camp!} /> */}
+            <CampList data={camp!} />
           </div>
         </div>
         <Spacer y={50} />
