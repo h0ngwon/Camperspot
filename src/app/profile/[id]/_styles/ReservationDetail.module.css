@@ -1,0 +1,18 @@
+.div {
+  display: flex;
+  gap: 2rem;
+  padding: 0.5rem 0.3rem;
+}
+
+.divider {
+  border: 1px solid #afafaf;
+}
+
+.li {
+  display: flex;
+  gap: 1rem;
+}
+
+.date {
+  font-size: 0.8rem;
+}
