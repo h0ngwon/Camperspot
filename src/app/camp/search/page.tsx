@@ -37,6 +37,12 @@ const SearchPage = async ({ searchParams }: Props) => {
       )
       .gte('camp_area.max_people', `${Number(searchParams.people)}`);
   }
+  /**
+camp=>camp_area=>reservation 
+reservation - check_in_date~check_out_date 와 비교해서 
+check_in ~ check_out 기간이 check_in_date ~ check_out 기간과 겹치지 않는 데이터 
+              
+*/
 
   const { data: camp, error } = await query;
   console.log(camp?.length);

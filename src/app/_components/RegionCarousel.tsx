@@ -6,27 +6,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../_styles/RegionFiltter.module.css';
 import Spacer from '@/components/Spacer';
+import { regions } from '../_lib/regions';
+import Image from 'next/image';
 
 export default class RegionCarousel extends Component {
   render() {
-    const regions = [
-      '서울',
-      '대전',
-      '대구',
-      '부산',
-      '경기',
-      '충북',
-      '전북',
-      '경북',
-      '인천',
-      '광주',
-      '울산',
-      '제주',
-      '강원',
-      '충남',
-      '전남',
-      '경남',
-    ];
     const settings = {
       className: 'center',
       infinite: false,
@@ -46,12 +30,19 @@ export default class RegionCarousel extends Component {
         <Slider {...settings}>
           {regions.map((region) => {
             return (
-              <Link
-                href={`/camp/search?region=${region}`}
-                key={region}
-                className={styles.regionCard}
-              >
-                <div>{region}</div>
+              <Link href={`/camp/search?region=${region}`} key={region.name}>
+                <div className={styles.regionCard}>
+                  <figure>
+                    <Image
+                      src={region.pic}
+                      width={250}
+                      height={200}
+                      alt=''
+                      className={styles.pic}
+                    />
+                  </figure>
+                  <p>{region.name}</p>
+                </div>
               </Link>
             );
           })}

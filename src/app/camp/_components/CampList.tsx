@@ -42,7 +42,7 @@ const CampList = (data: Props) => {
                   <p>
                     {camp.camp_area[0]?.price === 0
                       ? '무료'
-                      : `${camp.camp_area[0]?.price}원~`}
+                      : `${camp.camp_area[0]?.price.toLocaleString()}원~`}
                   </p>
                 </div>
               </div>
