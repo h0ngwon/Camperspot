@@ -5,8 +5,8 @@ type ReturnType = [
   string,
   (e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) => void,
 ];
-export default function useInput() {
-  const [value, setValue] = useState('');
+export default function useInput(data?: string) {
+  const [value, setValue] = useState(data ?? '');
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
   ) => {
