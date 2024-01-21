@@ -55,23 +55,33 @@ const ReservationList = ({
                 day: '2-digit',
               })}`}</p>
               {isPlanned && (
-                <p>
-                  {address}
-                  <span
-                    className={styles.copy}
-                    onClick={() => handleCopy(address)}
-                  >
-                    복사하기
-                  </span>
-                </p>
+                <div className={styles.address}>
+                  <p>
+                    {address}
+                    <span
+                      className={styles.copy}
+                      onClick={() => handleCopy(address)}
+                    >
+                      복사하기
+                    </span>
+                  </p>
+                </div>
               )}
               {!isPlanned && (
-                <button onClick={() => router.push(`/camp/detail/${campId}`)}>
+                <button
+                  className={styles.button}
+                  onClick={() => router.push(`/camp/detail/${campId}`)}
+                >
                   다시 예약
                 </button>
               )}
-              {!isPlanned && <button>리뷰 쓰기</button>}
-              <button onClick={() => setIsOpenDetailModal(true)}>
+              {!isPlanned && (
+                <button className={styles.button}>리뷰 쓰기</button>
+              )}
+              <button
+                className={styles.button}
+                onClick={() => setIsOpenDetailModal(true)}
+              >
                 상세 보기
               </button>
               {isOpenDetailModal && (

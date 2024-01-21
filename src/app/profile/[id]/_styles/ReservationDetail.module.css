@@ -1,7 +1,17 @@
+.layout {
+  padding: 2rem;
+}
 .h3 {
   font-size: 1.2rem;
   font-weight: bold;
   padding: 1rem;
+}
+
+.p {
+  width: 100px;
+  background-color: #959595;
+  border-radius: 1rem;
+  padding: 0.5rem 0.8rem;
 }
 
 .div {

@@ -34,9 +34,9 @@ export const ReservationDetail = () => {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <>
+    <div className={styles.layout}>
       <h3 className={styles.h3}>예약 현황</h3>
-      <p>이용 예정</p>
+      <p className={styles.p}>이용 예정</p>
       <div className={styles.div}>
         <p>예약 일시</p>
         <p>캠핑장 이름</p>
@@ -48,7 +48,7 @@ export const ReservationDetail = () => {
       <ul>
         <ReservationList reservations={plannedReservation!} isPlanned={true} />
       </ul>
-      <p>이용 후</p>
+      <p className={styles.p}>이용 후</p>
       <div className={styles.div}>
         <p>예약 일시</p>
         <p>캠핑장 이름</p>
@@ -59,6 +59,6 @@ export const ReservationDetail = () => {
       <ul>
         <ReservationList reservations={passedReservation!} isPlanned={false} />
       </ul>
-    </>
+    </div>
   );
 };
