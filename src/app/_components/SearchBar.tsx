@@ -42,7 +42,7 @@ const SearchBar = () => {
       </div>
       {searchedCamp ? (
         <Link
-          href={`/camp/search?keyword=${searchedCamp}&check_in=${start}&check_out=${end}&people=${count}`}
+          href={`/camp/search?keyword=${searchedCamp}&check_in=${start}&check_out=${end}&people=${count}&page=1`}
           className={`${styles.searchBtn} ${styles.active}`}
         >
           <SearchSvg />

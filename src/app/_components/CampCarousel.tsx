@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import CampCard from './CampCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import styles from '../_styles/CampCarousel.module.css';
 type Props = {
   camp:
     | {
@@ -17,7 +18,7 @@ type Props = {
     | null;
 };
 
-export default class MultipleItems extends Component<Props> {
+export default class CampCarousel extends Component<Props> {
   render() {
     const { camp } = this.props;
 
@@ -30,17 +31,17 @@ export default class MultipleItems extends Component<Props> {
       touchMove: true,
     };
     return (
-      <div>
+      <ul>
         <Slider {...settings}>
           {camp!.map((item, index) => (
             <li key={index}>
-              <div>
+              <div className={styles.card}>
                 <CampCard camp={item} />
               </div>
             </li>
           ))}
         </Slider>
-      </div>
+      </ul>
     );
   }
 }

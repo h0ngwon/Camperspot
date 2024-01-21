@@ -1,11 +1,11 @@
-import Header from '@/components/Header';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/reset.css';
 import AuthSession from './_components/AuthSession';
 import Provider from './_components/CampProvider';
-import RealHeader from './_components/RealHeader';
+import Header from './_components/Header';
+import Spacer from '@/components/Spacer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,8 +25,10 @@ export default function RootLayout({
         <AuthSession>
           <Provider>
             <div id='modal'></div>
+            <Spacer y={30} />
+
             <Header />
-            <RealHeader />
+            <Spacer y={50} />
             {children}
           </Provider>
         </AuthSession>

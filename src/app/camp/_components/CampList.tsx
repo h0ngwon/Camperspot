@@ -5,6 +5,7 @@ import Hashtag from './Hashtag';
 import Like from './Like';
 import Link from 'next/link';
 import Photo from './Photo';
+import Spacer from '@/components/Spacer';
 
 type Props = {
   data: {
@@ -12,7 +13,6 @@ type Props = {
     name: string;
     created_at: string;
     address: string;
-    region: string;
     camp_area: { price: number; id: string }[];
     camp_pic: { id: string; photo_url: string }[];
     hashtag: { tag: string | null }[];
@@ -29,33 +29,36 @@ const CampList = (data: Props) => {
     <>
       {data.data.map((camp) => {
         return (
-          <Link
-            href={`http://localhost:3000/camp/detail/${camp.id}`}
-            className={styles.cardWrap}
-            key={camp.id}
-          >
-            <div className={styles.photoAndLike}>
-              <Like />
-              <Photo photos={camp.camp_pic} />
-            </div>
-            <div className={styles.cardMiddle}>
-              <div className={styles.campInfoBox1}>
-                <p>{camp.name}</p>
-                <p>{camp.camp_area[0]?.price}</p>
+          <div className={styles.cardWrap} key={camp.id}>
+            <Link href={`http://localhost:3000/camp/detail/${camp.id}`}>
+              <div className={styles.photoAndLike}>
+                <Like />
+                <Photo photos={camp.camp_pic} />
               </div>
-            </div>
-            <div className={styles.cardMiddle}>
-              <div className={styles.campInfoBox2}>
-                <p>
-                  <FaStar size='15' color='#fff384' /> 평점(리뷰수)
-                </p>
-                <p>{camp.address}</p>
+              <Spacer y={30} />
+              <div className={styles.cardMiddle}>
+                <div className={styles.campInfoBox1}>
+                  <p>{camp.name}</p>
+                  <p>
+                    {camp.camp_area[0]?.price === 0
+                      ? '무료'
+                      : `${camp.camp_area[0]?.price}원~`}
+                  </p>
+                </div>
               </div>
-            </div>
+              <div className={styles.cardMiddle}>
+                <div className={styles.campInfoBox2}>
+                  <p>
+                    <FaStar size='15' color='#fff384' /> 평점(리뷰수)
+                  </p>
+                  <p>{camp.address}</p>
+                </div>
+              </div>
+            </Link>
             <ol className={styles.cardTag}>
-              {/* <Hashtag tags={camp.hashtag} /> */}
+              <Hashtag tags={camp.hashtag} />
             </ol>
-          </Link>
+          </div>
         );
       })}
     </>
