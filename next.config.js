@@ -7,7 +7,8 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'kuxaffboxknwphgulogp.supabase.co',
         port: '',
-        pathname: '/storage/v1/object/public/camp_pic/blob:http:/localhost:3000/**',
+        pathname:
+          '/storage/v1/object/public/camp_pic/blob:http:/localhost:3000/**',
       },
       {
         protocol: 'https',
@@ -15,9 +16,13 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: 'k.kakaocdn.net'
-      }
+        hostname: 'k.kakaocdn.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ssl.pstatic.net',
+      },
     ],
   },
-}
+};
 module.exports = nextConfig;

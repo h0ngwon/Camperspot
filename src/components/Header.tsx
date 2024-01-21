@@ -7,16 +7,12 @@ type Props = {};
 
 const Header = (props: Props) => {
   const { data: session } = useSession();
+
+  const companyId = session?.user.id;
   return (
     <>
       <Link href={`/auth/signin`} className={styles.linkBtn}>
         Auth
-      </Link>
-      <Link
-        href={`/company/aaa/manage_camp/add_camp`}
-        className={styles.linkBtn}
-      >
-        캠핑장등록
       </Link>
       <Link
         href={`/camp/detail/d88d1256-6202-469d-81e8-b8d12f629206`}
@@ -27,7 +23,10 @@ const Header = (props: Props) => {
       <Link href={`/camp/detail/aaa/reservation`} className={styles.linkBtn}>
         예약
       </Link>
-      <Link href={`/company/aaa`} className={styles.linkBtn}>
+      <Link
+        href={`/company/${companyId}/manage_reservation`}
+        className={styles.linkBtn}
+      >
         company
       </Link>
       <Link
