@@ -2,7 +2,6 @@ import { UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationList.module.css';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
-import 'react-toastify/ReactToastify.css';
 
 const ReservationList = ({
   reservations,
@@ -56,6 +55,8 @@ const ReservationList = ({
                   </span>
                 </p>
               )}
+              {!isPlanned && <button>다시 예약</button>}
+              {!isPlanned && <button>리뷰 쓰기</button>}
               <button>상세 보기</button>
             </li>
           );

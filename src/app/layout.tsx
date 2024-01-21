@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/reset.css';
+import 'react-toastify/ReactToastify.css';
 import AuthSession from './_components/AuthSession';
 import Provider from './_components/CampProvider';
 import RealHeader from './_components/RealHeader';
