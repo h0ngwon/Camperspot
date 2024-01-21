@@ -13,7 +13,6 @@ type Props = {
     name: string;
     created_at: string;
     address: string;
-    region: string;
     camp_area: { price: number; id: string }[];
     camp_pic: { id: string; photo_url: string }[];
     hashtag: { tag: string | null }[];
@@ -31,10 +30,7 @@ const CampList = (data: Props) => {
       {data.data.map((camp) => {
         return (
           <div className={styles.cardWrap} key={camp.id}>
-            <Link
-              href={`http://localhost:3000/camp/detail/${camp.id}`}
-              className={styles.link}
-            >
+            <Link href={`http://localhost:3000/camp/detail/${camp.id}`}>
               <div className={styles.photoAndLike}>
                 <Like />
                 <Photo photos={camp.camp_pic} />
@@ -43,7 +39,11 @@ const CampList = (data: Props) => {
               <div className={styles.cardMiddle}>
                 <div className={styles.campInfoBox1}>
                   <p>{camp.name}</p>
-                  <p>{camp.camp_area[0]?.price}</p>
+                  <p>
+                    {camp.camp_area[0]?.price === 0
+                      ? '무료'
+                      : `${camp.camp_area[0]?.price}원~`}
+                  </p>
                 </div>
               </div>
               <div className={styles.cardMiddle}>

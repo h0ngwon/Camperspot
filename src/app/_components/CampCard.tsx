@@ -39,7 +39,11 @@ const CampCard = ({ camp }: Props) => {
           </div>
         </div>
       </div>
-      <p className={styles.price}>{camp.camp_area[0]?.price}~</p>
+      <p className={styles.price}>
+        {camp.camp_area[0]?.price === 0
+          ? '무료'
+          : `${camp.camp_area[0]?.price}원~`}
+      </p>
     </Link>
   );
 };
