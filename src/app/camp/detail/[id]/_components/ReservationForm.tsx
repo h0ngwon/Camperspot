@@ -6,7 +6,7 @@ import { supabase } from '@/app/api/db';
 import { useState } from 'react';
 import ConfirmModal from '@/app/_components/ConfirmModal';
 import AlertModal from '@/app/_components/AlertModal';
-import { Tables } from '@/types/supabase';
+import { Database, Tables } from '@/types/supabase';
 import { ReservationInfo } from '@/types/reservation';
 import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
@@ -14,7 +14,7 @@ import { useSearchParams } from 'next/navigation';
 import { IoIosArrowForward } from 'react-icons/io';
 
 type UserInfo = { people: number; name: string; phone: string };
-type Reservation = Tables<'reservation'>;
+// type ReservationInsert = Database['public']['Tables']['reservation']['Insert'];
 
 const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   const {
@@ -45,25 +45,26 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   };
 
   const params = useSearchParams();
-  const campAreaId = params.get('id');
+  const campAreaId = params.get('id') as string;
 
   const { max_people, price, name } = reservation!;
   const { check_in, check_out } = reservation?.camp!;
   const { data: session } = useSession();
+  console.log('session', session?.user.id);
 
   const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
     const { data, error } = await supabase
       .from('reservation')
       .insert({
-        check_in_date: dates[0],
-        check_out_date: dates[1],
+        camp_area_id: campAreaId,
+        check_in_date: dates[0].toISOString(),
+        check_out_date: dates[1].toISOString(),
         client_name: userInfo.name,
         client_phone: userInfo.phone,
         fee: price * nights,
-        user_id: session?.user.id,
-        people: userInfo.people,
-        camp_area_id: campAreaId,
         payment_method: methods[isActive!],
+        people: userInfo.people,
+        user_id: session?.user?.id as string,
       })
       .select();
     if (data) {

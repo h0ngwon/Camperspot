@@ -15,16 +15,14 @@ interface Props {
 
 export const Calendar = ({ onDatesChange }: Props) => {
   const currentDate = new Date();
-  const [startDate, setStartDate] = useState<Date | null>(
-    new Date(currentDate.setHours(0, 0, 0, 0)),
-  );
-  const [endDate, setEndDate] = useState<Date | null>(
-    new Date(
-      startDate?.getFullYear()!,
-      startDate?.getMonth()!,
-      startDate?.getDate()! + 1,
-    ),
-  );
+  const [startDate, setStartDate] = useState<Date | null>();
+  // new Date(currentDate.setHours(0, 0, 0, 0)),
+  const [endDate, setEndDate] = useState<Date | null>();
+  // new Date(
+  //   startDate?.getFullYear()!,
+  //   startDate?.getMonth()!,
+  //   startDate?.getDate()! + 1,
+  // ),
   const [nights, setNights] = useState<number>(1);
   const [excludeDates, setExcludeDates] = useState<CampAreaRservationInfo>();
   const params = useSearchParams();
