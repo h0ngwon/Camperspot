@@ -12,7 +12,6 @@ const Modal = ({ children }: Props) => {
       <div className={styles['modal-overlay']} onClick={toggleModal}></div>
       <div className={styles['modal-content-container']}>
         <div className={styles['modal-content']}>
-          <h1>모달테스트</h1>
           {children}
           <button
             onClick={toggleModal}

@@ -49,7 +49,6 @@
 .campIntro {
     width: 253px;
     height: 318px;
-    background-color: blue;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -59,7 +58,6 @@
     width: 253px;
     height: 253px;
     position: relative;
-    background-color: aqua;
 }
 
 .img {
@@ -85,13 +83,6 @@
     line-height: normal;
 }
 
-.blue {
-    color: blue;
-}
-
-.red {
-    color: red;
-}
 
 .addressBox {
     display: flex;

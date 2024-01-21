@@ -12,10 +12,13 @@ const Main = () => {
   return (
     <div className={styles.container}>
       <Carousel />
+      <Spacer y={50} />
+
       <PopularCamp />
+      <Spacer y={50} />
       <RegionCarousel />
+      <Spacer y={50} />
       <PopularCommunity />
-      <Spacer y={300} />
     </div>
   );
 };
