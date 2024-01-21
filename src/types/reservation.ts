@@ -49,6 +49,7 @@ export type UserReservationInfo = {
   camp_area: {
     name: string;
     camp: {
+      id: string;
       name: string;
       address: string;
       check_in: string;

@@ -5,6 +5,7 @@ import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
 import { useState } from 'react';
 import ReservationDetailModal from './ReservationDetailModal';
+import { useRouter } from 'next/navigation';
 
 const ReservationList = ({
   reservations,
@@ -13,6 +14,7 @@ const ReservationList = ({
   reservations: UserReservationInfo[];
   isPlanned: boolean;
 }) => {
+  const router = useRouter();
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<boolean>(false);
   const handleCopy = (address: string) => {
     copy(address);
@@ -24,7 +26,12 @@ const ReservationList = ({
         reservations?.map((reservation) => {
           const { id, created_at, check_in_date, check_out_date } = reservation;
           const { name: campAreaName } = reservation.camp_area!;
-          const { name: campName, address } = reservation.camp_area?.camp!;
+          const {
+            id: campId,
+            name: campName,
+            address,
+          } = reservation.camp_area?.camp!;
+          console.log('campId', campId);
           return (
             <li className={styles.li} key={id}>
               <p className={styles.date}>
@@ -58,7 +65,11 @@ const ReservationList = ({
                   </span>
                 </p>
               )}
-              {!isPlanned && <button>다시 예약</button>}
+              {!isPlanned && (
+                <button onClick={() => router.push(`/camp/detail/${campId}`)}>
+                  다시 예약
+                </button>
+              )}
               {!isPlanned && <button>리뷰 쓰기</button>}
               <button onClick={() => setIsOpenDetailModal(true)}>
                 상세 보기
