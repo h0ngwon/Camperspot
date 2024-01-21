@@ -27,7 +27,7 @@ export default class CampCarousel extends Component<Props> {
       infinite: false,
       speed: 500,
       slidesToShow: 4,
-      slidesToScroll: 1,
+      slidesToScroll: 2,
       touchMove: true,
     };
     return (

@@ -2,7 +2,6 @@ import React from 'react';
 import styles from '../_styles/CampList.module.css';
 import { FaStar } from 'react-icons/fa';
 import Hashtag from './Hashtag';
-import Like from './Like';
 import Link from 'next/link';
 import Photo from './Photo';
 import Spacer from '@/components/Spacer';
@@ -32,7 +31,6 @@ const CampList = (data: Props) => {
           <div className={styles.cardWrap} key={camp.id}>
             <Link href={`http://localhost:3000/camp/detail/${camp.id}`}>
               <div className={styles.photoAndLike}>
-                <Like />
                 <Photo photos={camp.camp_pic} />
               </div>
               <Spacer y={30} />

@@ -29,8 +29,12 @@ export default class RegionCarousel extends Component {
 
         <Slider {...settings}>
           {regions.map((region) => {
+            console.log(region.name);
             return (
-              <Link href={`/camp/search?region=${region}`} key={region.name}>
+              <Link
+                href={`/camp/search?region=${region.name}`}
+                key={region.name}
+              >
                 <div className={styles.regionCard}>
                   <figure>
                     <Image
