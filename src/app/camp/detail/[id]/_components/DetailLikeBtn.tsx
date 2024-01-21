@@ -2,19 +2,21 @@
 
 import React, { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
-import { useParams } from 'next/navigation';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 import HeartSvg from '../_svg/HeartSvg';
 
 import styles from '../_styles/Like.module.css';
 
-export default function DetailLikeBtn() {
+type Props = {
+  campId: string;
+};
+
+export default function DetailLikeBtn({ campId }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const { data: session } = useSession();
-  const params = useParams() as { id: string };
 
   const userId = session?.user.id as string;
 
@@ -25,7 +27,7 @@ export default function DetailLikeBtn() {
         const { data: camp, error } = await supabase
           .from('camp')
           .select('id, like(user_id)')
-          .eq('id', params.id)
+          .eq('id', campId)
           .single();
 
         return camp;
@@ -37,10 +39,7 @@ export default function DetailLikeBtn() {
 
   const deleteMutation = useMutation({
     mutationFn: async (user_id: string) => {
-      await supabase
-        .from('like')
-        .delete()
-        .match({ user_id, camp_id: params.id });
+      await supabase.from('like').delete().match({ user_id, camp_id: campId });
     },
     onSuccess: () => {
       setLikeCount((prev) => prev - 1);
@@ -55,7 +54,7 @@ export default function DetailLikeBtn() {
       try {
         await supabase.from('like').insert({
           user_id: userId,
-          camp_id: params.id,
+          camp_id: campId,
         });
       } catch (error) {
         console.error('좋아요 추가 중 에러 발생:', error);
@@ -106,7 +105,7 @@ export default function DetailLikeBtn() {
   return (
     <div className={styles.wrap}>
       <button className={styles.btn} onClick={handleLikeBtn}>
-        <HeartSvg filled={liked} strokeColor='#eee' fillColor='#FF0000' />
+        <HeartSvg isLiked={liked} />
       </button>
       <p key={data?.id}>{likeCount}</p>
     </div>

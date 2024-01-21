@@ -1,6 +1,12 @@
 .container {
-  width: 1200px;
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+.createBtn {
+  position: fixed;
+  bottom: 0;
+  right: 1%;
 }
 
 .container > ul {

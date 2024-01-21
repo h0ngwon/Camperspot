@@ -5,6 +5,7 @@ import Hashtag from './Hashtag';
 import Like from './Like';
 import Link from 'next/link';
 import Photo from './Photo';
+import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
 
 type Props = {
   data: {
@@ -29,33 +30,37 @@ const CampList = (data: Props) => {
     <>
       {data.data.map((camp) => {
         return (
-          <Link
-            href={`http://localhost:3000/camp/detail/${camp.id}`}
-            className={styles.cardWrap}
-            key={camp.id}
-          >
-            <div className={styles.photoAndLike}>
-              <Like />
-              <Photo photos={camp.camp_pic} />
-            </div>
-            <div className={styles.cardMiddle}>
-              <div className={styles.campInfoBox1}>
-                <p>{camp.name}</p>
-                <p>{camp.camp_area[0]?.price}</p>
+          <>
+            <Link
+              href={`http://localhost:3000/camp/detail/${camp.id}`}
+              className={styles.cardWrap}
+              key={camp.id}
+            >
+              <div className={styles.photoAndLike}>
+                <Like />
+                <Photo photos={camp.camp_pic} />
               </div>
-            </div>
-            <div className={styles.cardMiddle}>
-              <div className={styles.campInfoBox2}>
-                <p>
-                  <FaStar size='15' color='#fff384' /> 평점(리뷰수)
-                </p>
-                <p>{camp.address}</p>
+              <div className={styles.cardMiddle}>
+                <div className={styles.campInfoBox1}>
+                  <p>{camp.name}</p>
+                  <p>{camp.camp_area[0]?.price}</p>
+                </div>
               </div>
-            </div>
-            <ol className={styles.cardTag}>
-              {/* <Hashtag tags={camp.hashtag} /> */}
-            </ol>
-          </Link>
+              <div className={styles.cardMiddle}>
+                <div className={styles.campInfoBox2}>
+                  <p>
+                    <FaStar size='15' color='#fff384' /> 평점(리뷰수)
+                  </p>
+                  <p>{camp.address}</p>
+                </div>
+              </div>
+              <ol className={styles.cardTag}>
+                {/* <Hashtag tags={camp.hashtag} /> */}
+              </ol>
+            </Link>
+
+            <DetailLikeBtn campId={camp.id} />
+          </>
         );
       })}
     </>

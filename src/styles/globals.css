@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-input {
+input,
+textarea {
   outline: none;
 }
 

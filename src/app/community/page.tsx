@@ -1,15 +1,17 @@
 'use client';
 
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
 import CommuSearch from './_components/CommuSearch';
 import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
-import { useSession } from 'next-auth/react';
 import CommuUsers from './_components/CommuUsers';
 
 import styles from './_styles/Commu.module.css';
+import CreateSvg from './_svg/CreateSvg';
+import CommuLikeBtn from './_components/CommuLikeBtn';
 
 export default function CommunityPage() {
   const { data: session } = useSession();
@@ -47,13 +49,18 @@ export default function CommunityPage() {
   return (
     <div className={styles.container}>
       {/* <CommuSearch /> */}
-      <Link href={`/community/${userId}/create`}>커뮤니티 글 등록</Link>
+      <div className={styles.createBtn}>
+        <Link href={`/community/${userId}/create`}>
+          <CreateSvg />
+        </Link>
+      </div>
       <ul>
         {data?.map((item) => {
           return (
             <li className={styles.card} key={item.id}>
               <CommuUsers user={item.user} />
               <CommuPhotos photo={item.post_pic} />
+              <CommuLikeBtn postId={item.id} />
               <p className={styles.content}>{item.content}</p>
               <CommuHashTags hashTag={item.post_hashtag} />
             </li>

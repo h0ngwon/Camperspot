@@ -57,7 +57,7 @@ export default function DetailPage() {
       <div className={styles.titleWrap}>
         <h3>{data?.name}</h3>
         <div className={styles.BtnWrap}>
-          <DetailLikeBtn />
+          <DetailLikeBtn campId={params.id} />
           <DetailShareBtn />
         </div>
       </div>

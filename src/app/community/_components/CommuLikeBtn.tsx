@@ -9,7 +9,11 @@ import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
 import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
 
-export default function CommuLikeBtn() {
+type Props = {
+  postId: string;
+};
+
+export default function CommuLikeBtn({ postId }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
@@ -25,7 +29,7 @@ export default function CommuLikeBtn() {
         const { data: post, error } = await supabase
           .from('post')
           .select('id, like(user_id)')
-          .eq('id', params.id)
+          .eq('id', postId)
           .single();
 
         return post;
@@ -37,10 +41,7 @@ export default function CommuLikeBtn() {
 
   const deleteMutation = useMutation({
     mutationFn: async (user_id: string) => {
-      await supabase
-        .from('like')
-        .delete()
-        .match({ user_id, post_id: params.id });
+      await supabase.from('like').delete().match({ user_id, post_id: postId });
     },
     onSuccess: () => {
       setLikeCount((prev) => prev - 1);
@@ -55,7 +56,7 @@ export default function CommuLikeBtn() {
       try {
         await supabase.from('like').insert({
           user_id: userId,
-          post_id: params.id,
+          post_id: postId,
         });
       } catch (error) {
         console.error('좋아요 추가 중 에러 발생:', error);
@@ -103,11 +104,11 @@ export default function CommuLikeBtn() {
   };
 
   return (
-    <div className={styles.wrap}>
+    <div className={styles.commuWrap}>
       <button className={styles.btn} onClick={handleLikeBtn}>
-        <HeartSvg filled={liked} strokeColor='#353535' fillColor='#FF0000' />
+        <HeartSvg isLiked={liked} />
       </button>
-      <p key={data?.id}>{likeCount}</p>
+      <p key={data?.id}>좋아요 {likeCount}개</p>
     </div>
   );
 }

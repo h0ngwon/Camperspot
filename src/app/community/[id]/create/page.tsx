@@ -6,8 +6,12 @@ import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 import type { Tables } from '@/types/supabase';
+
+import styles from '../../_styles/CommuCreate.module.css';
+import CloseSvg from '../../_svg/CloseSvg';
 
 export default function CommuCreatePage() {
   const [post, setPost] = useState<Tables<'post'>[]>();
@@ -19,8 +23,9 @@ export default function CommuCreatePage() {
   const router = useRouter();
   const postId = uuid();
   const { data: session } = useSession();
-  const userId = session?.user.id as string;
+
   const userEmail = session?.user?.email as string;
+  const userImg = session?.user?.image as string;
 
   // post 테이블에서 option 가져오는거
   async function fetchPostData() {
@@ -185,63 +190,78 @@ export default function CommuCreatePage() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Content:
-        <textarea
-          value={content}
-          onChange={(e) => handleChangeInput(e)}
-          required
-        />
-      </label>
-
-      <label>
-        Image:
-        <input
-          type='file'
-          accept='image/*'
-          onChange={handleChangeInputImageFile}
-          required
-        />
-      </label>
-      {/* 이미지 미리보기 및 삭제 버튼 */}
-      {postPic.map((item, index) => (
-        <div key={index}>
-          <img
-            src={item}
-            alt={`이미지 ${index + 1}`}
-            style={{ maxWidth: '100px', maxHeight: '100px' }}
+    <form className={styles.container} onSubmit={handleSubmit}>
+      <div className={styles.create}>
+        <div className='fileCon'>
+          <input
+            type='file'
+            accept='image/*'
+            id='file_upload'
+            className={styles.upload}
+            onChange={handleChangeInputImageFile}
+            required
           />
-          <button type='button' onClick={() => handleDeleteCampImg(index)}>
-            삭제
-          </button>
-        </div>
-      ))}
-
-      <label>
-        해시태그 :
-        <input
-          id='hashTagInput'
-          value={inputHashTag}
-          onChange={(e) => changeHashTagInput(e)}
-          onKeyUp={(e) => addHashTag(e)}
-          onKeyDown={(e) => keyDownHandler(e)}
-          placeholder='#해시태그를 등록해보세요. (최대 10개)'
-          className='hashTagInput'
-        />
-      </label>
-
-      {hashTags.length > 0 &&
-        hashTags.map((item) => {
-          return (
-            <div key={item}>
-              <div className='tag'>{'#' + item}</div>
-              <button type='button' onClick={() => handleDeleteHashtag(item)}>
-                삭제
+          <label htmlFor='file_upload'>업로드</label>
+          이미지 미리보기 및 삭제 버튼
+          {postPic.map((item, index) => (
+            <div key={index}>
+              <img
+                src={item}
+                alt={`이미지 ${index + 1}`}
+                style={{ maxWidth: '100px', maxHeight: '100px' }}
+              />
+              <button type='button' onClick={() => handleDeleteCampImg(index)}>
+                <CloseSvg />
               </button>
             </div>
-          );
-        })}
+          ))}
+        </div>
+
+        <div className={styles.textCon}>
+          <div className={styles.user}>
+            <Image src={userImg} alt='' width={32} height={32} />
+            <p>{session?.user?.name}</p>
+          </div>
+
+          <div>
+            <label>Content</label>
+            <textarea
+              value={content}
+              onChange={(e) => handleChangeInput(e)}
+              placeholder='문구를 입력하세요'
+              required
+            />
+          </div>
+          <div>
+            <label>해시태그</label>
+            <input
+              id='hashTagInput'
+              value={inputHashTag}
+              onChange={(e) => changeHashTagInput(e)}
+              onKeyUp={(e) => addHashTag(e)}
+              onKeyDown={(e) => keyDownHandler(e)}
+              placeholder='#해시태그를 등록해보세요. (최대 10개)'
+            />
+          </div>
+
+          <ul className={styles.tagsCon}>
+            {hashTags.length > 0 &&
+              hashTags.map((item, index) => {
+                return (
+                  <li key={index}>
+                    #<p>{item}</p>
+                    <button
+                      type='button'
+                      onClick={() => handleDeleteHashtag(item)}
+                    >
+                      <CloseSvg />
+                    </button>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      </div>
 
       <button type='submit'>등록</button>
     </form>
