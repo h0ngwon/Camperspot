@@ -9,3 +9,8 @@
 .date {
   font-size: 0.8rem;
 }
+
+.copy {
+  color: #00a3ff;
+  cursor: pointer;
+}

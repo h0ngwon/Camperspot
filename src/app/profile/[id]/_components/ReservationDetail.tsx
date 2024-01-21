@@ -49,7 +49,7 @@ export const ReservationDetail = () => {
       </div>
       <div className={styles.divider}></div>
       <ul>
-        <ReservationList reservations={plannedReservation} />
+        <ReservationList reservations={plannedReservation} isPlanned={true} />
       </ul>
       <p>이용 후</p>
       <div className={styles.div}>
@@ -57,11 +57,10 @@ export const ReservationDetail = () => {
         <p>캠핑장 이름</p>
         <p>캠핑존 이름</p>
         <p>체크인/아웃</p>
-        <p>주소</p>
       </div>
       <div className={styles.divider}></div>
       <ul>
-        <ReservationList reservations={passedReservation} />
+        <ReservationList reservations={passedReservation} isPlanned={false} />
       </ul>
     </>
   );

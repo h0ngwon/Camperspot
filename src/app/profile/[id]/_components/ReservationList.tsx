@@ -1,11 +1,20 @@
 import { UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationList.module.css';
+import copy from 'clipboard-copy';
+import { toast } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 
 const ReservationList = ({
   reservations,
+  isPlanned,
 }: {
   reservations: UserReservationInfo;
+  isPlanned: boolean;
 }) => {
+  const handleCopy = (address: string) => {
+    copy(address);
+    toast.success('클립보드에 복사되었습니다', { position: 'top-right' });
+  };
   return (
     <>
       {reservations &&
@@ -36,7 +45,17 @@ const ReservationList = ({
                 day: '2-digit',
               })}`}</p>
               {/* <p className={styles.date}>{check_out_date}</p> */}
-              <p>{address}</p>
+              {isPlanned && (
+                <p>
+                  {address}
+                  <span
+                    className={styles.copy}
+                    onClick={() => handleCopy(address)}
+                  >
+                    복사하기
+                  </span>
+                </p>
+              )}
               <button>상세 보기</button>
             </li>
           );

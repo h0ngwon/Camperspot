@@ -6,6 +6,7 @@ import '../styles/reset.css';
 import AuthSession from './_components/AuthSession';
 import Provider from './_components/CampProvider';
 import RealHeader from './_components/RealHeader';
+import { ToastContainer } from 'react-toastify';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
             <RealHeader />
             {children}
           </Provider>
+          <ToastContainer />
         </AuthSession>
       </body>
     </html>
