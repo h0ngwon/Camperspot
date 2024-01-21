@@ -17,23 +17,15 @@ const ProfileModifyForm = () => {
   const params = useParams();
   const { data } = useQuery<UserType>({ queryKey: ['mypage', 'profile'] });
   const [prevImage, setPrevImage] = useState<string | undefined>();
-  const [file, setFile] = useState<string | undefined>();
+  const [file, setFile] = useState<File | string | undefined>();
   const [nickname, nicknameHandler] = useInput(data?.nickname);
-  const mutation = useMutation<Response>({
-    mutationFn: async () => {
+  const mutation = useMutation({
+    mutationFn: async (formData: FormData) => {
       const res = await fetch(`/api/profile/${params.id}`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: params.id,
-          file,
-          nickname,
-        }),
+        body: formData,
       });
-      console.log('hihihihihihihiihihi', await res.json());
-      return await res.json();
+      return res;
     },
   });
 
@@ -41,7 +33,7 @@ const ProfileModifyForm = () => {
     const fileInput = event.target;
     if (fileInput.files && fileInput.files[0]) {
       const imgFile: File | null = fileInput.files[0];
-      setFile(URL.createObjectURL(imgFile));
+      setFile(imgFile);
       // make preview url
       const imageUrl: string = URL.createObjectURL(imgFile);
       setPrevImage(imageUrl);
@@ -50,7 +42,14 @@ const ProfileModifyForm = () => {
   //route handler -> post -> storage upload -> db 수정
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutation.mutate();
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(file)], {
+      type: 'application/json',
+    });
+
+    formData.append('nickname', nickname);
+    formData.append('file', file as File, 'profile_pic');
+    mutation.mutate(formData);
   };
 
   return (
@@ -64,9 +63,15 @@ const ProfileModifyForm = () => {
             alt='profile'
           />
         </div>
-        <input type='file' className={styles.hidden} onChange={prevImg} />
+        <input
+          name='file'
+          type='file'
+          className={styles.hidden}
+          onChange={prevImg}
+        />
       </label>
       <input
+        name='nickname'
         type='text'
         accept='image/*'
         defaultValue={data?.nickname}

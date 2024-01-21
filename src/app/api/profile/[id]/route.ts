@@ -14,24 +14,37 @@ export const GET = async (
     .select('email, nickname, profile_url, provider')
     .eq('id', params.id)
     .single();
-  console.log(repository);
   return NextResponse.json(repository.data);
 };
 
-export const POST = async (req: NextRequest, res: NextResponse) => {
-  const userData = await req.json();
-  // storage upload -> get url -> db update
-  //console.log('body=-=-=-=-=-=-=-=-=-=-=-=-=', await res.json())
-  const { error: saveError } = await supabase
-    .from('user')
-    .update({ nickname: userData.nickname })
-    .eq('id', userData.id);
-  console.log(userData);
+export const POST = async (
+  req: NextRequest,
+  {
+    params,
+  }: {
+    params: { id: string };
+  },
+) => {
+  const userData = await req.formData();
+  console.log(userData.get('file'))
+
+  // const userData = await req.json();
+  // console.log(req.body);
+  // console.log(userData)
+  // // storage upload -> get url -> db update
+  // const { error: saveError } = await supabase
+  //   .from('user')
+  //   .update({ nickname: userData.nickname })
+  //   .eq('id', userData.id);
+  // console.log(userData);
 
   const { data, error } = await supabase.storage
     .from('profile_pic')
-    .upload('test', userData.file);
+    .upload(`profile/${params.id}`, userData.get('file') as File, {
+      upsert: true,
+    });
   console.log(data, error);
-  
-  return NextResponse.json(saveError);
+
+  return NextResponse.json(true);
+  // return NextResponse.json(saveError);
 };
