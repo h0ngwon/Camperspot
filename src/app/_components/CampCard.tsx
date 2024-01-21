@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../_styles/CampCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddressSvg from '@/asset/AddressSvg';
+import AddressSvg from '@/components/AddressSvg';
 
 type Props = {
   camp: {

@@ -1,6 +1,4 @@
 'use client';
-import axios from 'axios';
-
 type Props = {
   tags: { tag: string | null }[];
 };

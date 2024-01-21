@@ -19,11 +19,6 @@ type Props = {
 };
 
 const CampList = (data: Props) => {
-  // data.data?.forEach((d, i) => console.log(i, d.hashtag));
-  // console.log(data.data?.[9].hashtag);
-  // console.log(data.data);
-  //++++++++++++++++++++++++메타태그심어주기
-  console.log(data.data[0]?.camp_pic);
   return (
     <>
       {data.data.map((camp) => {
@@ -53,9 +48,10 @@ const CampList = (data: Props) => {
                 </div>
               </div>
             </Link>
-            <ol className={styles.cardTag}>
+
+            <ul className={styles.cardTag}>
               <Hashtag tags={camp.hashtag} />
-            </ol>
+            </ul>
           </div>
         );
       })}

@@ -1,11 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import styles from '../_styles/SearchBar.module.css';
-import SearchSvg from '@/asset/SearchSvg';
 import Calendar from './Calendar';
 import People from './People';
 import formatDate from '../_utils/date';
 import Link from 'next/link';
+import SearchSvg from '@/components/SearchSvg';
 const SearchBar = () => {
   const [searchedCamp, setSearchedCamp] = useState<string>('');
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([

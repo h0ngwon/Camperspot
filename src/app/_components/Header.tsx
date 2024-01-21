@@ -5,10 +5,10 @@ import logo from '@/asset/logo.png';
 import Link from 'next/link';
 import Image from 'next/image';
 import SearchBar from './SearchBar';
-import CommunitySvg from '@/asset/CommunitySvg';
-import MyProfileSvg from '@/asset/MyProfileSvg';
 import { signOut, useSession } from 'next-auth/react';
 import logOut from '@/asset/logOut.png';
+import CommunitySvg from '@/components/CommunitySvg';
+import MyProfileSvg from '@/components/MyProfileSvg';
 const Header = () => {
   const { data: session } = useSession();
   console.log(session);
