@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserReservation } from '../_lib/getUserReservation';
 import { useParams } from 'next/navigation';
 import styles from '../_styles/ReservationDetail.module.css';
+import ReservationList from './ReservationList';
 
 export const ReservationDetail = () => {
   const params = useParams();
@@ -17,11 +18,28 @@ export const ReservationDetail = () => {
     queryFn: () => getUserReservation(userId as string),
   });
 
+  const plannedReservation = reservations?.filter(
+    (reservation) =>
+      new Date(reservation.check_in_date).getTime() >=
+        new Date(new Date().setHours(0, 0, 0)).getTime() &&
+      new Date(reservation.check_out_date).getTime() >
+        new Date(new Date().setHours(0, 0, 0)).getTime(),
+  );
+
+  const passedReservation = reservations?.filter(
+    (reservation) =>
+      new Date(reservation.check_out_date).getTime() < new Date().getTime(),
+  );
+  console.log('이용 예정', plannedReservation);
+  console.log('지난 예약', passedReservation);
+
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
   console.log('data', reservations);
   return (
     <>
+      <h3 className={styles.h3}>예약 현황</h3>
+      <p>이용 예정</p>
       <div className={styles.div}>
         <p>예약 일시</p>
         <p>캠핑장 이름</p>
@@ -31,30 +49,19 @@ export const ReservationDetail = () => {
       </div>
       <div className={styles.divider}></div>
       <ul>
-        {reservations &&
-          reservations?.map((reservation) => {
-            const { id, created_at, check_in_date, check_out_date } =
-              reservation;
-            const { name: campAreaName } = reservation.camp_area!;
-            const { name: campName, address } = reservation.camp_area?.camp!;
-            return (
-              <li className={styles.li} key={id}>
-                <p className={styles.date}>
-                  {new Date(created_at).toLocaleDateString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })}
-                </p>
-                <p>{campName}</p>
-                <p>{campAreaName}</p>
-                <p className={styles.date}>{check_in_date}</p>
-                <p className={styles.date}>{check_out_date}</p>
-                <p>{address}</p>
-                <button>상세 보기</button>
-              </li>
-            );
-          })}
+        <ReservationList reservations={plannedReservation} />
+      </ul>
+      <p>이용 후</p>
+      <div className={styles.div}>
+        <p>예약 일시</p>
+        <p>캠핑장 이름</p>
+        <p>캠핑존 이름</p>
+        <p>체크인/아웃</p>
+        <p>주소</p>
+      </div>
+      <div className={styles.divider}></div>
+      <ul>
+        <ReservationList reservations={passedReservation} />
       </ul>
     </>
   );

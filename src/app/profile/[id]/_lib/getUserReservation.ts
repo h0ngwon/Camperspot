@@ -6,6 +6,8 @@ export const getUserReservation = async (userId: string) => {
     .select(
       `id,created_at,check_in_date,check_out_date,camp_area!inner(name,camp!inner(name,address))`,
     )
-    .eq('user_id', userId);
+    .eq('user_id', userId)
+    .order('created_at', { ascending: true });
+
   return reservations;
 };
