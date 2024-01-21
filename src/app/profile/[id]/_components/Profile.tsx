@@ -8,10 +8,10 @@ import styles from '../_styles/Profile.module.css';
 import ModalPortal from '@/components/ModalPortal';
 import Modal from '@/components/Modal';
 import useModalStore from '@/store/modal';
+import ProfileModifyForm from './ProfileModifyForm';
 
 const Profile = () => {
   const { show, toggleModal } = useModalStore();
-
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile'],
@@ -37,7 +37,9 @@ const Profile = () => {
           <button onClick={toggleModal}>프로필 수정</button>
           {show && (
             <ModalPortal>
-              <Modal>hello</Modal>
+              <Modal>
+                <ProfileModifyForm />
+              </Modal>
             </ModalPortal>
           )}
         </div>
