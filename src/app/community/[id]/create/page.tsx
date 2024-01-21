@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 import type { Tables } from '@/types/supabase';
 
-export default function page() {
+export default function Page() {
   const [post, setPost] = useState<Tables<'post'>[]>();
   const [content, setContent] = useState<string>('');
   const [postPic, setPostPic] = useState<string[]>([]);
