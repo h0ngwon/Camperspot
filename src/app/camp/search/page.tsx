@@ -9,27 +9,14 @@ type Props = {
 };
 
 const SearchPage = async ({ searchParams }: Props) => {
-  // console.log(
-  //   searchParams.keyword,
-  //   searchParams.check_in,
-  //   searchParams.check_out,
-  //   searchParams.people,
-  //   searchParams.region,
-  // );
-  // const page = Number(searchParams.page) || 1; // 기본값 1
-  // const perPage = 9;
-  // const startRange = (page - 1) * perPage;
-  // const endRange = startRange + perPage - 1;
-  // const pageTitle = `검색 결과${}건`;
-  const pageTitle = `검색 결과`;
   const query = supabase.from('camp').select(
     `
-  id,
-  name,
+    id,
+    name,
     created_at,
     address,
- 
-    camp_area(id,price),
+    
+    camp_area!inner(id,price),
     camp_pic(id,photo_url),
     hashtag(tag)
     `,
@@ -38,31 +25,41 @@ const SearchPage = async ({ searchParams }: Props) => {
   if (searchParams.region) {
     query.ilike('region', `%${searchParams.region}%`);
   }
+  if (
+    searchParams.keyword &&
+    searchParams.check_in &&
+    searchParams.check_out &&
+    searchParams.people
+  ) {
+    query
+      .or(
+        `name.ilike.%${searchParams.keyword}%,region.ilike.%${searchParams.keyword}%`,
+      )
+      .gte('camp_area.max_people', `${Number(searchParams.people)}`);
+  }
 
   const { data: camp, error } = await query;
-  console.log(camp);
+  console.log(camp?.length);
   console.log(error);
-  // .range(startRange, endRange);
+  const pageTitle = `검색 결과 (${camp?.length}건)`;
   return (
     <>
-      <Spacer y={50} />
-      <div className={styles.mainWrapper}>
-        <div className={styles.mainHeader}>
-          <h1 className={styles.title}>{pageTitle}</h1>
-          <CampFilter />
-        </div>
-        <div className={styles.listWrapper}>
-          <div className={styles.camplList}>
-            <CampList data={camp!} />
+      <div className={styles.container}>
+        <Spacer y={50} />
+        <div className={styles.mainWrapper}>
+          <div className={styles.mainHeader}>
+            <h1 className={styles.title}>{pageTitle}</h1>
+            <CampFilter />
           </div>
-        </div>
-        <Spacer y={50} />
+          <div className={styles.listWrapper}>
+            <div className={styles.camplList}>
+              {camp && <CampList data={camp} />}
+            </div>
+          </div>
+          <Spacer y={50} />
 
-        {/* <PageController
-      hasNextPage={end < camp!.length}
-      hasPrevPage={start > 0}
-    /> */}
-        <Spacer y={50} />
+          <Spacer y={50} />
+        </div>
       </div>
     </>
   );

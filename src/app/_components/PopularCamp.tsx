@@ -22,7 +22,6 @@ const PopularCamp = async () => {
       <div className={styles.popular}>
         <div className={styles.popularIntro}>
           <p>인기캠핑장</p>
-          <Spacer y={10} />
           <p>현재 가장 인기있는 캠핑장이에요</p>
         </div>
         <Link href={`/camp?sort=인기순&page=1`}>더보기</Link>

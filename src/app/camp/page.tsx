@@ -78,24 +78,26 @@ const Camp = async ({
   //camp_area(price): 최소값 / review(평점):평균,(갯수):length
   return (
     <>
-      <Spacer y={50} />
-      <div className={styles.mainWrapper}>
-        <div className={styles.mainHeader}>
-          <h1 className={styles.title}>{pageTitle}</h1>
-          <CampFilter />
-        </div>
-        <div className={styles.listWrapper}>
-          <div className={styles.camplList}>
-            <CampList data={camp!} />
+      <div className={styles.container}>
+        <Spacer y={30} />
+        <div className={styles.mainWrapper}>
+          <div className={styles.mainHeader}>
+            <h1 className={styles.title}>{pageTitle}</h1>
+            <CampFilter />
           </div>
-        </div>
-        <Spacer y={50} />
+          <div className={styles.listWrapper}>
+            <div className={styles.camplList}>
+              <CampList data={camp!} />
+            </div>
+          </div>
+          <Spacer y={50} />
 
-        <PageController
-          hasNextPage={end < camp!.length}
-          hasPrevPage={start > 0}
-        />
-        <Spacer y={50} />
+          <PageController
+            hasNextPage={end < camp!.length}
+            hasPrevPage={start > 0}
+          />
+          <Spacer y={50} />
+        </div>
       </div>
     </>
   );

@@ -5,6 +5,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../_styles/RegionFiltter.module.css';
+import Spacer from '@/components/Spacer';
 
 export default class RegionCarousel extends Component {
   render() {
@@ -39,6 +40,9 @@ export default class RegionCarousel extends Component {
     };
     return (
       <div className={styles.container}>
+        <p>지역별 캠핑장</p>
+        <Spacer y={20} />
+
         <Slider {...settings}>
           {regions.map((region) => {
             return (
