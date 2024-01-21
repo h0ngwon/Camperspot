@@ -1,16 +1,14 @@
 export type ReservationInfo = {
-  people: number;
-  check_in_date: string;
-  check_out_date: string;
-  fee: number;
-  camp_area: {
-    id: string;
+  id: string;
+  max_people: number;
+  price: number;
+  name: string;
+  camp: {
     name: string;
-    camp: {
-      name: string;
-    } | null;
+    check_in: string;
+    check_out: string;
   } | null;
-}[];
+} | null;
 
 export type CompanyReservationInfo = {
   id: string;
@@ -29,3 +27,11 @@ export type CompanyReservationInfo = {
     } | null;
   } | null;
 };
+
+export type CampAreaRservationInfo =
+  | {
+      check_in_date: string;
+      check_out_date: string;
+      camp_area_id: string;
+    }[]
+  | null;
