@@ -12,6 +12,15 @@ export const getCompanyReservation = async (companyId: string) => {
   return reservations;
 };
 
+export const getCampAreaReservation = async (campAreaId: string) => {
+  const { data: reservations, error } = await supabase
+    .from('reservation')
+    .select(`check_in_date,check_out_date,camp_area_id`)
+    .eq('camp_area_id', campAreaId);
+
+  return reservations;
+};
+
 export const deleteCompanyReservation = async (companyId: string) => {
   const { error } = await supabase
     .from('reservation')

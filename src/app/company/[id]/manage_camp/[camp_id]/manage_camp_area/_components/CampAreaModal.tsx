@@ -152,7 +152,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
           />
           {areaImg ? (
             <div>
-              <img src={areaImg} />
+              <img src={areaImg} className={styles.addedCampAreaImg} />
               <button onClick={() => handleDeleteAreaImg()}>이미지 삭제</button>
             </div>
           ) : (
