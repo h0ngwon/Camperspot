@@ -29,7 +29,10 @@ const Header = () => {
           {session ? (
             <>
               {session.user.role === 'company' ? (
-                <Link href={`/company/${session.user.id}/manage_reservation`}>
+                <Link
+                  href={`/company/${session.user.id}/manage_reservation`}
+                  className={styles.companyActive}
+                >
                   <MyProfileSvg />
                 </Link>
               ) : (
