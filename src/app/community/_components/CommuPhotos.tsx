@@ -4,8 +4,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import styles from '../_styles/CommuPhotos.module.css';
-import CommuNextArrow from '../_styles/CommuNextArrow';
-import CommuPrevArrow from '../_styles/CommuPrevArrow';
+import CarouselNextArrow from '@/components/CarouselNextArrow';
+import CarouselPrevArrow from '@/components/CarouselPrevArrow';
 
 type Props = {
   photo: {
@@ -22,8 +22,8 @@ export default function CommuPhotos({ photo }: Props) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    nextArrow: <CommuNextArrow />,
-    prevArrow: <CommuPrevArrow />,
+    nextArrow: <CarouselNextArrow />,
+    prevArrow: <CarouselPrevArrow />,
   };
 
   return (
