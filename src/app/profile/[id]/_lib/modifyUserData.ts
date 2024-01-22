@@ -1,24 +1,12 @@
-export const modifyUserData = async (
-  id: string,
-  nickname: string,
-  file: string,
-) => {
-  const data = {
-    id,
-    nickname,
-    file,
-  };
+export type MutationType = {
+  id: string;
+  formData: FormData;
+};
+
+export const modifyUserData = async ({ id, formData }: MutationType) => {
   const res = await fetch(`/api/profile/${id}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      id: id,
-      file,
-      nickname,
-    }),
+    body: formData,
   });
-  console.log('hihihihihihihiihihi', await res.json());
-  return await res.json();
+  return res;
 };
