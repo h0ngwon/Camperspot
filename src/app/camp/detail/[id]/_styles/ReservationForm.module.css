@@ -1,33 +1,90 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1rem;
+}
+
+.dates {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .h3 {
   text-decoration: underline;
   text-underline-position: under;
 }
 
-.form {
+.divider {
+  border: 1px solid #d9d9d9;
+  margin-top: 1.5rem;
+}
+
+.prices {
+  padding: 0.8rem 0.5rem;
+}
+
+.price {
+  font-weight: bold;
+  color: #ed6c30;
+}
+
+.total {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
 }
 
 .ul {
   display: flex;
-  gap: 1rem;
+  gap: 0.3rem;
 }
 
-.li {
-  height: 30px;
+.li,
+.button {
   background-color: gainsboro;
-  border-radius: 1rem;
+  border-radius: 0.8rem;
+  padding: 0.3rem;
+}
+
+.li:hover,
+.button:hover {
+  cursor: pointer;
+}
+
+.button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.personInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.input {
+  width: 250px;
+  height: 30px;
+  border-color: #d9d9d9;
+  border-radius: 10px;
+  padding: 0.3rem 1rem;
 }
 
 .selected {
   background-color: gray;
-}
-
-.button {
-  background-color: gainsboro;
-  border-radius: 1rem;
+  border-radius: 0.8rem;
+  padding: 0.5rem;
 }
 
 .errors {
   color: red;
+}
+
+.payInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: absolute;
+  left: 50%;
+  top: 20%;
 }

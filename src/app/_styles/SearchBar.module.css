@@ -6,8 +6,6 @@
     align-items: center;
     flex-shrink: 0;
     border-radius: 48px;
-    /**/
-    /* border: 1px solid #000; */
     background-color: #f2f2f2;
 }
 
@@ -17,7 +15,6 @@
     padding: 0px 24px;
     flex-direction: column;
     align-items: flex-start;
-    /* gap: 10px; */
 }
 
 .regionSearch {
@@ -31,7 +28,6 @@
 .regionSearchText {
     color: #000;
 
-    /* 14px_Regular */
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
@@ -42,15 +38,12 @@
 .regionSearchInput {
     display: flex;
     width: 264px;
-    /* padding: 0 20px; */
-    /* padding: 10px 24px; */
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
     border: none;
     color: #000;
 
-    /* 14px_Regular */
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
@@ -65,17 +58,14 @@
     display: flex;
     width: 264px;
     padding: 0px 20px;
-    /* padding: 10px 24px; */
     flex-direction: column;
     align-items: flex-start;
-    /* gap: 10px; */
     border-radius: 36px;
 }
 
 .people {
     display: flex;
     width: 150px;
-    /* gap: 10px; */
     justify-content: space-between;
 }
 

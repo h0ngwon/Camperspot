@@ -95,7 +95,12 @@ export default function DetailCampZone({ campArea }: Props) {
                 <p className={styles.people}>최대인원: {area.max_people}명</p>
                 <p className={styles.price}>{campPrice(area.price)}원</p>
                 <div className={styles.reservation}>
-                  <Link href={`/camp/detail/${params.id}/reservation`}>
+                  <Link
+                    href={{
+                      pathname: `/camp/detail/${params.id}/reservation`,
+                      query: { id: area.id },
+                    }}
+                  >
                     예약하기
                   </Link>
                 </div>

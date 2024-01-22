@@ -1,3 +1,5 @@
+import styles from '../_styles/CommuHashTags.module.css';
+
 type Props = {
   hashTag: {
     id: string;
@@ -8,9 +10,13 @@ type Props = {
 
 export default function CommuHashTags({ hashTag }: Props) {
   return (
-    <ul>
+    <ul className={styles.wrap}>
       {hashTag.map((tag) => {
-        return <li key={tag.id}>#{tag.tag}</li>;
+        return (
+          <li className={styles.tag} key={tag.id}>
+            #{tag.tag}
+          </li>
+        );
       })}
     </ul>
   );

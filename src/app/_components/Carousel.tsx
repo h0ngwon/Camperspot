@@ -5,10 +5,14 @@ import Slider from 'react-slick';
 import styles from '../_styles/Carousel.module.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+import banner1 from '@/asset/main_banner_1.png';
+import banner2 from '@/asset/main_banner_2.png';
+import banner3 from '@/asset/main_banner_3.png';
+import banner4 from '@/asset/main_banner_4.png';
+import Image from 'next/image';
 export default class Carousel extends Component {
   render() {
-    const banners = ['가', '나', '다', '라'];
+    const banners = [banner1, banner2, banner3, banner4];
 
     var settings = {
       dots: true,
@@ -26,9 +30,9 @@ export default class Carousel extends Component {
           <Slider {...settings}>
             {banners.map((banner, idx) => {
               return (
-                <div className={styles.inner} key={idx}>
-                  <h3>{banner}</h3>
-                </div>
+                <figure key={idx}>
+                  <Image src={banner} alt='' />
+                </figure>
               );
             })}
           </Slider>
