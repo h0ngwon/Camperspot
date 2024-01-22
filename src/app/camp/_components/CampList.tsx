@@ -5,6 +5,7 @@ import Hashtag from './Hashtag';
 import Link from 'next/link';
 import Photo from './Photo';
 import Spacer from '@/components/Spacer';
+import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
 
 type Props = {
   data: {
@@ -24,7 +25,10 @@ const CampList = (data: Props) => {
       {data.data.map((camp) => {
         return (
           <div className={styles.cardWrap} key={camp.id}>
-            <Link href={`http://localhost:3000/camp/detail/${camp.id}`}>
+            {/* <figure className={styles.likeWrap}>
+              <DetailLikeBtn campId={camp.id} />
+            </figure> */}
+            <Link href={`/camp/detail/${camp.id}`}>
               <div className={styles.photoAndLike}>
                 <Photo photos={camp.camp_pic} />
               </div>

@@ -1,13 +1,19 @@
+import styles from '@/styles/CarouselBtn.module.css';
+
 type Props = {
   className?: any;
   style?: any;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
-export default function CommuPrevArrow({ className, style, onClick }: Props) {
+export default function CarouselPrevArrow({
+  className,
+  style,
+  onClick,
+}: Props) {
   return (
     <div
-      className={className}
+      className={`${className} ${styles.slickPrev}`}
       style={{ ...style, left: 0, zIndex: 1 }}
       onClick={onClick}
     />

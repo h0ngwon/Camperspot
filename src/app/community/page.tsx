@@ -47,26 +47,28 @@ export default function CommunityPage() {
   }
 
   return (
-    <div className={styles.container}>
-      {/* <CommuSearch /> */}
-      <div className={styles.createBtn}>
-        <Link href={`/community/${userId}/create`}>
-          <CreateSvg />
-        </Link>
+    <>
+      <div className={styles.container}>
+        {/* <CommuSearch /> */}
+        <div className={styles.createBtn}>
+          <Link href={`/community/${userId}/create`}>
+            <CreateSvg />
+          </Link>
+        </div>
+        <ul>
+          {data?.map((item) => {
+            return (
+              <li className={styles.card} key={item.id}>
+                <CommuUsers user={item.user} />
+                <CommuPhotos photo={item.post_pic} />
+                <CommuLikeBtn postId={item.id} />
+                <p className={styles.content}>{item.content}</p>
+                <CommuHashTags hashTag={item.post_hashtag} />
+              </li>
+            );
+          })}
+        </ul>
       </div>
-      <ul>
-        {data?.map((item) => {
-          return (
-            <li className={styles.card} key={item.id}>
-              <CommuUsers user={item.user} />
-              <CommuPhotos photo={item.post_pic} />
-              <CommuLikeBtn postId={item.id} />
-              <p className={styles.content}>{item.content}</p>
-              <CommuHashTags hashTag={item.post_hashtag} />
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    </>
   );
 }

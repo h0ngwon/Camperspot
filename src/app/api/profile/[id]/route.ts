@@ -57,6 +57,11 @@ export const POST = async (
     .eq('id', params.id);
   if (profileUpdateError) throw new Error(profileUpdateError.message);
 
-  return NextResponse.json({ status: 200 });
+  const repository = await supabase
+    .from('user')
+    .select('email, nickname, profile_url, provider')
+    .eq('id', params.id)
+    .single();
+  return NextResponse.json(repository.data);
   // return NextResponse.json(saveError);
 };

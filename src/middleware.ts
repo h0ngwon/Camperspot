@@ -15,8 +15,14 @@ export const middleware = async (req: NextRequest) => {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
+
+  if(pathname.startsWith('/profile')) {
+    if(!token) {
+      return NextResponse.redirect(new URL('/', req.url));
+    }
+  }
 };
 
 export const config = {
-  matcher: ['/auth/:path*'],
+  matcher: ['/auth/:path*', '/profile/:path*'],
 };

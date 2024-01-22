@@ -5,6 +5,8 @@ import styles from '../_styles/Photo.module.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
+import CarouselPrevArrow from '@/components/CarouselPrevArrow';
+import CarouselNextArrow from '@/components/CarouselNextArrow';
 
 type PhotoProps = {
   photos: { id: string; photo_url: string }[];
@@ -20,6 +22,8 @@ export default class Photo extends Component<PhotoProps> {
       speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
+      nextArrow: <CarouselNextArrow />,
+      prevArrow: <CarouselPrevArrow />,
     };
 
     return (
