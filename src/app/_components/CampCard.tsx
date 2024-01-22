@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../_styles/CampCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddressSvg from '@/asset/AddressSvg';
+import AddressSvg from '@/components/AddressSvg';
 
 type Props = {
   camp: {
@@ -42,7 +42,7 @@ const CampCard = ({ camp }: Props) => {
       <p className={styles.price}>
         {camp.camp_area[0]?.price === 0
           ? '무료'
-          : `${camp.camp_area[0]?.price}원~`}
+          : `${camp.camp_area[0]?.price.toLocaleString()}원~`}
       </p>
     </Link>
   );

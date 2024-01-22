@@ -17,9 +17,7 @@ const PopularCamp = async () => {
     `,
     )
     .range(0, 9);
-  // console.log(camp);
-  const a = 'red';
-  /* <p className={`${a === 'blue' ? styles.blue : styles.red}`}>text</p> */
+  //인기순 캠핑 기준 설정 후 적용예정
   return (
     <div className={styles.wrap}>
       <div className={styles.popular}>
