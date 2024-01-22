@@ -24,6 +24,16 @@
   border: 1px solid #afafaf;
 }
 
+.address {
+  margin-left: 130px;
+}
+
+.ul {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: keep-all;
+}
+
 .li {
   display: flex;
   justify-content: space-between;
