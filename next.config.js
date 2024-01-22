@@ -9,6 +9,8 @@ const nextConfig = {
         port: '',
         pathname:
           '/storage/v1/object/public/camp_pic/blob:http:/localhost:3000/**',
+        pathname:
+          '/storage/v1/object/public/camp_pic/blob:http:/localhost:3000/**',
       },
       {
         protocol: 'https',
@@ -20,7 +22,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'ssl.pstatic.net',
+        hostname: 'ssl.pstatic.net'
       },
     ],
   },

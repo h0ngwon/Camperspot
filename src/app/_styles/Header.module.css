@@ -53,3 +53,12 @@
     line-height: normal;
 
 }
+
+.profileImg {
+    border-radius: 50%;
+}
+
+.logOutBtn {
+    background-color: inherit;
+    cursor: pointer;
+}

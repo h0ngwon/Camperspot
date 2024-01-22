@@ -1,6 +1,5 @@
 'use client';
 import styles from '../_styles/ConfirmModal.module.css';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 type Props = {
@@ -9,11 +8,9 @@ type Props = {
 
 const AlertModal = ({ title }: Props) => {
   const router = useRouter();
-  useEffect(() => {
-    setTimeout(() => {
-      router.push('/');
-    }, 3000);
-  }, []);
+  setTimeout(() => {
+    router.push('/');
+  }, 3000);
   if (!open) return null;
 
   return (
