@@ -8,6 +8,8 @@ import styles from '../_styles/RegionFiltter.module.css';
 import Spacer from '@/components/Spacer';
 import { regions } from '../_lib/regions';
 import Image from 'next/image';
+import CarouselNextArrow from '@/components/CarouselNextArrow';
+import CarouselPrevArrow from '@/components/CarouselPrevArrow';
 
 export default class RegionCarousel extends Component {
   render() {
@@ -17,6 +19,8 @@ export default class RegionCarousel extends Component {
       centerPadding: '60px',
       slidesToShow: 4,
       slidesToScroll: 4,
+      nextArrow: <CarouselNextArrow />,
+      prevArrow: <CarouselPrevArrow />,
 
       speed: 500,
       rows: 2,
@@ -29,7 +33,6 @@ export default class RegionCarousel extends Component {
 
         <Slider {...settings}>
           {regions.map((region) => {
-            console.log(region.name);
             return (
               <Link
                 href={`/camp/search?region=${region.name}`}
