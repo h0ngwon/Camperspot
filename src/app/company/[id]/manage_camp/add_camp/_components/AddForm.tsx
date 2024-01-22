@@ -1,5 +1,6 @@
 'use client';
 import { supabase } from '@/app/api/db';
+import { v4 as uuid } from 'uuid';
 import useInput from '@/hooks/useInput';
 import type { Tables } from '@/types/supabase';
 import React, { FormEvent, useState } from 'react';
@@ -13,7 +14,6 @@ import SearchAddress from './SearchAddress';
 import CheckInOut from './CheckInOut';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
-import { randomUUID } from 'crypto';
 
 const AddForm = () => {
   const [name, handleName] = useInput();
@@ -36,7 +36,7 @@ const AddForm = () => {
 
   const queryClient = useQueryClient();
 
-  const campId = randomUUID();
+  const campId = uuid();
 
   const { data: session } = useSession();
 

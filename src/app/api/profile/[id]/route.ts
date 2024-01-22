@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '../../db';
+import { v4 as uuid } from 'uuid';
 
 export const GET = async (
   request: NextRequest,
@@ -37,19 +38,19 @@ export const POST = async (
     throw new Error(saveError.message);
   }
 
+  const imageId = uuid();
+  console.log(imageId);
   const { data, error: storageError } = await supabase.storage
     .from('profile_pic')
-    .upload(`profile/${params.id}`, userData.get('file') as File, {
-      upsert: true,
-    });
+    .upload(`profile/${imageId}`, userData.get('file') as File);
 
   if (storageError) {
     throw new Error(storageError.message);
   }
-
+  console.log(data)
   const { data: url } = await supabase.storage
     .from('profile_pic')
-    .getPublicUrl(`profile/${params.id}`);
+    .getPublicUrl(`profile/${imageId}`);
 
   const { error: profileUpdateError } = await supabase
     .from('user')

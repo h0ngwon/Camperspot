@@ -12,7 +12,7 @@ import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { randomUUID } from 'crypto';
+import { v4 as uuid } from 'uuid';
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
 const CampAreaModal = ({ setCampAreaModal }: Props) => {
@@ -21,7 +21,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const [areaPrice, handleAreaPrice] = useInput();
   const [areaImg, setAreaImg] = useState<string>('');
 
-  const id = randomUUID();
+  const id = uuid();
   const params = useParams();
   const campId = params.camp_id;
 
