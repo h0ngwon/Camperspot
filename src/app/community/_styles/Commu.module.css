@@ -4,12 +4,13 @@
 }
 
 .createBtn {
+
   position: fixed;
-  bottom: 0;
-  right: 1%;
+  bottom: 5%;
+  right: 2%;
 }
 
-.container > ul {
+.container>ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(32%, 1fr));
   grid-gap: 24px;
