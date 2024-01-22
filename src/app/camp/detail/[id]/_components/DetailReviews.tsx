@@ -21,7 +21,7 @@ type Props = {
     | undefined;
 };
 
-export default function DetailReview({ review }: Props) {
+export default function DetailReviews({ review }: Props) {
   const formatCreatedAt = (createdAt: string): string => {
     const date = new Date(createdAt);
     const year = date.getFullYear();
