@@ -23,37 +23,51 @@ const ReservationList = ({
   return (
     <>
       {reservations &&
-        reservations?.map((reservation) => {
+        reservations?.map((reservation, idx) => {
           const { id, created_at, check_in_date, check_out_date } = reservation;
+          console.log('하나의 예약', reservation);
           const { name: campAreaName } = reservation.camp_area!;
           const {
             id: campId,
             name: campName,
             address,
           } = reservation.camp_area?.camp!;
-          console.log('campId', campId);
           return (
             <li className={styles.li} key={id}>
-              <p className={styles.date}>
-                {new Date(created_at).toLocaleDateString('ko', {
+              <div className={styles.div}>
+                <p className={styles.created}>
+                  {new Date(created_at).toLocaleDateString('ko', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })}
+                </p>
+                <p>{campName}</p>
+                <p>{campAreaName}</p>
+                {/* <p className={styles.date}>{`${new Date(
+                  check_in_date,
+                ).toLocaleDateString('ko', {
                   year: '2-digit',
                   month: '2-digit',
                   day: '2-digit',
-                })}
-              </p>
-              <p>{campName}</p>
-              <p>{campAreaName}</p>
-              <p className={styles.date}>{`${new Date(
-                check_in_date,
-              ).toLocaleDateString('ko', {
-                year: '2-digit',
-                month: '2-digit',
-                day: '2-digit',
-              })} - ${new Date(check_out_date).toLocaleDateString('ko', {
-                year: '2-digit',
-                month: '2-digit',
-                day: '2-digit',
-              })}`}</p>
+                })} ~ ${new Date(check_out_date).toLocaleDateString('ko', {
+                  year: '2-digit',
+                  month: '2-digit',
+                  day: '2-digit',
+                })}`}</p> */}
+                <div className={styles.date}>
+                  <p>{`${new Date(check_in_date).toLocaleDateString('ko', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })} ~ `}</p>
+                  <p>{`${new Date(check_out_date).toLocaleDateString('ko', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                  })} `}</p>
+                </div>
+              </div>
               {isPlanned && (
                 <div className={styles.address}>
                   <p>
@@ -86,7 +100,7 @@ const ReservationList = ({
               </button>
               {isOpenDetailModal && (
                 <ReservationDetailModal
-                  reservation={reservation}
+                  reservation={reservations[idx]}
                   onClose={() => setIsOpenDetailModal(false)}
                 />
               )}

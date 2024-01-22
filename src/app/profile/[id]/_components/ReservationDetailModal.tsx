@@ -21,6 +21,8 @@ const ReservationDetailModal = ({
     payment_method,
   } = reservation;
 
+  console.log('reservation', reservation);
+
   const { name: campName, check_in, check_out } = reservation.camp_area?.camp!;
   const { name: campAreaName } = reservation.camp_area!;
   return (
