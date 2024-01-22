@@ -1,31 +1,25 @@
 'use client';
 import useInput from '@/hooks/useInput';
 import { UserType } from '@/types/auth';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import { modifyUserData } from '../_lib/modifyUserData';
 import styles from '../_styles/ProfileModifyForm.module.css';
 
-type MutationType = {
-  id: string;
-  nickname: string;
-  profile_url: string;
-};
-
 const ProfileModifyForm = () => {
+  const queryClient = useQueryClient();
   const params = useParams();
+  const id = params.id as string;
   const { data } = useQuery<UserType>({ queryKey: ['mypage', 'profile'] });
   const [prevImage, setPrevImage] = useState<string | undefined>();
   const [file, setFile] = useState<File | string | undefined>();
   const [nickname, nicknameHandler] = useInput(data?.nickname);
   const mutation = useMutation({
-    mutationFn: async (formData: FormData) => {
-      const res = await fetch(`/api/profile/${params.id}`, {
-        method: 'POST',
-        body: formData,
-      });
-      return res;
+    mutationFn: modifyUserData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['mypage', 'profile'] });
     },
   });
 
@@ -48,8 +42,10 @@ const ProfileModifyForm = () => {
     });
 
     formData.append('nickname', nickname);
-    formData.append('file', file as File, 'profile_pic');
-    mutation.mutate(formData);
+    if (file) {
+      formData.append('file', file as File, 'profile_pic');
+    }
+    mutation.mutate({ id, formData });
   };
 
   return (
