@@ -12,14 +12,18 @@ const ProfileModifyForm = () => {
   const queryClient = useQueryClient();
   const params = useParams();
   const id = params.id as string;
-  const { data } = useQuery<UserType>({ queryKey: ['mypage', 'profile'] });
+  const { data } = useQuery<UserType>({
+    queryKey: ['mypage', 'profile', params.id],
+  });
   const [prevImage, setPrevImage] = useState<string | undefined>();
   const [file, setFile] = useState<File | string | undefined>();
   const [nickname, nicknameHandler] = useInput(data?.nickname);
   const mutation = useMutation({
     mutationFn: modifyUserData,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['mypage', 'profile'] });
+      queryClient.invalidateQueries({
+        queryKey: ['mypage', 'profile', params.id],
+      });
     },
   });
 
@@ -37,9 +41,9 @@ const ProfileModifyForm = () => {
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
-    const blob = new Blob([JSON.stringify(file)], {
-      type: 'application/json',
-    });
+    // const blob = new Blob([JSON.stringify(file)], {
+    //   type: 'application/json',
+    // });
 
     formData.append('nickname', nickname);
     if (file) {
