@@ -7,6 +7,7 @@ import CampList from '../_components/CampList';
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
+export const revalidate = 10;
 
 const SearchPage = async ({ searchParams }: Props) => {
   const query = supabase.from('camp').select(
