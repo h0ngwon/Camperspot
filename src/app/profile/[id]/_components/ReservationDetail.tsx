@@ -37,17 +37,22 @@ export const ReservationDetail = () => {
     <div className={styles.layout}>
       <h3 className={styles.h3}>예약 현황</h3>
       <p className={styles.p}>이용 예정</p>
-      <div className={styles.div}>
-        <p>예약 일시</p>
-        <p>캠핑장 이름</p>
-        <p>캠핑존 이름</p>
-        <p>체크인/아웃</p>
-        <p>주소</p>
+      <div>
+        <div className={styles.div}>
+          <p>예약 일시</p>
+          <p>캠핑장 이름</p>
+          <p>캠핑존 이름</p>
+          <p>체크인/아웃</p>
+          <p className={styles.address}>주소</p>
+        </div>
+        <div className={styles.divider}></div>
+        <ul className={styles.ul}>
+          <ReservationList
+            reservations={plannedReservation!}
+            isPlanned={true}
+          />
+        </ul>
       </div>
-      <div className={styles.divider}></div>
-      <ul>
-        <ReservationList reservations={plannedReservation!} isPlanned={true} />
-      </ul>
       <p className={styles.p}>이용 후</p>
       <div className={styles.div}>
         <p>예약 일시</p>
