@@ -1,10 +1,13 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { getProviders, signIn, signOut, useSession } from 'next-auth/react';
-import SocialButton from './_components/SocialButton';
-import styles from './_styles/SigninPage.module.css';
-import SigninForm from './_components/SigninForm';
+import { getProviders, useSession } from 'next-auth/react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
+import logo from '../../../asset/logo.png';
+import KakaoButton from './_components/KakaoButton';
+import NaverButton from './_components/NaverButton';
+import SigninForm from './_components/SigninForm';
+import styles from './_styles/SigninPage.module.css';
 
 const SigninPage = () => {
   const { data: session } = useSession();
@@ -17,14 +20,23 @@ const SigninPage = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles['img-wrapper']}>
+        <Image src={logo} width={0} height={0} alt='lgoo' />
+      </div>
       <div className={styles['buttons-container']}>
-        <SocialButton provider='kakao' />
-        <SocialButton provider='naver' />
-        <button onClick={() => signOut()}>로그아웃</button>
+        <KakaoButton />
+        <NaverButton />
+      </div>
+      <div className={styles.divider}>
+        <div className={styles.bar}></div>
+        또는
+        <div className={styles.bar}></div>
       </div>
       <span>업체회원이라면?</span>
       <SigninForm />
-      <span><Link href='/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link></span>
+      <span>
+        <Link href='/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link>
+      </span>
     </div>
   );
 };
