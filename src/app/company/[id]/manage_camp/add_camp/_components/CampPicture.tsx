@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
+import Image from 'next/image';
 
 type Props = {
   campPicture: string[];
@@ -37,7 +38,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
       {campPicture?.map((item, index) => {
         return (
           <div key={item + index}>
-            <img src={item} className={styles.campImg} />
+            <Image src={item} alt='캠핑장이미지' width={200} height={200} />
             <button type='button' onClick={() => handleDeleteCampImg(index)}>
               이미지 삭제
             </button>
