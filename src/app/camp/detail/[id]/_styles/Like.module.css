@@ -4,8 +4,14 @@
 }
 
 .btn {
+  padding: 0;
   background: transparent;
   cursor: pointer;
+}
+
+.commuWrap p {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .svg:hover {

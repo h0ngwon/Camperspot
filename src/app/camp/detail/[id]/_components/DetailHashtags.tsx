@@ -4,7 +4,7 @@ type Props = {
   campHashtag: { tag: string | null }[] | undefined;
 };
 
-export default function DetailHashtag({ campHashtag }: Props) {
+export default function DetailHashtags({ campHashtag }: Props) {
   return (
     <ul className={styles.wrap}>
       {campHashtag?.map((tag, index) => {
