@@ -5,6 +5,8 @@ import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
 import PageController from './_components/PageController';
 
+export const revalidate = 10;
+
 //searchParams를 통해 주소로 parameter 가져오기
 const Camp = async ({
   searchParams,
