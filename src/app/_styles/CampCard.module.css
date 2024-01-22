@@ -16,7 +16,6 @@
 }
 
 .popularIntro p:first-child {
-    color: #ec3838;
     font-family: Pretendard;
     font-size: 32px;
     font-style: normal;
@@ -25,7 +24,6 @@
 }
 
 .popularIntro p:nth-child(2) {
-    color: rgb(80, 179, 157);
     font-size: 16px;
     font-family: Pretendard;
     font-weight: 400;
@@ -49,7 +47,6 @@
 .campIntro {
     width: 253px;
     height: 318px;
-    background-color: blue;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -59,7 +56,6 @@
     width: 253px;
     height: 253px;
     position: relative;
-    background-color: aqua;
 }
 
 .img {
@@ -70,14 +66,12 @@
 .introText {
     display: flex;
     flex-direction: column;
-    /* align-items: flex-start; */
     padding: 0 16px;
 }
 
 .campName {
     color: #000;
 
-    /* 24px_SemiBold */
     font-family: Pretendard;
     font-size: 24px;
     font-style: normal;
@@ -85,13 +79,6 @@
     line-height: normal;
 }
 
-.blue {
-    color: blue;
-}
-
-.red {
-    color: red;
-}
 
 .addressBox {
     display: flex;
@@ -100,16 +87,18 @@
 .campAddress {
     color: var(--neutral-neutral_400, var(--neutral-400, #ADB0B7));
 
-    /* 16px_Regular */
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    /* white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden; */
+
     width: 100%;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
 }
 
 .price {

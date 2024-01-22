@@ -27,7 +27,6 @@ export async function GET() {
   console.log(error);
 }
 
-//rest API구현
 //json server역활을 대신
 //http://localhost:3000/api/camp 이거 자체가 서버다.
 

@@ -30,7 +30,6 @@
     align-items: center;
     color: #000;
 
-    /* 16px_Regular */
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
@@ -45,11 +44,19 @@
     align-items: center;
     color: #000;
 
-    /* 16px_Regular */
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
 
+}
+
+.profileImg {
+    border-radius: 50%;
+}
+
+.logOutBtn {
+    background-color: inherit;
+    cursor: pointer;
 }

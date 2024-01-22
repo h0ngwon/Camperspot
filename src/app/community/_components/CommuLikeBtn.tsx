@@ -1,34 +1,38 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { supabase } from '@/app/api/db';
+import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import HeartSvg from '../_svg/HeartSvg';
+import { supabase } from '@/app/api/db';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
-import styles from '../_styles/Like.module.css';
+import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
 
-export default function DetailLikeBtns() {
+type Props = {
+  postId: string;
+};
+
+export default function CommuLikeBtn({ postId }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
-  const { data: session } = useSession();
   const params = useParams() as { id: string };
 
+  const { data: session } = useSession();
   const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['like'],
     queryFn: async () => {
       try {
-        const { data: camp, error } = await supabase
-          .from('camp')
+        const { data: post, error } = await supabase
+          .from('post')
           .select('id, like(user_id)')
-          .eq('id', params.id)
+          .eq('id', postId)
           .single();
 
-        return camp;
+        return post;
       } catch (error) {
         console.log(error);
       }
@@ -37,10 +41,7 @@ export default function DetailLikeBtns() {
 
   const deleteMutation = useMutation({
     mutationFn: async (user_id: string) => {
-      await supabase
-        .from('like')
-        .delete()
-        .match({ user_id, camp_id: params.id });
+      await supabase.from('like').delete().match({ user_id, post_id: postId });
     },
     onSuccess: () => {
       setLikeCount((prev) => prev - 1);
@@ -55,7 +56,7 @@ export default function DetailLikeBtns() {
       try {
         await supabase.from('like').insert({
           user_id: userId,
-          camp_id: params.id,
+          post_id: postId,
         });
       } catch (error) {
         console.error('좋아요 추가 중 에러 발생:', error);
@@ -97,18 +98,17 @@ export default function DetailLikeBtns() {
       setLiked((prevLiked) => !prevLiked);
 
       // 좋아요 상태 변경 후, 캠프 정보 다시 불러오기
-      // fetchCampData();
     } catch (error) {
       console.error('좋아요 상태를 업데이트하는 중 오류 발생', error);
     }
   };
 
   return (
-    <div className={styles.wrap}>
+    <div className={styles.commuWrap}>
       <button className={styles.btn} onClick={handleLikeBtn}>
-        <HeartSvg filled={liked} strokeColor='#eee' fillColor='#FF0000' />
+        <HeartSvg isLiked={liked} />
       </button>
-      <p key={data?.id}>{likeCount}</p>
+      <p key={data?.id}>좋아요 {likeCount}개</p>
     </div>
   );
 }
