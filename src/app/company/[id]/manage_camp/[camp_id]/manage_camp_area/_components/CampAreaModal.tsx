@@ -10,9 +10,9 @@ import React, {
 import styles from '../_styles/CampAreaForm.module.css';
 import useInput from '@/hooks/useInput';
 import { supabase } from '@/app/api/db';
-import { uuid } from 'uuidv4';
 import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { randomUUID } from 'crypto';
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
 const CampAreaModal = ({ setCampAreaModal }: Props) => {
@@ -21,8 +21,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const [areaPrice, handleAreaPrice] = useInput();
   const [areaImg, setAreaImg] = useState<string>('');
 
-  const id = uuid();
-
+  const id = randomUUID();
   const params = useParams();
   const campId = params.camp_id;
 

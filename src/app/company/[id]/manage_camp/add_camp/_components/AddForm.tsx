@@ -4,7 +4,6 @@ import useInput from '@/hooks/useInput';
 import type { Tables } from '@/types/supabase';
 import React, { FormEvent, useState } from 'react';
 import styles from '../_styles/CampForm.module.css';
-import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import Facility from './Facility';
 import Layout from './Layout';
@@ -14,6 +13,7 @@ import SearchAddress from './SearchAddress';
 import CheckInOut from './CheckInOut';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
+import { randomUUID } from 'crypto';
 
 const AddForm = () => {
   const [name, handleName] = useInput();
@@ -36,7 +36,7 @@ const AddForm = () => {
 
   const queryClient = useQueryClient();
 
-  const campId = uuid();
+  const campId = randomUUID();
 
   const { data: session } = useSession();
 

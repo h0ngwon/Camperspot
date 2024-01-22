@@ -3,7 +3,6 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 
 import { supabase } from '@/app/api/db';
-import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -12,6 +11,7 @@ import type { Tables } from '@/types/supabase';
 
 import styles from '../../_styles/CommuCreate.module.css';
 import CloseSvg from '../../_svg/CloseSvg';
+import { randomUUID } from 'crypto';
 
 export default function CommuCreatePage() {
   const [post, setPost] = useState<Tables<'post'>[]>();
@@ -21,7 +21,7 @@ export default function CommuCreatePage() {
   const [hashTags, setHashTags] = useState<string[]>([]);
 
   const router = useRouter();
-  const postId = uuid();
+  const postId = randomUUID();
   const { data: session } = useSession();
 
   const userEmail = session?.user?.email as string;
