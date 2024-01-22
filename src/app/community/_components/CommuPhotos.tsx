@@ -28,8 +28,8 @@ export default function CommuPhotos({ photo }: Props) {
 
   return (
     <Slider {...settings}>
-      {photo.map((pic) => (
-        <div className={styles.slideCon}>
+      {photo.map((pic, index) => (
+        <div key={index} className={styles.slideCon}>
           <Image src={pic.photo_url} alt='' layout='fill' objectFit='cover' />
         </div>
       ))}
