@@ -18,8 +18,9 @@
 }
 
 .campInfoBox1 {
+    width: 90%;
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
 }
 
 .campInfoBox1>p {
