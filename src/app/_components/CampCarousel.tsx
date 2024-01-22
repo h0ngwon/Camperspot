@@ -6,6 +6,8 @@ import CampCard from './CampCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../_styles/CampCarousel.module.css';
+import CarouselNextArrow from '@/components/CarouselNextArrow';
+import CarouselPrevArrow from '@/components/CarouselPrevArrow';
 type Props = {
   camp:
     | {
@@ -29,6 +31,8 @@ export default class CampCarousel extends Component<Props> {
       slidesToShow: 4,
       slidesToScroll: 2,
       touchMove: true,
+      nextArrow: <CarouselNextArrow />,
+      prevArrow: <CarouselPrevArrow />,
     };
     return (
       <ul>

@@ -37,6 +37,12 @@
     line-height: normal;
 }
 
+.companyActive {
+    background: var(--primary-600, #4DB635);
+    border-radius: 50%;
+    display: flex;
+}
+
 .my {
     display: flex;
     flex-direction: column;

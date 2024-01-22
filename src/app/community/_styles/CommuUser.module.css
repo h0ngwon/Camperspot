@@ -1,0 +1,16 @@
+.userWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 16px 4px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+}
+
+.user img {
+  border-radius: 50%;
+  margin-right: 8px;
+}

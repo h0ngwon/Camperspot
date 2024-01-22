@@ -1,0 +1,80 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.create {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* .upload {
+  display: none;
+} */
+
+.textCon {
+  width: 400px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.user img {
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.textCon label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.textCon textarea {
+  width: 100%;
+  min-height: 300px;
+  border: none;
+}
+
+.textCon input {
+  width: 100%;
+  border: none;
+}
+
+.tagsCon {
+  display: flex;
+
+  grid-gap: 8px;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 8px;
+}
+
+.tagsCon li {
+  display: flex;
+  background: #4db635;
+  padding: 2px 8px;
+  border-radius: 14px;
+}
+
+.tagsCon p {
+  padding: 0 2px;
+}
+
+.tagsCon button {
+  background: transparent;
+  padding: 0;
+}

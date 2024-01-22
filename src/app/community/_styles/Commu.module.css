@@ -1,0 +1,34 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.createBtn {
+
+  position: fixed;
+  bottom: 5%;
+  right: 2%;
+}
+
+.container>ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(32%, 1fr));
+  grid-gap: 24px;
+  margin: 16px 0;
+}
+
+.card {
+  display: flex;
+  flex-flow: column;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+}
+
+.content {
+  padding-top: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
