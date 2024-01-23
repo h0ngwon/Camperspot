@@ -15,7 +15,7 @@ const ReservationList = ({
   isPlanned: boolean;
 }) => {
   const router = useRouter();
-  const [isOpenDetailModal, setIsOpenDetailModal] = useState<boolean>(false);
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
   const handleCopy = (address: string) => {
     copy(address);
     toast.success('클립보드에 복사되었습니다');
@@ -44,17 +44,6 @@ const ReservationList = ({
                 </p>
                 <p>{campName}</p>
                 <p>{campAreaName}</p>
-                {/* <p className={styles.date}>{`${new Date(
-                  check_in_date,
-                ).toLocaleDateString('ko', {
-                  year: '2-digit',
-                  month: '2-digit',
-                  day: '2-digit',
-                })} ~ ${new Date(check_out_date).toLocaleDateString('ko', {
-                  year: '2-digit',
-                  month: '2-digit',
-                  day: '2-digit',
-                })}`}</p> */}
                 <div className={styles.date}>
                   <p>{`${new Date(check_in_date).toLocaleDateString('ko', {
                     year: '2-digit',
@@ -94,14 +83,14 @@ const ReservationList = ({
               )}
               <button
                 className={styles.button}
-                onClick={() => setIsOpenDetailModal(true)}
+                onClick={() => setIsOpenDetailModal(idx)}
               >
                 상세 보기
               </button>
-              {isOpenDetailModal && (
+              {isOpenDetailModal === idx && (
                 <ReservationDetailModal
                   reservation={reservations[idx]}
-                  onClose={() => setIsOpenDetailModal(false)}
+                  onClose={() => setIsOpenDetailModal(null)}
                 />
               )}
             </li>
