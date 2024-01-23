@@ -1,17 +1,9 @@
 'use client';
-import { supabase } from '@/app/api/db';
 import { CompanyUserSignUpType } from '@/types/auth';
 import { useForm } from 'react-hook-form';
 import styles from '../_styles/SignupForm.module.css';
-import * as bcrypt from 'bcrypt'
 
 const SignupForm = () => {
-  // const hashedPassword = async (password: string) => {
-  //   const salt = await bcrypt.genSaltSync(10);
-  //   const hash = await bcrypt.hashSync(password, salt);
-
-  // };
-
   const {
     register,
     handleSubmit,
@@ -33,9 +25,16 @@ const SignupForm = () => {
       name: data.name,
       password: data.password,
     };
-    await supabase
-      .from('company_user')
-      .insert<Omit<CompanyUserSignUpType, 'confirmPassword'>>(userData);
+
+    const res = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    console.log(await res.json());
   };
 
   return (
