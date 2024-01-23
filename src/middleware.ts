@@ -9,6 +9,7 @@ export const middleware = async (req: NextRequest) => {
     secret: process.env.NEXTAUTH_SECRET,
   });
   const { pathname } = req.nextUrl;
+  
   if (pathname.startsWith('/auth')) {
     if (token) {
       return NextResponse.redirect(new URL('/', req.url));
@@ -21,8 +22,13 @@ export const middleware = async (req: NextRequest) => {
     }
   }
 
-  if(pathname.startsWith('/company')) {
-    if(token && token.role !== 'admin') {
+  if (pathname.startsWith('/company')) {
+    if (token) {
+      if ((token.role as string) !== 'company') {
+        return NextResponse.redirect(new URL('/', req.url));
+      }
+    }
+    if (!token) {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }

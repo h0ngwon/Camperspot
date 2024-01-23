@@ -1,4 +1,3 @@
-import React from 'react';
 import SignupForm from './_components/SignupForm';
 
 type Props = {};

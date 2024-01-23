@@ -1,27 +1,31 @@
+import { CompanyUserSignUpType } from '@/types/auth';
+import bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '../../db';
-import { CompanyUserSignUpType } from '@/types/auth';
 
 export const POST = async (req: NextRequest) => {
   const userData = await req.json();
-
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('company_user')
     .select('email')
     .eq('email', userData.email)
     .single();
 
   if (data) {
-    console.log(data);
     return NextResponse.json({
       status: 409,
       message: '이미 가입되어있는 이메일 입니다!',
     });
   }
 
+  const hashedPassword = await bcrypt.hashSync(userData.password, 5);
+
   const { error: saveError } = await supabase
     .from('company_user')
-    .insert<Omit<CompanyUserSignUpType, 'confirmPassword'>>(userData);
+    .insert<Omit<CompanyUserSignUpType, 'confirmPassword'>>({
+      ...userData,
+      password: hashedPassword,
+    });
 
   if (saveError) {
     return NextResponse.json({

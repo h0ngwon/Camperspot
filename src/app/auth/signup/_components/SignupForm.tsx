@@ -33,8 +33,8 @@ const SignupForm = () => {
       },
       body: JSON.stringify(userData),
     });
-
-    console.log(await res.json());
+    const message = await res.json();
+    console.log(message);
   };
 
   return (

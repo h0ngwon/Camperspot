@@ -1,8 +1,6 @@
 'use client';
-import { getProviders, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import logo from '../../../asset/logo.png';
 import KakaoButton from './_components/KakaoButton';
 import NaverButton from './_components/NaverButton';
@@ -10,14 +8,6 @@ import SigninForm from './_components/SigninForm';
 import styles from './_styles/SigninPage.module.css';
 
 const SigninPage = () => {
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    (async () => {
-      const res: any = await getProviders();
-    })();
-  }, []);
-
   return (
     <div className={styles.container}>
       <div className={styles['img-wrapper']}>

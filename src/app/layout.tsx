@@ -1,13 +1,13 @@
+import Spacer from '@/components/Spacer';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
 import '../styles/globals.css';
 import '../styles/reset.css';
-import 'react-toastify/ReactToastify.css';
 import AuthSession from './_components/AuthSession';
 import Provider from './_components/CampProvider';
-import { ToastContainer } from 'react-toastify';
 import Header from './_components/Header';
-import Spacer from '@/components/Spacer';
 
 const inter = Inter({ subsets: ['latin'] });
 

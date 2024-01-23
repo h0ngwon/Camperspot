@@ -1,22 +1,33 @@
 'use client';
 import { CompanyUserSigninType } from '@/types/auth';
 import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import styles from '../_styles/SigninForm.module.css';
 
 const SigninForm = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CompanyUserSigninType>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<CompanyUserSigninType> = (data) => {
-    signIn('credentials', {
+  const onSubmit: SubmitHandler<CompanyUserSigninType> = async (data) => {
+    const res = await signIn('credentials', {
       email: data.email as string,
       password: data.password as string,
-      callbackUrl: '/auth/signin',
+      redirect: false,
     });
+
+    if (res?.error) {
+      toast.error('존재하지 않는 유저이거나 비밀번호가 다릅니다!');
+    }
+
+    if (res?.ok) {
+      router.push('/');
+    }
   };
 
   return (

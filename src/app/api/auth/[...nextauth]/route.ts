@@ -1,4 +1,5 @@
 import { SocialDataType } from '@/types/auth';
+import bcrypt from 'bcrypt';
 import { Account, NextAuthOptions, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
@@ -6,7 +7,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import KakaoProvider from 'next-auth/providers/kakao';
 import NaverProvider from 'next-auth/providers/naver';
 import { supabase } from '../../db';
-
 
 const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -19,31 +19,30 @@ const authOptions: NextAuthOptions = {
           type: 'password',
         },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (!credentials) {
           throw new Error('입력 값이 잘못되었습니다.');
         }
         // supabase에서 데이터 가져와서 객체를 만든 후 return
+        const { password } = credentials;
         const companyUser = await supabase
           .from('company_user')
-          .select('*')
+          .select('id, email, name, password, role')
           .eq('email', `${credentials?.email}`)
           .single();
 
         const userData = companyUser.data;
-        
 
-        if (userData?.password !== credentials?.password) {
-          throw new Error('비밀번호가 다릅니다.');
+        if (userData) {
+          const result = await bcrypt.compareSync(
+            password,
+            userData?.password as string,
+          );
+          if (!result) {
+            return null;
+          }
         }
-
-        return {
-          id: userData.id,
-          email: userData.email,
-          name: userData.name,
-          image: null,
-          role: 'company',
-        };
+        return userData;
       },
     }),
     NaverProvider({
@@ -68,7 +67,6 @@ const authOptions: NextAuthOptions = {
 
       if (account?.provider === 'credentials') {
         token.role = 'company';
-        console.log(token);
       }
 
       return token;
@@ -136,12 +134,11 @@ const makeSocialAccount = async (
       provider: account.provider as string,
       role: 'user',
     };
-    
+
     await supabase.from('user').insert<SocialDataType>(socialData);
   }
   token.id = user.id;
   token.role = 'user';
-  console.log(token);
   return token;
 };
 const handler = NextAuth(authOptions);

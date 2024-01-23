@@ -24,6 +24,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ssl.pstatic.net'
       },
+      {
+        protocol: 'https',
+        hostname: 'phinf.pstatic.net'
+      }
     ],
   },
 };
