@@ -1,5 +1,5 @@
 import { SocialDataType } from '@/types/auth';
-import { Account, User } from 'next-auth';
+import { Account, NextAuthOptions, User } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -8,7 +8,7 @@ import NaverProvider from 'next-auth/providers/naver';
 import { supabase } from '../../db';
 
 
-const handler = NextAuth({
+const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
@@ -109,7 +109,7 @@ const handler = NextAuth({
   pages: {
     signIn: '/auth/signin',
   },
-});
+};
 
 const makeSocialAccount = async (
   user: User,
@@ -141,5 +141,6 @@ const makeSocialAccount = async (
   console.log(token);
   return token;
 };
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
