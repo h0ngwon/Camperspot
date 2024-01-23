@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import styles from '../_styles/SigninForm.module.css';
+import { RouterContext } from 'next/dist/shared/lib/router-context.shared-runtime';
 
 const SigninForm = () => {
   const router = useRouter();
@@ -19,14 +20,15 @@ const SigninForm = () => {
       email: data.email as string,
       password: data.password as string,
       redirect: false,
+      callbackUrl: '/'
     });
-
     if (res?.error) {
       toast.error('존재하지 않는 유저이거나 비밀번호가 다릅니다!');
     }
 
     if (res?.ok) {
-      router.push('/');
+      toast.success('로그인 완료!')
+      router.push('/')
     }
   };
 
