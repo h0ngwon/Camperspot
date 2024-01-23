@@ -1,6 +1,7 @@
 import { getToken } from 'next-auth/jwt';
-// import { getSession } from 'next-auth/react';
 import { NextRequest, NextResponse } from 'next/server';
+
+export { default } from 'next-auth/middleware';
 
 export const middleware = async (req: NextRequest) => {
   const token = await getToken({
@@ -9,15 +10,15 @@ export const middleware = async (req: NextRequest) => {
     raw: true,
   });
   const { pathname } = req.nextUrl;
-
+  console.log(token);
   if (pathname.startsWith('/auth')) {
     if (token) {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
 
-  if(pathname.startsWith('/profile')) {
-    if(!token) {
+  if (pathname.startsWith('/profile')) {
+    if (!token) {
       return NextResponse.redirect(new URL('/', req.url));
     }
   }
