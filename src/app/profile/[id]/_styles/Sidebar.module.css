@@ -2,13 +2,26 @@
   list-style: none;
   width: 282px;
   height: 575px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 2rem;
   flex-shrink: 0;
-  background:#ccc;
+  background: #ccc;
   border-radius: 32px;
 }
 
 .sidebar-item {
   text-decoration: none;
-  font-weight: bold;
   font-size: 20px;
+  padding: 1rem;
+}
+
+.sidebar-item:hover {
+  font-weight: bold;
+}
+
+.sidebar-item .active {
+  font-weight: bold;
 }
