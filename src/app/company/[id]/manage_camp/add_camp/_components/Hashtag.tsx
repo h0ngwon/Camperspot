@@ -58,9 +58,11 @@ const Hashtag = ({
       setInputHashTag('');
     }
   };
+
   const changeHashTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputHashTag(e.target.value);
   };
+
   const handleDeleteHashtag = (hashTag: string) => {
     setHashTags(
       hashTags.filter((item) => {
