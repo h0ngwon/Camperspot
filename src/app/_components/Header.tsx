@@ -6,22 +6,18 @@ import MyProfileSvg from '@/components/MyProfileSvg';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
-import { usePathname } from 'next/navigation';
+import { getToken } from 'next-auth/jwt';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
-  console.log(pathname);
-  console.log(conditions);
   const { data: session } = useSession();
-  console.log(session);
 
   return (
     <div>
-      {conditions ? (
-        <div></div>
-      ) : (
+      {!conditions && (
         <div className={styles.container}>
           <header className={styles.header}>
             <Link href={'/'}>
