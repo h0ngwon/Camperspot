@@ -30,7 +30,6 @@
 
 .nickname-header {
   color: #040404;
-  font-family: Inter;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -40,7 +39,6 @@
 .nickname {
   margin-top:23px;
   color: #040404;
-  font-family: Inter;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;

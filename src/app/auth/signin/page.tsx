@@ -22,7 +22,6 @@ const SigninPage = () => {
         또는
         <div className={styles.bar}></div>
       </div>
-      <span>업체회원이라면?</span>
       <SigninForm />
       <span>
         <Link href='/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link>
