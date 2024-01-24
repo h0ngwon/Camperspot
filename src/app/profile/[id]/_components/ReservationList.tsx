@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import ReservationDetailModal from './ReservationDetailModal';
 import { useRouter } from 'next/navigation';
+import ModalPortal from '@/components/ModalPortal';
+import Modal from '@/components/Modal';
+import useModalStore from '@/store/modal';
 
 const ReservationList = ({
   reservations,
@@ -16,6 +19,7 @@ const ReservationList = ({
 }) => {
   const router = useRouter();
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
+  const { show, toggleModal } = useModalStore();
   const handleCopy = (address: string) => {
     copy(address);
     toast.success('클립보드에 복사되었습니다');
@@ -83,15 +87,22 @@ const ReservationList = ({
               )}
               <button
                 className={styles.button}
-                onClick={() => setIsOpenDetailModal(idx)}
+                onClick={() => {
+                  setIsOpenDetailModal(idx);
+                  toggleModal();
+                }}
               >
                 상세 보기
               </button>
-              {isOpenDetailModal === idx && (
-                <ReservationDetailModal
-                  reservation={reservations[idx]}
-                  onClose={() => setIsOpenDetailModal(null)}
-                />
+              {show && isOpenDetailModal === idx && (
+                <ModalPortal>
+                  <Modal customWidth={450} customHeight={650}>
+                    <ReservationDetailModal
+                      reservation={reservations[idx]}
+                      onClose={toggleModal}
+                    />
+                  </Modal>
+                </ModalPortal>
               )}
             </li>
           );
