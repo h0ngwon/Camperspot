@@ -21,6 +21,7 @@ const SearchPage = async ({ searchParams }: Props) => {
     camp_pic(id,photo_url),
     hashtag(tag)
     `,
+    { count: 'exact' },
   );
   if (searchParams.region) {
     query.ilike('region', `%${searchParams.region}%`);
@@ -44,8 +45,9 @@ check_in ~ check_out 기간이 check_in_date ~ check_out 기간과 겹치지 않
 Mutually exclusive to a range 활용하려면 배열로 바꿔야함
 */
 
-  const { data: camp, error } = await query;
+  const { data: camp, count, error } = await query;
   //에러 핸들링은 어떻게?
+  console.log(count);
   const pageTitle = `검색 결과 (${camp?.length}건)`;
   return (
     <>

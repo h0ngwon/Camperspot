@@ -19,7 +19,12 @@ const Camp = async ({
   const perPage = 9;
   const startRange = (page - 1) * perPage;
   const endRange = startRange + perPage - 1;
-  const { data: camp, error } = await supabase
+
+  const {
+    data: camp,
+    count,
+    error,
+  } = await supabase
     .from('camp')
     .select(
       `
@@ -33,6 +38,7 @@ const Camp = async ({
     camp_pic(id,photo_url),
     hashtag(tag)
     `,
+      { count: 'exact' },
     )
     //임의로 인기순:과거순 외 최신순으로 해둠
     .order('created_at', {
@@ -42,13 +48,12 @@ const Camp = async ({
   //캐싱이 1순위
   //camp가 다른화면에서도 필요하다면 reactquery가 필요
   //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
-
-  console.log(camp?.length);
-  const per_page = searchParams['per_page'] ?? '5';
+  console.log(count);
+  const per_page = searchParams['per_page'] ?? '9';
 
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page);
-
+  console.log(start, end);
   const pageTitle = '전국 인기 캠핑장';
   return (
     <>
@@ -66,10 +71,7 @@ const Camp = async ({
           </div>
           <Spacer y={50} />
 
-          <PageController
-            hasNextPage={end < camp!.length}
-            hasPrevPage={start > 0}
-          />
+          <PageController hasNextPage={end < count!} hasPrevPage={start > 0} />
           <Spacer y={50} />
         </div>
       </div>
