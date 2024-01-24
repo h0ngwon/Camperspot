@@ -22,7 +22,9 @@ export default function CommunityPage() {
       try {
         const { data: post, error } = await supabase
           .from('post')
-          .select('*,post_pic(*),post_hashtag(*),user(nickname,profile_url)');
+          .select(
+            '*,post_pic(*),post_hashtag(*),user(id,nickname,profile_url)',
+          );
 
         if (error) {
           throw error;
@@ -56,7 +58,7 @@ export default function CommunityPage() {
           {data?.map((item) => {
             return (
               <li className={styles.card} key={item.id}>
-                <CommuUsers user={item.user} />
+                <CommuUsers user={item.user} postId={item.id} />
                 <CommuPhotos photo={item.post_pic} />
                 <CommuLikeBtn postId={item.id} />
                 <p className={styles.content}>{item.content}</p>
