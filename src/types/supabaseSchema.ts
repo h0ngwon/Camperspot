@@ -56,6 +56,7 @@ export interface Camp {
   check_out: string;
   layout: string;
   company_user?: Company_user;
+  camp_facility?: Camp_facility[];
 }
 
 export interface Like {

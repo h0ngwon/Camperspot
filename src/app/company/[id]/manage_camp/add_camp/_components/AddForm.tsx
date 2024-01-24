@@ -19,11 +19,11 @@ const AddForm = () => {
   const [name, handleName] = useInput();
   const [content, handleContent] = useInput();
   const [address, setAddress] = useState('');
+  const [isAddressModal, setAddressModal] = useState(false);
   const [phone, handlePhone] = useInput();
   const [check_in, handleCheck_in] = useState<string>('');
   const [check_out, handleCheck_out] = useState<string>('');
   const [layout, handleLayout] = useInput();
-  const [isAddressModal, setAddressModal] = useState(false);
   const [facility, setFacility] = useState<Tables<'facility'>[]>([]);
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campLayout, setCampLayout] = useState<string>('');
@@ -37,8 +37,6 @@ const AddForm = () => {
   const queryClient = useQueryClient();
 
   const campId = uuid();
-
-  const { data: session } = useSession();
 
   // const companyUserId = session?.user.id;
   const companyUserId = params.id;
@@ -170,12 +168,13 @@ const AddForm = () => {
         <div>
           <h3>캠핑장 명</h3>
           <input
-            defaultValue={name}
+            value={name}
             onChange={handleName}
             placeholder='이름을 입력해주세요'
             required
           />
         </div>
+
         <div>
           <h3>캠핑장 주소</h3>
           <div>
@@ -190,38 +189,42 @@ const AddForm = () => {
               </button>
             </div>
             <input
-              value={address}
+              defaultValue={address}
               placeholder='주소검색하기를 클릭해주세요'
               required
             />
           </div>
         </div>
+
         <div>
           <h3>캠핑장 소개</h3>
           <textarea
-            defaultValue={content}
+            value={content}
             onChange={handleContent}
             className={styles.gridItemTextArea}
             placeholder='캠핑장을 소개해주세요'
             required
           ></textarea>
         </div>
+
         <Facility
           facility={facility}
           setFacility={setFacility}
           checkedFacility={checkedFacility}
           setCheckedFacility={setCheckedFacility}
         />
+
         <CheckInOut
           check_in={check_in}
           handleCheck_in={handleCheck_in}
           check_out={check_out}
           handleCheck_out={handleCheck_out}
         />
+
         <div>
           <h3>문의전화</h3>
           <input
-            defaultValue={phone}
+            value={phone}
             onChange={handlePhone}
             type='tel'
             placeholder='예) 02-000-0000 / 063-000-0000'
@@ -230,17 +233,21 @@ const AddForm = () => {
             required
           />
         </div>
+
         <Layout campLayout={campLayout} setCampLayout={setCampLayout} />
+
         <CampPicture
           campPicture={campPicture}
           setCampPicture={setCampPicture}
         />
+
         <Hashtag
           hashTags={hashTags}
           setHashTags={setHashTags}
           inputHashTag={inputHashTag}
           setInputHashTag={setInputHashTag}
         />
+
         <div>
           <button type='button'>임시저장</button>
           <button type='submit'>등록하기</button>

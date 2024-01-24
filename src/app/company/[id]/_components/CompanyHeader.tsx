@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -12,7 +12,7 @@ type Props = {};
 const CompanyHeader = (props: Props) => {
   const [isClickMyCamp, setMyCamp] = useState(false);
 
-  const route = useRouter();
+  const router = useRouter();
   const { data: session } = useSession();
   const companyId = session?.user.id;
 
@@ -43,13 +43,14 @@ const CompanyHeader = (props: Props) => {
   }
 
   const handleClickMyCamp = () => {
+    router.push(`/company/${companyId}/manage_camp/added_camp`);
     setMyCamp(true);
     if (isClickMyCamp === true) {
       setMyCamp(false);
     }
   };
   const handleGoToCampArea = (campId: string) => {
-    route.push(`/company/${companyId}/manage_camp/${campId}/manage_camp_area`);
+    router.push(`/company/${companyId}/manage_camp/${campId}/manage_camp_area`);
   };
   return (
     <>
