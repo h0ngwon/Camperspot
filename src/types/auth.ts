@@ -1,6 +1,6 @@
 import { Tables } from './supabase';
 
-export type SocialDataType = Omit<Tables<'user'>, 'id' | 'password'>;
+export type SocialDataType = Omit<Tables<'user'>,'password'>;
 export type CompanyUserSigninType = Pick<
   Tables<'company_user'>,
   'email' | 'password'

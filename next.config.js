@@ -28,6 +28,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'phinf.pstatic.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'phinf.pstatic.net'
+      }
     ],
   },
 };
