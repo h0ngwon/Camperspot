@@ -44,3 +44,11 @@
   height: 1px;
   background: var(--neutral-100, #E7E9E6);
 }
+
+.signup {
+  display: flex;
+  width: 402px;
+  align-items: center;
+  gap: 168px;
+  margin-top:4px;
+}

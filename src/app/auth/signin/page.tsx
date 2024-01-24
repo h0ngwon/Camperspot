@@ -23,10 +23,11 @@ const SigninPage = () => {
         <div className={styles.bar}></div>
       </div>
       <SigninForm />
-      <span>
-        <Link href='/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link>
+      <span className={styles.signup}>
+        <Link href='/auth/signup'>회원가입</Link>
       </span>
     </div>
+    
   );
 };
 
