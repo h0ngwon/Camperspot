@@ -54,6 +54,8 @@ const UpdateCampPage = (props: Props) => {
 
   const [isAddressModal, setAddressModal] = useState(false);
 
+  console.log(checkedFacility.map((item) => item));
+
   const {
     mutate: updateCamp,
     isError,
@@ -69,10 +71,18 @@ const UpdateCampPage = (props: Props) => {
       // 만약 check된 facility id랑 camp facility의 facility_id랑 같으면
       // 그대로 두거나 insert
       // camp facility에는 있는데 check된 facility에는 없는 id면 delete
-      const { data: checkFacility } = await supabase
+      const { data: checkedFacilityData } = await supabase
         .from('camp_facility')
         .select('*')
         .eq('camp_id', campId);
+
+      const { data: checkedFacilityDataInsert } = await supabase
+        .from('camp_facility')
+        .insert(
+          checkedFacility.map((item) => {
+            return { facility_id: item };
+          }),
+        );
 
       if (error) {
         throw new Error(error.message);
