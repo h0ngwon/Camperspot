@@ -35,7 +35,7 @@ const ReservationDetailModal = ({
           <div className={styles['camp-info']}>
             <h3 className={styles.h3}>예약 정보</h3>
             <p>
-              <span className={styles.span}>캠핑존 </span>{' '}
+              <span className={styles['camping-zone']}>캠핑존 </span>{' '}
               <span className={styles['camp-name']}>{campName}</span>
               {campAreaName}
             </p>
@@ -43,32 +43,34 @@ const ReservationDetailModal = ({
               <span className={styles.span}>인원</span> {people}명
             </p>
 
-            <div className={styles.dates}>
+            <div className={styles.div}>
               <span className={styles.span}>일시</span>
-              <div>
-                <span className={styles.date}>
-                  {new Date(check_in_date).toLocaleString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                    weekday: 'narrow',
-                  })}
-                </span>
+              <div className={styles.dates}>
+                <div>
+                  <span className={styles.date}>
+                    {new Date(check_in_date).toLocaleString('ko', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      weekday: 'narrow',
+                    })}
+                  </span>
 
-                <p className={styles.hour}>체크인 {check_in} ~</p>
-              </div>
-              <ReservationArrowSvg />
+                  <p className={styles.hour}>체크인 {check_in} ~</p>
+                </div>
+                <ReservationArrowSvg />
 
-              <div>
-                <p className={styles.date}>
-                  {new Date(check_out_date).toLocaleString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                    weekday: 'narrow',
-                  })}
-                </p>
-                <p className={styles.hour}>체크아웃 ~ {check_out}</p>
+                <div>
+                  <p className={styles.date}>
+                    {new Date(check_out_date).toLocaleString('ko', {
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit',
+                      weekday: 'narrow',
+                    })}
+                  </p>
+                  <p className={styles.hour}>체크아웃 ~ {check_out}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -104,7 +106,6 @@ const ReservationDetailModal = ({
         </div>
       </div>
     </>
-    // </div>
   );
 };
 
