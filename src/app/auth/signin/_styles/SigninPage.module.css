@@ -33,7 +33,6 @@
   color: #000;
 
   /* 16px_Regular */
-  font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -44,4 +43,12 @@
   width: 171px;
   height: 1px;
   background: var(--neutral-100, #E7E9E6);
+}
+
+.signup {
+  display: flex;
+  width: 402px;
+  align-items: center;
+  gap: 168px;
+  margin-top:4px;
 }

@@ -1,8 +1,6 @@
 'use client';
-import { getProviders, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import logo from '../../../asset/logo.png';
 import KakaoButton from './_components/KakaoButton';
 import NaverButton from './_components/NaverButton';
@@ -10,18 +8,12 @@ import SigninForm from './_components/SigninForm';
 import styles from './_styles/SigninPage.module.css';
 
 const SigninPage = () => {
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    (async () => {
-      const res: any = await getProviders();
-    })();
-  }, []);
-
   return (
     <div className={styles.container}>
       <div className={styles['img-wrapper']}>
-        <Image src={logo} width={0} height={0} alt='lgoo' />
+        <Link href='/'>
+          <Image src={logo} width={0} height={0} alt='lgoo' />
+        </Link>
       </div>
       <div className={styles['buttons-container']}>
         <KakaoButton />
@@ -32,10 +24,9 @@ const SigninPage = () => {
         또는
         <div className={styles.bar}></div>
       </div>
-      <span>업체회원이라면?</span>
       <SigninForm />
-      <span>
-        <Link href='/auth/signup'>업체회원이 되고싶으신가요? 회원가입하기</Link>
+      <span className={styles.signup}>
+        <Link href='/auth/signup'>회원가입</Link>
       </span>
     </div>
   );
