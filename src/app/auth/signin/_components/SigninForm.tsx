@@ -67,7 +67,9 @@ const SigninForm = () => {
           <span>비밀번호를 입력해주세요.</span>
         )}
       </div>
-      <button className={styles['login-btn']}>업체회원 로그인</button>
+      <button className={errors.email || errors.password
+            ? `${styles['signin-btn-disable']} ${styles['disabled-cursor']}`
+            : styles['signin-btn']}>업체회원 로그인</button>
       
     </form>
   );

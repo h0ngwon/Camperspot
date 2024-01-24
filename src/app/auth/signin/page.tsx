@@ -11,7 +11,9 @@ const SigninPage = () => {
   return (
     <div className={styles.container}>
       <div className={styles['img-wrapper']}>
-        <Image src={logo} width={0} height={0} alt='lgoo' />
+        <Link href='/'>
+          <Image src={logo} width={0} height={0} alt='lgoo' />
+        </Link>
       </div>
       <div className={styles['buttons-container']}>
         <KakaoButton />
@@ -27,7 +29,6 @@ const SigninPage = () => {
         <Link href='/auth/signup'>회원가입</Link>
       </span>
     </div>
-    
   );
 };
 
