@@ -24,12 +24,20 @@ const ReservationList = ({
     copy(address);
     toast.success('클립보드에 복사되었습니다');
   };
+
+  const handleOpenModal = (index: number) => {
+    setIsOpenDetailModal(index);
+    toggleModal();
+  };
+  const handleCloseModal = () => {
+    toggleModal();
+    setIsOpenDetailModal(null);
+  };
   return (
     <>
       {reservations &&
         reservations?.map((reservation, idx) => {
           const { id, created_at, check_in_date, check_out_date } = reservation;
-          console.log('하나의 예약', reservation);
           const { name: campAreaName } = reservation.camp_area!;
           const {
             id: campId,
@@ -87,10 +95,7 @@ const ReservationList = ({
               )}
               <button
                 className={styles.button}
-                onClick={() => {
-                  setIsOpenDetailModal(idx);
-                  toggleModal();
-                }}
+                onClick={() => handleOpenModal(idx)}
               >
                 상세 보기
               </button>
@@ -99,7 +104,7 @@ const ReservationList = ({
                   <Modal customWidth={450} customHeight={650}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
-                      onClose={toggleModal}
+                      onClose={handleCloseModal}
                     />
                   </Modal>
                 </ModalPortal>
