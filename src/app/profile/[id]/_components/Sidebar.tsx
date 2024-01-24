@@ -2,7 +2,7 @@
 import React from 'react';
 import styles from '../_styles/Sidebar.module.css';
 import Link from 'next/link';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
 const Sidebar = () => {
   const sidebarMenus = [
