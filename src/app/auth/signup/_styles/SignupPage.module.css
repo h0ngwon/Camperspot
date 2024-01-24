@@ -12,3 +12,8 @@
   flex-shrink: 0;
   margin-bottom:72px;
 }
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+}

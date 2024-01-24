@@ -1,10 +1,9 @@
 'use client';
 import { CompanyUserSignUpType } from '@/types/auth';
-import { useForm } from 'react-hook-form';
-import styles from '../_styles/SignupForm.module.css';
-import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
+import styles from '../_styles/SignupForm.module.css';
 
 const SignupForm = () => {
   const router = useRouter();
@@ -46,7 +45,7 @@ const SignupForm = () => {
 
     if (message.status === 200) {
       toast.success(message.message);
-      router.push('/auth/signin')
+      router.push('/auth/signin');
     }
   };
 
@@ -120,7 +119,10 @@ const SignupForm = () => {
       </div>
       <button
         className={
-          errors.email || errors.name || errors.confirmPassword || errors.password
+          errors.email ||
+          errors.name ||
+          errors.confirmPassword ||
+          errors.password
             ? `${styles['signup-btn-disable']} ${styles['disabled-cursor']}`
             : styles['signup-btn']
         }
