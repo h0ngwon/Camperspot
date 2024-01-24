@@ -17,7 +17,7 @@ const Profile = () => {
     queryFn: async () => getUserData(params.id as string),
   });
   console.log({ data });
-  
+
   return (
     <div className={styles.container}>
       <div className={styles['profile-header']}>프로필 관리</div>
