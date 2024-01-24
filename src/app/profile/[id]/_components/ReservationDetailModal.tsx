@@ -1,7 +1,8 @@
 'use client';
 import { UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationDetailModal.module.css';
-import { IoIosArrowForward } from 'react-icons/io';
+import ModalCloseSvg from '@/components/ModalCloseSvg';
+import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 
 const ReservationDetailModal = ({
   reservation,
@@ -21,70 +22,90 @@ const ReservationDetailModal = ({
     payment_method,
   } = reservation;
 
-  console.log('reservation', reservation);
-
   const { name: campName, check_in, check_out } = reservation.camp_area?.camp!;
   const { name: campAreaName } = reservation.camp_area!;
   return (
-    <div className={styles.modalBackground}>
+    <>
+      <p className={styles.info}>예약 상세 보기</p>
       <div className={styles.modal}>
         <button className={styles.closeBtn} onClick={() => onClose()}>
-          <svg
-            width={24}
-            viewBox='0 0 24 24'
-            aria-hidden='true'
-            className='r-18jsvk2 r-4qtqp9 r-yyyyoo r-z80fyv r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-19wmn03'
-          >
-            <g>
-              <path d='M10.59 12L4.54 5.96l1.42-1.42L12 10.59l6.04-6.05 1.42 1.42L13.41 12l6.05 6.04-1.42 1.42L12 13.41l-6.04 6.05-1.42-1.42L10.59 12z'></path>
-            </g>
-          </svg>
+          <ModalCloseSvg />
         </button>
         <div className={styles.div}>
-          <h1 className={styles.h1}>예약 및 결제</h1>
           <div className={styles.campInfo}>
             <h3 className={styles.h3}>예약 정보</h3>
-            <p>{campName}</p>
-            <p>객실 {campAreaName}</p>
-            <p>인원 {people}</p>
+            <p className={styles.p}>
+              <span className={styles.span}>객실</span>{' '}
+              <span className={styles.campName}>{campName}</span>
+              {campAreaName}
+            </p>
+            <p className={styles.p}>
+              <span className={styles.span}>인원</span> {people}명
+            </p>
+
+            <div className={styles.dates}>
+              <span className={styles.span}>일시</span>
+              <div>
+                <span className={styles.date}>
+                  {new Date(check_in_date).toLocaleString('ko', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                    weekday: 'narrow',
+                  })}
+                </span>
+
+                <p className={styles.hour}>체크인 {check_in} ~</p>
+              </div>
+              <ReservationArrowSvg />
+
+              <div>
+                <p className={styles.date}>
+                  {new Date(check_out_date).toLocaleString('ko', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                    weekday: 'narrow',
+                  })}
+                </p>
+                <p className={styles.hour}>체크아웃 ~ {check_out}</p>
+              </div>
+            </div>
           </div>
-
-          <div className={styles.dates}>
-            일시
-            <p>
-              {new Date(check_in_date).toLocaleDateString()}
-              <p>체크인 ~ {check_in}</p>
-            </p>
-            <IoIosArrowForward size={25} />
-            <p>
-              {new Date(check_out_date).toLocaleDateString()}
-              <p>체크아웃 ~ {check_out}</p>
-            </p>
-          </div>
-
-          <div className={styles.divider}></div>
-
-          <div className={styles.prices}>
-            <p className={styles.total}>
-              예약 금액 <span>{fee.toLocaleString()}원</span>
-            </p>
-            <p className={styles.total}>
-              총 결제 금액{' '}
-              <span className={styles.price}>{fee.toLocaleString()}원 </span>
-            </p>
+          <div className={styles.payInfo}>
+            <h3 className={styles.h3}>예약자 정보</h3>
+            <p>예약자명 {client_name}</p>
+            <p>연락처 {client_phone}</p>
           </div>
         </div>
         <div className={styles.payInfo}>
           <h3 className={styles.h3}>결제 정보</h3>
-          <div className={styles.personInfo}>
-            <p>예약자명 {client_name}</p>
-            <p>연락처 {client_phone}</p>
-            <p>예약일자 {new Date(created_at).toLocaleString()}</p>
-            <p>결제 수단 {payment_method}</p>
+          <div className={styles['pay-info']}>
+            <div className={styles.pay}>
+              결제일시 <p>{new Date(created_at).toLocaleString()}</p>
+            </div>
+            <div className={styles.pay}>
+              상품 가격 <p>{fee.toLocaleString()}원</p>
+            </div>
+            <div className={styles.pay}>
+              결제 수단 <p>{payment_method}</p>
+            </div>
           </div>
         </div>
+        <div className={styles.divider}></div>
+
+        <div className={styles.prices}>
+          {/* <p className={styles.total}>
+            예약 금액 <span>{fee.toLocaleString()}원</span>
+          </p> */}
+          <p className={styles.total}>
+            총 결제 금액{' '}
+            <span className={styles.price}>{fee.toLocaleString()}원 </span>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
+    // </div>
   );
 };
 
