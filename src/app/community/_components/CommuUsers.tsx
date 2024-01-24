@@ -8,24 +8,20 @@ import MoreSvg from '../_svg/MoreSvg';
 type Props = {
   user: {
     nickname: string;
-    profile_url: string | null;
+    profile_url: string;
   } | null;
 };
 
 export default function CommuUser({ user }: Props) {
   return (
     <div className={styles.userWrap}>
-      {user && (
-        <div className={styles.user}>
-          {user.profile_url ? (
-            <Image src={user.profile_url} alt='' width={32} height={32} />
-          ) : (
-            <Image src={profileImg} alt='' fill />
-          )}
-          <p>{user.nickname}</p>
-        </div>
-      )}
+      <div className={styles.user}>
+        <Image src={user!.profile_url} alt='' width={32} height={32} />
+        <p>{user?.nickname}</p>
+      </div>
+
       <MoreSvg />
+      <button>삭제</button>
     </div>
   );
 }

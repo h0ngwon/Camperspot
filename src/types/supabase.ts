@@ -492,7 +492,7 @@ export interface Database {
           id: string;
           nickname: string;
           password: string | null;
-          profile_url: string | null;
+          profile_url: string;
           provider: string | null;
           role: string;
         };
@@ -501,7 +501,7 @@ export interface Database {
           id?: string;
           nickname: string;
           password?: string | null;
-          profile_url?: string | null;
+          profile_url?: string;
           provider?: string | null;
           role?: string;
         };
@@ -510,7 +510,7 @@ export interface Database {
           id?: string;
           nickname?: string;
           password?: string | null;
-          profile_url?: string | null;
+          profile_url?: string;
           provider?: string | null;
           role?: string;
         };

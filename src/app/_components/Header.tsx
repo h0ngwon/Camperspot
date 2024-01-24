@@ -12,10 +12,10 @@ import { usePathname } from 'next/navigation';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
-  console.log(pathname);
-  console.log(conditions);
+  // console.log(pathname);
+  // console.log(conditions);
   const { data: session } = useSession();
-  console.log(session);
+  // console.log(session);
 
   return (
     <div>

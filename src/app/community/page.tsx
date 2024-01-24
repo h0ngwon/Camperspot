@@ -4,18 +4,16 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
-import CommuSearch from './_components/CommuSearch';
 import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
+import CommuLikeBtn from './_components/CommuLikeBtn';
 
 import styles from './_styles/Commu.module.css';
 import CreateSvg from './_svg/CreateSvg';
-import CommuLikeBtn from './_components/CommuLikeBtn';
 
 export default function CommunityPage() {
   const { data: session } = useSession();
-
   const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
@@ -49,7 +47,6 @@ export default function CommunityPage() {
   return (
     <>
       <div className={styles.container}>
-        {/* <CommuSearch /> */}
         <div className={styles.createBtn}>
           <Link href={`/community/${userId}/create`}>
             <CreateSvg />

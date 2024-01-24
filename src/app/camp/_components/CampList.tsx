@@ -52,7 +52,7 @@ const CampList = (data: Props) => {
                 </div>
               </div>
             </Link>
-
+            <DetailLikeBtn campId={camp.id} />
             <ul className={styles.cardTag}>
               <Hashtag tags={camp.hashtag} />
             </ul>
