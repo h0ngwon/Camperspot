@@ -1,5 +1,6 @@
 import useModalStore from '@/store/modal';
 import styles from '../styles/Modal.module.css';
+import ModalCloseSvg from '@/components/ModalCloseSvg';
 
 interface Props {
   children: React.ReactNode;
@@ -13,6 +14,9 @@ const Modal = ({ children, customWidth, customHeight }: Props) => {
     <div>
       <div className={styles['modal-overlay']} onClick={toggleModal}></div>
       <div className={styles['modal-content-container']}>
+        <button className={styles['close-btn']} onClick={toggleModal}>
+          <ModalCloseSvg />
+        </button>
         <div
           className={styles['modal-content']}
           style={
