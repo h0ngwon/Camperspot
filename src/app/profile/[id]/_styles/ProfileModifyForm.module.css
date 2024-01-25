@@ -5,12 +5,76 @@
   justify-content: center;
   align-items: center;
   margin: 10px 0 10px 0;
+  gap: 33px;
 }
 
 .hidden {
   display: none;
 }
 
-.container img {
-  object-fit: scale-down;
+.profile-header {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.img-wrapper {
+  width:120px;
+  height:120px;
+  cursor: pointer;
+}
+
+.img-wrapper img{
+  border-radius: 50%;
+  object-fit: contain;
+  overflow: hidden;
+}
+
+.nickname-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nickname-container label {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 10px;
+}
+.nickname-container input {
+  width: 378px;
+  height: 51px;
+  flex-shrink: 0;
+  background: #D9D9D9;
+  border: none;
+  border-radius: 16px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.submit-btn {
+  width: 378px;
+  height: 51px;
+  flex-shrink: 0;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-radius:16px;
+  cursor: pointer;
+  font-family: 'Pretendard';
+}
+
+.submit-btn:hover {
+  background:#D9D9D9;
 }
