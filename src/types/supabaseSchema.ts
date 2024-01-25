@@ -57,6 +57,7 @@ export interface Camp {
   layout: string;
   company_user?: Company_user;
   camp_facility?: Camp_facility[];
+  camp_pic?: Camp_pic[];
 }
 
 export interface Like {

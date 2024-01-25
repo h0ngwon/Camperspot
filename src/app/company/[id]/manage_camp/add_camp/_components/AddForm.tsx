@@ -98,7 +98,7 @@ const AddForm = () => {
       )
       .select();
 
-    // 등록 눌렀을 시 캠핑장 배치 이미지 업로드
+    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
     async function uploadStorageLayoutData(blob: Blob | File) {
       // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
       const { data, error } = await supabase.storage
