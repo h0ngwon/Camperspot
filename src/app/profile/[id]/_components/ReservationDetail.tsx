@@ -37,7 +37,7 @@ export const ReservationDetail = () => {
     <div className={styles.layout}>
       <h3 className={styles.h3}>예약 현황</h3>
       <p className={styles.p1}>이용 예정</p>
-      <div className='container'>
+      <div className={styles.container}>
         <table className={styles.table}>
           <thead>
             <tr>

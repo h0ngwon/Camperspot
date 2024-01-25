@@ -2,11 +2,6 @@
   list-style: none;
   width: 282px;
   height: 575px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 3rem 2rem;
   flex-shrink: 0;
   background: #f5f5f5;
   border-radius: 32px;
@@ -14,19 +9,12 @@
   flex-direction: column;
   align-items: center;
   gap: 69px;
-  justify-content: center;
+  padding-top: 5rem;
 }
 
 .sidebar-item {
   text-decoration: none;
+  font-weight: bold;
   font-size: 20px;
   padding: 1rem;
-}
-
-.sidebar-item:hover {
-  font-weight: bold;
-}
-
-.sidebar-item .active {
-  font-weight: bold;
 }

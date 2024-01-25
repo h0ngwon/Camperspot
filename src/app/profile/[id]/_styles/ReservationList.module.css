@@ -1,8 +1,11 @@
-.li {
+.td {
+  text-align: left;
+}
+
+.date {
+  width: 120px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0.3rem;
+  flex-direction: column;
 }
 
 .div {
@@ -10,14 +13,10 @@
   gap: 1.5rem;
 }
 
-.created {
-  width: 90px;
-}
-
-.date {
-  width: 120px;
-  display: flex;
-  flex-direction: column;
+.button {
+  width: 75px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .address {
@@ -28,16 +27,6 @@
 .copy {
   color: #00a3ff;
   cursor: pointer;
-}
-
-.button {
-  width: 75px;
-  height: 30px;
-  cursor: pointer;
-}
-
-.td {
-  text-align: left;
 }
 
 .address {
