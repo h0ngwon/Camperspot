@@ -10,8 +10,8 @@ export default function ModalCloseSvg() {
       <path
         d='M1.01172 14.9891L8.00239 7.99848L14.9931 14.9891M14.9931 1.00781L8.00105 7.99848L1.01172 1.00781'
         stroke='black'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );

@@ -45,60 +45,78 @@ const ReservationList = ({
             address,
           } = reservation.camp_area?.camp!;
           return (
-            <li className={styles.li} key={id}>
-              <div className={styles.div}>
-                <p className={styles.created}>
-                  {new Date(created_at).toLocaleDateString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })}
-                </p>
-                <p>{campName}</p>
-                <p>{campAreaName}</p>
+            <tr key={id}>
+              <td className={styles.td} style={{ width: '100px' }}>
+                {new Date(created_at).toLocaleDateString('ko', {
+                  year: '2-digit',
+                  month: '2-digit',
+                  day: '2-digit',
+                })}
+              </td>
+              <td className={styles.td} style={{ width: '100px' }}>
+                {campName}
+              </td>
+              <td className={styles.td} style={{ width: '100px' }}>
+                {campAreaName}
+              </td>
+              <td className={styles.td}>
                 <div className={styles.date}>
-                  <p>{`${new Date(check_in_date).toLocaleDateString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })} ~ `}</p>
+                  <p>
+                    {' '}
+                    {`${new Date(check_in_date).toLocaleDateString('ko', {
+                      year: '2-digit',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })} ~ `}
+                  </p>
                   <p>{`${new Date(check_out_date).toLocaleDateString('ko', {
                     year: '2-digit',
                     month: '2-digit',
                     day: '2-digit',
                   })} `}</p>
                 </div>
-              </div>
-              {isPlanned && (
-                <div className={styles.address}>
-                  <p>
-                    {address}
-                    <span
-                      className={styles.copy}
-                      onClick={() => handleCopy(address)}
+              </td>
+              {!isPlanned && (
+                <td className={styles.td}>
+                  <div className={styles.div}>
+                    <button
+                      className={styles.button}
+                      onClick={() => router.push(`/camp/detail/${campId}`)}
                     >
-                      복사하기
-                    </span>
-                  </p>
-                </div>
+                      다시 예약
+                    </button>
+                    <button className={styles.button}>리뷰 쓰기</button>
+                    <button
+                      className={styles.button}
+                      onClick={() => handleOpenModal(idx)}
+                    >
+                      상세 보기
+                    </button>
+                  </div>
+                </td>
               )}
-              {!isPlanned && (
-                <button
-                  className={styles.button}
-                  onClick={() => router.push(`/camp/detail/${campId}`)}
-                >
-                  다시 예약
-                </button>
+              {isPlanned && (
+                <td className={styles.td}>
+                  <div className={styles.address}>
+                    {address}
+                    <div className={styles.div}>
+                      <span
+                        className={styles.copy}
+                        onClick={() => handleCopy(address)}
+                      >
+                        {' '}
+                        복사하기
+                      </span>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleOpenModal(idx)}
+                      >
+                        상세 보기
+                      </button>
+                    </div>
+                  </div>
+                </td>
               )}
-              {!isPlanned && (
-                <button className={styles.button}>리뷰 쓰기</button>
-              )}
-              <button
-                className={styles.button}
-                onClick={() => handleOpenModal(idx)}
-              >
-                상세 보기
-              </button>
               {show && isOpenDetailModal === idx && (
                 <ModalPortal>
                   <Modal customWidth={450} customHeight={650}>
@@ -109,7 +127,7 @@ const ReservationList = ({
                   </Modal>
                 </ModalPortal>
               )}
-            </li>
+            </tr>
           );
         })}
     </>
