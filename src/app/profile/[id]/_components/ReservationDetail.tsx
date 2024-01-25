@@ -36,34 +36,48 @@ export const ReservationDetail = () => {
   return (
     <div className={styles.layout}>
       <h3 className={styles.h3}>예약 현황</h3>
-      <p className={styles.p}>이용 예정</p>
+      <p className={styles.p1}>이용 예정</p>
+      <div className={styles.container}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className={styles.th}>예약 일시</th>
+              <th className={styles.th}>캠핑장 이름</th>
+              <th className={styles.th}>캠핑존 이름</th>
+              <th className={styles.th}>체크인/아웃</th>
+              <th className={styles.th}>주소</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ReservationList
+              reservations={plannedReservation!}
+              isPlanned={true}
+            />
+          </tbody>
+        </table>
+      </div>
+      <p className={styles.p2}>이용 후</p>
       <div>
-        <div className={styles.div}>
-          <p>예약 일시</p>
-          <p>캠핑장 이름</p>
-          <p>캠핑존 이름</p>
-          <p>체크인/아웃</p>
-          <p className={styles.address}>주소</p>
-        </div>
-        <div className={styles.divider}></div>
-        <ul className={styles.ul}>
-          <ReservationList
-            reservations={plannedReservation!}
-            isPlanned={true}
-          />
-        </ul>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className={styles.th}>예약 일시</th>
+              <th className={styles.th}>캠핑장 이름</th>
+              <th className={styles.th}>캠핑존 이름</th>
+              <th className={styles.th}>체크인/아웃</th>
+              <th className={styles.th}></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <ReservationList
+              reservations={passedReservation!}
+              isPlanned={false}
+            />
+          </tbody>
+        </table>
       </div>
-      <p className={styles.p}>이용 후</p>
-      <div className={styles.div}>
-        <p>예약 일시</p>
-        <p>캠핑장 이름</p>
-        <p>캠핑존 이름</p>
-        <p>체크인/아웃</p>
-      </div>
-      <div className={styles.divider}></div>
-      <ul>
-        <ReservationList reservations={passedReservation!} isPlanned={false} />
-      </ul>
     </div>
   );
 };

@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
 import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
+import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
 type Props = {
   postId: string;
@@ -16,8 +15,6 @@ type Props = {
 export default function CommuLikeBtn({ postId }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
-
-  const params = useParams() as { id: string };
 
   const { data: session } = useSession();
   const userId = session?.user.id as string;
