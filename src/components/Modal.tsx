@@ -26,13 +26,6 @@ const Modal = ({ children, customWidth, customHeight }: Props) => {
           }
         >
           {children}
-          <button
-            onClick={toggleModal}
-            className={styles['modal-close-button']}
-            type='button'
-          >
-            닫기
-          </button>
         </div>
       </div>
     </div>
