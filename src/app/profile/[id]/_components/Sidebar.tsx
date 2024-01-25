@@ -29,7 +29,7 @@ const Sidebar = () => {
       {sidebarMenus.map((item) => {
         const url = `/profile/${userId}/${item.url ? item.url : ''}`;
         return (
-          <Link href={url} key={item.id}>
+          <Link className={styles['sidebar-link']} href={url} key={item.id}>
             <li className={styles['sidebar-item']}>{item.menu}</li>
           </Link>
         );
