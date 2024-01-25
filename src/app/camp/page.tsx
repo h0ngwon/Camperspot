@@ -5,7 +5,7 @@ import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
 import PageController from './_components/PageController';
 
-export const revalidate = 10;
+export const revalidate = 0;
 
 //searchParams를 통해 주소로 parameter 가져오기
 const Camp = async ({
@@ -19,12 +19,16 @@ const Camp = async ({
   const perPage = 9;
   const startRange = (page - 1) * perPage;
   const endRange = startRange + perPage - 1;
-  const { data: camp, error } = await supabase
+  const {
+    data: camp,
+    count,
+    error,
+  } = await supabase
     .from('camp')
     .select(
       `
-  id,
-  name,
+    id, 
+    name,
     created_at,
     address,
     region,
@@ -33,18 +37,19 @@ const Camp = async ({
     camp_pic(id,photo_url),
     hashtag(tag)
     `,
+      { count: 'exact' },
     )
-    //임의로 인기순:과거순 외 최신순으로 해둠
+    //좋아요, 최신순, 과거순, 랜덤, 별점순
+
     .order('created_at', {
       ascending: searchParams.sort === '인기순' ? false : true,
     })
     .range(startRange, endRange);
   //캐싱이 1순위
-  //camp가 다른화면에서도 필요하다면 reactquery가 필요
   //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
 
-  console.log(camp?.length);
-  const per_page = searchParams['per_page'] ?? '5';
+  console.log(count);
+  const per_page = searchParams['per_page'] ?? '9';
 
   const start = (Number(page) - 1) * Number(per_page);
   const end = start + Number(per_page);
@@ -61,15 +66,12 @@ const Camp = async ({
           </div>
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
-              <CampList data={camp!} />
+              <CampList campList={camp!} />
             </div>
           </div>
           <Spacer y={50} />
 
-          <PageController
-            hasNextPage={end < camp!.length}
-            hasPrevPage={start > 0}
-          />
+          <PageController hasNextPage={end < count!} hasPrevPage={start > 0} />
           <Spacer y={50} />
         </div>
       </div>

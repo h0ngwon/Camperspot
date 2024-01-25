@@ -14,6 +14,7 @@ function PageController({ hasNextPage, hasPrevPage }: Props) {
   const params = new URLSearchParams(searchParams);
 
   const pathname = usePathname();
+  console.log(pathname);
   console.log(params.toString());
 
   const page = Number(searchParams.get('page')) ?? '1';
@@ -23,24 +24,26 @@ function PageController({ hasNextPage, hasPrevPage }: Props) {
     const newPage = Math.max(1, page - 1);
     params.set('page', String(newPage));
 
-    router.push(`/camp/?${params.toString()}`);
+    router.push(`${pathname}/?${params.toString()}`);
   };
   const onClickNextPage = () => {
     const newPage = page + 1;
 
     params.set('page', String(newPage));
 
-    router.push(`/camp/?${params.toString()}`);
+    router.push(`${pathname}/?${params.toString()}`);
   };
   return (
     <div className={styles.controllerBox}>
       <button disabled={!hasPrevPage} onClick={onClickPrevPage}>
-        prev page
+        이전 페이지
       </button>
 
       <div>{page}</div>
 
-      <button onClick={onClickNextPage}>next page</button>
+      <button disabled={!hasNextPage} onClick={onClickNextPage}>
+        다음 페이지
+      </button>
     </div>
   );
 }

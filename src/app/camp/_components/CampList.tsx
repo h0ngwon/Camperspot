@@ -6,23 +6,26 @@ import Link from 'next/link';
 import Photo from './Photo';
 import Spacer from '@/components/Spacer';
 import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
+import type { CampLists, TCamp } from '@/types/campList';
 
+// type Props = {
+//   data: {
+//     id: string;
+//     name: string;
+//     created_at: string;
+//     address: string;
+//     camp_area: { price: number; id: string }[];
+//     camp_pic: { id: string; photo_url: string }[];
+//     hashtag: { tag: string | null }[];
+//   }[];
+// };
 type Props = {
-  data: {
-    id: string;
-    name: string;
-    created_at: string;
-    address: string;
-    camp_area: { price: number; id: string }[];
-    camp_pic: { id: string; photo_url: string }[];
-    hashtag: { tag: string | null }[];
-  }[];
+  campList: TCamp[];
 };
-
-const CampList = (data: Props) => {
+const CampList = ({ campList }: Props) => {
   return (
     <>
-      {data.data.map((camp) => {
+      {campList?.map((camp) => {
         return (
           <div className={styles.cardWrap} key={camp.id}>
             {/* <figure className={styles.likeWrap}>
