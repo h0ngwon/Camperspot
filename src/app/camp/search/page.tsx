@@ -15,6 +15,7 @@ const SearchPage = ({ searchParams }: Props) => {
   const { region, keyword, check_in, check_out, people, sort } = searchParams;
 
   const [campData, setCampData] = useState<TCamp[]>();
+  const [filteredCampData, setFilteredCampData] = useState<TCamp[]>();
   const [count, setCount] = useState(0);
   const [errorData, setErrorData] = useState(null);
 
@@ -27,10 +28,11 @@ const SearchPage = ({ searchParams }: Props) => {
       if (check_out) url.searchParams.append('check_out', check_out as string);
       if (people) url.searchParams.append('people', people as string);
       if (sort) url.searchParams.append('sort', sort as string);
-
+      console.log(url);
       const response = await fetch(url.toString());
       const { camp, count, error } = await response.json();
       setCampData(camp);
+      setFilteredCampData(camp);
       setCount(count);
       setErrorData(error);
     };
@@ -49,7 +51,7 @@ const SearchPage = ({ searchParams }: Props) => {
   // // console.log('camp', camp?.[0].camp_facility[0].facility);
   // console.log('error', error);
   //에러 핸들링은 어떻게?
-  const pageTitle = `검색 결과 (${count}건)`;
+  const pageTitle = `검색 결과 (${filteredCampData?.length}건)`;
   console.log(campData);
   return (
     <>
@@ -60,10 +62,13 @@ const SearchPage = ({ searchParams }: Props) => {
             <h1 className={styles.title}>{pageTitle}</h1>
             <CampFilter />
           </div>
-          <FacilityFilter campData={campData} setCampData={setCampData} />
+          <FacilityFilter
+            campData={campData}
+            setFilteredCampData={setFilteredCampData}
+          />
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
-              <CampList campList={campData!} />
+              <CampList campList={filteredCampData!} />
             </div>
           </div>
           <Spacer y={50} />

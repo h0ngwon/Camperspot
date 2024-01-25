@@ -10,5 +10,5 @@ export type TCamp = {
   camp_area: { price: number; id: string }[];
   camp_pic: { id: string; photo_url: string }[];
   hashtag: { tag: string | null }[];
-  camp_facility: { facility: { option: string } }[];
+  camp_facility?: { facility: { option: string } }[];
 };

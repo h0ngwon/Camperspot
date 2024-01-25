@@ -1,36 +1,33 @@
 'use client';
 
 import { facilities } from '@/app/_lib/facility';
-import { CampLists, TCamp } from '@/types/campList';
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import type { TCamp } from '@/types/campList';
 
 type Props = {
   campData: TCamp[] | undefined;
-  setCampData: Dispatch<SetStateAction<TCamp[] | undefined>>;
+  setFilteredCampData: Dispatch<SetStateAction<TCamp[] | undefined>>;
 };
 
-const FacilityFilter = ({ campData, setCampData }: Props) => {
+const FacilityFilter = ({ campData, setFilteredCampData }: Props) => {
   const [filterFacility, setFilterFacility] = useState<string[]>([]);
-  console.log(filterFacility);
+  console.log('뻐실리티', filterFacility);
 
   const filterCampData = () => {
     if (!campData) return [];
 
     return campData.filter((camp) => {
-      // 선택한 시설이 campData에 포함되어 있는지 확인
-      return filterFacility.some(
+      return filterFacility.every(
         (selectedFacility) =>
-          camp.camp_facility[0]?.facility.option.includes(selectedFacility),
+          camp.camp_facility?.some((campFacility) =>
+            campFacility.facility.option.includes(selectedFacility),
+          ),
       );
     });
   };
-
   useEffect(() => {
-    // filterFacility가 변경될 때마다 필터링된 campData를 업데이트
     const filteredData = filterCampData();
-    console.log('@@@@@@@@@@@@@@@@@@@@');
-    console.log(filteredData);
-    setCampData(filteredData);
+    setFilteredCampData(filteredData);
   }, [filterFacility]);
 
   const onHandleFilterFacility = (facility: string) => {
@@ -43,8 +40,6 @@ const FacilityFilter = ({ campData, setCampData }: Props) => {
       setFilterFacility([...filterFacility, facility]);
     }
   };
-
-  // console.log(campData?.[0]?.camp_facility[0]?.facility.option);
 
   return (
     <ul>

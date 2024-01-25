@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   const check_out = searchParams.get('check_out');
   const people = searchParams.get('people');
   const sort = searchParams.get('sort');
-  console.log('#$$$$$$$$$$$$$$$$$$$$', keyword);
+  console.log('@@@@@@@@@@#$$$$$$$$$$$$$$$$$$$$', keyword);
 
   const query = supabase.from('camp').select(
     `
@@ -25,16 +25,21 @@ export async function GET(request: Request) {
         
         camp_area!inner(id,price),
         camp_pic(id,photo_url),
-        hashtag:hashtag!inner(tag),
-        camp_facility(facility(option))
+        hashtag(tag),
+        camp_facility!inner(facility(option))
         `,
     { count: 'exact' },
   );
+  // hashtag:hashtag!inner(tag), !inner해둔 부분은 꼭있어야 가져옴
   if (region) {
-    query.ilike('region', `%${region}%`);
+    await query.ilike('region', `%${region}%`);
   }
   if (keyword && people) {
-    query
+    if (keyword === '*') {
+      const { data: camp, error, count } = await query;
+      return NextResponse.json({ camp, count, error });
+    }
+    await query
       // .or(
       //   `name.ilike.%${keyword}%,hashtag.tag.ilike.%${keyword}%`,
       // )
@@ -47,6 +52,5 @@ export async function GET(request: Request) {
   }
 
   const { data: camp, error, count } = await query;
-  console.log(camp);
   return NextResponse.json({ camp, count, error });
 }
