@@ -38,7 +38,6 @@ const SignupForm = () => {
       body: JSON.stringify(userData),
     });
     const message = await res.json();
-
     if (message.status === 409) {
       toast.error(message.message);
     }
