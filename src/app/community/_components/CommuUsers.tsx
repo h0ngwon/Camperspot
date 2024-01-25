@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import styles from '../_styles/CommuUser.module.css';
 import MoreSvg from '../_svg/MoreSvg';
+import CommuEditModal from './CommuEditModal';
 
 type Props = {
   user: {
@@ -18,6 +19,8 @@ type Props = {
 
 export default function CommuUser({ user, postId }: Props) {
   const [isMorBtn, setIsMoreBtn] = useState(false);
+  // 모달 버튼 클릭 유무를 저장할 state
+  const [showEditModal, setShowEditModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -57,6 +60,9 @@ export default function CommuUser({ user, postId }: Props) {
     }
   };
 
+  // 버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
+  const clickModal = () => setShowEditModal(!showEditModal);
+
   return (
     <div className={styles.userWrap}>
       <div className={styles.user}>
@@ -67,7 +73,14 @@ export default function CommuUser({ user, postId }: Props) {
         <button onClick={handleOnClick}>
           <MoreSvg />
         </button>
-        {isMorBtn ? <button onClick={handleDeletedBtn}>삭제</button> : ''}
+        {isMorBtn ? (
+          <div>
+            <button onClick={handleDeletedBtn}>삭제</button>
+            <CommuEditModal onClose={clickModal} postId={postId} />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );
