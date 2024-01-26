@@ -12,7 +12,7 @@ export default function DetailImg({ campPic }: Props) {
       {campPic?.map((photo, index) => {
         return (
           <div key={index}>
-            <Image src={photo?.photo_url} alt='' width={200} height={200} />
+            <Image src={photo?.photo_url} alt='' fill />
           </div>
         );
       })}
