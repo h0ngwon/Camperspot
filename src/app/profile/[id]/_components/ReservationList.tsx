@@ -6,6 +6,9 @@ import { toast } from 'react-toastify';
 import { useState } from 'react';
 import ReservationDetailModal from './ReservationDetailModal';
 import { useRouter } from 'next/navigation';
+import ModalPortal from '@/components/ModalPortal';
+import Modal from '@/components/Modal';
+import useModalStore from '@/store/modal';
 
 const ReservationList = ({
   reservations,
@@ -15,17 +18,26 @@ const ReservationList = ({
   isPlanned: boolean;
 }) => {
   const router = useRouter();
-  const [isOpenDetailModal, setIsOpenDetailModal] = useState<boolean>(false);
+  const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
+  const { show, toggleModal } = useModalStore();
   const handleCopy = (address: string) => {
     copy(address);
     toast.success('클립보드에 복사되었습니다');
+  };
+
+  const handleOpenModal = (index: number) => {
+    setIsOpenDetailModal(index);
+    toggleModal();
+  };
+  const handleCloseModal = () => {
+    toggleModal();
+    setIsOpenDetailModal(null);
   };
   return (
     <>
       {reservations &&
         reservations?.map((reservation, idx) => {
           const { id, created_at, check_in_date, check_out_date } = reservation;
-          console.log('하나의 예약', reservation);
           const { name: campAreaName } = reservation.camp_area!;
           const {
             id: campId,
@@ -33,78 +45,89 @@ const ReservationList = ({
             address,
           } = reservation.camp_area?.camp!;
           return (
-            <li className={styles.li} key={id}>
-              <div className={styles.div}>
-                <p className={styles.created}>
-                  {new Date(created_at).toLocaleDateString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })}
-                </p>
-                <p>{campName}</p>
-                <p>{campAreaName}</p>
-                {/* <p className={styles.date}>{`${new Date(
-                  check_in_date,
-                ).toLocaleDateString('ko', {
+            <tr key={id}>
+              <td className={styles.td} style={{ width: '100px' }}>
+                {new Date(created_at).toLocaleDateString('ko', {
                   year: '2-digit',
                   month: '2-digit',
                   day: '2-digit',
-                })} ~ ${new Date(check_out_date).toLocaleDateString('ko', {
-                  year: '2-digit',
-                  month: '2-digit',
-                  day: '2-digit',
-                })}`}</p> */}
+                })}
+              </td>
+              <td className={styles.td} style={{ width: '100px' }}>
+                {campName}
+              </td>
+              <td className={styles.td} style={{ width: '100px' }}>
+                {campAreaName}
+              </td>
+              <td className={styles.td}>
                 <div className={styles.date}>
-                  <p>{`${new Date(check_in_date).toLocaleDateString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })} ~ `}</p>
+                  <p>
+                    {' '}
+                    {`${new Date(check_in_date).toLocaleDateString('ko', {
+                      year: '2-digit',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })} ~ `}
+                  </p>
                   <p>{`${new Date(check_out_date).toLocaleDateString('ko', {
                     year: '2-digit',
                     month: '2-digit',
                     day: '2-digit',
                   })} `}</p>
                 </div>
-              </div>
-              {isPlanned && (
-                <div className={styles.address}>
-                  <p>
-                    {address}
-                    <span
-                      className={styles.copy}
-                      onClick={() => handleCopy(address)}
+              </td>
+              {!isPlanned && (
+                <td className={styles.td}>
+                  <div className={styles.div}>
+                    <button
+                      className={styles.button}
+                      onClick={() => router.push(`/camp/detail/${campId}`)}
                     >
-                      복사하기
-                    </span>
-                  </p>
-                </div>
+                      다시 예약
+                    </button>
+                    <button className={styles.button}>리뷰 쓰기</button>
+                    <button
+                      className={styles.button}
+                      onClick={() => handleOpenModal(idx)}
+                    >
+                      상세 보기
+                    </button>
+                  </div>
+                </td>
               )}
-              {!isPlanned && (
-                <button
-                  className={styles.button}
-                  onClick={() => router.push(`/camp/detail/${campId}`)}
-                >
-                  다시 예약
-                </button>
+              {isPlanned && (
+                <td className={styles.td}>
+                  <div className={styles.address}>
+                    {address}
+                    <div className={styles.div}>
+                      <span
+                        className={styles.copy}
+                        onClick={() => handleCopy(address)}
+                      >
+                        {' '}
+                        복사하기
+                      </span>
+                      <button
+                        className={styles.button}
+                        onClick={() => handleOpenModal(idx)}
+                      >
+                        상세 보기
+                      </button>
+                    </div>
+                  </div>
+                </td>
               )}
-              {!isPlanned && (
-                <button className={styles.button}>리뷰 쓰기</button>
+              {show && isOpenDetailModal === idx && (
+                <ModalPortal>
+                  <Modal customWidth={450} customHeight={650}>
+                    <ReservationDetailModal
+                      reservation={reservations[idx]}
+                      onClose={handleCloseModal}
+                    />
+                  </Modal>
+                </ModalPortal>
               )}
-              <button
-                className={styles.button}
-                onClick={() => setIsOpenDetailModal(true)}
-              >
-                상세 보기
-              </button>
-              {isOpenDetailModal && (
-                <ReservationDetailModal
-                  reservation={reservations[idx]}
-                  onClose={() => setIsOpenDetailModal(false)}
-                />
-              )}
-            </li>
+            </tr>
           );
         })}
     </>
