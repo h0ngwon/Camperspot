@@ -21,7 +21,7 @@ export default function DetailLikeBtn({ campId }: Props) {
   const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['like'],
+    queryKey: ['like', campId],
     queryFn: async () => {
       try {
         const { data: camp, error } = await supabase
