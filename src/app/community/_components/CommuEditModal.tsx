@@ -4,7 +4,7 @@ import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
 import { v4 as uuid } from 'uuid';
 import { supabase } from '@/app/api/db';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Database } from '@/types/supabase';
 
 import styles from '../_styles/CommuEditModal.module.css';
