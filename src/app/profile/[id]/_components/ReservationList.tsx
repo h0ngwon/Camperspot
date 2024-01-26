@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import ModalPortal from '@/components/ModalPortal';
 import Modal from '@/components/Modal';
 import useModalStore from '@/store/modal';
+import ReviewModal from './ReviewModal';
 
 const ReservationList = ({
   reservations,
@@ -19,6 +20,9 @@ const ReservationList = ({
 }) => {
   const router = useRouter();
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
+  const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean | null>(
+    false,
+  );
   const { show, toggleModal } = useModalStore();
   const handleCopy = (address: string) => {
     copy(address);
@@ -33,6 +37,17 @@ const ReservationList = ({
     toggleModal();
     setIsOpenDetailModal(null);
   };
+
+  const handleOpenReviewModal = (index: number) => {
+    setIsOpenReviewModal(true);
+    toggleModal();
+  };
+
+  const handleCloseReviewModal = () => {
+    toggleModal();
+    setIsOpenReviewModal(false);
+  };
+
   return (
     <>
       {reservations &&
@@ -85,7 +100,12 @@ const ReservationList = ({
                     >
                       다시 예약
                     </button>
-                    <button className={styles.button}>리뷰 쓰기</button>
+                    <button
+                      className={styles.button}
+                      onClick={() => handleOpenReviewModal(idx)}
+                    >
+                      리뷰 쓰기
+                    </button>
                     <button
                       className={styles.button}
                       onClick={() => handleOpenModal(idx)}
@@ -117,7 +137,21 @@ const ReservationList = ({
                   </div>
                 </td>
               )}
-              {show && isOpenDetailModal === idx && (
+
+              {show && isOpenReviewModal ? (
+                <ModalPortal>
+                  <Modal>
+                    <ReviewModal
+                      campId={campId}
+                      onClose={handleCloseReviewModal}
+                    />
+                  </Modal>
+                </ModalPortal>
+              ) : (
+                ''
+              )}
+
+              {isOpenDetailModal === idx && isOpenReviewModal === false ? (
                 <ModalPortal>
                   <Modal customWidth={450} customHeight={650}>
                     <ReservationDetailModal
@@ -126,6 +160,8 @@ const ReservationList = ({
                     />
                   </Modal>
                 </ModalPortal>
+              ) : (
+                ''
               )}
             </tr>
           );
