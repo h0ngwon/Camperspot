@@ -23,7 +23,7 @@ const AddForm = () => {
   const [phone, handlePhone] = useInput();
   const [check_in, handleCheck_in] = useState<string>('');
   const [check_out, handleCheck_out] = useState<string>('');
-  const [layout, handleLayout] = useInput();
+  // const [layout, handleLayout] = useInput();
   const [facility, setFacility] = useState<Tables<'facility'>[]>([]);
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campLayout, setCampLayout] = useState<string>('');
@@ -64,7 +64,7 @@ const AddForm = () => {
           phone,
           check_in,
           check_out,
-          layout,
+          layout: campLayout,
         })
         .select();
 

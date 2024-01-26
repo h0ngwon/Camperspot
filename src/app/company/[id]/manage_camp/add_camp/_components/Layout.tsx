@@ -34,7 +34,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
         ref={imgRef}
         required
       />
-      {campLayout ? (
+      {campLayout && (
         <div>
           <Image
             alt='캠핑장 배치 이미지'
@@ -46,8 +46,6 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
             이미지 삭제
           </button>
         </div>
-      ) : (
-        ''
       )}
     </div>
   );

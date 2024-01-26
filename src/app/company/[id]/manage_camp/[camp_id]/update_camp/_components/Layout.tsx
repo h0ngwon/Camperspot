@@ -5,11 +5,9 @@ import Image from 'next/image';
 type Props = {
   layout: string;
   setLayout: React.Dispatch<React.SetStateAction<string>>;
-  campLayout: string;
-  setCampLayout: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const Layout = ({ layout, setLayout, campLayout, setCampLayout }: Props) => {
+const Layout = ({ layout, setLayout }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
 
   // 캠핑장 배치 이미지 업로드
@@ -20,17 +18,18 @@ const Layout = ({ layout, setLayout, campLayout, setCampLayout }: Props) => {
       const file = e.target.files[0];
       console.log(file);
       const uploadFile = URL.createObjectURL(file);
-      if (uploadFile !== layout) {
-        setLayout(uploadFile);
-      } else {
-        setCampLayout(uploadFile);
-      }
+      // if (uploadFile !== layout) {
+      //   setLayout(uploadFile);
+      // } else {
+      //   setCampLayout(uploadFile);
+      // }
+      setLayout(uploadFile);
     }
   }
   // 버튼 클릭시 이미지 삭제
-  const handleDeleteCampLayoutImg = () => {
-    setCampLayout('');
-  };
+  // const handleDeleteCampLayoutImg = () => {
+  //   setLayout('');
+  // };
 
   return (
     <div>
@@ -40,20 +39,18 @@ const Layout = ({ layout, setLayout, campLayout, setCampLayout }: Props) => {
         onChange={handleChangeInputLayoutImageFile}
         ref={imgRef}
       />
-      {layout ? (
+      {layout && (
         <div>
           <Image
             alt='등록된 캠핑장 배치 이미지'
-            src={layout ? layout : campLayout}
+            src={layout}
             width={200}
             height={200}
           />
-          <button type='button' onClick={() => handleDeleteCampLayoutImg()}>
+          {/* <button type='button' onClick={() => handleDeleteCampLayoutImg()}>
             이미지 삭제
-          </button>
+          </button> */}
         </div>
-      ) : (
-        ''
       )}
     </div>
   );

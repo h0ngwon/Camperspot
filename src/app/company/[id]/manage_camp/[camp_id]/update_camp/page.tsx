@@ -25,8 +25,8 @@ const UpdateCampPage = (props: Props) => {
   const [check_out, handleCheck_out] = useState('');
   const [phone, setPhone] = useState('');
   const [layout, setLayout] = useState('');
-  const [campLayout, setCampLayout] = useState('');
   const [campPicture, setCampPicture] = useState<string[]>([]);
+  // const [updateCampPicture, setUpdateCampPicture] = useState<string[]>([]);
 
   const params = useParams();
   const campId = params.camp_id;
@@ -41,7 +41,7 @@ const UpdateCampPage = (props: Props) => {
     queryFn: async () => {
       const { data: campData } = await supabase
         .from('camp')
-        .select('*,camp_facility("*"),camp_pic("*")')
+        .select('*,camp_facility("*"),camp_pic("*"),hashtag("*")')
         .eq('id', campId)
         .returns<Camp[]>();
 
@@ -109,19 +109,30 @@ const UpdateCampPage = (props: Props) => {
             )
             .select();
 
-        if (error || selectError || deleteError || insertError) {
+        const { data: deleteCampPicData, error: deleteCampPicError } =
+          await supabase.from('camp_pic').delete().eq('camp_id', campId);
+
+        if (
+          error ||
+          selectError ||
+          deleteError ||
+          insertError ||
+          deleteCampPicError
+        ) {
           throw new Error(
             error?.message ||
               selectError?.message ||
               deleteError?.message ||
-              insertError?.message,
+              insertError?.message ||
+              deleteCampPicError?.message,
           );
         }
         return (
           data &&
           checkedFacilityData &&
           checkedFacilityDataRemove &&
-          checkedFacilityDataInsert
+          checkedFacilityDataInsert &&
+          deleteCampPicData
         );
       } catch (error) {
         console.error('An error occurred:', error);
@@ -140,6 +151,12 @@ const UpdateCampPage = (props: Props) => {
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (campPicture.length === 0) {
+      // todo : campPicture가 없을 때 로직 처리해야함
+      alert('캠핑장 이미지 한 장 이상 등록');
+      return;
+    }
+
     updateCamp();
 
     // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
@@ -152,56 +169,49 @@ const UpdateCampPage = (props: Props) => {
     }
     // 배치 이미지 table에 올리는 로직
     async function uploadLayoutToCampTable() {
-      // campLayout이 없으면 layout을 넣는다
-      if (!campLayout) {
-        const blob = await fetch(layout).then((r) => r.blob());
-        const { data, error } = await uploadStorageLayoutData(blob);
-        const BASE_URL =
-          'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_layout/';
-        if (error) return null;
-        // supabase camp table의 layout에 넣는 로직
-        await supabase
-          .from('camp')
-          .update({ layout: BASE_URL + data?.path })
-          .eq('id', campId);
-      } else {
-        const blob = await fetch(campLayout).then((r) => r.blob());
-        const { data, error } = await uploadStorageLayoutData(blob);
-        const BASE_URL =
-          'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_layout/';
-        if (error) return null;
-        // supabase camp table의 layout에 넣는 로직
-        await supabase
-          .from('camp')
-          .update({ layout: BASE_URL + data?.path })
-          .eq('id', campId);
-      }
+      const blob = await fetch(layout).then((r) => r.blob());
+      const { data, error } = await uploadStorageLayoutData(blob);
+      const BASE_URL =
+        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_layout/';
+      if (error) return null;
+      // supabase camp table의 layout에 넣는 로직
+      await supabase
+        .from('camp')
+        .update({ layout: BASE_URL + data?.path })
+        .eq('id', campId);
     }
 
     uploadLayoutToCampTable();
 
-    // // 등록 눌렀을 시 캠핑장 이미지 업로드
-    // async function uploadStorageCampPicData(blob: Blob | File) {
-    //   // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-    //   const { data, error } = await supabase.storage
-    //     .from('camp_pic')
-    //     .upload(window.URL.createObjectURL(blob), blob);
-    //   return { data: data, error };
-    // }
+    // 등록 눌렀을 시 캠핑장 이미지 업로드
+    async function uploadStorageCampPicData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_pic')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
 
-    // // 여러개 사진 table에 올리는 로직
-    // campPicture.forEach(async (item) => {
-    //   const blob = await fetch(item).then((r) => r.blob());
-    //   const { data, error } = await uploadStorageCampPicData(blob);
-    //   const BASE_URL =
-    //     'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
-    //   if (error) return null;
-    //   // supabase table에 올리는 로직
-    //   await supabase
-    //     .from('camp_pic')
-    //     .update({ photo_url: BASE_URL + data?.path })
-    //     .eq('camp_id', campId);
-    // });
+    // 여러개 사진 table에 올리는 로직
+    campPicture.forEach(async (item) => {
+      const blob = await fetch(item).then((r) => r.blob());
+      const { data, error } = await uploadStorageCampPicData(blob);
+      const BASE_URL =
+        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
+      if (error) return null;
+      // supabase table에 올리는 로직
+      await supabase
+        .from('camp_pic')
+        .insert({
+          camp_id: campId as string,
+          photo_url: BASE_URL + data?.path,
+        })
+        .select();
+      // await supabase
+      //   .from('camp_pic')
+      //   .update({ photo_url: BASE_URL + data?.path })
+      //   .eq('camp_id', campId);
+    });
 
     alert('수정완료');
     router.push(`/company/${companyId}/manage_camp/added_camp`);
@@ -275,17 +285,12 @@ const UpdateCampPage = (props: Props) => {
               />
             </div>
 
-            <Layout
-              campLayout={campLayout}
-              setCampLayout={setCampLayout}
-              layout={layout}
-              setLayout={setLayout}
-            />
+            <Layout layout={layout} setLayout={setLayout} />
 
-            {/* <CampPicture
+            <CampPicture
               campPicture={campPicture}
               setCampPicture={setCampPicture}
-            /> */}
+            />
 
             <button type='submit'>수정완료</button>
           </form>
