@@ -1,23 +1,33 @@
 'use client';
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import Image from 'next/image';
+import { v4 as uuid } from 'uuid';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import Image from 'next/image';
-import CloseSvg from '../_svg/CloseSvg';
 import { Database } from '@/types/supabase';
 
 import styles from '../_styles/CommuEditModal.module.css';
+import CloseSvg from '../_svg/CloseSvg';
 import CommuPicSvg from '../_svg/CommuPicSvg';
 
 type Props = {
   onClose: () => void;
   postId: string;
+  data: {
+    content: string;
+    created_at: string;
+    id: string;
+    user_id: string;
+    post_pic: { id: string; photo_url: string; post_id: string }[];
+    post_hashtag: { id: string; post_id: string; tag: string }[];
+    user: { id: string; nickname: string; profile_url: string } | null;
+  };
 };
 type PostHashTag = Database['public']['Tables']['post_hashtag']['Row'];
 type PostPic = Database['public']['Tables']['post_pic']['Row'];
 
-export default function CommuEditModal({ onClose, postId }: Props) {
+export default function CommuEditModal({ onClose, postId, data }: Props) {
   const [contentEdit, setContentEdit] = useState<string>('');
   const [postPicEdit, setPostPicEdit] = useState<PostPic[]>([]);
   const [inputHashTagEdit, setInputHashTagEdit] = useState<string>('');
@@ -25,29 +35,8 @@ export default function CommuEditModal({ onClose, postId }: Props) {
 
   const queryClient = useQueryClient();
 
-  const { isLoading, isError, data } = useQuery({
-    queryKey: ['post', postId],
-    queryFn: async () => {
-      try {
-        const { data: post, error } = await supabase
-          .from('post')
-          .select('*,post_pic(*),post_hashtag(*),user(id,nickname,profile_url)')
-          .eq('id', postId)
-          .single();
-
-        if (error) {
-          throw error;
-        }
-
-        return post;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    },
-  });
-
   useEffect(() => {
+    console.log({ data });
     if (data) {
       setContentEdit(data!.content);
       setHashTagsEdit(data!.post_hashtag);
@@ -57,7 +46,7 @@ export default function CommuEditModal({ onClose, postId }: Props) {
 
   const updateMutation = useMutation({
     mutationFn: async () => {
-      // 1. content를 업데이트합니다.
+      // 데이터베이스의 게시글을 업데이트합니다.
       await supabase
         .from('post')
         .update({
@@ -65,37 +54,45 @@ export default function CommuEditModal({ onClose, postId }: Props) {
         })
         .eq('id', postId);
 
-      // 2. post_pic을 업데이트 또는 추가합니다.
+      // PostPic 데이터 업데이트
       for (const pic of postPicEdit) {
         await supabase
           .from('post_pic')
           .upsert([
             {
-              id: pic.id, // 기존의 id가 있다면 업데이트, 없다면 추가됨
               post_id: postId,
               photo_url: pic.photo_url,
             },
           ])
-          .eq('id', pic.id); // 해당 id가 있다면 업데이트
+          .eq('id', pic.id);
       }
 
-      // 3. post_hashtag을 업데이트 또는 추가합니다.
+      // PostPic 데이터 삭제
+      for (const pic of postPicEdit) {
+        await supabase.from('post_pic').delete().eq('id', pic.id);
+      }
+
+      // PostHashTag 데이터 업데이트
       for (const tag of hashTagsEdit) {
         await supabase
           .from('post_hashtag')
           .upsert([
             {
-              id: tag.id, // 기존의 id가 있다면 업데이트, 없다면 추가됨
               post_id: postId,
               tag: tag.tag,
             },
           ])
-          .eq('id', tag.id); // 해당 id가 있다면 업데이트
+          .eq('id', tag.id);
+      }
+
+      // PostHashTag 데이터 삭제
+      for (const tag of hashTagsEdit) {
+        await supabase.from('post_hashtag').delete().eq('id', tag.id);
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: ['post,post_pic,post_hashtag'],
+        queryKey: ['post'],
       });
     },
     onError: (error) => {
@@ -119,12 +116,9 @@ export default function CommuEditModal({ onClose, postId }: Props) {
   // 버튼 클릭시 이미지 삭제
   const handleDeleteCampImg = (index: number) => {
     setPostPicEdit((prev) => {
-      const newElement = {
-        id: 'some-id',
-        photo_url: 'some-url',
-        post_id: 'some-post-id',
-      }; // 실제 데이터로 교체
-      return [...prev, newElement];
+      const updatedPostPics = [...prev];
+      updatedPostPics.splice(index, 1); // 해당 인덱스의 이미지 삭제
+      return updatedPostPics;
     });
   };
 
@@ -154,13 +148,21 @@ export default function CommuEditModal({ onClose, postId }: Props) {
 
     if (isEmptyValue(newHashTag)) return;
 
+    // 중복 체크
+    if (hashTagsEdit.some((tag) => tag.tag === newHashTag)) {
+      return setInputHashTagEdit('');
+    }
+
     setHashTagsEdit((prevHashTags) => {
-      const uniqueHashTags = new Set([...prevHashTags, newHashTag]);
-      return Array.from(uniqueHashTags) as {
-        id: string;
-        post_id: string;
-        tag: string;
-      }[];
+      const uniqueHashTags = [
+        ...prevHashTags,
+        {
+          id: uuid(),
+          post_id: postId,
+          tag: newHashTag,
+        },
+      ];
+      return uniqueHashTags;
     });
 
     setInputHashTagEdit('');
@@ -181,11 +183,12 @@ export default function CommuEditModal({ onClose, postId }: Props) {
   };
 
   const handleDeleteHashtag = (hashTag: string) => {
-    setHashTagsEdit(
-      hashTagsEdit.filter((item) => {
-        return item.tag !== hashTag;
-      }),
-    );
+    setHashTagsEdit((prevHashTags) => {
+      const updatedHashTags = prevHashTags.filter(
+        (item) => item.tag !== hashTag,
+      );
+      return updatedHashTags;
+    });
   };
 
   // 사용자가 폼을 제출할 때 이 함수를 호출합니다.
@@ -194,19 +197,13 @@ export default function CommuEditModal({ onClose, postId }: Props) {
 
     // 데이터베이스의 게시글을 업데이트합니다.
     try {
-      updateMutation.mutate();
-    } catch (error) {}
+      await updateMutation.mutate();
+    } catch (error) {
+      console.error('데이터베이스 업데이트 에러:', error);
+    }
 
     onClose();
   };
-
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
-
-  if (isError) {
-    return <div>에러 발생</div>;
-  }
 
   return (
     <div className={styles.modalWrap}>
