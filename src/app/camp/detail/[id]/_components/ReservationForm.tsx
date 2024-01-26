@@ -1,43 +1,51 @@
 'use client';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmModal from '@/app/_components/ConfirmModal';
 import AlertModal from '@/app/_components/AlertModal';
-import { Database, Tables } from '@/types/supabase';
 import { ReservationInfo } from '@/types/reservation';
 import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { IoIosArrowForward } from 'react-icons/io';
 
-type UserInfo = { people: number; name: string; phone: string };
-// type ReservationInsert = Database['public']['Tables']['reservation']['Insert'];
+type UserInfo = {
+  people: number;
+  name: string;
+  phone: string;
+  dates: [Date, Date];
+};
 
 const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   const {
+    control,
+    watch,
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<UserInfo>({
-    defaultValues: { people: 1, name: '', phone: '' },
+    defaultValues: {
+      people: 1,
+      name: '',
+      phone: '',
+      dates: [],
+    },
     mode: 'onChange',
   });
-  const currentDate = new Date();
+  console.log('워치', watch('dates'));
+  //날짜 데이터가 변경될 때마다 업데이트 해줌.=> 폼에서도 리렌더링이 일어남.
+  const dates = watch('dates');
+  console.log('폼 리렌더링!!');
+
   const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
   const [isActive, setIsActive] = useState<number | null>(null);
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
-  const [dates, setDates] = useState<[Date, Date]>([
-    new Date(currentDate.setHours(0, 0, 0, 0)),
-    new Date(
-      currentDate?.getFullYear()!,
-      currentDate?.getMonth()!,
-      currentDate?.getDate()! + 1,
-    ),
-  ]);
+  //리액트 훅 폼은 날짜가 따로 상태값을 지정하지 않아도 사용 가능.
+
   const [nights, setNights] = useState<number>(1);
   const toggleActive = (selectMethod: number) => {
     if (isActive == selectMethod) setIsActive(null);
@@ -57,8 +65,8 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
       .from('reservation')
       .insert({
         camp_area_id: campAreaId,
-        check_in_date: dates[0].toISOString(),
-        check_out_date: dates[1].toISOString(),
+        check_in_date: userInfo.dates![0].toISOString(),
+        check_out_date: userInfo.dates![1].toISOString(),
         client_name: userInfo.name,
         client_phone: userInfo.phone,
         fee: price * nights,
@@ -73,6 +81,15 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
     }
     if (error) console.log('error', error);
   };
+
+  useEffect(() => {
+    // 날짜가 변경될 때 마다 몇박인지 업데이트
+    if (dates?.length > 0) {
+      setNights(
+        (dates[1]?.getTime() - dates[0]?.getTime()) / (1000 * 60 * 60 * 24),
+      );
+    }
+  }, [dates]);
 
   return (
     <>
@@ -97,16 +114,15 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             <p>{errors.people.message}</p>
           </div>
         )}
-        <Calendar
-          onDatesChange={(dates) => {
-            setDates(dates);
-            setNights(
-              Math.abs(dates[1]?.getTime() - dates[0]?.getTime()) /
-                (1000 * 60 * 60 * 24),
-            );
-          }}
-        />
-        {dates[0] && dates[1] && (
+
+        <Calendar control={control} />
+        {errors.dates && (
+          <div className={styles.errors}>
+            <p>{errors.dates.message}</p>
+          </div>
+        )}
+
+        {dates?.[0] && dates?.[1] && (
           <div className={styles.dates}>
             일시
             <p>
