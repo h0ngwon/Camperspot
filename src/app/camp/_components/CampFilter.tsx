@@ -12,9 +12,9 @@ const CampFilter = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
-  console.log(params);
-  console.log('searchParams', searchParams);
-  console.log('pathname', pathname);
+  // console.log(params);
+  // console.log('searchParams', searchParams);
+  // console.log('pathname', pathname);
 
   const handleSelectItem = (e: React.MouseEvent<HTMLLIElement>) => {
     //컴파일시 e의 타입은알지만 뭐가들어오는지는모르니 as로 다시 지정
