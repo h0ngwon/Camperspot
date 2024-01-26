@@ -19,6 +19,16 @@ const Camp = async ({
   const perPage = 9;
   const startRange = (page - 1) * perPage;
   const endRange = startRange + perPage - 1;
+  let orderByField = 'created_at';
+  if (searchParams.sort === '과거') {
+    orderByField = 'created_at';
+  } else if (searchParams.sort === '별점순') {
+    orderByField = 'popularity';
+  } else if (searchParams.sort === '낮은가격순') {
+    orderByField = 'camp_area.price';
+  } else if (searchParams.sort === '높은가격순') {
+    orderByField = 'camp_area.price';
+  }
   const {
     data: camp,
     count,
@@ -40,10 +50,14 @@ const Camp = async ({
       { count: 'exact' },
     )
     //좋아요, 최신순, 과거순, 랜덤, 별점순
-
-    .order('created_at', {
-      ascending: searchParams.sort === '인기순' ? false : true,
+    .order(orderByField, {
+      ascending:
+        searchParams.sort !== '높은가격순' &&
+        searchParams.sort !== '낮은가격순' &&
+        searchParams.sort !== '별점순' &&
+        searchParams.sort !== '과거',
     })
+
     .range(startRange, endRange);
   //캐싱이 1순위
   //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
@@ -79,3 +93,8 @@ const Camp = async ({
   );
 };
 export default Camp;
+
+// .order('created_at', {
+//   ascending: searchParams.sort === '인기순' ? false : true,
+// })
+//

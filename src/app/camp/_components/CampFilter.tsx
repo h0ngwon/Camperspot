@@ -26,7 +26,7 @@ const CampFilter = () => {
     console.log(params.toString());
     replace(`${pathname}?${params.toString()}`);
   };
-  const sortList = ['인기순', '최신순', '별점순', '낮은가격순', '높은가격순'];
+  const sortList = ['과거순', '최신순', '별점순', '낮은가격순', '높은가격순'];
 
   return (
     <div>
