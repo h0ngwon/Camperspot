@@ -36,7 +36,6 @@ export default function CommuEditModal({ onClose, postId, data }: Props) {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log({ data });
     if (data) {
       setContentEdit(data!.content);
       setHashTagsEdit(data!.post_hashtag);
