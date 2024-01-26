@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-
 import { supabase } from '@/app/api/db';
 import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
@@ -202,7 +201,7 @@ export default function CommuCreatePage() {
             required
           />
           <label htmlFor='file_upload'>업로드</label>
-          이미지 미리보기 및 삭제 버튼
+          {/* 이미지 미리보기 및 삭제 버튼 */}
           {postPic.map((item, index) => (
             <div key={index}>
               <img

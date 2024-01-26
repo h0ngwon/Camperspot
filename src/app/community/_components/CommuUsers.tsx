@@ -18,9 +18,8 @@ type Props = {
 };
 
 export default function CommuUser({ user, postId }: Props) {
-  const [isMorBtn, setIsMoreBtn] = useState(false);
-  // 모달 버튼 클릭 유무를 저장할 state
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [isMorBtn, setIsMoreBtn] = useState<boolean>(false);
+  const [isCommuEditModal, setIsCommuEditModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -60,9 +59,6 @@ export default function CommuUser({ user, postId }: Props) {
     }
   };
 
-  // 버튼 클릭시 모달 버튼 클릭 유무를 설정하는 state 함수
-  const clickModal = () => setShowEditModal(!showEditModal);
-
   return (
     <div className={styles.userWrap}>
       <div className={styles.user}>
@@ -76,12 +72,18 @@ export default function CommuUser({ user, postId }: Props) {
         {isMorBtn ? (
           <div>
             <button onClick={handleDeletedBtn}>삭제</button>
-            <CommuEditModal onClose={clickModal} postId={postId} />
+            <button onClick={() => setIsCommuEditModal(true)}>수정</button>
           </div>
         ) : (
           ''
         )}
       </div>
+      {isCommuEditModal && (
+        <CommuEditModal
+          onClose={() => setIsCommuEditModal(false)}
+          postId={postId}
+        />
+      )}
     </div>
   );
 }
