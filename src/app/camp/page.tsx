@@ -33,7 +33,7 @@ const Camp = async ({
     address,
     region,
 
-    camp_area(id,price),
+    camp_area!inner(id,price),
     camp_pic(id,photo_url),
     hashtag(tag)
     `,

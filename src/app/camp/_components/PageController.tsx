@@ -14,11 +14,10 @@ function PageController({ hasNextPage, hasPrevPage }: Props) {
   const params = new URLSearchParams(searchParams);
 
   const pathname = usePathname();
-  console.log(pathname);
-  console.log(params.toString());
+  // console.log(pathname);
+  // console.log(params.toString());
 
   const page = Number(searchParams.get('page')) ?? '1';
-  const per_page = Number(searchParams.get('per_page')) || 5;
 
   const onClickPrevPage = () => {
     const newPage = Math.max(1, page - 1);

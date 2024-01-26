@@ -26,9 +26,8 @@ export async function GET(request: Request) {
         camp_area!inner(id,price),
         camp_pic(id,photo_url),
         hashtag(tag),
-        camp_facility!inner(facility(option))
+        camp_facility(facility(option))
         `,
-    { count: 'exact' },
   );
   // hashtag:hashtag!inner(tag), !inner해둔 부분은 꼭있어야 가져옴
   if (region) {
@@ -36,8 +35,8 @@ export async function GET(request: Request) {
   }
   if (keyword && people) {
     if (keyword === '*') {
-      const { data: camp, error, count } = await query;
-      return NextResponse.json({ camp, count, error });
+      const { data: camp, error } = await query;
+      return NextResponse.json({ camp, error });
     }
     await query
       // .or(
@@ -51,6 +50,6 @@ export async function GET(request: Request) {
       .gte('camp_area.max_people', `${Number(people)}`);
   }
 
-  const { data: camp, error, count } = await query;
-  return NextResponse.json({ camp, count, error });
+  const { data: camp, error } = await query;
+  return NextResponse.json({ camp, error });
 }

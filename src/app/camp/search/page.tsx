@@ -6,6 +6,8 @@ import CampList from '../_components/CampList';
 import FacilityFilter from '../_components/FacilityFilter';
 import { useEffect, useState } from 'react';
 import { CampLists, TCamp } from '@/types/campList';
+import PageController from '../_components/PageController';
+import SearchPageController from './_components/SearchPageController';
 
 type Props = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -16,9 +18,10 @@ const SearchPage = ({ searchParams }: Props) => {
 
   const [campData, setCampData] = useState<TCamp[]>();
   const [filteredCampData, setFilteredCampData] = useState<TCamp[]>();
-  const [count, setCount] = useState(0);
   const [errorData, setErrorData] = useState(null);
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const totalData = filteredCampData?.length;
   useEffect(() => {
     const fetchData = async () => {
       const url = new URL('http://localhost:3000/api/camp/search');
@@ -30,10 +33,9 @@ const SearchPage = ({ searchParams }: Props) => {
       if (sort) url.searchParams.append('sort', sort as string);
       console.log(url);
       const response = await fetch(url.toString());
-      const { camp, count, error } = await response.json();
+      const { camp, error } = await response.json();
       setCampData(camp);
       setFilteredCampData(camp);
-      setCount(count);
       setErrorData(error);
     };
 
@@ -44,15 +46,23 @@ const SearchPage = ({ searchParams }: Props) => {
   // check_in ~ check_out 기간이 check_in_date ~ check_out 기간과 겹치지 않는 데이터만 가져오기
   // Mutually exclusive to a range 활용하려면 배열로 바꿔야함
   // */
+  if (errorData) {
+    return <div>Data fetching Error</div>;
+  }
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
-  //   const { data: camp, error, count } = await query;
-  // console.log('camp', camp);
-  // console.log(count);
-  // // console.log('camp', camp?.[0].camp_facility[0].facility);
-  // console.log('error', error);
-  //에러 핸들링은 어떻게?
-  const pageTitle = `검색 결과 (${filteredCampData?.length}건)`;
-  console.log(campData);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredCampData?.slice(
+    indexOfFirstItem,
+    indexOfLastItem,
+  );
+
+  const totalPages = Math.ceil(totalData! / itemsPerPage);
+
+  const pageTitle = `검색 결과 (${totalData}건)`;
   return (
     <>
       <div className={styles.container}>
@@ -72,7 +82,13 @@ const SearchPage = ({ searchParams }: Props) => {
             </div>
           </div>
           <Spacer y={50} />
-
+          {/* <SearchPageController
+            itemsPerPage={itemsPerPage}
+            totalItems={totalData || 0}
+            paginate={paginate}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          /> */}
           <Spacer y={50} />
         </div>
       </div>
