@@ -1,5 +1,5 @@
 'use client';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
@@ -38,7 +38,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   console.log('워치', watch('dates'));
   //날짜 데이터가 변경될 때마다 업데이트 해줌.=> 폼에서도 리렌더링이 일어남.
   const dates = watch('dates');
-  console.log('폼 리렌더링!!');
+  const checkDate = !dates?.length || !dates?.[0] || !dates?.[1];
 
   const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
   const [isActive, setIsActive] = useState<number | null>(null);
@@ -58,7 +58,6 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   const { max_people, price, name } = reservation!;
   const { check_in, check_out } = reservation?.camp!;
   const { data: session } = useSession();
-  console.log('session', session?.user.id);
 
   const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
     const { data, error } = await supabase
@@ -221,7 +220,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             <button
               type='button'
               className={styles.button}
-              disabled={!isValid || isActive === null}
+              disabled={!isValid || isActive === null || checkDate}
               onClick={() => setIsOpenConfirm(true)}
             >
               결제하기

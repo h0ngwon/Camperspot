@@ -10,18 +10,15 @@ import type { CampAreaRservationInfo } from '@/types/reservation';
 import { Control, Controller } from 'react-hook-form';
 registerLocale('ko', ko);
 
-type Dates = { dates: [Date, Date] };
-type Props = {
-  control: Control<Dates>;
-  onChangedDate: (dates: [Date, Date], nights: number) => void;
+type UserInfo = {
+  people: number;
+  name: string;
+  phone: string;
+  dates: [Date, Date];
 };
 
-export const Calendar = ({ control, onChangedDate }: Props) => {
-  const currentDate = new Date();
-  // const [startDate, setStartDate] = useState<Date | null>();
-  // // new Date(currentDate.setHours(0, 0, 0, 0)),
-  // const [endDate, setEndDate] = useState<Date | null>();
-  // const [nights, setNights] = useState<number>(1);
+export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
+  //const currentDate = new Date();
   const [excludeDates, setExcludeDates] = useState<CampAreaRservationInfo>();
   const params = useSearchParams();
   const id = params.get('id');
@@ -29,8 +26,6 @@ export const Calendar = ({ control, onChangedDate }: Props) => {
   useEffect(() => {
     getCampAreaReservation(id!).then((res) => setExcludeDates(res));
   }, []);
-
-  console.log('excludes', excludeDates);
 
   return (
     <>
@@ -41,24 +36,15 @@ export const Calendar = ({ control, onChangedDate }: Props) => {
         render={({ field: { onChange, value } }) => (
           <ReactDatePicker
             dateFormat={'yyyy-MM-dd'}
-            // selected={value[1]}
             minDate={new Date()}
             onChange={onChange} //값을 알아서 인식
-            startDate={
-              value?.length
-                ? value[0]
-                : new Date(currentDate.setHours(0, 0, 0, 0))
-            }
-            endDate={
-              value?.length
-                ? value[1]
-                : new Date(
-                    currentDate?.getFullYear()!,
-                    currentDate?.getMonth()!,
-                    currentDate?.getDate()! + 1,
-                  )
-            }
+            startDate={value[0]}
+            endDate={value[1]}
             selectsRange
+            excludeDateIntervals={excludeDates?.map((exclude) => ({
+              start: subDays(new Date(exclude.check_in_date), 1),
+              end: new Date(exclude.check_out_date),
+            }))}
             locale='ko'
             showIcon
             icon={svg}
@@ -69,41 +55,17 @@ export const Calendar = ({ control, onChangedDate }: Props) => {
   );
 };
 
-{
-  /* <ReactDatePicker
-        dateFormat='yyyy-MM-dd'
-        selected={startDate}
-        minDate={new Date()}
-        startDate={startDate}
-        endDate={endDate}
-        selectsRange
-        onChange={onChange}
-        excludeDateIntervals={excludeDates?.map((exclude) => ({
-          start: subDays(new Date(exclude.check_in_date), 1),
-          end: new Date(exclude.check_out_date),
-        }))}
-        locale='ko'
-        showIcon
-        icon={svg}
-      /> */
-}
-
-// <ReactDatePicker
-// dateFormat='yyyy-MM-dd'
-
-// selected={startDate}
-// minDate={new Date()}
-// startDate={startDate}
-// endDate={endDate}
-// selectsRange
-// onChange={onChange}
-
-// excludeDateIntervals={excludeDates?.map((exclude) => ({
-//   start: subDays(new Date(exclude.check_in_date), 1),
-//   end: new Date(exclude.check_out_date),
-// locale='ko'
-// showIcon
-// icon={svg}
-// }))}
-
-///>
+// startDate={
+//   value?.length
+//     ? value[0]
+//     : new Date(currentDate.setHours(0, 0, 0, 0))
+// }
+// endDate={
+//   value?.length
+//     ? value[1]
+//     : new Date(
+//         currentDate?.getFullYear()!,
+//         currentDate?.getMonth()!,
+//         currentDate?.getDate()! + 1,
+//       )
+// }
