@@ -1,35 +1,43 @@
 'use client';
 import { supabase } from '@/app/api/db';
 import { Tables } from '@/types/supabase';
-import { useSession } from 'next-auth/react';
-import React, { ChangeEvent, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { getToken } from 'next-auth/jwt';
+import { getSession, useSession } from 'next-auth/react';
+import { NextRequest } from 'next/server';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 type Props = {};
 
-const ManageCompanyInfo = (props: Props) => {
-  const { data: session } = useSession();
+const ManageCompanyInfo = () => {
+  const queryClient = useQueryClient();
+  const session = useSession();
   const [companyUserInfo, setCompanyUserInfo] =
     useState<Tables<'company_user'>[]>();
   const [isNameUpdate, setIsNameUpdate] = useState(false);
 
   const [updateCompanyUserName, setUpdateCompanyUserName] = useState<string>();
 
-  const getSessionUserId = session?.user.id;
+  useEffect(() => {
+    const fetchData = async () => {
+      const sessionData = await getSession();
+      const getSessionUserId = sessionData?.user.id;
+      console.log(getSessionUserId);
 
-  console.log(getSessionUserId);
+      const { data: getCompanyUserInfo, error } = await supabase
+        .from('company_user')
+        .select('*')
+        .eq('id', getSessionUserId as string);
 
-  const getSupabaseCompanyUserId = async () => {
-    const { data: getCompanyUserInfo, error } = await supabase
-      .from('company_user')
-      .select('*')
-      .eq('id', getSessionUserId as string);
-    if (getCompanyUserInfo) {
-      setCompanyUserInfo(getCompanyUserInfo);
-    } else if (error) {
-      console.log(error.message);
-    }
-  };
-  getSupabaseCompanyUserId();
+      if (getCompanyUserInfo) {
+        setCompanyUserInfo(getCompanyUserInfo);
+      } else if (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchData();
+  }, [session]);
 
   const handleUpdateName = () => {
     setIsNameUpdate(true);
@@ -39,14 +47,39 @@ const ManageCompanyInfo = (props: Props) => {
     setUpdateCompanyUserName(e.target.value);
   };
 
-  const handleCompleteUpdateName = async () => {
-    const { data: UpdateCompanyUserInfo, error } = await supabase
-      .from('company_user')
-      .update({ name: updateCompanyUserName })
-      .eq('id', getSessionUserId as string);
-    console.log(UpdateCompanyUserInfo);
+  const {
+    mutate: updateCompanyUserInfo,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: async () => {
+      const sessionData = await getSession();
+      const getSessionUserId = sessionData?.user.id;
+      const { data, error } = await supabase
+        .from('company_user')
+        .update({ name: updateCompanyUserName })
+        .eq('id', getSessionUserId as string);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+    },
+  });
+  if (isError) {
+    console.log(error);
+    return <div>에러발생</div>;
+  }
+
+  const handleCompleteUpdateName = () => {
+    updateCompanyUserInfo();
+
     setIsNameUpdate(false);
   };
+
   return (
     <>
       <h1>회원정보관리</h1>

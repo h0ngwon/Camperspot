@@ -1,20 +1,20 @@
 'use client';
 import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
-import { useSession } from 'next-auth/react';
 import styles from './_styles/Camp.module.css';
 import React from 'react';
 import Image from 'next/image';
-import Hashtag from '@/app/camp/_components/Hashtag';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import emptycampImg from '@/asset/ico_empty_camp.png';
+import arrow from '@/asset/ico_right_arrow.png';
 
 type Props = {};
 
 const ManageAddedCamp = (props: Props) => {
-  const route = useRouter();
+  const router = useRouter();
+  const params = useParams();
 
-  const { data: session } = useSession();
-  const companyUserId = session?.user?.id;
+  const companyUserId = params.id;
 
   const { isLoading, isError, error, data } = useQuery({
     queryKey: ['camp', companyUserId],
@@ -48,24 +48,39 @@ const ManageAddedCamp = (props: Props) => {
   }
 
   const handleGoToCampDetail = (campId: string) => {
-    route.push(`/camp/detail/${campId}`);
+    router.push(`/camp/detail/${campId}`);
   };
 
   const goToUpdateCampPage = (campId: string) => {
-    // 클릭한 캠핑장의 camp_id를 들고 update_camp페이지로 이동하는 로직
-    // useRouter 쓸 예정 (next/navigate)
+    router.push(`/company/${companyUserId}/manage_camp/${campId}/update_camp`);
   };
   return (
     <>
-      {
+      <h1 className={styles.h1}>캠핑장 운영 및 관리</h1>
+      {data?.length === 0 ? (
+        <div className={styles.emptyCampContainer}>
+          <Image
+            src={emptycampImg}
+            alt='등록된 캠핑장이 없습니다.'
+            width={174}
+            height={174}
+          />
+          <p className={styles.p}>등록된 캠핑장이 없습니다.</p>
+          <button
+            onClick={() => {
+              router.push(`/company/${companyUserId}/manage_camp/add_camp`);
+            }}
+            className={styles.button}
+          >
+            캠핑장 등록하기
+            <Image src={arrow} alt='캠핑장 등록하기' width={10} height={20} />
+          </button>
+        </div>
+      ) : (
         <div className={styles.campWrap}>
           {data?.map((item) => {
             return (
-              <div
-                className={styles.campBox}
-                key={item.id}
-                onClick={() => handleGoToCampDetail(item.id)}
-              >
+              <div className={styles.campBox} key={item.id}>
                 <h1>{item.name}</h1>
                 <p>{item.address}</p>
                 <p>{item.phone}</p>
@@ -102,6 +117,9 @@ const ManageAddedCamp = (props: Props) => {
                     </div>
                   );
                 })}
+                <button onClick={() => handleGoToCampDetail(item.id)}>
+                  캠핑장 상세
+                </button>
                 <button onClick={() => goToUpdateCampPage(item.id)}>
                   캠핑장수정
                 </button>
@@ -110,7 +128,7 @@ const ManageAddedCamp = (props: Props) => {
             );
           })}
         </div>
-      }
+      )}
     </>
   );
 };

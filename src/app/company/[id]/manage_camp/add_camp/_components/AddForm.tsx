@@ -1,10 +1,10 @@
 'use client';
 import { supabase } from '@/app/api/db';
+import { v4 as uuid } from 'uuid';
 import useInput from '@/hooks/useInput';
 import type { Tables } from '@/types/supabase';
 import React, { FormEvent, useState } from 'react';
 import styles from '../_styles/CampForm.module.css';
-import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import Facility from './Facility';
 import Layout from './Layout';
@@ -19,11 +19,11 @@ const AddForm = () => {
   const [name, handleName] = useInput();
   const [content, handleContent] = useInput();
   const [address, setAddress] = useState('');
+  const [isAddressModal, setAddressModal] = useState(false);
   const [phone, handlePhone] = useInput();
   const [check_in, handleCheck_in] = useState<string>('');
   const [check_out, handleCheck_out] = useState<string>('');
-  const [layout, handleLayout] = useInput();
-  const [isAddressModal, setAddressModal] = useState(false);
+  // const [layout, handleLayout] = useInput();
   const [facility, setFacility] = useState<Tables<'facility'>[]>([]);
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campLayout, setCampLayout] = useState<string>('');
@@ -37,8 +37,6 @@ const AddForm = () => {
   const queryClient = useQueryClient();
 
   const campId = uuid();
-
-  const { data: session } = useSession();
 
   // const companyUserId = session?.user.id;
   const companyUserId = params.id;
@@ -66,7 +64,7 @@ const AddForm = () => {
           phone,
           check_in,
           check_out,
-          layout,
+          layout: campLayout,
         })
         .select();
 
@@ -100,7 +98,7 @@ const AddForm = () => {
       )
       .select();
 
-    // 등록 눌렀을 시 캠핑장 배치 이미지 업로드
+    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
     async function uploadStorageLayoutData(blob: Blob | File) {
       // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
       const { data, error } = await supabase.storage
@@ -170,12 +168,13 @@ const AddForm = () => {
         <div>
           <h3>캠핑장 명</h3>
           <input
-            defaultValue={name}
+            value={name}
             onChange={handleName}
             placeholder='이름을 입력해주세요'
             required
           />
         </div>
+
         <div>
           <h3>캠핑장 주소</h3>
           <div>
@@ -190,38 +189,42 @@ const AddForm = () => {
               </button>
             </div>
             <input
-              value={address}
+              defaultValue={address}
               placeholder='주소검색하기를 클릭해주세요'
               required
             />
           </div>
         </div>
+
         <div>
           <h3>캠핑장 소개</h3>
           <textarea
-            defaultValue={content}
+            value={content}
             onChange={handleContent}
             className={styles.gridItemTextArea}
             placeholder='캠핑장을 소개해주세요'
             required
           ></textarea>
         </div>
+
         <Facility
           facility={facility}
           setFacility={setFacility}
           checkedFacility={checkedFacility}
           setCheckedFacility={setCheckedFacility}
         />
+
         <CheckInOut
           check_in={check_in}
           handleCheck_in={handleCheck_in}
           check_out={check_out}
           handleCheck_out={handleCheck_out}
         />
+
         <div>
           <h3>문의전화</h3>
           <input
-            defaultValue={phone}
+            value={phone}
             onChange={handlePhone}
             type='tel'
             placeholder='예) 02-000-0000 / 063-000-0000'
@@ -230,17 +233,21 @@ const AddForm = () => {
             required
           />
         </div>
+
         <Layout campLayout={campLayout} setCampLayout={setCampLayout} />
+
         <CampPicture
           campPicture={campPicture}
           setCampPicture={setCampPicture}
         />
+
         <Hashtag
           hashTags={hashTags}
           setHashTags={setHashTags}
           inputHashTag={inputHashTag}
           setInputHashTag={setInputHashTag}
         />
+
         <div>
           <button type='button'>임시저장</button>
           <button type='submit'>등록하기</button>
