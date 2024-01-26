@@ -3,7 +3,7 @@ import styles from '../_styles/CampCard.module.css';
 import CampCarousel from './CampCarousel';
 import Link from 'next/link';
 import Spacer from '@/components/Spacer';
-export const revalidate = 10;
+export const revalidate = 0;
 
 const PopularCamp = async () => {
   const { data: camp, error } = await supabase

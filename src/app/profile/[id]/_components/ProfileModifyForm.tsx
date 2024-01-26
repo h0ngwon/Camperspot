@@ -54,31 +54,37 @@ const ProfileModifyForm = () => {
 
   return (
     <form className={styles.container} onSubmit={submitHandler}>
-      <label>
-        <div>
-          <Image
-            src={prevImage ?? (data?.profile_url as string)}
-            width={116}
-            height={115}
-            alt='profile'
+      <div className={styles['profile-header']}>프로필 설정</div>
+      <div className={styles['profile-container']}>
+        <label>
+          <div className={styles['img-wrapper']}>
+            <Image
+              src={prevImage ?? (data?.profile_url as string)}
+              width={120}
+              height={120}
+              alt='profile'
+            />
+          </div>
+          <input
+            name='file'
+            type='file'
+            className={styles.hidden}
+            onChange={prevImg}
           />
-        </div>
+        </label>
+      </div>
+      <div className={styles['nickname-container']}>
+        <label>닉네임</label>
         <input
-          name='file'
-          type='file'
-          className={styles.hidden}
-          onChange={prevImg}
+          name='nickname'
+          type='text'
+          accept='image/*'
+          defaultValue={data?.nickname}
+          onChange={nicknameHandler}
+          required
         />
-      </label>
-      <input
-        name='nickname'
-        type='text'
-        accept='image/*'
-        defaultValue={data?.nickname}
-        onChange={nicknameHandler}
-        required
-      />
-      <button>완료</button>
+      </div>
+      <button className={styles['submit-btn']}>완료</button>
     </form>
   );
 };

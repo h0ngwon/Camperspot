@@ -46,12 +46,12 @@ const authOptions: NextAuthOptions = {
       },
     }),
     NaverProvider({
-      clientId: process.env.NAVER_CLIENT_ID!,
-      clientSecret: process.env.NAVER_CLIENT_SECRET!,
+      clientId: process.env.NAVER_CLIENT_ID as string,
+      clientSecret: process.env.NAVER_CLIENT_SECRET as string,
     }),
     KakaoProvider({
-      clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+      clientId: process.env.KAKAO_CLIENT_ID as string,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
     }),
   ],
   callbacks: {
@@ -126,8 +126,7 @@ const makeSocialAccount = async (
   }
 
   if (!data.length) {
-    const socialData: SocialDataType = {
-      id: user.id as string,
+    const socialData: Omit<SocialDataType, 'id'> = {
       email: user.email as string,
       profile_url: user.image as string,
       nickname: user.name as string,
@@ -135,7 +134,10 @@ const makeSocialAccount = async (
       role: 'user',
     };
 
-    await supabase.from('user').insert<SocialDataType>(socialData);
+    const { error } = await supabase
+      .from('user')
+      .insert<Omit<SocialDataType, 'id'>>(socialData);
+    console.log(error);
   }
   token.id = user.id;
   token.role = 'user';
