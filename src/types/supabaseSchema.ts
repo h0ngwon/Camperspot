@@ -58,6 +58,7 @@ export interface Camp {
   company_user?: Company_user;
   camp_facility?: Camp_facility[];
   camp_pic?: Camp_pic[];
+  hashtag?: Hashtag[];
 }
 
 export interface Like {

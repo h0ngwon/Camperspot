@@ -12,6 +12,7 @@ import { Camp } from '@/types/supabaseSchema';
 import CheckInOut from './_components/CheckInOut';
 import Layout from './_components/Layout';
 import CampPicture from './_components/CampPicture';
+import Hashtag from './_components/Hashtag';
 
 type Props = {};
 
@@ -26,7 +27,8 @@ const UpdateCampPage = (props: Props) => {
   const [phone, setPhone] = useState('');
   const [layout, setLayout] = useState('');
   const [campPicture, setCampPicture] = useState<string[]>([]);
-  // const [updateCampPicture, setUpdateCampPicture] = useState<string[]>([]);
+  const [hashTags, setHashTags] = useState<string[]>([]);
+  const [inputHashTag, setInputHashTag] = useState('');
 
   const params = useParams();
   const campId = params.camp_id;
@@ -64,6 +66,7 @@ const UpdateCampPage = (props: Props) => {
     setPhone(campData[0].phone);
     setLayout(campData[0].layout);
     setCampPicture(campData[0].camp_pic?.map((picture) => picture.photo_url!)!);
+    setHashTags(campData[0].hashtag?.map((hashtag) => hashtag.tag!)!);
   }, [campData]);
 
   const [isAddressModal, setAddressModal] = useState(false);
@@ -109,22 +112,39 @@ const UpdateCampPage = (props: Props) => {
             )
             .select();
 
+        // camp_pic 데이터 삭제
         const { data: deleteCampPicData, error: deleteCampPicError } =
           await supabase.from('camp_pic').delete().eq('camp_id', campId);
+
+        // hashtag 데이터 삭제
+        const { data: deleteHashtagData, error: deleteHashtagDataError } =
+          await supabase.from('hashtag').delete().eq('camp_id', campId);
+
+        // hashtag 데이터 insert
+        const { data: insertHashtagData, error: insertHashtagDataError } =
+          await supabase.from('hashtag').insert(
+            hashTags.map((item) => {
+              return { camp_id: campId as string, tag: item };
+            }),
+          );
 
         if (
           error ||
           selectError ||
           deleteError ||
           insertError ||
-          deleteCampPicError
+          deleteCampPicError ||
+          deleteHashtagDataError ||
+          insertHashtagDataError
         ) {
           throw new Error(
             error?.message ||
               selectError?.message ||
               deleteError?.message ||
               insertError?.message ||
-              deleteCampPicError?.message,
+              deleteCampPicError?.message ||
+              deleteHashtagDataError?.message ||
+              insertHashtagDataError?.message,
           );
         }
         return (
@@ -132,7 +152,9 @@ const UpdateCampPage = (props: Props) => {
           checkedFacilityData &&
           checkedFacilityDataRemove &&
           checkedFacilityDataInsert &&
-          deleteCampPicData
+          deleteCampPicData &&
+          deleteHashtagData &&
+          insertHashtagData
         );
       } catch (error) {
         console.error('An error occurred:', error);
@@ -159,14 +181,6 @@ const UpdateCampPage = (props: Props) => {
 
     updateCamp();
 
-    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
-    async function uploadStorageLayoutData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_layout')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
     // 배치 이미지 table에 올리는 로직
     async function uploadLayoutToCampTable() {
       const blob = await fetch(layout).then((r) => r.blob());
@@ -192,6 +206,15 @@ const UpdateCampPage = (props: Props) => {
       return { data: data, error };
     }
 
+    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
+    async function uploadStorageLayoutData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_layout')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
+
     // 여러개 사진 table에 올리는 로직
     campPicture.forEach(async (item) => {
       const blob = await fetch(item).then((r) => r.blob());
@@ -207,10 +230,6 @@ const UpdateCampPage = (props: Props) => {
           photo_url: BASE_URL + data?.path,
         })
         .select();
-      // await supabase
-      //   .from('camp_pic')
-      //   .update({ photo_url: BASE_URL + data?.path })
-      //   .eq('camp_id', campId);
     });
 
     alert('수정완료');
@@ -290,6 +309,13 @@ const UpdateCampPage = (props: Props) => {
             <CampPicture
               campPicture={campPicture}
               setCampPicture={setCampPicture}
+            />
+
+            <Hashtag
+              hashTags={hashTags}
+              setHashTags={setHashTags}
+              inputHashTag={inputHashTag}
+              setInputHashTag={setInputHashTag}
             />
 
             <button type='submit'>수정완료</button>
