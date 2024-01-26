@@ -126,8 +126,7 @@ const makeSocialAccount = async (
   }
 
   if (!data.length) {
-    const socialData: SocialDataType = {
-      id: user.id as string,
+    const socialData: Omit<SocialDataType, 'id'> = {
       email: user.email as string,
       profile_url: user.image as string,
       nickname: user.name as string,
@@ -135,7 +134,10 @@ const makeSocialAccount = async (
       role: 'user',
     };
 
-    await supabase.from('user').insert<SocialDataType>(socialData);
+    const { error } = await supabase
+      .from('user')
+      .insert<Omit<SocialDataType, 'id'>>(socialData);
+    console.log(error);
   }
   token.id = user.id;
   token.role = 'user';
