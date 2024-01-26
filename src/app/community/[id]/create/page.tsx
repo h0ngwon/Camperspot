@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import { supabase } from '@/app/api/db';
-import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { v4 as uuid } from 'uuid';
 
 import type { Tables } from '@/types/supabase';
 
