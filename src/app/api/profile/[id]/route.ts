@@ -47,7 +47,7 @@ export const POST = async (
   if (storageError) {
     throw new Error(storageError.message);
   }
-  console.log(data)
+  console.log(data);
   const { data: url } = await supabase.storage
     .from('profile_pic')
     .getPublicUrl(`profile/${imageId}`);

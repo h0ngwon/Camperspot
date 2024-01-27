@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import styles from '../_styles/CommuUser.module.css';
 import MoreSvg from '../_svg/MoreSvg';
+import CommuEditModal from './CommuEditModal';
 
 type Props = {
   user: {
@@ -14,10 +15,20 @@ type Props = {
     profile_url: string;
   } | null;
   postId: string;
+  data: {
+    content: string;
+    created_at: string;
+    id: string;
+    user_id: string;
+    post_pic: { id: string; photo_url: string; post_id: string }[];
+    post_hashtag: { id: string; post_id: string; tag: string }[];
+    user: { id: string; nickname: string; profile_url: string } | null;
+  };
 };
 
-export default function CommuUser({ user, postId }: Props) {
-  const [isMorBtn, setIsMoreBtn] = useState(false);
+export default function CommuUser({ user, postId, data }: Props) {
+  const [isMorBtn, setIsMoreBtn] = useState<boolean>(false);
+  const [isCommuEditModal, setIsCommuEditModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -67,8 +78,22 @@ export default function CommuUser({ user, postId }: Props) {
         <button onClick={handleOnClick}>
           <MoreSvg />
         </button>
-        {isMorBtn ? <button onClick={handleDeletedBtn}>삭제</button> : ''}
+        {isMorBtn ? (
+          <div>
+            <button onClick={handleDeletedBtn}>삭제</button>
+            <button onClick={() => setIsCommuEditModal(true)}>수정</button>
+          </div>
+        ) : (
+          ''
+        )}
       </div>
+      {isCommuEditModal && (
+        <CommuEditModal
+          onClose={() => setIsCommuEditModal(false)}
+          postId={postId}
+          data={data}
+        />
+      )}
     </div>
   );
 }

@@ -1,15 +1,29 @@
+.wrap {
+  width: 1200px;
+  margin: 0 auto;
+}
+.tabTitle {
+  display: block;
+  margin: 20px 0;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
 .container {
   display: flex;
   flex-direction: row;
-  width: 1200px;
-  margin: 20px auto;
+  gap: 20px;
 }
 .left {
-  background: #d9d9d9;
-  width: 360px;
-  height: 100vh;
+  width: 220px;
 }
 .right {
-  width: 840px;
-  padding: 20px;
+  width: 960px;
+  height: 1123px;
+  border: 1px solid #e6e6e9;
+  border-radius: 16px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  padding: 40px;
 }
