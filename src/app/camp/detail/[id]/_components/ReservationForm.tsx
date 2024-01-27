@@ -43,8 +43,9 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
     },
     mode: 'onChange',
   });
+  // 달력에서 날짜 선택할 때마다 값이 변동됨.
   const dates = watch('dates');
-  console.log('dates', dates);
+
   const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
   const [isActive, setIsActive] = useState<number | null>(null);
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
@@ -57,8 +58,6 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
 
   const params = useSearchParams();
   const campAreaId = params.get('id') as string;
-  const isSelectDate = dates?.[0] && dates?.[1];
-
   const { max_people, price, name } = reservation!;
   const { check_in, check_out } = reservation?.camp!;
   const { data: session } = useSession();
@@ -117,16 +116,6 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         )}
 
         <Calendar control={control} />
-        {!isSelectDate && (
-          <div className={styles.errors}>
-            <p>날짜를 선택해주세요</p>
-          </div>
-        )}
-        {/* {errors.dates && (
-          <div className={styles.errors}>
-            <p>{errors.dates.message}</p>
-          </div>
-        )} */}
 
         {dates?.[0] && dates?.[1] && (
           <div className={styles.dates}>
@@ -227,7 +216,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             <button
               type='button'
               className={styles.button}
-              disabled={!isValid || isActive === null || !isSelectDate}
+              disabled={!isValid || isActive === null}
               onClick={() => setIsOpenConfirm(true)}
             >
               결제하기
