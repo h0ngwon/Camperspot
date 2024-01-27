@@ -492,7 +492,7 @@ export interface Database {
           id: string;
           nickname: string;
           password: string | null;
-          profile_url: string;
+          profile_url: string | null;
           provider: string | null;
           role: string;
         };
@@ -501,7 +501,7 @@ export interface Database {
           id?: string;
           nickname: string;
           password?: string | null;
-          profile_url?: string;
+          profile_url?: string | null;
           provider?: string | null;
           role?: string;
         };
@@ -510,7 +510,7 @@ export interface Database {
           id?: string;
           nickname?: string;
           password?: string | null;
-          profile_url?: string;
+          profile_url?: string | null;
           provider?: string | null;
           role?: string;
         };
@@ -521,7 +521,41 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      fetch_camp_data: {
+        Args: {
+          sort: string;
+          page: string;
+        };
+        Returns: {
+          id: string;
+          name: string;
+          created_at: string;
+          address: string;
+          region: string;
+          camp_area_price: number;
+          camp_pic: Json;
+          hashtag: Json;
+          total_count: number;
+        }[];
+      };
+      params_sorted_camp_data: {
+        Args: {
+          sort: string;
+          page: string;
+        };
+        Returns: {
+          id: string;
+          name: string;
+          created_at: string;
+          address: string;
+          region: string;
+          camp_area_price: number;
+          camp_pic: Json;
+          hashtag: Json;
+          reservation_count: number;
+          total_count: number;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;

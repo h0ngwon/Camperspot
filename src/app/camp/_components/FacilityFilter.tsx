@@ -6,12 +6,11 @@ import type { TCamp } from '@/types/campList';
 
 type Props = {
   campData: TCamp[] | undefined;
-  setFilteredCampData: Dispatch<SetStateAction<TCamp[] | undefined>>;
+  setFilteredCampData: Dispatch<SetStateAction<TCamp[]>>;
 };
 
 const FacilityFilter = ({ campData, setFilteredCampData }: Props) => {
   const [filterFacility, setFilterFacility] = useState<string[]>([]);
-  console.log('뻐실리티', filterFacility);
 
   const filterCampData = () => {
     if (!campData) return [];

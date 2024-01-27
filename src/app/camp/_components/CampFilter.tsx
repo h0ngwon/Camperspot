@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 const CampFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string>('인기순');
+  const [selectedItem, setSelectedItem] = useState<string>('예약순');
   const handleOpenDropdown = () => {
     setIsOpen(true);
   };
@@ -26,7 +26,7 @@ const CampFilter = () => {
     console.log(params.toString());
     replace(`${pathname}?${params.toString()}`);
   };
-  const sortList = ['과거순', '최신순', '별점순', '낮은가격순', '높은가격순'];
+  const sortList = ['과거순', '최신순', '예약순', '낮은가격순', '높은가격순'];
 
   return (
     <div>
