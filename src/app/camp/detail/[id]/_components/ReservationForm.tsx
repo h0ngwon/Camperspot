@@ -20,6 +20,7 @@ type UserInfo = {
 };
 
 const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
+  const currentDate = new Date();
   const {
     control,
     watch,
@@ -31,21 +32,23 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
       people: 1,
       name: '',
       phone: '',
-      dates: [],
+      dates: [
+        new Date(currentDate.setHours(0, 0, 0, 0)),
+        new Date(
+          currentDate?.getFullYear()!,
+          currentDate?.getMonth()!,
+          currentDate?.getDate()! + 1,
+        ),
+      ],
     },
     mode: 'onChange',
   });
-  console.log('워치', watch('dates'));
-  //날짜 데이터가 변경될 때마다 업데이트 해줌.=> 폼에서도 리렌더링이 일어남.
   const dates = watch('dates');
-  const checkDate = !dates?.length || !dates?.[0] || !dates?.[1];
-
+  console.log('dates', dates);
   const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
   const [isActive, setIsActive] = useState<number | null>(null);
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
-  //리액트 훅 폼은 날짜가 따로 상태값을 지정하지 않아도 사용 가능.
-
   const [nights, setNights] = useState<number>(1);
   const toggleActive = (selectMethod: number) => {
     if (isActive == selectMethod) setIsActive(null);
@@ -54,6 +57,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
 
   const params = useSearchParams();
   const campAreaId = params.get('id') as string;
+  const isSelectDate = dates?.[0] && dates?.[1];
 
   const { max_people, price, name } = reservation!;
   const { check_in, check_out } = reservation?.camp!;
@@ -76,13 +80,11 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
       .select();
     if (data) {
       setIsOpenComplete(true);
-      console.log('데이터 등록 완료!');
     }
     if (error) console.log('error', error);
   };
 
   useEffect(() => {
-    // 날짜가 변경될 때 마다 몇박인지 업데이트
     if (dates?.length > 0) {
       setNights(
         (dates[1]?.getTime() - dates[0]?.getTime()) / (1000 * 60 * 60 * 24),
@@ -115,11 +117,16 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         )}
 
         <Calendar control={control} />
-        {errors.dates && (
+        {!isSelectDate && (
+          <div className={styles.errors}>
+            <p>날짜를 선택해주세요</p>
+          </div>
+        )}
+        {/* {errors.dates && (
           <div className={styles.errors}>
             <p>{errors.dates.message}</p>
           </div>
-        )}
+        )} */}
 
         {dates?.[0] && dates?.[1] && (
           <div className={styles.dates}>
@@ -220,7 +227,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             <button
               type='button'
               className={styles.button}
-              disabled={!isValid || isActive === null || checkDate}
+              disabled={!isValid || isActive === null || !isSelectDate}
               onClick={() => setIsOpenConfirm(true)}
             >
               결제하기
@@ -235,7 +242,6 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         onClose={() => setIsOpenConfirm(false)}
         onConfirm={() => handleSubmit(onSubmit)()}
       />
-      {/* 확인 모달창 닫고 예약 데이터 추가된 후 알림창 띄워주기  */}
       {!isOpenConfirm && isOpenComplete && (
         <AlertModal title='예약이 완료되었습니다' />
       )}
