@@ -1,3 +1,5 @@
+import { Json } from './supabase';
+
 export type CampLists = {
   campList: TCamp[];
 };
@@ -12,3 +14,16 @@ export type TCamp = {
   hashtag: { tag: string | null }[];
   camp_facility?: { facility: { option: string } }[];
 };
+
+export type ParamsCamp = {
+  id: string;
+  name: string;
+  created_at: string;
+  address: string;
+  region: string;
+  camp_area_price: Json;
+  camp_pic: Json;
+  hashtag: Json;
+  reservation_count: number;
+  total_count: number;
+}[];
