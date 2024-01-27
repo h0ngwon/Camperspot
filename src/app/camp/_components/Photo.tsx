@@ -29,12 +29,13 @@ export default class Photo extends Component<PhotoProps> {
     return (
       <>
         <Slider {...settings}>
-          {photos.map((photo) => (
-            <div className={styles.picWrap} key={photo.id}>
+          {photos.map((photo, idx) => (
+            <div className={styles.picWrap} key={idx}>
               <Image
                 src={photo.photo_url}
-                alt={`Photo ${photo.id}`}
+                alt={`Photo`}
                 fill
+                sizes='(min-width: 900px) 450px, 100vw'
                 className={styles.pic}
               />
             </div>
