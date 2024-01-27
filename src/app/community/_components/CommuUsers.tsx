@@ -9,11 +9,7 @@ import MoreSvg from '../_svg/MoreSvg';
 import CommuEditModal from './CommuEditModal';
 
 type Props = {
-  user: {
-    id: string;
-    nickname: string;
-    profile_url: string;
-  } | null;
+  user: { id: string; nickname: string; profile_url: string | null } | null;
   postId: string;
   data: {
     content: string;
@@ -22,7 +18,7 @@ type Props = {
     user_id: string;
     post_pic: { id: string; photo_url: string; post_id: string }[];
     post_hashtag: { id: string; post_id: string; tag: string }[];
-    user: { id: string; nickname: string; profile_url: string } | null;
+    user: { id: string; nickname: string; profile_url: string | null } | null;
   };
 };
 
@@ -71,7 +67,7 @@ export default function CommuUser({ user, postId, data }: Props) {
   return (
     <div className={styles.userWrap}>
       <div className={styles.user}>
-        <Image src={user!.profile_url} alt='' width={32} height={32} />
+        <Image src={user!.profile_url!} alt='' width={32} height={32} />
         <p>{user?.nickname}</p>
       </div>
       <div>
