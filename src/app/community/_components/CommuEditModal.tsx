@@ -14,6 +14,7 @@ import CommuPicSvg from '../_svg/CommuPicSvg';
 type Props = {
   onClose: () => void;
   postId: string;
+
   data: {
     content: string;
     created_at: string;
@@ -21,7 +22,7 @@ type Props = {
     user_id: string;
     post_pic: { id: string; photo_url: string; post_id: string }[];
     post_hashtag: { id: string; post_id: string; tag: string }[];
-    user: { id: string; nickname: string; profile_url: string } | null;
+    user: { id: string; nickname: string; profile_url: string | null } | null;
   };
 };
 type PostHashTag = Database['public']['Tables']['post_hashtag']['Row'];
@@ -255,7 +256,7 @@ export default function CommuEditModal({ onClose, postId, data }: Props) {
             <div className={styles.Con}>
               <div className={styles.user}>
                 <Image
-                  src={data!.user!.profile_url}
+                  src={data!.user!.profile_url!}
                   alt=''
                   width={32}
                   height={32}

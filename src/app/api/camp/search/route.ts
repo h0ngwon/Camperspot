@@ -53,3 +53,9 @@ export async function GET(request: Request) {
   const { data: camp, error } = await query;
   return NextResponse.json({ camp, error });
 }
+
+// if (sort === '최신순') {
+//   query.order('created_at', { ascending: false }); // 최신순
+// } else if (sort === 'oldest') {
+//   query.order('과거순', { ascending: true });  // 과거순
+// }
