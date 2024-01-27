@@ -1,0 +1,40 @@
+.carouselBox {
+    width: 1200px;
+    overflow: hidden;
+}
+
+.carouselLeft {
+    width: 1300px;
+    position: relative;
+    left: -76px;
+}
+
+.linkCommu {
+    display: inline-flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 12px;
+    border: 1px solid #D9D9D9;
+    background: var(--base-white, #FFF);
+
+}
+
+.linkText {
+    color: #000;
+
+    /* 24px_Regular */
+    font-family: Pretendard;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+/* .carouselRight {
+    width: 1300px;
+
+    position: relative;
+    /* right: -33px; */
+/* }  */
