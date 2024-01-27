@@ -582,6 +582,25 @@ export interface Database {
           total_count: number;
         }[];
       };
+      get_params_camp_data: {
+        Args: {
+          sort: string;
+          page: string;
+        };
+        Returns: {
+          id: string;
+          name: string;
+          created_at: string;
+          address: string;
+          region: string;
+          camp_area_min_price: number;
+          camp_area_max_price: number;
+          camp_pic: Json;
+          hashtag: Json;
+          reservation_count: number;
+          total_count: number;
+        }[];
+      };
       params_sorted_camp_data: {
         Args: {
           sort: string;

@@ -23,7 +23,7 @@ const Camp = async ({
   const page = searchParams.page!.toString();
   const sort = searchParams.sort!.toString();
 
-  let { data, error } = await supabase.rpc('params_sorted_camp_data', {
+  let { data, error } = await supabase.rpc('get_params_camp_data', {
     page,
     sort,
   });
@@ -50,7 +50,6 @@ const Camp = async ({
   const start = (Number(currentPage) - 1) * Number(per_page);
   const end = start + Number(per_page);
   const count = data?.[0].total_count;
-  // console.log(count);
   const pageTitle = '전국 인기 캠핑장';
   return (
     <>

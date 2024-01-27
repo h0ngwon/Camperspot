@@ -2,6 +2,7 @@
 
 import { facilities } from '@/app/_lib/facility';
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import styles from '../_styles/FacilityFilter.module.css';
 import type { SearchCamp, TCamp } from '@/types/campList';
 
 type Props = {
@@ -54,7 +55,7 @@ const FacilityFilter = ({ campData, setFilteredCampData }: Props) => {
   };
 
   return (
-    <ul>
+    <ul className={styles.checkBox}>
       {facilities.map((facility, idx) => (
         <li key={idx}>
           <input

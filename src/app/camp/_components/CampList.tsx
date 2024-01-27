@@ -8,11 +8,13 @@ import Photo from './Photo';
 import Spacer from '@/components/Spacer';
 import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
 import type { ParamsCamp, SearchCamp } from '@/types/campList';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
-  campList: SearchCamp | ParamsCamp;
+  campList: ParamsCamp | SearchCamp;
 };
 const CampList = ({ campList }: Props) => {
+  const param = useSearchParams().get('sort');
   return (
     <>
       {campList?.map((camp) => {
@@ -20,7 +22,7 @@ const CampList = ({ campList }: Props) => {
           id: string;
           photo_url: string;
         }>;
-        // const camp_area_price = camp.camp_area_price;
+
         const hashtag = (camp.hashtag as Array<{ tag: string }>)?.map(
           (tag) => tag.tag,
         );
@@ -34,11 +36,19 @@ const CampList = ({ campList }: Props) => {
               <div className={styles.cardMiddle}>
                 <div className={styles.campInfoBox1}>
                   <p>{camp.name}</p>
-                  {/* <p>
-                    {camp_area_price === 0
-                      ? '무료'
-                      : `${camp_area_price?.toLocaleString()}원~`}
-                  </p> */}
+                  {param === '높은가격순' ? (
+                    <p>
+                      {camp.camp_area_max_price === 0
+                        ? '무료'
+                        : `${camp.camp_area_max_price?.toLocaleString()}원~`}
+                    </p>
+                  ) : (
+                    <p>
+                      {camp.camp_area_min_price === 0
+                        ? '무료'
+                        : `${camp.camp_area_min_price?.toLocaleString()}원~`}
+                    </p>
+                  )}
                 </div>
               </div>
               <div className={styles.cardMiddle}>

@@ -6,6 +6,7 @@ import { ParamsCamp, SearchCamp, TCamp } from '@/types/campList';
 import CampFilter from '../../_components/CampFilter';
 import FacilityFilter from '../../_components/FacilityFilter';
 import CampList from '../../_components/CampList';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
   camp: SearchCamp;
@@ -42,15 +43,17 @@ const SearchView = ({ camp, error }: Props) => {
       <div className={styles.container}>
         <Spacer y={50} />
         <div className={styles.mainWrapper}>
-          <h1 className={styles.title}>{pageTitle}</h1>
-
           <div className={styles.mainHeader}>
-            <CampFilter />
+            <h1 className={styles.title}>{pageTitle}</h1>
+            {/* <CampFilter /> */}
           </div>
-          <FacilityFilter
-            campData={campData}
-            setFilteredCampData={setFilteredCampData}
-          />
+          <div>
+            <FacilityFilter
+              campData={campData}
+              setFilteredCampData={setFilteredCampData}
+            />
+          </div>
+
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
               <CampList campList={filteredCampData!} />

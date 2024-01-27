@@ -20,6 +20,16 @@ const SearchPage = async ({ searchParams }: Props) => {
   if (error) console.error(error);
   else console.log(data);
 
+  // const sort = searchParams.sort?.toString();
+  // if (sort === '과거순') {
+  //   data?.sort((a, b) => Number(a.created_at) - Number(b.created_at));
+  // } else if (sort === '최신순') {
+  //   data?.sort((a, b) => Number(b.created_at) - Number(a.created_at));
+  // } else if (sort === '낮은가격순') {
+  // } else if (sort === '높은가격순') {
+  // } else {
+  // }
+
   return (
     <>
       <SearchView camp={data!} error={error} />
@@ -28,14 +38,3 @@ const SearchPage = async ({ searchParams }: Props) => {
 };
 
 export default SearchPage;
-
-// const url = new URL('http://localhost:3000/api/camp/search');
-// const { region, keyword, check_in, check_out, people } = searchParams;
-// if (region) url.searchParams.append('region', region as string);
-// if (keyword) url.searchParams.append('keyword', keyword as string);
-// if (check_in) url.searchParams.append('check_in', check_in as string);
-// if (check_out) url.searchParams.append('check_out', check_out as string);
-// if (people) url.searchParams.append('people', people as string);
-// console.log(url);
-// const response = await fetch(url.toString());
-// const { data, error } = await response.json();
