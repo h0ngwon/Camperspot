@@ -5,6 +5,8 @@ import Image from 'next/image';
 type Props = {
   campPicture: string[];
   setCampPicture: React.Dispatch<React.SetStateAction<string[]>>;
+  // updateCampPicture: string[];
+  // setUpdateCampPicture: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 const CampPicture = ({ campPicture, setCampPicture }: Props) => {
@@ -29,12 +31,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
   return (
     <div>
       <h3>캠핑장 사진 등록</h3>
-      <input
-        type='file'
-        onChange={handleChangeInputImageFile}
-        ref={imgRef}
-        required
-      />
+      <input type='file' onChange={handleChangeInputImageFile} ref={imgRef} />
       {campPicture?.map((item, index) => {
         return (
           <div key={item + index}>
