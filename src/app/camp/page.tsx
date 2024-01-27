@@ -5,7 +5,7 @@ import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
 import PageController from './_components/PageController';
 
-export const revalidate = 10;
+export const revalidate = 0;
 
 //searchParams를 통해 주소로 parameter 가져오기
 const Camp = async ({
@@ -15,45 +15,42 @@ const Camp = async ({
 }) => {
   console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', searchParams);
 
-  const page = Number(searchParams.page) || 1;
+  const currentPage = Number(searchParams.page) || 1;
   const perPage = 9;
-  const startRange = (page - 1) * perPage;
+  const startRange = (currentPage - 1) * perPage;
   const endRange = startRange + perPage - 1;
 
-  const {
-    data: camp,
-    count,
-    error,
-  } = await supabase
-    .from('camp')
-    .select(
-      `
-  id,
-  name,
-    created_at,
-    address,
-    region,
+  const page = searchParams.page!.toString();
+  const sort = searchParams.sort!.toString();
 
-    camp_area(id,price),
-    camp_pic(id,photo_url),
-    hashtag(tag)
-    `,
-      { count: 'exact' },
-    )
-    //임의로 인기순:과거순 외 최신순으로 해둠
-    .order('created_at', {
-      ascending: searchParams.sort === '인기순' ? false : true,
-    })
-    .range(startRange, endRange);
-  //캐싱이 1순위
-  //camp가 다른화면에서도 필요하다면 reactquery가 필요
-  //디하이드레이트=>쿼리용 서버에서 newqueryclient 생성은 가능
-  console.log(count);
+  let { data, error } = await supabase.rpc('params_sorted_camp_data', {
+    page,
+    sort,
+  });
+  if (error) console.error(error);
+  else console.log(data);
+
+  console.log(data![0].reservation_count);
+  // console.log(data![0].hashtag);
+  // console.log(data![0].camp_pic);
+
+  // let pic = (data![0].camp_pic as Array<{ photo_url: string }>).map(
+  //   (pic) => pic.photo_url,
+  // );
+  // console.log(pic);
+  // let area = (data![0].camp_area as Array<{ price: string }>).map(
+  //   (area) => area.price,
+  // );
+  // console.log('@@@@@@@@@@@@@', area);
+  // let tag = (data![0].hashtag as Array<{ tag: string }>).map((a) => a.tag);
+
+  console.log(error);
   const per_page = searchParams['per_page'] ?? '9';
 
-  const start = (Number(page) - 1) * Number(per_page);
+  const start = (Number(currentPage) - 1) * Number(per_page);
   const end = start + Number(per_page);
-  console.log(start, end);
+  const count = data?.[0].total_count;
+  // console.log(count);
   const pageTitle = '전국 인기 캠핑장';
   return (
     <>
@@ -66,7 +63,7 @@ const Camp = async ({
           </div>
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
-              <CampList data={camp!} />
+              <CampList campList={data!} />
             </div>
           </div>
           <Spacer y={50} />
@@ -79,3 +76,5 @@ const Camp = async ({
   );
 };
 export default Camp;
+
+//

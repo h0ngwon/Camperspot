@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-
 import { supabase } from '@/app/api/db';
-import { uuid } from 'uuidv4';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { v4 as uuid } from 'uuid';
 
 import type { Tables } from '@/types/supabase';
 
@@ -202,7 +201,7 @@ export default function CommuCreatePage() {
             required
           />
           <label htmlFor='file_upload'>업로드</label>
-          이미지 미리보기 및 삭제 버튼
+          {/* 이미지 미리보기 및 삭제 버튼 */}
           {postPic.map((item, index) => (
             <div key={index}>
               <img
@@ -234,32 +233,32 @@ export default function CommuCreatePage() {
           </div>
           <div>
             <label>해시태그</label>
-            <input
-              id='hashTagInput'
-              value={inputHashTag}
-              onChange={(e) => changeHashTagInput(e)}
-              onKeyUp={(e) => addHashTag(e)}
-              onKeyDown={(e) => keyDownHandler(e)}
-              placeholder='#해시태그를 등록해보세요. (최대 10개)'
-            />
-          </div>
 
-          <ul className={styles.tagsCon}>
-            {hashTags.length > 0 &&
-              hashTags.map((item, index) => {
-                return (
-                  <li key={index}>
-                    #<p>{item}</p>
-                    <button
-                      type='button'
-                      onClick={() => handleDeleteHashtag(item)}
-                    >
-                      <CloseSvg />
-                    </button>
-                  </li>
-                );
-              })}
-          </ul>
+            <div className={styles.tagsCon}>
+              <input
+                id='hashTagInput'
+                value={inputHashTag}
+                onChange={(e) => changeHashTagInput(e)}
+                onKeyUp={(e) => addHashTag(e)}
+                onKeyDown={(e) => keyDownHandler(e)}
+                placeholder='#해시태그를 등록해보세요. (최대 10개)'
+              />
+              {hashTags.length > 0 &&
+                hashTags.map((item, index) => {
+                  return (
+                    <span key={index}>
+                      # {item}
+                      <button
+                        type='button'
+                        onClick={() => handleDeleteHashtag(item)}
+                      >
+                        <CloseSvg />
+                      </button>
+                    </span>
+                  );
+                })}
+            </div>
+          </div>
         </div>
       </div>
 

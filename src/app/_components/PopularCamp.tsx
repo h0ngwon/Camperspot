@@ -3,7 +3,7 @@ import styles from '../_styles/CampCard.module.css';
 import CampCarousel from './CampCarousel';
 import Link from 'next/link';
 import Spacer from '@/components/Spacer';
-export const revalidate = 10;
+export const revalidate = 0;
 
 const PopularCamp = async () => {
   const { data: camp, error } = await supabase
@@ -26,7 +26,7 @@ const PopularCamp = async () => {
           <p>인기캠핑장</p>
           <p>현재 가장 인기있는 캠핑장이에요</p>
         </div>
-        <Link href={`/camp?sort=인기순&page=1`}>더보기</Link>
+        <Link href={`/camp?sort=예약순&page=1`}>더보기</Link>
       </div>
       <Spacer y={20} />
 

@@ -1,4 +1,9 @@
-:root {}
+:root {
+  --price-color: #fbb900;
+  --reservation-info-color: #999999;
+  --reservation-info-bg-color: rgb(244, 229, 215, 30%);
+  --light-gray-color: rgb(64 64 64);
+}
 
 * {
   box-sizing: border-box;
@@ -11,6 +16,7 @@ textarea {
 
 button {
   border: none;
+  background: transparent;
 }
 
 img {

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 const CampFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string>('인기순');
+  const [selectedItem, setSelectedItem] = useState<string>('예약순');
   const handleOpenDropdown = () => {
     setIsOpen(true);
   };
@@ -12,9 +12,9 @@ const CampFilter = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
-  console.log(params);
-  console.log('searchParams', searchParams);
-  console.log('pathname', pathname);
+  // console.log(params);
+  // console.log('searchParams', searchParams);
+  // console.log('pathname', pathname);
 
   const handleSelectItem = (e: React.MouseEvent<HTMLLIElement>) => {
     //컴파일시 e의 타입은알지만 뭐가들어오는지는모르니 as로 다시 지정
@@ -26,7 +26,7 @@ const CampFilter = () => {
     console.log(params.toString());
     replace(`${pathname}?${params.toString()}`);
   };
-  const sortList = ['인기순', '최신순', '별점순', '낮은가격순', '높은가격순'];
+  const sortList = ['과거순', '최신순', '예약순', '낮은가격순', '높은가격순'];
 
   return (
     <div>

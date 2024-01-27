@@ -1,25 +1,22 @@
-.li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 0.5rem;
-}
-
-.div {
-  width: 60%;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.created {
-  width: 90px;
+.td {
+  text-align: left;
 }
 
 .date {
   width: 120px;
   display: flex;
   flex-direction: column;
-  margin-left: 1rem;
+}
+
+.div {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.button {
+  width: 75px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .address {
@@ -32,8 +29,15 @@
   cursor: pointer;
 }
 
-.button {
-  width: 75px;
-  height: 30px;
-  cursor: pointer;
+.address {
+  width: 340px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

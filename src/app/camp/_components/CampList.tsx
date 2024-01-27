@@ -6,23 +6,35 @@ import Link from 'next/link';
 import Photo from './Photo';
 import Spacer from '@/components/Spacer';
 import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
+import type { CampLists, ParamsCamp, TCamp } from '@/types/campList';
+
+// type Props = {
+//   data: {
+//     id: string;
+//     name: string;
+//     created_at: string;
+//     address: string;
+//     camp_area: { price: number; id: string }[];
+//     camp_pic: { id: string; photo_url: string }[];
+//     hashtag: { tag: string | null }[];
+//   }[];
+// };
 
 type Props = {
-  data: {
-    id: string;
-    name: string;
-    created_at: string;
-    address: string;
-    camp_area: { price: number; id: string }[];
-    camp_pic: { id: string; photo_url: string }[];
-    hashtag: { tag: string | null }[];
-  }[];
+  campList: ParamsCamp;
 };
-
-const CampList = (data: Props) => {
+const CampList = ({ campList }: Props) => {
   return (
     <>
-      {data.data.map((camp) => {
+      {campList?.map((camp) => {
+        const camp_pic = camp.camp_pic as Array<{
+          id: string;
+          photo_url: string;
+        }>;
+        const camp_area_price = camp.camp_area_price!;
+        const hashtag = (camp.hashtag as Array<{ tag: string }>)?.map(
+          (tag) => tag.tag,
+        );
         return (
           <div className={styles.cardWrap} key={camp.id}>
             {/* <figure className={styles.likeWrap}>
@@ -30,16 +42,16 @@ const CampList = (data: Props) => {
             </figure> */}
             <Link href={`/camp/detail/${camp.id}`}>
               <div className={styles.photoAndLike}>
-                <Photo photos={camp.camp_pic} />
+                <Photo photos={camp_pic} />
               </div>
               <Spacer y={30} />
               <div className={styles.cardMiddle}>
                 <div className={styles.campInfoBox1}>
                   <p>{camp.name}</p>
                   <p>
-                    {camp.camp_area[0]?.price === 0
+                    {camp_area_price === 0
                       ? '무료'
-                      : `${camp.camp_area[0]?.price.toLocaleString()}원~`}
+                      : `${camp_area_price?.toLocaleString()}원~`}
                   </p>
                 </div>
               </div>
@@ -52,9 +64,9 @@ const CampList = (data: Props) => {
                 </div>
               </div>
             </Link>
-
+            <DetailLikeBtn campId={camp.id} />
             <ul className={styles.cardTag}>
-              <Hashtag tags={camp.hashtag} />
+              <Hashtag tags={hashtag} />
             </ul>
           </div>
         );

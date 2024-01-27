@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
+import Image from 'next/image';
 
 type Props = {
   campLayout: string;
@@ -15,6 +16,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
   ) {
     if (e.target.files) {
       const file = e.target.files[0];
+      console.log(file);
       setCampLayout(URL.createObjectURL(file));
     }
   }
@@ -32,15 +34,18 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
         ref={imgRef}
         required
       />
-      {campLayout ? (
+      {campLayout && (
         <div>
-          <img src={campLayout} className={styles.layoutImg} />
+          <Image
+            alt='캠핑장 배치 이미지'
+            src={campLayout}
+            width={200}
+            height={200}
+          />
           <button type='button' onClick={() => handleDeleteCampLayoutImg()}>
             이미지 삭제
           </button>
         </div>
-      ) : (
-        ''
       )}
     </div>
   );
