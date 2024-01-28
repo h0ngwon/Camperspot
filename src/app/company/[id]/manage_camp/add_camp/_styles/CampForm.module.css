@@ -1,26 +1,209 @@
+.h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
 .formLayout {
-  display: grid;
-  width: 80%;
-  margin: 0 auto;
-  row-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin: 46px 0;
 }
-.gridItem {
-  height: 30px;
+
+/* 캠핑장 명 */
+.campNameWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.gridItemTextArea {
-  height: 60px;
+.campNameWrap > h3 {
+  font-size: 20px;
 }
-.address {
-  border: 1px solid #333;
-  height: 20px;
+.campNameInput {
+  margin-left: 42px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  height: 40px;
+  width: 300px;
+  padding: 10px;
+}
+
+/* 주소 */
+.campAddressWrap {
+  display: flex;
+  flex-direction: row;
+}
+.campAddressWrap > h3 {
+  font-size: 20px;
+}
+.addressSearchWrap {
+  margin-left: 80px;
+}
+.addressSearchBtn {
+  border-radius: 8px;
+  background: #e6e6e9;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.addressSearchInput {
+  width: 522px;
+  height: 39px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  margin-top: 8px;
+  padding: 10px;
+}
+
+/* 캠핑장 소개 */
+.campContentWrap > h3 {
+  font-size: 20px;
+}
+.campContentWrap > textarea {
+  width: 764px;
+  height: 183px;
+  padding: 10px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  margin-top: 12px;
+}
+
+/* 시설 등록 */
+.h3 {
+  font-size: 20px;
 }
 .facilityWrap {
+  margin-top: 26px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
 .facility {
   height: 30px;
 }
+.facilityLabel {
+  font-size: 16px;
+  margin-left: 4px;
+}
+
+/* 체크인 체크아웃 */
+.checkInOutFlexWrap {
+  display: flex;
+  gap: 72px;
+}
+.checkInOutFlex {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+.checkInOutFlex > h3 {
+  font-size: 20px;
+}
+.checkOption {
+  font-size: 16px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* 문의전화 */
+.requestCallWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.requestCallWrap > h3 {
+  font-size: 20px;
+}
+.requestCallInput {
+  margin-left: 42px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  height: 40px;
+  width: 300px;
+  padding: 10px;
+}
+
+/* 캠핑장 배치도 등록 */
+.uploadLayoutImgWrap {
+  margin-top: 19px;
+}
+.uploadLayoutImgBtn {
+  display: none;
+}
+.positionRel {
+  position: relative;
+  width: 206px;
+  height: 184px;
+  margin-top: 19px;
+}
+.positionAbsol {
+  background-color: rgba(255, 255, 255, 0.5);
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
+
+/* 캠핑장 사진 등록 */
+.uploadCampImgWrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 19px;
+}
+.displayFlex {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 15px;
+}
+.uploadCampImgPositionRel {
+  position: relative;
+  width: 206px;
+  height: 184px;
+}
+
+/* 해시태그 추가 */
+.hashtagsDisplayFlex {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-top: 19px;
+  flex-wrap: wrap;
+}
+.hashtag {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid #8ad878;
+  border-radius: 14px;
+  padding: 10px;
+}
+.hashTagInput {
+  margin-top: 19px;
+  width: 300px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  height: 40px;
+  padding: 10px;
+}
+
+/* 등록하기 버튼 */
+.btns {
+  text-align: center;
+}
+.addCampBtn {
+  font-size: 20px;
+  border: 1px solid #8ad878;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+}
+.addCampBtn:hover {
+  color: #fff;
+  background: #8ad878;
+}
+
 .modalUP {
   width: 100%;
   height: 100%;
