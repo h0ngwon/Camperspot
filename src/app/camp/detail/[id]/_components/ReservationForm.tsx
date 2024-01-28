@@ -4,14 +4,14 @@ import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
 import { useEffect, useState } from 'react';
-import ConfirmModal from '@/app/_components/ConfirmModal';
+import ConfirmModal from './ConfirmModal';
 import { ReservationInfo } from '@/types/reservation';
 import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import KakaoPaySvg from '../_svg/KakaoPaySvg';
-import CompleteModal from '@/app/_components/CompleteModal';
+import CompleteModal from './CompleteModal';
 
 type UserInfo = {
   people: number;
@@ -253,7 +253,6 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
           </button>
         </div>
       </form>
-
       <ConfirmModal
         title='예약을 하시겠습니까?'
         open={isOpenConfirm}

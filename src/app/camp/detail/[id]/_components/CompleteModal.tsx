@@ -1,6 +1,5 @@
-// 'use client';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
-import styles from '../_styles/AlertModal.module.css';
+import styles from '../_styles/CompleteModal.module.css';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import CampingImg from '@/asset/camping_illust.jpg';
@@ -11,18 +10,17 @@ type Props = {
   onClose: () => void;
 };
 
-const AlertModal = ({ title, onClose }: Props) => {
+const CompleteModal = ({ title, onClose }: Props) => {
   const { data: session } = useSession();
-  console.log('sesssion', session);
 
   return (
     <div className={styles.div}>
-      {/* 나중에 이미지로 변경될 예정 */}
-
       <h3 className={styles.h3}>예약 및 결제</h3>
-      <div className={styles.close} onClick={onClose}>
-        <ModalCloseSvg />
-      </div>
+      <Link href={`/profile/${session?.user.id}/reservation`}>
+        <div className={styles.close} onClick={onClose}>
+          <ModalCloseSvg />
+        </div>
+      </Link>
 
       <Image
         className={styles.img}
@@ -43,4 +41,4 @@ const AlertModal = ({ title, onClose }: Props) => {
   );
 };
 
-export default AlertModal;
+export default CompleteModal;
