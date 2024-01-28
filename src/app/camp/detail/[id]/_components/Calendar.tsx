@@ -77,8 +77,12 @@ export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
               icon={svg}
             />
             {/* 유효하지 않을 때(이미 예약된 날짜와 겹치는 경우) 안내 문구 */}
-            {!isValidDate(value) && <p>이미 예약된 날짜입니다.</p>}
-            {(!value[0] || !value[1]) && <p>날짜를 선택해주세요.</p>}
+            {value[0] && value[1] && !isValidDate(value) && (
+              <p style={{ color: 'red' }}>이미 예약된 날짜입니다.</p>
+            )}
+            {(!value[0] || !value[1]) && (
+              <p style={{ color: 'red' }}>날짜를 선택해주세요.</p>
+            )}
           </>
         )}
       />

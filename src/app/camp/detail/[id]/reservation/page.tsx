@@ -12,7 +12,7 @@ const ReservationPage = () => {
       <DetailPage />
       {show && (
         <ModalPortal>
-          <Modal customWidth={860} customHeight={460}>
+          <Modal customWidth={860} customHeight={490}>
             <ReservationModal />
           </Modal>
         </ModalPortal>
