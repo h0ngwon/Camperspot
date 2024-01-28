@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import styles from '../_styles/ReviewModal.module.css';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 import { useQuery } from '@tanstack/react-query';
@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { ReviewInfo } from '@/types/reservation';
 import Image from 'next/image';
 import Rating from './Rating';
+import useInput from '@/hooks/useInput';
 
 type Props = {
   reservationInfo: ReviewInfo;
@@ -15,7 +16,7 @@ type Props = {
 const ReviewModal = ({ reservationInfo, onClose }: Props) => {
   const params = useParams();
   const { data: campData } = useQuery({
-    queryKey: ['camp', 'review', reservationInfo.campId as string],
+    queryKey: ['camp', 'review', reservationInfo.campId],
     queryFn: async () => {
       const res = await fetch(`/api/camp/review/${reservationInfo.campId}`, {
         method: 'GET',
@@ -27,6 +28,13 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
     },
   });
   const [ratingIndex, setRatingIndex] = useState(1);
+  const [review, handleReview] = useInput()
+
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+    console.log(ratingIndex);
+    console.log(review);
+  };
 
   console.log(campData);
   return (
@@ -58,8 +66,12 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
         <span className={styles['rating-header']}>별점을 등록해주세요!</span>
         <Rating ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
       </div>
-      <form className={styles['review-container']}>
-        <textarea className={styles['review-area']} placeholder='이용후기를 남겨주세요.'></textarea>
+      <form className={styles['review-container']} onSubmit={submitHandler}>
+        <textarea
+          className={styles['review-area']}
+          placeholder='이용후기를 남겨주세요.'
+          onChange={handleReview}
+        ></textarea>
         <button className={styles['submit-btn']}>확인</button>
       </form>
     </div>

@@ -123,7 +123,7 @@ const ReservationList = ({
                   </div>
                   {show && isOpenReviewModal=== idx ? (
                     <ModalPortal>
-                      <Modal customWidth={619} customHeight={885}>
+                      <Modal>
                         <ReviewModal
                           reservationInfo={reservationInfo}
                           onClose={handleCloseReviewModal}

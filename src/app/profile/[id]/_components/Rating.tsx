@@ -13,17 +13,17 @@ const Rating = ({ ratingIndex, setRatingIndex }: Props) => {
         <fieldset>
           {arrayIndex.map((arrayIndex, idx) => {
             return (
-              <>
+              <div className={styles['stars-wrapper']} key={arrayIndex}>
                 <input type='radio' name='rating' id={`${arrayIndex}`}></input>
                 <label
-                  key={arrayIndex}
+                  key={`rating_${idx}`}
                   htmlFor={`${arrayIndex}`}
                   className={styles['stars']}
                   onClick={() => setRatingIndex(arrayIndex)}
                 >
                   ⭐️
                 </label>
-              </>
+                </div>
             );
           })}
         </fieldset>

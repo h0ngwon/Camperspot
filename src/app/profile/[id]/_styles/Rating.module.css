@@ -10,7 +10,7 @@
   gap:8px;
 }
 
-.stars-container fieldset {
+.stars-container > fieldset {
   display: flex;
   gap: 8px;
   direction: rtl;
@@ -26,15 +26,16 @@
 .stars:hover{
   text-shadow: 0 0 0 #FBB900; /* 마우스 호버 */
 }
+
 .stars:hover ~ label{
   text-shadow: 0 0 0 #FBB900; /* 마우스 호버 뒤에오는 이모지들 */
 }
 
-.stars-container input[type=radio]{
+.stars-wrapper input[type=radio]{
   display: none;
 }
 
-.stars-container input[type=radio]:checked ~ label{
+.stars-wrapper input[type=radio]:checked ~ label{
   text-shadow: 0 0 0 #FBB900;
 }
 
@@ -42,4 +43,3 @@
   font-size: 24px;
   font-weight: 600;
 }
-
