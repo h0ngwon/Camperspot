@@ -23,7 +23,7 @@ type Props = {
 };
 
 export default function CommuUser({ user, postId, data }: Props) {
-  const [isMorBtn, setIsMoreBtn] = useState<boolean>(false);
+  const [isMoreBtn, setIsMoreBtn] = useState<boolean>(false);
   const [isCommuEditModal, setIsCommuEditModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
@@ -48,7 +48,7 @@ export default function CommuUser({ user, postId, data }: Props) {
 
   const handleOnClick = () => {
     if (user?.id === userId) {
-      setIsMoreBtn(!isMorBtn);
+      setIsMoreBtn(!isMoreBtn);
     }
   };
 
@@ -64,20 +64,27 @@ export default function CommuUser({ user, postId, data }: Props) {
     }
   };
 
+  const handleCancelBtn = () => {
+    setIsMoreBtn(false);
+  };
+
   return (
     <div className={styles.userWrap}>
       <div className={styles.user}>
-        <Image src={user!.profile_url!} alt='' width={32} height={32} />
+        <Image src={user?.profile_url!} alt='' width={32} height={32} />
         <p>{user?.nickname}</p>
       </div>
-      <div>
+      <div className={styles.more}>
         <button onClick={handleOnClick}>
           <MoreSvg />
         </button>
-        {isMorBtn ? (
-          <div>
-            <button onClick={handleDeletedBtn}>삭제</button>
-            <button onClick={() => setIsCommuEditModal(true)}>수정</button>
+        {isMoreBtn ? (
+          <div className={styles.btnsWrap}>
+            <div className={styles.btns}>
+              <button onClick={() => setIsCommuEditModal(true)}>수정</button>
+              <button onClick={handleDeletedBtn}>삭제</button>
+              <button onClick={handleCancelBtn}>취소</button>
+            </div>
           </div>
         ) : (
           ''
@@ -86,6 +93,7 @@ export default function CommuUser({ user, postId, data }: Props) {
       {isCommuEditModal && (
         <CommuEditModal
           onClose={() => setIsCommuEditModal(false)}
+          allClose={handleCancelBtn}
           postId={postId}
           data={data}
         />
