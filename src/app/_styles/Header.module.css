@@ -16,26 +16,25 @@
     flex-shrink: 0;
 }
 
-.linkBox {
+.navBox {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: baseline;
     gap: 16px;
 }
 
-.community {
+.navBox>a {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     color: #000;
-
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
 }
+
 
 .companyActive {
     background: var(--primary-600, #4DB635);
