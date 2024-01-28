@@ -4,17 +4,20 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import styles from '../_components/CommunityCarousel.module.css';
-import { regions } from '../_lib/regions';
 import Image from 'next/image';
-const a = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-];
-export default class CommunityCarousel extends Component {
+
+type Props = {
+  pics: { camp_id: string; id: string; photo_url: string }[];
+  rtl: boolean;
+};
+export default class CommunityCarousel extends Component<Props> {
   state = {
     display: true,
     width: 20,
   };
   render() {
+    const { pics, rtl } = this.props;
+
     var settings = {
       infinite: true,
       slidesToShow: 8.5,
@@ -23,16 +26,17 @@ export default class CommunityCarousel extends Component {
       speed: 3000,
       autoplaySpeed: 0,
       arrows: false,
+      rtl: rtl,
     };
     return (
       <div className={styles.box}>
         <Slider {...settings}>
-          {regions.map((region) => {
+          {pics.map((pic) => {
             return (
-              <div key={region.name} className={styles.card}>
+              <div key={pic.id} className={styles.card}>
                 <figure className={styles.photoWrap}>
                   <Image
-                    src={region.pic}
+                    src={pic.photo_url}
                     width={133}
                     height={133}
                     alt=''
