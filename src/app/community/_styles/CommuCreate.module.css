@@ -8,9 +8,9 @@
   justify-content: space-between;
 }
 
-/* .upload {
+.upload {
   display: none;
-} */
+}
 
 .textCon {
   width: 400px;
@@ -55,19 +55,28 @@
 }
 
 .tagsCon {
-  display: flex;
-
-  grid-gap: 8px;
-  font-size: 14px;
-  color: #fff;
-  margin-top: 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 1px;
+  box-sizing: border-box;
+  font-size: 13px;
+  height: 72px;
+  line-height: 22px;
+  overflow-y: auto;
+  padding: 8px;
+  width: 366px;
 }
 
-.tagsCon li {
-  display: flex;
-  background: #4db635;
-  padding: 2px 8px;
-  border-radius: 14px;
+.tagsCon span {
+  color: #fff;
+  word-wrap: break-word;
+  background-color: #4db635;
+  border-radius: 2px;
+  display: inline-block;
+  margin: 0 5px 6px 0;
+  padding: 0 3px;
+  position: relative;
+  vertical-align: top;
+  word-break: break-all;
 }
 
 .tagsCon p {
