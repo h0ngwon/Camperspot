@@ -51,7 +51,7 @@ export default function CommuEditModal({
 
   const updateMutation = useMutation({
     mutationFn: async () => {
-      // 게시글 내용 업데이트
+      // 데이터베이스의 게시글을 업데이트합니다.
       await supabase
         .from('post')
         .update({
@@ -59,46 +59,43 @@ export default function CommuEditModal({
         })
         .eq('id', postId);
 
-      // 기존 post_pic 레코드 삭제
-      await supabase.from('post_pic').delete().eq('post_id', postId);
-
-      // 새로운 post_pic 레코드 upsert
-      await supabase.from('post_pic').upsert(
-        postPicEdit.map((pic) => ({
-          id: pic.id,
-          post_id: postId,
-          photo_url: pic.photo_url,
-        })),
-      );
-
-      // 기존 post_hashtag 레코드 삭제
-      await supabase.from('post_hashtag').delete().eq('post_id', postId);
-
-      // 새로운 post_hashtag 레코드 upsert
-      await supabase.from('post_hashtag').upsert(
-        hashTagsEdit.map((tag) => ({
-          id: tag.id,
-          post_id: postId,
-          tag: tag.tag,
-        })),
-      );
-    },
-    onSuccess: async () => {
-      // 'post' 쿼리 전체를 무효화시키는 대신, 업데이트된 데이터를 가져오기 위해 데이터를 다시 가져옵니다.
-      const { data, error } = await supabase
-        .from('post')
-        .select()
-        .order('created_at', { ascending: true });
-      if (error) {
-        console.error('업데이트된 데이터 가져오기 에러:', error);
-        return;
+      for (const pic of postPicEdit) {
+        await supabase.from('post_pic').delete().eq('id', pic.id);
       }
 
-      queryClient.setQueryData(['post'], data);
+      // PostPic 데이터 업데이트
+      for (const pic of postPicEdit) {
+        await supabase
+          .from('post_pic')
+          .upsert([
+            {
+              post_id: postId,
+              photo_url: pic.photo_url,
+            },
+          ])
+          .eq('id', pic.id);
+      }
 
-      // 선택적으로 필요한 경우 특정 게시물 데이터를 다시 가져올 수 있습니다.
+      for (const tag of hashTagsEdit) {
+        await supabase.from('post_hashtag').delete().eq('id', tag.id);
+      }
+
+      // PostHashTag 데이터 업데이트
+      for (const tag of hashTagsEdit) {
+        await supabase
+          .from('post_hashtag')
+          .upsert([
+            {
+              post_id: postId,
+              tag: tag.tag,
+            },
+          ])
+          .eq('id', tag.id);
+      }
+    },
+    onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: ['post', postId],
+        queryKey: ['post'],
       });
     },
     onError: (error) => {
@@ -152,9 +149,7 @@ export default function CommuEditModal({
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (isEmptyValue(newHashTag) || hashTagsEdit.length >= 10) {
-      return setInputHashTagEdit('');
-    }
+    if (isEmptyValue(newHashTag)) return;
 
     // 중복 체크
     if (hashTagsEdit.some((tag) => tag.tag === newHashTag)) {
@@ -215,7 +210,7 @@ export default function CommuEditModal({
   };
 
   return (
-    <div className={styles.modalWrap}>
+    <div onClick={onClose} className={styles.modalWrap}>
       <div className={styles.modal}>
         <form onSubmit={handleSubmit}>
           <div className={styles.btn}>
