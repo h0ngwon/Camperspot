@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
-import { getToken } from 'next-auth/jwt';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
@@ -26,40 +25,51 @@ const Header = () => {
               </figure>
             </Link>
             <SearchBar />
-            <div className={styles.linkBox}>
-              <Link href={'/community'} className={styles.community}>
+            <div className={styles.navBox}>
+              <Link
+                href={'/community'}
+                // className={styles.community}
+              >
                 <CommunitySvg />
+                <p>커뮤니티</p>
               </Link>
               {session ? (
                 <>
                   {session.user.role === 'company' ? (
                     <Link
                       href={`/company/${session.user.id}/manage_reservation`}
+                      // className={styles.community}
                     >
                       <MyProfileSvg />
+                      <p>company</p>
                     </Link>
                   ) : (
-                    <Link href={`/profile/${session.user.id}`}>
+                    <Link
+                      href={`/profile/${session.user.id}`}
+                      // className={styles.community}
+                    >
                       <Image
                         src={session.user.image!}
                         alt=''
-                        width={50}
-                        height={50}
+                        width={36}
+                        height={36}
                         className={styles.profileImg}
                       />
+                      <p>마이</p>
                     </Link>
                   )}
                   <button
                     onClick={() => signOut()}
                     className={styles.logOutBtn}
                   >
-                    <Image src={logOut} alt='' width={50} height={50} />
+                    <Image src={logOut} alt='' width={30} height={30} />
                   </button>
                 </>
               ) : (
                 <>
                   <Link href={'/auth/signin'} className={styles.my}>
                     <MyProfileSvg />
+                    <p>로그인</p>
                   </Link>
                 </>
               )}

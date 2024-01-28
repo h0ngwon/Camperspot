@@ -20,16 +20,6 @@ const SearchPage = async ({ searchParams }: Props) => {
   if (error) console.error(error);
   else console.log(data);
 
-  // const sort = searchParams.sort?.toString();
-  // if (sort === '과거순') {
-  //   data?.sort((a, b) => Number(a.created_at) - Number(b.created_at));
-  // } else if (sort === '최신순') {
-  //   data?.sort((a, b) => Number(b.created_at) - Number(a.created_at));
-  // } else if (sort === '낮은가격순') {
-  // } else if (sort === '높은가격순') {
-  // } else {
-  // }
-
   return (
     <>
       <SearchView camp={data!} error={error} />

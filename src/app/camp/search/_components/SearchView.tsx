@@ -2,11 +2,9 @@
 import Spacer from '@/components/Spacer';
 import styles from '../../_styles/Camp.module.css';
 import { useEffect, useState } from 'react';
-import { ParamsCamp, SearchCamp, TCamp } from '@/types/campList';
-import CampFilter from '../../_components/CampFilter';
 import FacilityFilter from '../../_components/FacilityFilter';
 import CampList from '../../_components/CampList';
-import { useSearchParams } from 'next/navigation';
+import type { SearchCamp } from '@/types/campList';
 
 type Props = {
   camp: SearchCamp;
@@ -45,15 +43,12 @@ const SearchView = ({ camp, error }: Props) => {
         <div className={styles.mainWrapper}>
           <div className={styles.mainHeader}>
             <h1 className={styles.title}>{pageTitle}</h1>
-            {/* <CampFilter /> */}
-          </div>
-          <div>
             <FacilityFilter
               campData={campData}
               setFilteredCampData={setFilteredCampData}
             />
           </div>
-
+          <Spacer y={30} />
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
               <CampList campList={filteredCampData!} />

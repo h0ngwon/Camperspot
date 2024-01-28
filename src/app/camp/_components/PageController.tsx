@@ -14,8 +14,6 @@ function PageController({ hasNextPage, hasPrevPage }: Props) {
   const params = new URLSearchParams(searchParams);
 
   const pathname = usePathname();
-  // console.log(pathname);
-  // console.log(params.toString());
 
   const page = Number(searchParams.get('page')) ?? '1';
 
