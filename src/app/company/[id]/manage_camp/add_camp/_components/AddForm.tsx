@@ -251,9 +251,11 @@ const AddForm = () => {
           setInputHashTag={setInputHashTag}
         />
 
-        <div>
-          <button type='button'>임시저장</button>
-          <button type='submit'>등록하기</button>
+        <div className={styles.btns}>
+          {/* <button type='button'>임시저장</button> */}
+          <button type='submit' className={styles.addCampBtn}>
+            등록하기
+          </button>
         </div>
       </form>
       <SearchAddress

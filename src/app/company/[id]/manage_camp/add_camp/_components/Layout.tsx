@@ -2,6 +2,7 @@ import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
 import addImgBtn from '@/asset/addImgBtn.png';
+import removePicBtn from '@/asset/ico_removePicBtn.png';
 
 type Props = {
   campLayout: string;
@@ -31,7 +32,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
       <h3 className={styles.h3}>캠핑장 배치도 등록</h3>
       <p>캠핑존 구조를 확인할 수 있는 대표 사진 1장을 등록해주세요.</p>
       {!campLayout && (
-        <div>
+        <div className={styles.uploadLayoutImgWrap}>
           <input
             type='file'
             onChange={handleChangeInputLayoutImageFile}
@@ -51,20 +52,24 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
         </div>
       )}
       {campLayout && (
-        <div>
+        <div className={styles.positionRel}>
           <Image
             alt='캠핑장 배치 이미지'
             src={campLayout}
             width={206}
             height={184}
-            className={styles.positionRel}
           />
           <button
             type='button'
             onClick={() => handleDeleteCampLayoutImg()}
             className={styles.positionAbsol}
           >
-            이미지 삭제
+            <Image
+              src={removePicBtn}
+              alt='이미지 삭제 버튼'
+              width={20}
+              height={20}
+            />
           </button>
         </div>
       )}

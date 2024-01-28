@@ -1,7 +1,7 @@
 .h1 {
   font-size: 24px;
   color: #000;
-  font-weight: 500;
+  font-weight: 600;
 }
 /* 등록된 캠핑장 없을 때 */
 .emptyCampContainer {
@@ -14,7 +14,7 @@
 .p {
   color: #000;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 20px;
 }
 .button {
@@ -70,14 +70,14 @@
 }
 .campName {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .preview {
   display: flex;
   align-items: center;
   padding: 0;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   color: #5685ff;
 }
 .editWrap {
