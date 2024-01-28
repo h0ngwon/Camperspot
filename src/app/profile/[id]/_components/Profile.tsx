@@ -46,7 +46,7 @@ const Profile = () => {
               </button>
               {show && (
                 <ModalPortal>
-                  <Modal>
+                  <Modal customWidth={458} customHeight={452}>
                     <ProfileModifyForm />
                   </Modal>
                 </ModalPortal>

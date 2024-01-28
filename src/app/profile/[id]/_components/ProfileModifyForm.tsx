@@ -1,15 +1,15 @@
 'use client';
+import ModalCloseSvg from '@/components/ModalCloseSvg';
 import useInput from '@/hooks/useInput';
+import useModalStore from '@/store/modal';
 import { UserType } from '@/types/auth';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { modifyUserData } from '../_lib/modifyUserData';
 import styles from '../_styles/ProfileModifyForm.module.css';
-import { toast } from 'react-toastify';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
-import useModalStore from '@/store/modal';
 
 const ProfileModifyForm = () => {
   const queryClient = useQueryClient();
