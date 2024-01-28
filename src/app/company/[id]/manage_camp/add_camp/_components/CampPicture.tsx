@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
+import addImgBtn from '@/asset/addImgBtn.png';
 
 type Props = {
   campPicture: string[];
@@ -28,13 +29,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
   };
   return (
     <div>
-      <h3>캠핑장 사진 등록</h3>
-      <input
-        type='file'
-        onChange={handleChangeInputImageFile}
-        ref={imgRef}
-        required
-      />
+      <h3 className={styles.h3}>캠핑장 사진 등록</h3>
       {campPicture?.map((item, index) => {
         return (
           <div key={item + index}>
@@ -45,6 +40,22 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
           </div>
         );
       })}
+      <input
+        type='file'
+        onChange={handleChangeInputImageFile}
+        ref={imgRef}
+        required
+        id='campImg'
+        className={styles.uploadLayoutImgBtn}
+      />
+      <label htmlFor='campImg'>
+        <Image
+          src={addImgBtn}
+          alt='캠핑장 이미지 등록 버튼'
+          width={206}
+          height={184}
+        />
+      </label>
     </div>
   );
 };
