@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
@@ -10,14 +9,12 @@ import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
 
 type Props = {
   postId: string;
+  userId: string;
 };
 
-export default function CommuLikeBtn({ postId }: Props) {
+export default function CommuLikeBtn({ postId, userId }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
-
-  const { data: session } = useSession();
-  const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['like'],
@@ -102,7 +99,7 @@ export default function CommuLikeBtn({ postId }: Props) {
 
   return (
     <div className={styles.commuWrap}>
-      <button className={styles.btn} onClick={handleLikeBtn}>
+      <button className={styles.btn} onClick={handleLikeBtn} disabled={!userId}>
         <HeartSvg isLiked={liked} />
       </button>
       <p key={data?.id}>좋아요 {likeCount}개</p>

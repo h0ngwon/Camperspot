@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styles from '../_components/CommunityCarousel.module.css';
+import styles from '../_styles/CommunityCarousel.module.css';
 import Image from 'next/image';
 
 type Props = {

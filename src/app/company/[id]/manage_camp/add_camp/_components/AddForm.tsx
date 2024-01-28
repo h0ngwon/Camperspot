@@ -165,25 +165,27 @@ const AddForm = () => {
   return (
     <>
       <form onSubmit={handleForm} className={styles.formLayout}>
-        <div>
+        <div className={styles.campNameWrap}>
           <h3>캠핑장 명</h3>
           <input
             value={name}
             onChange={handleName}
-            placeholder='이름을 입력해주세요'
+            placeholder='캠핑장 이름을 입력해주세요'
             required
+            className={styles.campNameInput}
           />
         </div>
 
-        <div>
-          <h3>캠핑장 주소</h3>
-          <div>
+        <div className={styles.campAddressWrap}>
+          <h3>주소</h3>
+          <div className={styles.addressSearchWrap}>
             <div>
               <button
                 onClick={() => {
                   setAddressModal(true);
                 }}
                 type='button'
+                className={styles.addressSearchBtn}
               >
                 주소 검색하기
               </button>
@@ -191,12 +193,12 @@ const AddForm = () => {
             <input
               defaultValue={address}
               placeholder='주소검색하기를 클릭해주세요'
-              required
+              className={styles.addressSearchInput}
             />
           </div>
         </div>
 
-        <div>
+        <div className={styles.campContentWrap}>
           <h3>캠핑장 소개</h3>
           <textarea
             value={content}
@@ -221,7 +223,7 @@ const AddForm = () => {
           handleCheck_out={handleCheck_out}
         />
 
-        <div>
+        <div className={styles.requestCallWrap}>
           <h3>문의전화</h3>
           <input
             value={phone}
@@ -231,6 +233,7 @@ const AddForm = () => {
             pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
             maxLength={13}
             required
+            className={styles.requestCallInput}
           />
         </div>
 
@@ -248,9 +251,11 @@ const AddForm = () => {
           setInputHashTag={setInputHashTag}
         />
 
-        <div>
-          <button type='button'>임시저장</button>
-          <button type='submit'>등록하기</button>
+        <div className={styles.btns}>
+          {/* <button type='button'>임시저장</button> */}
+          <button type='submit' className={styles.addCampBtn}>
+            등록하기
+          </button>
         </div>
       </form>
       <SearchAddress
