@@ -1,7 +1,8 @@
 'use client';
 
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { formattedDate } from '../_lib/formattedDate';
+import styles from '../_styles/CampList.module.css';
 
 type Props = {
   tags: string[];
@@ -35,7 +36,7 @@ const Hashtag = ({ tags }: Props) => {
     <>
       {tags?.map((tag, i) => {
         return (
-          <li key={i} onClick={onHandleHashTagClick}>
+          <li key={i} onClick={onHandleHashTagClick} className={styles.tag}>
             #{tag}
           </li>
         );
