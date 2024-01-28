@@ -13,8 +13,6 @@ const Camp = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@', searchParams);
-
   const currentPage = Number(searchParams.page) || 1;
   const perPage = 9;
   const startRange = (currentPage - 1) * perPage;
@@ -30,20 +28,6 @@ const Camp = async ({
   if (error) console.error(error);
   else console.log(data);
 
-  console.log(data![0].reservation_count);
-  // console.log(data![0].hashtag);
-  // console.log(data![0].camp_pic);
-
-  // let pic = (data![0].camp_pic as Array<{ photo_url: string }>).map(
-  //   (pic) => pic.photo_url,
-  // );
-  // console.log(pic);
-  // let area = (data![0].camp_area as Array<{ price: string }>).map(
-  //   (area) => area.price,
-  // );
-  // console.log('@@@@@@@@@@@@@', area);
-  // let tag = (data![0].hashtag as Array<{ tag: string }>).map((a) => a.tag);
-
   console.log(error);
   const per_page = searchParams['per_page'] ?? '9';
 
@@ -58,8 +42,11 @@ const Camp = async ({
         <div className={styles.mainWrapper}>
           <div className={styles.mainHeader}>
             <h1 className={styles.title}>{pageTitle}</h1>
-            <CampFilter />
+            <div className={styles.campFilter}>
+              <CampFilter />
+            </div>
           </div>
+          <Spacer y={20} />
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
               <CampList campList={data!} />

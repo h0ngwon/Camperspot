@@ -19,7 +19,15 @@
 .mainHeader {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     width: 1400px;
+    position: relative;
+}
+
+.campFilter {
+    position: absolute;
+    right: 0;
+    z-index: 1;
 }
 
 .listWrapper {
