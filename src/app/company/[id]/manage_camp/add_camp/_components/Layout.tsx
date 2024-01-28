@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
+import addImgBtn from '@/asset/addImgBtn.png';
+import removePicBtn from '@/asset/ico_removePicBtn.png';
 
 type Props = {
   campLayout: string;
@@ -27,23 +29,47 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
 
   return (
     <div>
-      <h3>캠핑장 배치사진 등록</h3>
-      <input
-        type='file'
-        onChange={handleChangeInputLayoutImageFile}
-        ref={imgRef}
-        required
-      />
+      <h3 className={styles.h3}>캠핑장 배치도 등록</h3>
+      <p>캠핑존 구조를 확인할 수 있는 대표 사진 1장을 등록해주세요.</p>
+      {!campLayout && (
+        <div className={styles.uploadLayoutImgWrap}>
+          <input
+            type='file'
+            onChange={handleChangeInputLayoutImageFile}
+            ref={imgRef}
+            required
+            id='layoutImg'
+            className={styles.uploadLayoutImgBtn}
+          />
+          <label htmlFor='layoutImg'>
+            <Image
+              src={addImgBtn}
+              alt='배치 이미지 등록 버튼'
+              width={206}
+              height={184}
+            />
+          </label>
+        </div>
+      )}
       {campLayout && (
-        <div>
+        <div className={styles.positionRel}>
           <Image
             alt='캠핑장 배치 이미지'
             src={campLayout}
-            width={200}
-            height={200}
+            width={206}
+            height={184}
           />
-          <button type='button' onClick={() => handleDeleteCampLayoutImg()}>
-            이미지 삭제
+          <button
+            type='button'
+            onClick={() => handleDeleteCampLayoutImg()}
+            className={styles.positionAbsol}
+          >
+            <Image
+              src={removePicBtn}
+              alt='이미지 삭제 버튼'
+              width={20}
+              height={20}
+            />
           </button>
         </div>
       )}

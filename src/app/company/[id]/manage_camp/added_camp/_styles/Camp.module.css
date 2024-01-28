@@ -1,8 +1,9 @@
 .h1 {
   font-size: 24px;
   color: #000;
-  font-weight: 500;
+  font-weight: 600;
 }
+/* 등록된 캠핑장 없을 때 */
 .emptyCampContainer {
   width: 357px;
   margin: 185px auto;
@@ -13,7 +14,7 @@
 .p {
   color: #000;
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 20px;
 }
 .button {
@@ -29,16 +30,73 @@
   align-items: center;
   margin: 35px 0;
 }
+
+/* 등록된 캠핑장 있을 때 */
 .campWrap {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 90%;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto;
 }
+.campHeader {
+  display: flex;
+  flex-direction: row;
+  margin-top: 60px;
+}
+.campHeaderLeft {
+  font-size: 18px;
+  display: block;
+  width: 690px;
+  text-align: center;
+}
+.campHeaderRight {
+  font-size: 18px;
+  display: block;
+  width: 185px;
+  text-align: center;
+}
+.separateLine {
+  border-top: 1px solid #404557;
+  margin-top: 20px;
+  margin-bottom: 25px;
+}
 .campBox {
-  width: 300px;
-  height: 500px;
-  margin: 10px auto;
-  border: 1px solid #333;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.campNameWrap {
+  margin-left: 36px;
+  width: 596px;
+}
+.campName {
+  font-size: 20px;
+  font-weight: 600;
+}
+.preview {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #5685ff;
+}
+.editWrap {
+  width: 185px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+.editWrap > button {
   padding: 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  font-size: 18px;
+  background: none;
+  cursor: pointer;
+}
+.separateLineTwo {
+  border-top: 1px solid #d4d5d9;
+  margin-top: 20px;
+  margin-bottom: 25px;
 }
