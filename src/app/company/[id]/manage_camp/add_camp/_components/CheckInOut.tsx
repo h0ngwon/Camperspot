@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../_styles/CampForm.module.css';
 
 type Props = {
   check_in: string;
@@ -32,37 +33,43 @@ const CheckInOut = ({
   };
 
   return (
-    <div>
-      <h3>체크인 시간</h3>
-      <select
-        value={check_in}
-        onChange={(e) => {
-          handleCheck_in(e.target.value);
-        }}
-        required
-      >
-        <option value=''>시간 선택</option>
-        {generateTimeOptions().map((time) => (
-          <option key={time} value={time}>
-            {time}
-          </option>
-        ))}
-      </select>
-      <h3>체크아웃 시간</h3>
-      <select
-        value={check_out}
-        onChange={(e) => {
-          handleCheck_out(e.target.value);
-        }}
-        required
-      >
-        <option value=''>시간 선택</option>
-        {generateTimeOptions().map((time) => (
-          <option key={time} value={time}>
-            {time}
-          </option>
-        ))}
-      </select>
+    <div className={styles.checkInOutFlexWrap}>
+      <div className={styles.checkInOutFlex}>
+        <h3>체크인 시간</h3>
+        <select
+          value={check_in}
+          onChange={(e) => {
+            handleCheck_in(e.target.value);
+          }}
+          required
+          className={styles.checkOption}
+        >
+          <option value=''>시간 선택</option>
+          {generateTimeOptions().map((time) => (
+            <option key={time} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className={styles.checkInOutFlex}>
+        <h3>체크아웃 시간</h3>
+        <select
+          value={check_out}
+          onChange={(e) => {
+            handleCheck_out(e.target.value);
+          }}
+          required
+          className={styles.checkOption}
+        >
+          <option value=''>시간 선택</option>
+          {generateTimeOptions().map((time) => (
+            <option key={time} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 };

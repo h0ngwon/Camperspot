@@ -42,7 +42,7 @@ const Facility = ({
 
   return (
     <div>
-      <h3>시설 등록</h3>
+      <h3 className={styles.h3}>시설 등록</h3>
       <div className={styles.facilityWrap}>
         {facility?.map((item, index) => {
           return (
@@ -54,7 +54,12 @@ const Facility = ({
                   onHandleCheckFacility(item.id);
                 }}
               />
-              <label htmlFor={item.id.toString()}>{item.option}</label>
+              <label
+                htmlFor={item.id.toString()}
+                className={styles.facilityLabel}
+              >
+                {item.option}
+              </label>
             </div>
           );
         })}

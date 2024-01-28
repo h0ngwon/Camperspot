@@ -1,0 +1,44 @@
+.dropDownBtnBox .filterList .filterItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropDownBtn {
+    display: flex;
+    width: 128px;
+    padding: 8px 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    border-radius: 4px;
+    border: 1px solid var(--neutral-100, #E6E6E9);
+    background: var(--neutral-100, #E6E6E9);
+    cursor: pointer;
+    user-select: none;
+}
+
+.filterText {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.filterItem {
+    background-color: var(--neutral-100, #E6E6E9);
+}
+
+.filterItem:hover {
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+
+}
+
+.filterItem>p {
+    user-select: none;
+
+}

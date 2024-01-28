@@ -3,5 +3,10 @@
   margin: 0 0.5rem;
   padding: 0.5rem 0.8rem;
   cursor: pointer;
-  background-color: #8d99ae;
+  border-radius: 0.5rem;
+  border: 1px solid #6fcf59;
+}
+
+.button:hover {
+  background-color: #6fcf59;
 }

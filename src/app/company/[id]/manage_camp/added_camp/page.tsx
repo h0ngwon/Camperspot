@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import emptycampImg from '@/asset/ico_empty_camp.png';
 import arrow from '@/asset/ico_right_arrow.png';
+import preview from '@/asset/icon-preview.png';
 
 type Props = {};
 
@@ -54,6 +55,11 @@ const ManageAddedCamp = (props: Props) => {
   const goToUpdateCampPage = (campId: string) => {
     router.push(`/company/${companyUserId}/manage_camp/${campId}/update_camp`);
   };
+  const goToUpdateCampAreaPage = (campId: string) => {
+    router.push(
+      `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
+    );
+  };
   return (
     <>
       <h1 className={styles.h1}>캠핑장 운영 및 관리</h1>
@@ -78,52 +84,75 @@ const ManageAddedCamp = (props: Props) => {
         </div>
       ) : (
         <div className={styles.campWrap}>
+          <div className={styles.campHeader}>
+            <div className={styles.campHeaderLeft}>캠핑장</div>
+            <div className={styles.campHeaderRight}>편집 기능</div>
+          </div>
+          <div className={styles.separateLine}></div>
           {data?.map((item) => {
             return (
-              <div className={styles.campBox} key={item.id}>
-                <h1>{item.name}</h1>
-                <p>{item.address}</p>
-                <p>{item.phone}</p>
-                <p>{item.content}</p>
-                {item.camp_facility.map((facility, index) => {
-                  return (
-                    <div key={index}>
-                      <p>{String(facility.facility?.option)}</p>
-                    </div>
-                  );
-                })}
-                <Image
-                  src={item.layout}
-                  alt='배치이미지'
-                  width={100}
-                  height={100}
-                />
-                {item.camp_pic.map((campPic) => {
-                  return (
-                    <div key={campPic.id}>
+              <div key={item.id}>
+                <div className={styles.campBox}>
+                  <Image
+                    src={item.camp_pic[0].photo_url}
+                    alt='캠핑장 이미지'
+                    width={128}
+                    height={128}
+                  />
+                  <div className={styles.campNameWrap}>
+                    <h1 className={styles.campName}>{item.name}</h1>
+                    <button
+                      onClick={() => handleGoToCampDetail(item.id)}
+                      className={styles.preview}
+                    >
+                      <span>미리보기</span>
                       <Image
-                        src={campPic.photo_url}
-                        alt='캠핑장 이미지'
-                        width={100}
-                        height={100}
+                        src={preview}
+                        alt='미리보기'
+                        width={16}
+                        height={16}
                       />
-                    </div>
-                  );
-                })}
-                {item.hashtag.map((tag) => {
-                  return (
-                    <div key={tag.tag}>
-                      <p>#{tag.tag}</p>
-                    </div>
-                  );
-                })}
-                <button onClick={() => handleGoToCampDetail(item.id)}>
-                  캠핑장 상세
-                </button>
-                <button onClick={() => goToUpdateCampPage(item.id)}>
-                  캠핑장수정
-                </button>
-                <button>캠핑장삭제</button>
+                    </button>
+                  </div>
+                  {/* <p>{item.address}</p>
+                  <p>{item.phone}</p>
+                  <p>{item.content}</p>
+                  {item.camp_facility.map((facility, index) => {
+                    return (
+                      <div key={index}>
+                        <p>{String(facility.facility?.option)}</p>
+                      </div>
+                    );
+                  })} */}
+                  {/* {item.camp_pic.map((campPic) => {
+                    return (
+                      <div key={campPic.id}>
+                        <Image
+                          src={campPic.photo_url}
+                          alt='캠핑장 이미지'
+                          width={100}
+                          height={100}
+                        />
+                      </div>
+                    );
+                  })} */}
+                  {/* {item.hashtag.map((tag) => {
+                    return (
+                      <div key={tag.tag}>
+                        <p>#{tag.tag}</p>
+                      </div>
+                    );
+                  })} */}
+                  <div className={styles.editWrap}>
+                    <button onClick={() => goToUpdateCampPage(item.id)}>
+                      캠핑장 정보 수정
+                    </button>
+                    <button onClick={() => goToUpdateCampAreaPage(item.id)}>
+                      캠핑존 정보 수정
+                    </button>
+                  </div>
+                </div>
+                <div className={styles.separateLineTwo}></div>
               </div>
             );
           })}

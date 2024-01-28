@@ -1,4 +1,7 @@
 import React from 'react';
+import styles from '../_styles/CampForm.module.css';
+import removeBtn from '@/asset/ico_small_remove_btn.png';
+import Image from 'next/image';
 
 type Props = {
   hashTags: string[];
@@ -73,25 +76,32 @@ const Hashtag = ({
 
   return (
     <div>
-      <h3>해시태그 추가</h3>
-      {hashTags.length > 0 &&
-        hashTags.map((item) => {
-          return (
-            <div key={item}>
-              <div className='tag'>{'#' + item}</div>
-              <button type='button' onClick={() => handleDeleteHashtag(item)}>
-                x
-              </button>
-            </div>
-          );
-        })}
+      <h3 className={styles.h3}>해시태그 추가</h3>
+      <div className={styles.hashtagsDisplayFlex}>
+        {hashTags.length > 0 &&
+          hashTags.map((item) => {
+            return (
+              <div key={item} className={styles.hashtag}>
+                <div className='tag'>{'#' + item}</div>
+                <button type='button' onClick={() => handleDeleteHashtag(item)}>
+                  <Image
+                    src={removeBtn}
+                    alt='해시태그 삭제 버튼'
+                    width={8}
+                    height={8}
+                  />
+                </button>
+              </div>
+            );
+          })}
+      </div>
       <input
         value={inputHashTag}
         onChange={(e) => changeHashTagInput(e)}
         onKeyUp={(e) => addHashTag(e)}
         onKeyDown={(e) => keyDownHandler(e)}
         placeholder='#해시태그를 등록해보세요. (최대 10개)'
-        className='hashTagInput'
+        className={styles.hashTagInput}
       />
       {/* <input
                 placeholder='해시태그를 추가해주세요'
