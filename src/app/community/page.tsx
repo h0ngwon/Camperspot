@@ -59,7 +59,7 @@ export default function CommunityPage() {
               <li className={styles.card} key={item.id}>
                 <CommuUsers user={item.user} postId={item.id} data={item} />
                 <CommuPhotos photo={item.post_pic} />
-                <CommuLikeBtn postId={item.id} />
+                <CommuLikeBtn userId={userId} postId={item.id} />
                 <p className={styles.content}>{item.content}</p>
                 <CommuHashTags hashTag={item.post_hashtag} />
               </li>
