@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 
 import styles from '../_styles/DetailCampZone.module.css';
 import ClockSvg from '../_svg/ClockSvg';
+import useModalStore from '@/store/modal';
 
 type Props = {
   campArea:
@@ -68,6 +69,7 @@ type Props = {
 export default function DetailCampZone({ campArea }: Props) {
   const params = useParams();
   const { layout } = campArea!;
+  const { toggleModal } = useModalStore();
   const campPrice = (price: number) => {
     return price.toLocaleString();
   };
@@ -96,12 +98,15 @@ export default function DetailCampZone({ campArea }: Props) {
                 <p className={styles.price}>{campPrice(area.price)}원</p>
                 <div className={styles.reservation}>
                   <Link
+                    legacyBehavior
                     href={{
                       pathname: `/camp/detail/${params.id}/reservation`,
                       query: { id: area.id },
                     }}
                   >
-                    예약하기
+                    <a id='link' onClick={toggleModal}>
+                      예약하기
+                    </a>
                   </Link>
                 </div>
               </div>

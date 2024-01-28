@@ -48,12 +48,14 @@ const ReservationDetailModal = ({
               <div className={styles.dates}>
                 <div>
                   <span className={styles.date}>
-                    {new Date(check_in_date).toLocaleString('ko', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                      weekday: 'narrow',
-                    })}
+                    {new Date(check_in_date)
+                      .toLocaleString('ko', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        weekday: 'narrow',
+                      })
+                      .replace(/\.\s*\((.)\)$/, ' ($1)')}
                   </span>
 
                   <p className={styles.hour}>체크인 {check_in} ~</p>
@@ -62,12 +64,14 @@ const ReservationDetailModal = ({
 
                 <div>
                   <p className={styles.date}>
-                    {new Date(check_out_date).toLocaleString('ko', {
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit',
-                      weekday: 'narrow',
-                    })}
+                    {new Date(check_out_date)
+                      .toLocaleString('ko', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        weekday: 'narrow',
+                      })
+                      .replace(/\.\s*\((.)\)$/, ' ($1)')}
                   </p>
                   <p className={styles.hour}>체크아웃 ~ {check_out}</p>
                 </div>
