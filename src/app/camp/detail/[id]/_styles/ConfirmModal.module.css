@@ -1,0 +1,23 @@
+.div {
+  width: 380px;
+  height: 200px;
+  padding: 2rem;
+  position: absolute;
+  top: 40%;
+  left: 30%;
+  border: 1px solid #999999;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  z-index: 999;
+}
+
+.h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.confirm {
+  background-color: #6fcf59;
+}

@@ -1,7 +1,7 @@
 'use client';
 import styles from '../_styles/Reservation.module.css';
 import type { CompanyReservationInfo } from '@/types/reservation';
-import ConfirmModal from '@/app/_components/ConfirmModal';
+import ConfirmModal from '@/app/camp/detail/[id]/_components/ConfirmModal';
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCompanyReservation } from '../_lib/reservation';
