@@ -10,7 +10,8 @@ import { ReservationInfo } from '@/types/reservation';
 import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { IoIosArrowForward } from 'react-icons/io';
+import ReservationArrowSvg from '@/components/ReservationArrowSvg';
+import KakaoPaySvg from '../_svg/KakaoPaySvg';
 
 type UserInfo = {
   people: number;
@@ -94,46 +95,73 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   return (
     <>
       <form onSubmit={() => handleSubmit(onSubmit)} className={styles.form}>
-        <div>
-          인원
-          <input
-            type='number'
-            id='people'
-            {...register('people', {
-              required: '인원 수를 입력해주세요',
-              min: 1,
-              max: {
-                value: max_people,
-                message: `최대 인원 ${max_people}명 이하로 입력해주세요`,
-              },
-            })}
-          />
+        <div className={styles['reservation-info']}>
+          <div>
+            <span className={styles.span}>인원</span>
+            <input
+              className={styles['people-count']}
+              type='number'
+              defaultValue={2}
+              id='people'
+              {...register('people', {
+                required: '인원 수를 입력해주세요',
+                min: {
+                  value: 1,
+                  message: '최소 1명 이상 입력해주세요',
+                },
+                max: {
+                  value: max_people,
+                  message: `최대 인원 ${max_people}명 이하로 입력해주세요`,
+                },
+              })}
+            />
+            명
+          </div>
+          {errors.people && (
+            <div className={styles.errors}>
+              <p>{errors.people.message}</p>
+            </div>
+          )}
+
+          <Calendar control={control} />
+
+          {dates?.[0] && dates?.[1] && (
+            <div className={styles.div}>
+              <span className={styles.span}>일시</span>
+              <div className={styles.dates}>
+                <div>
+                  <span className={styles.date}>
+                    {dates?.[0]
+                      .toLocaleString('ko', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        weekday: 'narrow',
+                      })
+                      .replace(/\.\s*\((.)\)$/, ' ($1)')}
+                  </span>
+
+                  <p className={styles.hour}>체크인 {check_in} ~</p>
+                </div>
+                <ReservationArrowSvg />
+                <div>
+                  <p className={styles.date}>
+                    {dates?.[1]
+                      .toLocaleString('ko', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        weekday: 'narrow',
+                      })
+                      .replace(/\.\s*\((.)\)$/, ' ($1)')}
+                  </p>
+                  <p className={styles.hour}>체크아웃 ~ {check_out}</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        {errors.people && (
-          <div className={styles.errors}>
-            <p>{errors.people.message}</p>
-          </div>
-        )}
-
-        <Calendar control={control} />
-
-        {dates?.[0] && dates?.[1] && (
-          <div className={styles.dates}>
-            일시
-            <p>
-              {dates?.[0].toLocaleDateString()}
-              <p>체크인 {check_in} ~ </p>
-            </p>
-            <IoIosArrowForward size={25} />
-            <p>
-              {dates?.[1].toLocaleDateString()}
-              <p>체크아웃 ~ {check_out} </p>
-            </p>
-          </div>
-        )}
-
         <div className={styles.divider}></div>
-
         <div className={styles.prices}>
           <p className={styles.total}>
             예약 금액{' '}
@@ -144,7 +172,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
               원
             </span>
           </p>
-          <p className={styles.total}>
+          <p className={styles.total2}>
             총 결제 금액{' '}
             <span className={styles.price}>
               {nights
@@ -154,74 +182,76 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             </span>
           </p>
         </div>
-        <div className={styles.payInfo}>
-          <h3 className={styles.h3}>결제 정보</h3>
-          <div className={styles.personInfo}>
-            <div>
-              <label htmlFor='userName'>예약자명 </label>
-              <input
-                className={styles.input}
-                type='text'
-                id='userName'
-                {...register('name', {
-                  required: '예약자 명을 입력해주세요',
-                  pattern: {
-                    value: NAME_REGEX,
-                    message: '예약자 이름은 2자이상 16자 이하만 가능합니다.',
-                  },
-                })}
-                placeholder='이름을 입력해주세요'
-              />
-            </div>
-            {errors.name && (
-              <div className={styles.errors}>
-                <p>{errors.name.message}</p>
-              </div>
-            )}
-            <div>
-              <label htmlFor='phone'>연락처 </label>
-              <input
-                className={styles.input}
-                type='text'
-                id='phone'
-                {...register('phone', {
-                  required: '휴대폰번호를 입력해주세요.',
-                  pattern: {
-                    value: PHONE_REGEX,
-                    message: '010-1234-5678 형식으로 입력해주세요',
-                  },
-                })}
-                placeholder='예시) 010-1234-5678'
-              />
-            </div>
+        <div className={styles['vertical-divider']}></div>
+        <div className={styles['person-info']}>
+          <h3 className={styles.h3}>예약자 정보</h3>
+          <div>
+            <label htmlFor='userName'>*예약자명 </label>
+            <input
+              className={styles.input}
+              type='text'
+              id='userName'
+              {...register('name', {
+                required: '예약자 명을 입력해주세요',
+                pattern: {
+                  value: NAME_REGEX,
+                  message: '예약자 이름은 2자이상 16자 이하만 가능합니다.',
+                },
+              })}
+              placeholder='실명을 입력해주세요'
+            />
           </div>
+          {errors.name && (
+            <div className={styles.errors}>
+              <p>{errors.name.message}</p>
+            </div>
+          )}
+          <div>
+            <label htmlFor='phone'>*전화번호 </label>
+            <input
+              className={styles.input}
+              type='text'
+              id='phone'
+              {...register('phone', {
+                required: '휴대폰번호를 입력해주세요.',
+                pattern: {
+                  value: PHONE_REGEX,
+                  message: '010-1234-5678 형식으로 입력해주세요',
+                },
+              })}
+              placeholder='예시) 010-1234-5678'
+            />
+          </div>
+
           {errors.phone && (
             <div className={styles.errors}>
               <p>{errors.phone.message}</p>
             </div>
           )}
-          <div className={styles.method}>
-            <p>결제 수단</p>
-            <ul className={styles.ul}>
-              {methods.map((method, idx) => (
-                <li
-                  key={idx}
-                  className={isActive == idx ? styles.selected : styles.li}
-                  onClick={() => toggleActive(idx)}
-                >
-                  {method}
-                </li>
-              ))}
-            </ul>
-            <button
-              type='button'
-              className={styles.button}
-              disabled={!isValid || isActive === null}
-              onClick={() => setIsOpenConfirm(true)}
-            >
-              결제하기
-            </button>
-          </div>
+        </div>
+        <div className={styles.method}>
+          <h3 className={styles.h3}>결제수단 선택</h3>
+          <ul className={styles.ul}>
+            {methods.map((method, idx) => (
+              <li
+                key={idx}
+                className={`${styles.li} ${
+                  isActive == idx ? styles.selected : ''
+                }`}
+                onClick={() => toggleActive(idx)}
+              >
+                {method === '카카오페이' ? <KakaoPaySvg /> : method}
+              </li>
+            ))}
+          </ul>
+          <button
+            type='button'
+            className={styles.button}
+            disabled={!isValid || isActive === null}
+            onClick={() => setIsOpenConfirm(true)}
+          >
+            결제하기
+          </button>
         </div>
       </form>
 
