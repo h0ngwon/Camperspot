@@ -24,12 +24,21 @@ export default function CommuPhotos({ photo }: Props) {
     slidesToScroll: 1,
     nextArrow: <CarouselNextArrow />,
     prevArrow: <CarouselPrevArrow />,
+    appendDots: (dots: React.ReactNode[]) => (
+      <div
+        style={{
+          bottom: '16px',
+        }}
+      >
+        <ul style={{ margin: '0px' }}>{dots} </ul>
+      </div>
+    ),
   };
 
   return (
     <Slider {...settings}>
-      {photo.map((pic, index) => (
-        <div key={index} className={styles.slideCon}>
+      {photo.map((pic) => (
+        <div key={pic.id} className={styles.slideCon}>
           <Image src={pic.photo_url} alt='' layout='fill' objectFit='cover' />
         </div>
       ))}

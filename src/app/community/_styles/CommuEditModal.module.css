@@ -1,9 +1,10 @@
-.modalWrap {
+.modalbg {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 99;
   cursor: pointer;
 }
@@ -17,6 +18,7 @@
   background: #fff;
   padding: 0 24px 24px 24px;
   border-radius: 8px;
+  z-index: 999;
 }
 
 .btn {

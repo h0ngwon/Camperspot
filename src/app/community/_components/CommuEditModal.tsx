@@ -210,7 +210,8 @@ export default function CommuEditModal({
   };
 
   return (
-    <div onClick={onClose} className={styles.modalWrap}>
+    <>
+      <div onClick={onClose} className={styles.modalbg}></div>
       <div className={styles.modal}>
         <form onSubmit={handleSubmit}>
           <div className={styles.btn}>
@@ -306,6 +307,6 @@ export default function CommuEditModal({
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }
