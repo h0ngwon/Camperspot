@@ -165,19 +165,20 @@ const AddForm = () => {
   return (
     <>
       <form onSubmit={handleForm} className={styles.formLayout}>
-        <div>
+        <div className={styles.displayFlex}>
           <h3>캠핑장 명</h3>
           <input
             value={name}
             onChange={handleName}
             placeholder='이름을 입력해주세요'
             required
+            className={styles.campNameInput}
           />
         </div>
 
-        <div>
-          <h3>캠핑장 주소</h3>
-          <div>
+        <div className={styles.displayFlex}>
+          <h3>주소</h3>
+          <div className={styles.addressSearchWrap}>
             <div>
               <button
                 onClick={() => {

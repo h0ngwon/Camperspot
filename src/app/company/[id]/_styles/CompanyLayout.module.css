@@ -3,7 +3,10 @@
   margin: 0 auto;
 }
 .tabTitle {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
   margin: 20px 0;
   color: #000;
   font-size: 24px;
@@ -21,7 +24,7 @@
 }
 .right {
   width: 960px;
-  height: 1123px;
+  min-height: 1123px;
   border: 1px solid #e6e6e9;
   border-radius: 16px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);

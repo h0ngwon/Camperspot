@@ -1,14 +1,23 @@
 .formLayout {
-  display: grid;
-  width: 80%;
-  margin: 0 auto;
-  row-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  margin: 46px 0;
 }
-.gridItem {
-  height: 30px;
+.displayFlex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.gridItemTextArea {
-  height: 60px;
+.displayFlex > h3 {
+  font-size: 20px;
+}
+.campNameInput {
+  margin-left: 42px;
+  border: 1px solid #adb0b7;
+  border-radius: 8px;
+  height: 40px;
+  width: 300px;
 }
 .address {
   border: 1px solid #333;
