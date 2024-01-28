@@ -10,7 +10,7 @@ const MypageLayout = ({ children }: Props) => {
   return (
     <div className={styles.outer}>
       <div className={styles.wrapper}>
-        <div className={styles['status-container']}>홈 {'>'} 마이페이지</div>
+        <div className={styles['status-container']}>메인 {'>'} 마이페이지</div>
         <div className={styles.container}>
           <div className={styles['content-container']}>
             <aside>
