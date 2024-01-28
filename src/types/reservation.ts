@@ -48,6 +48,7 @@ export type UserReservationInfo = {
   payment_method: string;
   camp_area: {
     name: string;
+    photo_url: string;
     camp: {
       id: string;
       name: string;
@@ -57,3 +58,12 @@ export type UserReservationInfo = {
     } | null;
   } | null;
 };
+
+export type ReviewInfo = {
+    campId: string;
+    campName: string;
+    campAreaName: string;
+    check_in_date: string;
+    check_out_date: string;
+    photo_url: string;
+}
