@@ -17,7 +17,6 @@ export default function DetailLikeBtn({ campId }: Props) {
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const { data: session } = useSession();
-
   const userId = session?.user.id as string;
 
   const { isLoading, isError, data } = useQuery({
@@ -104,7 +103,7 @@ export default function DetailLikeBtn({ campId }: Props) {
 
   return (
     <div className={styles.wrap}>
-      <button className={styles.btn} onClick={handleLikeBtn}>
+      <button className={styles.btn} onClick={handleLikeBtn} disabled={!userId}>
         <HeartSvg isLiked={liked} />
       </button>
       <p key={data?.id}>{likeCount}</p>
