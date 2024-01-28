@@ -5,13 +5,13 @@ import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
 import { useEffect, useState } from 'react';
 import ConfirmModal from '@/app/_components/ConfirmModal';
-import AlertModal from '@/app/_components/AlertModal';
 import { ReservationInfo } from '@/types/reservation';
 import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import KakaoPaySvg from '../_svg/KakaoPaySvg';
+import CompleteModal from '@/app/_components/CompleteModal';
 
 type UserInfo = {
   people: number;
@@ -30,7 +30,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
     formState: { errors, isValid },
   } = useForm<UserInfo>({
     defaultValues: {
-      people: 1,
+      people: 2,
       name: '',
       phone: '',
       dates: [
@@ -68,8 +68,8 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
       .from('reservation')
       .insert({
         camp_area_id: campAreaId,
-        check_in_date: userInfo.dates![0].toISOString(),
-        check_out_date: userInfo.dates![1].toISOString(),
+        check_in_date: dates[0].toDateString(),
+        check_out_date: dates[1].toDateString(),
         client_name: userInfo.name,
         client_phone: userInfo.phone,
         fee: price * nights,
@@ -101,7 +101,6 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             <input
               className={styles['people-count']}
               type='number'
-              defaultValue={2}
               id='people'
               {...register('people', {
                 required: '인원 수를 입력해주세요',
@@ -262,7 +261,10 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         onConfirm={() => handleSubmit(onSubmit)()}
       />
       {!isOpenConfirm && isOpenComplete && (
-        <AlertModal title='예약이 완료되었습니다' />
+        <CompleteModal
+          title='예약이 완료되었습니다'
+          onClose={() => setIsOpenComplete(false)}
+        />
       )}
     </>
   );
