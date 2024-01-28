@@ -246,7 +246,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
           <button
             type='button'
             className={styles.button}
-            disabled={!isValid || isActive === null}
+            disabled={!isValid || isActive === null || !session?.user.id}
             onClick={() => setIsOpenConfirm(true)}
           >
             결제하기
