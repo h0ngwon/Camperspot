@@ -1,5 +1,5 @@
 'use client';
-import { UserReservationInfo } from '@/types/reservation';
+import { ReviewInfo, UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationList.module.css';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
@@ -20,10 +20,10 @@ const ReservationList = ({
 }) => {
   const router = useRouter();
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
-  const [isOpenReviewModal, setIsOpenReviewModal] = useState<boolean | null>(
-    false,
-  );
+  const [isOpenReviewModal, setIsOpenReviewModal] = useState<number | null>();
   const { show, toggleModal } = useModalStore();
+  
+
   const handleCopy = (address: string) => {
     copy(address);
     toast.success('클립보드에 복사되었습니다');
@@ -39,13 +39,13 @@ const ReservationList = ({
   };
 
   const handleOpenReviewModal = (index: number) => {
-    setIsOpenReviewModal(true);
+    setIsOpenReviewModal(index);
     toggleModal();
   };
 
   const handleCloseReviewModal = () => {
     toggleModal();
-    setIsOpenReviewModal(false);
+    setIsOpenReviewModal(null);
   };
 
   return (
@@ -53,12 +53,20 @@ const ReservationList = ({
       {reservations &&
         reservations?.map((reservation, idx) => {
           const { id, created_at, check_in_date, check_out_date } = reservation;
-          const { name: campAreaName } = reservation.camp_area!;
+          const { name: campAreaName, photo_url } = reservation.camp_area!;
           const {
             id: campId,
             name: campName,
             address,
           } = reservation.camp_area?.camp!;
+          const reservationInfo: ReviewInfo = {
+            campId,
+            campName,
+            campAreaName,
+            check_in_date,
+            check_out_date,
+            photo_url
+          }
           return (
             <tr key={id}>
               <td className={styles.td} style={{ width: '100px' }}>
@@ -113,6 +121,18 @@ const ReservationList = ({
                       상세 보기
                     </button>
                   </div>
+                  {show && isOpenReviewModal=== idx ? (
+                    <ModalPortal>
+                      <Modal customWidth={619} customHeight={885}>
+                        <ReviewModal
+                          reservationInfo={reservationInfo}
+                          onClose={handleCloseReviewModal}
+                        />
+                      </Modal>
+                    </ModalPortal>
+                  ) : (
+                    ''
+                  )}
                 </td>
               )}
               {isPlanned && (
@@ -137,21 +157,7 @@ const ReservationList = ({
                   </div>
                 </td>
               )}
-
-              {show && isOpenReviewModal ? (
-                <ModalPortal>
-                  <Modal>
-                    <ReviewModal
-                      campId={campId}
-                      onClose={handleCloseReviewModal}
-                    />
-                  </Modal>
-                </ModalPortal>
-              ) : (
-                ''
-              )}
-
-              {isOpenDetailModal === idx && isOpenReviewModal === false ? (
+              {isOpenDetailModal === idx ? (
                 <ModalPortal>
                   <Modal customWidth={450} customHeight={650}>
                     <ReservationDetailModal

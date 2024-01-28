@@ -1,6 +1,10 @@
 .container {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 39.5px;
 }
 
 .close-btn {
@@ -20,4 +24,87 @@
 
 .close-btn:hover {
   background-color: rgba(15, 20, 25, 0.1);
+}
+
+.modal-header {
+  width: 100%;
+  text-align: center;
+  font-size:24px;
+  font-weight: 600;
+}
+
+.camp-container {
+  width: 100%;
+  display: flex;
+  gap:15px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.img-wrapper {
+  width: 123px;
+  height: 81px;
+  object-fit: contain;
+}
+
+.camp-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap:13px;
+}
+
+.camp-info-header {
+  font-size:24px;
+}
+
+.camp-info-content {
+  display: flex;
+  gap:13px;
+}
+
+.rating-wrapper {
+  width:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.rating-header {
+  font-size:24px;
+}
+
+.review-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:100%;
+  height: 417px;
+  gap:31px;
+}
+
+.review-area {
+  display: flex;
+  width: 100%;
+  height: 417px;
+  padding: 16px;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: stretch;
+  font-size: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--neutral-400, #ADB0B7);
+  resize: none;
+}
+
+.submit-btn {
+  display: flex;
+  width: 100%;
+  padding: 18px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: var(--primary-500, #6FCF59);
+  font-size: 24px;
+  cursor: pointer;
 }

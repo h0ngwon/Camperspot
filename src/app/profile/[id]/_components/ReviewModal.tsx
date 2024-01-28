@@ -1,19 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '../_styles/ReviewModal.module.css';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { ReviewInfo } from '@/types/reservation';
+import Image from 'next/image';
+import Rating from './Rating';
 
 type Props = {
-  campId: string;
-  onClose: () => void
+  reservationInfo: ReviewInfo;
+  onClose: () => void;
 };
 
-const ReviewModal = ({ campId, onClose }: Props) => {
+const ReviewModal = ({ reservationInfo, onClose }: Props) => {
+  const params = useParams();
+  const { data: campData } = useQuery({
+    queryKey: ['camp', 'review', reservationInfo.campId as string],
+    queryFn: async () => {
+      const res = await fetch(`/api/camp/review/${reservationInfo.campId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      return res.json();
+    },
+  });
+  const [ratingIndex, setRatingIndex] = useState(1);
+
+  console.log(campData);
   return (
     <div className={styles.container}>
+      <span className={styles['modal-header']}>리뷰 등록</span>
       <button className={styles['close-btn']} onClick={() => onClose()}>
-          <ModalCloseSvg />
-        </button>
-        {campId}
+        <ModalCloseSvg />
+      </button>
+      <div className={styles['camp-container']}>
+        <div className={styles['img-wrapper']}>
+          <Image
+            src={reservationInfo.photo_url}
+            width={123}
+            height={81}
+            alt='camp area photo'
+          />
+        </div>
+        <div className={styles['camp-info-wrapper']}>
+          <span className={styles['camp-info-header']}>
+            {reservationInfo.campName}
+          </span>
+          <div className={styles['camp-info-content']}>
+            <span>{reservationInfo.campAreaName}</span>
+            <span>{reservationInfo.check_in_date}</span>
+          </div>
+        </div>
+      </div>
+      <div className={styles['rating-wrapper']}>
+        <span className={styles['rating-header']}>별점을 등록해주세요!</span>
+        <Rating ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
+      </div>
+      <form className={styles['review-container']}>
+        <textarea className={styles['review-area']} placeholder='이용후기를 남겨주세요.'></textarea>
+        <button className={styles['submit-btn']}>확인</button>
+      </form>
     </div>
   );
 };
