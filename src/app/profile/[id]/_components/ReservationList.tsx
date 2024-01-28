@@ -119,7 +119,7 @@ const ReservationList = ({
               )}
               {show && isOpenDetailModal === idx && (
                 <ModalPortal>
-                  <Modal customWidth={450} customHeight={650}>
+                  <Modal customWidth={450} customHeight={680}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
                       onClose={handleCloseModal}

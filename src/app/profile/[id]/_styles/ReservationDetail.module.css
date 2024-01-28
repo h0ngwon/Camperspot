@@ -5,16 +5,16 @@
   color: #000;
   font-size: 20px;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
   line-height: normal;
   margin-bottom: 1rem;
 }
 
 .p1 {
-  width: 85px;
-  color: #ffffff;
-  background-color: #959595;
-  border-radius: 10px;
+  width: 75px;
+  background-color: #8ad878;
+  font-weight: 600;
+  border-radius: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.5rem 0.8rem;
 }

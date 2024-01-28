@@ -1,8 +1,12 @@
 'use client';
 import { UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationDetailModal.module.css';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
+import useModalStore from '@/store/modal';
+import { useState } from 'react';
+import ConfirmModal from './ConfirmModal';
+import { deleteUserReservation } from '../_lib/deleteUserReservation';
+import CompleteModal from './CompleteModal';
 
 const ReservationDetailModal = ({
   reservation,
@@ -12,6 +16,7 @@ const ReservationDetailModal = ({
   onClose: () => void;
 }) => {
   const {
+    id,
     check_in_date,
     check_out_date,
     client_name,
@@ -24,13 +29,18 @@ const ReservationDetailModal = ({
 
   const { name: campName, check_in, check_out } = reservation.camp_area?.camp!;
   const { name: campAreaName } = reservation.camp_area!;
+  const { toggleModal } = useModalStore();
+  const today = new Date().setHours(0, 0, 0, 0);
+  const [isOpenConfirm, setIsOpenComfirm] = useState<boolean>(false);
+  const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
+  console.log('today', today);
   return (
     <>
       <p className={styles.info}>예약 상세 보기</p>
       <div className={styles.modal}>
-        <button className={styles['close-btn']} onClick={() => onClose()}>
+        {/* <button className={styles['close-btn']} onClick={() => onClose()}>
           <ModalCloseSvg />
-        </button>
+        </button> */}
         <div>
           <div className={styles['camp-info']}>
             <h3 className={styles.h3}>예약 정보</h3>
@@ -108,6 +118,41 @@ const ReservationDetailModal = ({
             <span className={styles.price}>{fee.toLocaleString()}원 </span>
           </p>
         </div>
+
+        {new Date(check_in_date).getTime() >= today ? (
+          <div className={styles.buttons}>
+            <button
+              className={styles['cancel-btn']}
+              onClick={() => setIsOpenComfirm(true)}
+            >
+              취소
+            </button>
+            <button className={styles['confirm-btn']} onClick={toggleModal}>
+              확인
+            </button>
+          </div>
+        ) : (
+          <button className={styles['only-confirm-btn']} onClick={toggleModal}>
+            확인
+          </button>
+        )}
+        {isOpenConfirm && (
+          <ConfirmModal
+            title={'예약을 취소하시겠습니까?'}
+            onCancel={() => {
+              deleteUserReservation(id);
+              setIsOpenComfirm(false);
+              setIsOpenComplete(true);
+            }}
+            onClose={() => setIsOpenComfirm(false)}
+          />
+        )}
+        {isOpenComplete && (
+          <CompleteModal
+            title={'예약이 취소되었습니다'}
+            onClose={() => setIsOpenComplete(false)}
+          />
+        )}
       </div>
     </>
   );
