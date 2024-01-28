@@ -35,7 +35,7 @@ export default class RegionCarousel extends Component {
           {regions.map((region) => {
             return (
               <Link
-                href={`/camp/search?region=${region.name}`}
+                href={`/camp/search?keyword=${region.name}&check_in=2024-01-28&check_out=2024-01-29&people=2&page=1`}
                 key={region.name}
               >
                 <div className={styles.regionCard}>

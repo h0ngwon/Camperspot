@@ -521,50 +521,6 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      '22222': {
-        Args: {
-          _keyword: string;
-          _check_in: string;
-          _check_out: string;
-          _people: string;
-        };
-        Returns: {
-          id: string;
-          name: string;
-          created_at: string;
-          address: string;
-          region: string;
-          camp_area_min_price: number;
-          camp_area_max_price: number;
-          camp_pic: Json;
-          hashtag: Json;
-          facility_option: Json;
-          reservation_count: number;
-          total_count: number;
-        }[];
-      };
-      '33333333': {
-        Args: {
-          _keyword: string;
-          _check_in: string;
-          _check_out: string;
-          _people: string;
-        };
-        Returns: {
-          id: string;
-          name: string;
-          created_at: string;
-          address: string;
-          region: string;
-          camp_area_min_price: number;
-          camp_area_max_price: number;
-          camp_pic: Json;
-          hashtag: Json;
-          facility_option: Json;
-          reservation_count: number;
-          total_count: number;
-        }[];
-      };
       fetch_camp_data: {
         Args: {
           sort: string;
