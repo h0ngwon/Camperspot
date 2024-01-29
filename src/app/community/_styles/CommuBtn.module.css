@@ -1,0 +1,10 @@
+.btns {
+  position: relative;
+}
+
+.btns > svg {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  cursor: pointer;
+}

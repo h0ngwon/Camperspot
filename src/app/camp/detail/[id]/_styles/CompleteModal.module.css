@@ -1,0 +1,45 @@
+.div {
+  width: 300px;
+  height: 400px;
+  padding-top: 2rem;
+  position: absolute;
+  top: 10%;
+  left: 30%;
+  border: 1px solid #999999;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  z-index: 999;
+}
+
+.h3 {
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.close {
+  position: absolute;
+  top: 8%;
+  right: 10%;
+  cursor: pointer;
+}
+
+.img {
+  border-radius: 50%;
+}
+
+.div2 {
+  display: flex;
+}
+
+.h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.link {
+  border: 1px solid #e6e6e9;
+  border-radius: 1.5rem;
+  padding: 0.5rem;
+}

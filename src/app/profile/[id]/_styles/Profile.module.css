@@ -1,21 +1,22 @@
 .container {
+  width:960px;
+  height:575px;
   display: flex;
   flex-direction: column;
-  padding: 3rem;
-  gap:70px;
+  padding: 50px 40px 0 40px;
+  gap:51px;
 }
 
 .profile-container {
   width: 718px;
-  border-bottom: 1px solid;
   display: flex;
   flex-direction: column;
-  gap: 58px;
+  gap: 41px;
 }
 
 .profile-header {
   color: #000;
-  font-size: 20px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -23,7 +24,12 @@
 
 .profile-inner {
   display: flex;
-  gap: 58px;
+  width: 880px;
+  padding: 32px 27px;
+  align-items: center;
+  gap: 88px;
+  border-radius: 8px;
+  background: var(--primary-100, #E4F6DF);
 }
 
 .profile-container img {
@@ -35,8 +41,8 @@
 .nickname-container {
   display: flex;
   flex-direction: column;
-  margin: 24px 0 64px 73px;
-  gap:23px;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .nickname-header {
@@ -57,6 +63,7 @@
 
 .nickname img {
   object-fit: contain;
+  background: transparent;
 }
 
 .nickname-inner {
@@ -68,6 +75,7 @@
 .modify-btn {
   cursor: pointer;
   background: transparent;
+  fill: #E4F6DF;
 }
 
 .account-container {
@@ -75,12 +83,12 @@
   padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 39px;
 }
 
 .account-header {
   color: #000;
-  font-size: 20px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -91,18 +99,18 @@
   flex-direction: column;
 }
 
-.provider{
+.provider {
   display: flex;
-  flex-direction: column;
   gap: 36px;
 }
 
-.provider span {
-  display: flex;
+.provider-info {
   font-size:16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  gap: 4px;
-  align-items: center;
+  color: var(--neutral-neutral_500, var(--neutral-500, #8C8F9A));
+  font-weight: 400;
+}
+
+.provider-inner {
+  display: flex;
+  flex-direction: column;
 }
