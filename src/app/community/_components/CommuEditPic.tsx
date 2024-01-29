@@ -9,8 +9,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import styles from '../_styles/CommuPhotos.module.css';
 import CarouselNextArrow from '@/components/CarouselNextArrow';
 import CarouselPrevArrow from '@/components/CarouselPrevArrow';
-import CloseSvg from '../_svg/CloseSvg';
 import CommuPicSvg from '../_svg/CommuPicSvg';
+import DeleteSvg from '../_svg/DeleteSvg';
 
 type Props = {
   postPicEdit: {
@@ -83,9 +83,11 @@ export default function CommuEditPic({ postPicEdit, setPostPicEdit }: Props) {
               objectFit='cover'
             />
           </div>
-          <button type='button' onClick={() => handleDeleteCampImg(index)}>
-            <CloseSvg />
-          </button>
+          <div className={styles.deleteWrap}>
+            <button type='button' onClick={() => handleDeleteCampImg(index)}>
+              <DeleteSvg />
+            </button>
+          </div>
         </div>
       ))}
       <div>

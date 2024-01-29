@@ -12,6 +12,20 @@
   overflow: hidden;
 }
 
+.deleteWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.deleteWrap > button {
+  background: #4db635;
+  padding: 8px;
+  border-radius: 50%;
+  margin: 4px;
+  cursor: pointer;
+}
+
 .upload {
   display: none;
 }
