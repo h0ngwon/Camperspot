@@ -6,6 +6,7 @@
   height: 100vh;
   z-index: 99;
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .modal {
