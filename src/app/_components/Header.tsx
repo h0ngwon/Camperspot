@@ -9,11 +9,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
+import { useQuery } from '@tanstack/react-query';
+import { getUserData } from '../profile/[id]/_lib/getUserData';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
   const { data: session } = useSession();
-
+  console.log('session', session);
+  const { data } = useQuery({
+    queryKey: ['mypage', 'profile', session?.user.id],
+    queryFn: async () => getUserData(session?.user.id as string),
+  });
+  console.log({ data });
   return (
     <div>
       {!conditions && (
@@ -49,7 +56,7 @@ const Header = () => {
                       // className={styles.community}
                     >
                       <Image
-                        src={session.user.image!}
+                        src={data?.profile_url!}
                         alt=''
                         width={36}
                         height={36}
