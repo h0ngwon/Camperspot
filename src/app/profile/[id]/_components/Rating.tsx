@@ -1,3 +1,5 @@
+'use client';
+
 import React, { Dispatch, SetStateAction } from 'react';
 import styles from '../_styles/Rating.module.css';
 type Props = {
