@@ -37,7 +37,6 @@ export const ReservationDetail = () => {
       new Date(
         new Date(reservation.check_in_date).setHours(0, 0, 0, 0),
       ).getTime() <= new Date(new Date().setHours(0, 0, 0, 0)).getTime(),
-    // new Date(reservation.check_out_date).getTime() < new Date().getTime(),
   );
 
   if (isLoading) return <p>Loading...</p>;
