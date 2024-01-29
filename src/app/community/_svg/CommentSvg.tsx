@@ -1,8 +1,11 @@
-import React from 'react';
+type Props = {
+  onClick: () => void;
+};
 
-export default function CommentSvg() {
+export default function CommentSvg({ onClick }: Props) {
   return (
     <svg
+      onClick={onClick}
       aria-label='댓글 달기'
       height='24'
       role='img'

@@ -7,7 +7,6 @@ import { supabase } from '../api/db';
 import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
-import CommuLikeBtn from './_components/CommuLikeBtn';
 import CommuBtns from './_components/CommuBtns';
 
 import styles from './_styles/Commu.module.css';
@@ -58,9 +57,9 @@ export default function CommunityPage() {
           {data?.map((item) => {
             return (
               <li className={styles.card} key={item.id}>
-                <CommuUsers user={item.user} postId={item.id} data={item} />
+                <CommuUsers user={item.user} data={item} />
                 <CommuPhotos photo={item.post_pic} />
-                <CommuBtns userId={userId} postId={item.id} />
+                <CommuBtns data={item} userId={userId} />
                 <p className={styles.content}>{item.content}</p>
                 <CommuHashTags hashTag={item.post_hashtag} />
               </li>
