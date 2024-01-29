@@ -5,11 +5,16 @@ import ReservationForm from './ReservationForm';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import type { ReservationInfo } from '@/types/reservation';
+import ModalCloseSvg from '@/components/ModalCloseSvg';
+import { useRouter } from 'next/navigation';
+import useModalStore from '@/store/modal';
 
 const ReservationModal = () => {
   const [reservation, setReservation] = useState<ReservationInfo>();
   const params = useSearchParams();
   const campAreaId = params.get('id');
+  const { toggleModal } = useModalStore();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchReservation = async () => {
@@ -28,6 +33,15 @@ const ReservationModal = () => {
     <>
       <div className={styles.title}>예약 및 결제</div>
       <div className={styles.modal}>
+        <button
+          className={styles['close-btn']}
+          onClick={() => {
+            toggleModal();
+            router.back();
+          }}
+        >
+          <ModalCloseSvg />
+        </button>
         <div className={styles.div}>
           <div className={styles['camp-info']}>
             <h3 className={styles.h3}>예약 정보</h3>
