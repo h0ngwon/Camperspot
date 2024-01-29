@@ -239,6 +239,7 @@ const UpdateCampPage = (props: Props) => {
 
   return (
     <div>
+      <h1 className={styles.h1}>캠핑장 수정</h1>
       {campData?.length === 1 ? (
         <div>
           <form onSubmit={handleForm} className={styles.formLayout}>
