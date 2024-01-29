@@ -46,7 +46,7 @@ const Profile = () => {
               </button>
               {show && (
                 <ModalPortal>
-                  <Modal>
+                  <Modal customWidth={458} customHeight={452}>
                     <ProfileModifyForm />
                   </Modal>
                 </ModalPortal>
@@ -56,11 +56,11 @@ const Profile = () => {
         </div>
       </div>
       <div className={styles['account-container']}>
-        <div className={styles['account-header']}>계정정보</div>
+        <div className={styles['account-header']}>계정 정보</div>
         <div className={styles['account-inner']}>
           <div className={styles['provider']}>
-            <div>
-              <label>가입정보</label>
+            <span className={styles['provider-info']}>가입정보</span>
+            <div className={styles['provider-inner']}>
               <span>
                 {data?.provider === 'kakao' && '카카오 이메일 간편가입'}
                 {data?.provider === 'kakao' && (
@@ -73,9 +73,6 @@ const Profile = () => {
                   <Image src={naver} width={16} height={16} alt='naver' />
                 )}
               </span>
-            </div>
-            <div>
-              <label>이메일</label>
               <span>{data?.email}</span>
             </div>
           </div>
