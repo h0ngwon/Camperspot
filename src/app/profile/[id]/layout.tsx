@@ -17,7 +17,7 @@ const MypageLayout = ({ children }: Props) => {
               <Sidebar />
             </aside>
             <main>
-              <Content>{children}</Content>
+              {children}
             </main>
           </div>
         </div>
