@@ -79,6 +79,7 @@
   font-size: 14px;
   font-weight: 600;
   color: #5685ff;
+  cursor: pointer;
 }
 .editWrap {
   width: 185px;
