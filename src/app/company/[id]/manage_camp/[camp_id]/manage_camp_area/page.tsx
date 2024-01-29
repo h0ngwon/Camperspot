@@ -38,12 +38,14 @@ const AddCampArea = () => {
     queryFn: async () => {
       const { data: campAreaInfo } = await supabase
         .from('camp_area')
-        .select('*')
+        .select('*,camp(check_in,check_out)')
         .eq('camp_id', campId);
 
       return campAreaInfo;
     },
   });
+
+  console.log(data);
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -79,6 +81,14 @@ const AddCampArea = () => {
                   <div>
                     <p className={styles.textAlign}>최대 수용인원</p>
                     <p>{camparea.max_people}명</p>
+                  </div>
+                  <div>
+                    <p className={styles.textAlign}>체크인 시간</p>
+                    <p>{camparea.camp?.check_in}</p>
+                  </div>
+                  <div>
+                    <p className={styles.textAlign}>체크아웃 시간</p>
+                    <p>{camparea.camp?.check_out}</p>
                   </div>
                   <div>
                     <p className={styles.textAlign}>금액</p>

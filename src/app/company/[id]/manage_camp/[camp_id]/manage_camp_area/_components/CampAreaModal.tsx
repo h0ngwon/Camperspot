@@ -23,7 +23,7 @@ type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const [areaName, handleAreaName] = useInput();
   const [areaMaxPeople, handleAreaMaxPeople] = useInput();
-  const [areaPrice, setAreaPrice] = useState('');
+  const [areaPrice, handleAreaPrice] = useInput();
   const [areaImg, setAreaImg] = useState<string>('');
 
   const id = uuid();
@@ -35,11 +35,6 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const queryClient = useQueryClient();
 
   // 금액 입력시 자동 콤마
-  const handleAreaPrice = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
-    const removedCommaValue: number = Number(value.replaceAll(',', ''));
-    setAreaPrice(removedCommaValue.toLocaleString());
-  };
 
   // 캠핑존 이미지 업로드
   async function handleChangeInputCampArea(e: ChangeEvent<HTMLInputElement>) {
@@ -184,6 +179,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
                 ref={imgRef}
                 className={styles.displayNone}
                 id='campAreaImg'
+                required
               />
               <label htmlFor='campAreaImg' className={styles.uploadCampAreaImg}>
                 <Image
