@@ -14,9 +14,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 800px;
+  width: 1000px;
   background: #fff;
   padding: 24px;
   border-radius: 8px;
   z-index: 999;
+}
+
+.modalFlex {
+  display: flex;
+}
+
+.modalSlid {
+  display: block;
+  width: 54%;
 }

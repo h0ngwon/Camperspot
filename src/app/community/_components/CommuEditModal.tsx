@@ -9,7 +9,7 @@ import { Database } from '@/types/supabase';
 
 import styles from '../_styles/CommuEditModal.module.css';
 import CloseSvg from '../_svg/CloseSvg';
-import CommuPicSvg from '../_svg/CommuPicSvg';
+import CommuEditPic from './CommuEditPic';
 
 type Props = {
   onClose: () => void;
@@ -103,28 +103,6 @@ export default function CommuEditModal({
     },
   });
 
-  // 캠핑장 이미지 업로드
-  function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const newElement = {
-        id: 'some-id',
-        photo_url: URL.createObjectURL(file),
-        post_id: 'some-post-id',
-      }; // 실제 데이터로 교체
-      setPostPicEdit((prev) => [...prev, newElement]);
-    }
-  }
-
-  // 버튼 클릭시 이미지 삭제
-  const handleDeleteCampImg = (index: number) => {
-    setPostPicEdit((prev) => {
-      const updatedPostPics = [...prev];
-      updatedPostPics.splice(index, 1); // 해당 인덱스의 이미지 삭제
-      return updatedPostPics;
-    });
-  };
-
   const isEmptyValue = (value: string | any[]) => {
     if (!value.length) {
       return true;
@@ -149,7 +127,9 @@ export default function CommuEditModal({
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (isEmptyValue(newHashTag)) return;
+    if (hashTagsEdit.length >= 10) {
+      return;
+    }
 
     // 중복 체크
     if (hashTagsEdit.some((tag) => tag.tag === newHashTag)) {
@@ -222,42 +202,12 @@ export default function CommuEditModal({
             <button type='submit'>완료</button>
           </div>
           <div className={styles.edit}>
-            <div>
-              <input
-                type='file'
-                accept='image/*'
-                id='file_upload'
-                className={styles.upload}
-                onChange={handleChangeInputImageFile}
+            <div className={styles.modalSlide}>
+              <CommuEditPic
+                postPicEdit={postPicEdit}
+                setPostPicEdit={setPostPicEdit}
               />
-              <label htmlFor='file_upload'>
-                <div className={styles.uploadPic}>
-                  <CommuPicSvg />
-                  <p>업로드</p>
-                </div>
-              </label>
-              {/* 이미지 미리보기 및 삭제 버튼 */}
-              <ul className={styles.postPics}>
-                {postPicEdit.map((item, index) => (
-                  <li key={item.id} className={styles.postPic}>
-                    <Image
-                      src={item.photo_url}
-                      alt={`이미지`}
-                      className={styles.Pic}
-                      width={100}
-                      height={100}
-                    />
-                    <button
-                      type='button'
-                      onClick={() => handleDeleteCampImg(index)}
-                    >
-                      <CloseSvg />
-                    </button>
-                  </li>
-                ))}
-              </ul>
             </div>
-
             <div className={styles.Con}>
               <div className={styles.user}>
                 <Image

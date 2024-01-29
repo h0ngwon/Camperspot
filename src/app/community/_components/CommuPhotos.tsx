@@ -39,7 +39,12 @@ export default function CommuPhotos({ photo }: Props) {
     <Slider {...settings}>
       {photo.map((pic) => (
         <div key={pic.id} className={styles.slideCon}>
-          <Image src={pic.photo_url} alt='' layout='fill' objectFit='cover' />
+          <Image
+            src={pic.photo_url}
+            alt={`이미지`}
+            layout='fill'
+            objectFit='cover'
+          />
         </div>
       ))}
     </Slider>

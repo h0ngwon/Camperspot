@@ -30,14 +30,16 @@ export default function CommuDetailModal({ data, userId, onClose }: Props) {
     <>
       <div onClick={onClose} className={styles.modalbg}></div>
       <div className={styles.modal}>
-        <div>
-          <CommuUser user={data.user} data={data} />
-          <CommuPhotos photo={data.post_pic} />
-          <CommuBtns data={data} userId={userId} />
-          <p>{data.content}</p>
-          <CommuHashTags hashTag={data.post_hashtag} />
+        <div className={styles.modalFlex}>
+          <div className={styles.modalSlid}>
+            <CommuUser user={data.user} data={data} />
+            <CommuPhotos photo={data.post_pic} />
+            <CommuBtns data={data} userId={userId} />
+            <p>{data.content}</p>
+            <CommuHashTags hashTag={data.post_hashtag} />
+          </div>
+          <CommuComment />
         </div>
-        <CommuComment />
       </div>
     </>
   );
