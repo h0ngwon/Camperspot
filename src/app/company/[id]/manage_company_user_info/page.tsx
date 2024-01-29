@@ -2,9 +2,7 @@
 import { supabase } from '@/app/api/db';
 import { Tables } from '@/types/supabase';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { getToken } from 'next-auth/jwt';
 import { getSession, useSession } from 'next-auth/react';
-import { NextRequest } from 'next/server';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
 type Props = {};
@@ -52,13 +50,13 @@ const ManageCompanyInfo = () => {
     isError,
     error,
   } = useMutation({
-    mutationFn: async () => {
-      const sessionData = await getSession();
-      const getSessionUserId = sessionData?.user.id;
+    mutationFn: async (companyuserid: string) => {
+      // const sessionData = await getSession();
+      // const getSessionUserId = sessionData?.user.id;
       const { data, error } = await supabase
         .from('company_user')
         .update({ name: updateCompanyUserName })
-        .eq('id', getSessionUserId as string);
+        .eq('id', companyuserid);
 
       if (error) {
         throw new Error(error.message);
@@ -74,8 +72,8 @@ const ManageCompanyInfo = () => {
     return <div>에러발생</div>;
   }
 
-  const handleCompleteUpdateName = () => {
-    updateCompanyUserInfo();
+  const handleCompleteUpdateName = (companyuserid: string) => {
+    updateCompanyUserInfo(companyuserid);
 
     setIsNameUpdate(false);
   };
@@ -92,8 +90,9 @@ const ManageCompanyInfo = () => {
                 <input
                   value={updateCompanyUserName}
                   onChange={handleChangeName}
+                  required
                 />
-                <button onClick={() => handleCompleteUpdateName()}>
+                <button onClick={() => handleCompleteUpdateName(item.id)}>
                   수정완료
                 </button>
               </div>
