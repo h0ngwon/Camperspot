@@ -17,7 +17,6 @@ export const middleware = async (req: NextRequest) => {
   }
 
   if (pathname.startsWith('/profile')) {
-    const userId = token?.userId as string;
     console.log(token);
     if (!token) {
       return NextResponse.redirect(new URL('/', req.url));
@@ -30,7 +29,6 @@ export const middleware = async (req: NextRequest) => {
       // if(!pathname.includes(userId)) {
       //   return NextResponse.redirect(new URL('/', req.url));
       // }
-
     }
   }
 
