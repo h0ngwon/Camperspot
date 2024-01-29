@@ -9,7 +9,6 @@ export const middleware = async (req: NextRequest) => {
     secret: process.env.NEXTAUTH_SECRET,
   });
   const { pathname } = req.nextUrl;
-  console.log(token);
 
   if (pathname.startsWith('/auth')) {
     if (token) {
