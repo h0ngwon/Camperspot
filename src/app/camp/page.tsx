@@ -3,7 +3,7 @@ import CampList from './_components/CampList';
 import Spacer from '@/components/Spacer';
 import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
-import PageController from './_components/PageController';
+import Pagination from './_components/Pagination';
 
 export const revalidate = 0;
 
@@ -54,7 +54,11 @@ const Camp = async ({
           </div>
           <Spacer y={50} />
 
-          <PageController hasNextPage={end < count!} hasPrevPage={start > 0} />
+          <Pagination
+            hasNextPage={end < count!}
+            hasPrevPage={start > 0}
+            count={count!}
+          />
           <Spacer y={50} />
         </div>
       </div>

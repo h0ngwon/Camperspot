@@ -1,0 +1,33 @@
+.controllerBox {
+    display: flex;
+    gap: 5px;
+    align-items: baseline;
+}
+
+.controllerBox button {
+    cursor: pointer;
+    user-select: none;
+
+    font-family: Pretendard;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.controllerBox button:disabled {
+    cursor: default;
+}
+
+/* 
+.controllerBox button:not(:disabled):hover {
+    background-color: #333;
+} */
+
+.pageBtn {
+    color: var(--neutral-300, #BFC1C7);
+}
+
+.pageBtn:disabled {
+    color: black;
+}
