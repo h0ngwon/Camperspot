@@ -1,11 +1,17 @@
 .td {
   text-align: left;
+  padding: 0.3rem;
 }
 
 .date {
   width: 120px;
   display: flex;
   flex-direction: column;
+}
+
+.hour {
+  width: 150px;
+  display: flex;
 }
 
 .div {
@@ -16,12 +22,23 @@
 .button {
   width: 75px;
   height: 30px;
+  border: 1px solid #404557;
+  border-radius: 4px;
+  color: #404557;
   cursor: pointer;
 }
 
 .address {
   width: 200px;
   line-height: 1.6;
+}
+
+.address-info {
+  width: 140px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  word-break: break-all;
 }
 
 .copy {
@@ -38,6 +55,11 @@
 
 .div {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+.button:hover {
+  background-color: #d9d9d9;
 }

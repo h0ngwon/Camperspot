@@ -16,18 +16,27 @@ export const ReservationDetail = () => {
     queryKey: ['mypage', 'profile', 'reservation'],
     queryFn: () => getUserReservation(userId as string),
   });
+  const currentDate = new Date();
 
   const plannedReservation = reservations?.filter(
     (reservation) =>
-      new Date(reservation.check_in_date).getTime() >=
-        new Date(new Date().setHours(0, 0, 0)).getTime() &&
-      new Date(reservation.check_out_date).getTime() >
-        new Date(new Date().setHours(0, 0, 0)).getTime(),
+      // 체크인이 내일 이후부터
+      new Date(reservation.check_in_date).getTime() >
+      new Date(
+        new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate() + 1,
+        ),
+      ).getTime(),
   );
 
   const passedReservation = reservations?.filter(
     (reservation) =>
-      new Date(reservation.check_out_date).getTime() < new Date().getTime(),
+      // 체크인이 예약 당일인 경우도 포함
+      new Date(
+        new Date(reservation.check_in_date).setHours(0, 0, 0, 0),
+      ).getTime() <= new Date(new Date().setHours(0, 0, 0, 0)).getTime(),
   );
 
   if (isLoading) return <p>Loading...</p>;
@@ -36,14 +45,14 @@ export const ReservationDetail = () => {
   return (
     <div className={styles.layout}>
       <h3 className={styles.h3}>예약 현황</h3>
-      <p className={styles.p1}>이용 예정</p>
+      <p className={styles.p1}>이용 전</p>
       <div className={styles.container}>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className={styles.th}>예약 일시</th>
-              <th className={styles.th}>캠핑장 이름</th>
-              <th className={styles.th}>캠핑존 이름</th>
+              <th className={styles.th}>예약기간</th>
+              <th className={styles.th}>캠핑장</th>
+              <th className={styles.th}>캠핑존</th>
               <th className={styles.th}>체크인/아웃</th>
               <th className={styles.th}>주소</th>
             </tr>
@@ -57,14 +66,14 @@ export const ReservationDetail = () => {
           </tbody>
         </table>
       </div>
-      <p className={styles.p2}>이용 후</p>
+      <p className={styles.p1}>이용 후</p>
       <div>
         <table className={styles.table}>
           <thead>
             <tr>
-              <th className={styles.th}>예약 일시</th>
-              <th className={styles.th}>캠핑장 이름</th>
-              <th className={styles.th}>캠핑존 이름</th>
+              <th className={styles.th}>예약기간</th>
+              <th className={styles.th}>캠핑장</th>
+              <th className={styles.th}>캠핑존</th>
               <th className={styles.th}>체크인/아웃</th>
               <th className={styles.th}></th>
             </tr>
