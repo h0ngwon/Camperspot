@@ -140,7 +140,6 @@ const makeSocialAccount = async (
       .select()
       .single();
     console.log(error);
-    console.log(data);
     token.userId = data?.id;
     token.role = 'user';
   }

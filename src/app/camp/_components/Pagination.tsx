@@ -16,7 +16,6 @@ function Pagination({ hasNextPage, hasPrevPage, count }: Props) {
   const pathname = usePathname();
   const [currentPage, setCurrentPage] = useState<string>('1');
   const [totalPages, setTotalPages] = useState<number>(1);
-  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     const totalPages = Math.ceil(count / 9);

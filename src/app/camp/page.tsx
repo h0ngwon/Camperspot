@@ -13,10 +13,7 @@ const Camp = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const currentPage = Number(searchParams.page) || 1;
-  const perPage = 9;
-  const startRange = (currentPage - 1) * perPage;
-  const endRange = startRange + perPage - 1;
+  const currentPage = Number(searchParams.page);
 
   const page = searchParams.page!.toString();
   const sort = searchParams.sort!.toString();
@@ -26,9 +23,7 @@ const Camp = async ({
     sort,
   });
   if (error) console.error(error);
-  else console.log(data);
 
-  console.log(error);
   const per_page = searchParams['per_page'] ?? '9';
 
   const start = (Number(currentPage) - 1) * Number(per_page);

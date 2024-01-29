@@ -18,7 +18,6 @@ const Layout = ({ layout, setLayout }: Props) => {
   ) {
     if (e.target.files) {
       const file = e.target.files[0];
-      console.log(file);
       const uploadFile = URL.createObjectURL(file);
       // if (uploadFile !== layout) {
       //   setLayout(uploadFile);

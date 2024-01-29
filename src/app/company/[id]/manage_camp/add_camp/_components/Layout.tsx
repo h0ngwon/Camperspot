@@ -18,7 +18,6 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
   ) {
     if (e.target.files) {
       const file = e.target.files[0];
-      console.log(file);
       setCampLayout(URL.createObjectURL(file));
     }
   }

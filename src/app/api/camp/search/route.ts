@@ -3,7 +3,6 @@ import { supabase } from '../../db';
 
 export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
-  console.log(request);
   const { searchParams } = new URL(request.url);
   const _keyword = searchParams.get('keyword')!.toString();
   // const region = searchParams.get('region')!.toString()
@@ -18,6 +17,5 @@ export async function GET(request: Request) {
     _people,
   });
   if (error) console.error(error);
-  else console.log(data);
   return NextResponse.json({ data, error });
 }

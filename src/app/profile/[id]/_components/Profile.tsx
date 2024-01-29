@@ -16,13 +16,11 @@ import { useSession } from 'next-auth/react';
 const Profile = () => {
   const { show, toggleModal } = useModalStore();
   const { data: session } = useSession();
-  console.log(session);
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', params.id],
     queryFn: async () => getUserData(params.id as string),
   });
-  console.log({ data });
 
   return (
     <div className={styles.container}>
