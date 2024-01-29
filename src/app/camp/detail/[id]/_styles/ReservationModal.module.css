@@ -12,6 +12,18 @@
   flex-direction: column;
 }
 
+.close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  border: none;
+  cursor: pointer;
+  background-color: #fff;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+}
+
 .div {
   display: flex;
   flex-direction: column;
