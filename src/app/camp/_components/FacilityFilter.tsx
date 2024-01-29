@@ -8,11 +8,15 @@ import type { SearchCamp, TCamp } from '@/types/campList';
 type Props = {
   campData: SearchCamp;
   setFilteredCampData: Dispatch<SetStateAction<SearchCamp>>;
+  setCurrentPage: Dispatch<SetStateAction<number>>;
 };
 
-const FacilityFilter = ({ campData, setFilteredCampData }: Props) => {
+const FacilityFilter = ({
+  campData,
+  setFilteredCampData,
+  setCurrentPage,
+}: Props) => {
   const [filterFacility, setFilterFacility] = useState<string[]>([]);
-  console.log(filterFacility);
   useEffect(() => {
     setFilterFacility([]);
     setCheckedItems({});
@@ -34,6 +38,7 @@ const FacilityFilter = ({ campData, setFilteredCampData }: Props) => {
   useEffect(() => {
     const filteredData = filterCampData();
     setFilteredCampData(filteredData);
+    setCurrentPage(1);
   }, [filterFacility]);
   const onHandleFilterFacility = (facility: string) => {
     if (filterFacility.includes(facility)) {

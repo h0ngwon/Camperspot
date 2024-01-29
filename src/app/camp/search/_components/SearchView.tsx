@@ -5,6 +5,9 @@ import { useEffect, useState } from 'react';
 import FacilityFilter from '../../_components/FacilityFilter';
 import CampList from '../../_components/CampList';
 import type { SearchCamp } from '@/types/campList';
+import Pagination from '../../_components/Pagination';
+import { useSearchParams } from 'next/navigation';
+import SearchPageController from './SearchPageController';
 
 type Props = {
   camp: SearchCamp;
@@ -15,25 +18,34 @@ const SearchView = ({ camp, error }: Props) => {
   const [campData, setCampData] = useState<SearchCamp>(camp);
   const [filteredCampData, setFilteredCampData] = useState<SearchCamp>(camp);
   const [errorData, setErrorData] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [paginatedCamp, setPaginatedCamp] = useState<SearchCamp>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const totalData = filteredCampData?.length;
 
+  //data를 set
   useEffect(() => {
     setCampData(camp);
     setFilteredCampData(camp);
   }, [camp]);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredCampData?.slice(
-    indexOfFirstItem,
-    indexOfLastItem,
-  );
-  const paginate = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const totalPages = Math.ceil(totalData! / itemsPerPage);
+  //error 핸들링
+  useEffect(() => {
+    setErrorData(error);
+  }, [error]);
+  //currentPage를 받아서 pagination
+  function paginateCamp(filteredCampData: SearchCamp, page: number) {
+    const pageStart = (page - 1) * 9;
+    const pageEnd = pageStart + 9;
+    const paginate = filteredCampData.slice(pageStart, pageEnd);
+    setPaginatedCamp(paginate);
+  }
+  useEffect(() => {
+    paginateCamp(filteredCampData, currentPage);
+  }, [filteredCampData, currentPage]);
+  /**
+   * hasNextPage={}
+   * totalpage
+   *  hasPrevPage={}
+   */
 
   const pageTitle = `검색 결과 (${totalData}건)`;
   return (
@@ -46,22 +58,22 @@ const SearchView = ({ camp, error }: Props) => {
             <FacilityFilter
               campData={campData}
               setFilteredCampData={setFilteredCampData}
+              setCurrentPage={setCurrentPage}
             />
           </div>
           <Spacer y={30} />
           <div className={styles.listWrapper}>
             <div className={styles.camplList}>
-              <CampList campList={filteredCampData!} />
+              <CampList campList={paginatedCamp!} />
             </div>
           </div>
           <Spacer y={50} />
-          {/* <TestController
-            itemsPerPage={itemsPerPage}
-            totalItems={totalData || 0}
-            paginate={paginate}
+
+          <SearchPageController
+            totalData={totalData}
             currentPage={currentPage}
-            totalPages={totalPages}
-          /> */}
+            setCurrentPage={setCurrentPage}
+          />
           <Spacer y={50} />
         </div>
       </div>
