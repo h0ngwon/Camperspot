@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FormEvent, useState } from 'react';
 import styles from '../_styles/ReviewModal.module.css';
 import ModalCloseSvg from '@/components/ModalCloseSvg';

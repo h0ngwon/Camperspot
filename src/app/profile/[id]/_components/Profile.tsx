@@ -11,11 +11,9 @@ import pencil from '../../../../asset/mdi_pencil.svg';
 import { getUserData } from '../_lib/getUserData';
 import styles from '../_styles/Profile.module.css';
 import ProfileModifyForm from './ProfileModifyForm';
-import { useSession } from 'next-auth/react';
 
 const Profile = () => {
   const { show, toggleModal } = useModalStore();
-  const { data: session } = useSession();
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', params.id],

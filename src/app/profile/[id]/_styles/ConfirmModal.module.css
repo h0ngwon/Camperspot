@@ -1,0 +1,47 @@
+.div {
+  width: 380px;
+  height: 190px;
+  padding: 2rem;
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  border: 1px solid #999999;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+  z-index: 999;
+}
+
+.h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.no-cancel-btn {
+  width: 120px;
+  margin: 0 0.5rem;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  border: 1px solid #4db635;
+  border-radius: 0.5rem;
+}
+
+.no-cancel-btn:hover {
+  background-color: #6fcf59;
+}
+
+.cancel-btn {
+  width: 120px;
+  margin: 0 0.5rem;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  background-color: #6fcf59;
+  border-radius: 0.5rem;
+}

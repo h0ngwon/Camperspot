@@ -29,3 +29,13 @@
   display: block;
   width: 54%;
 }
+
+.scroll {
+  height: 630px;
+  overflow: auto;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  width: 10px;
+  background: #000;
+}

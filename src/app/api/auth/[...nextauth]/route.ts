@@ -141,8 +141,8 @@ const makeSocialAccount = async (
       .single();
     console.log(error);
     token.userId = data?.id;
-    token.role = 'user';
   }
+  token.role = 'user';
   return token;
 };
 const handler = NextAuth(authOptions);
