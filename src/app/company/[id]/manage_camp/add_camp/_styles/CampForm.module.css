@@ -191,6 +191,9 @@
   height: 40px;
   padding: 10px;
 }
+.removeHashtagBtn {
+  cursor: pointer;
+}
 
 /* 등록하기 버튼 */
 .btns {
