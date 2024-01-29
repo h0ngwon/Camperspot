@@ -7,13 +7,12 @@ import { useState } from 'react';
 import ConfirmModal from './ConfirmModal';
 import { deleteUserReservation } from '../_lib/deleteUserReservation';
 import CompleteModal from './CompleteModal';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 const ReservationDetailModal = ({
   reservation,
-  onClose,
 }: {
   reservation: UserReservationInfo;
-  onClose: () => void;
 }) => {
   const {
     id,
@@ -33,14 +32,24 @@ const ReservationDetailModal = ({
   const today = new Date().setHours(0, 0, 0, 0);
   const [isOpenConfirm, setIsOpenComfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
+  const queryClient = useQueryClient();
+  const deleteReservationMutaion = useMutation({
+    mutationFn: () => deleteUserReservation(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['mypage', 'profile', 'reservation'],
+      });
+    },
+  });
+  const handleDelete = () => {
+    deleteReservationMutaion.mutate();
+    toggleModal();
+  };
   console.log('today', today);
   return (
     <>
       <p className={styles.info}>예약 상세 보기</p>
       <div className={styles.modal}>
-        {/* <button className={styles['close-btn']} onClick={() => onClose()}>
-          <ModalCloseSvg />
-        </button> */}
         <div>
           <div className={styles['camp-info']}>
             <h3 className={styles.h3}>예약 정보</h3>
@@ -140,7 +149,6 @@ const ReservationDetailModal = ({
           <ConfirmModal
             title={'예약을 취소하시겠습니까?'}
             onCancel={() => {
-              deleteUserReservation(id);
               setIsOpenComfirm(false);
               setIsOpenComplete(true);
             }}
@@ -150,7 +158,7 @@ const ReservationDetailModal = ({
         {isOpenComplete && (
           <CompleteModal
             title={'예약이 취소되었습니다'}
-            onClose={() => setIsOpenComplete(false)}
+            onClose={handleDelete}
           />
         )}
       </div>

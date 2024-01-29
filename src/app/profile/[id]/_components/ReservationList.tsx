@@ -29,10 +29,10 @@ const ReservationList = ({
     setIsOpenDetailModal(index);
     toggleModal();
   };
-  const handleCloseModal = () => {
-    toggleModal();
-    setIsOpenDetailModal(null);
-  };
+  // const handleCloseModal = () => {
+  //   toggleModal();
+  //   setIsOpenDetailModal(null);
+  // };
   return (
     <>
       {reservations &&
@@ -122,7 +122,7 @@ const ReservationList = ({
                   <Modal customWidth={450} customHeight={680}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
-                      onClose={handleCloseModal}
+                      // onClose={handleCloseModal}
                     />
                   </Modal>
                 </ModalPortal>

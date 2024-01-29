@@ -1,13 +1,18 @@
-import Button from '@/app/camp/detail/[id]/_components/Button';
 import styles from '../_styles/ConfirmModal.module.css';
-type Props = { title: string; onClose: Function; onCancel: Function };
+type Props = { title: string; onClose: () => void; onCancel: () => void };
 
 const ConfirmModal = ({ title, onClose, onCancel }: Props) => {
   return (
     <div className={styles.div}>
       <h2 className={styles.h2}>{title}</h2>
-      <Button onClick={() => onClose()}>아니요</Button>
-      <Button onClick={() => onCancel()}>취소하기</Button>
+      <div className={styles.buttons}>
+        <button className={styles['no-cancel-btn']} onClick={() => onClose()}>
+          아니요
+        </button>
+        <button className={styles['cancel-btn']} onClick={() => onCancel()}>
+          취소하기
+        </button>
+      </div>
     </div>
   );
 };
