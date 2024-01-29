@@ -2,7 +2,7 @@ import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
 import addImgBtn from '@/asset/addImgBtn.png';
-import removePicBtn from '@/asset/ico_removePicBtn.png';
+import removePicBtn from '@/asset/ico_cancel_btn.png';
 
 type Props = {
   campPicture: string[];
@@ -65,7 +65,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
               id='campImg'
               className={styles.uploadLayoutImgBtn}
             />
-            <label htmlFor='campImg'>
+            <label htmlFor='campImg' className={styles.addLayoutImgBtnWrap}>
               <Image
                 src={addImgBtn}
                 alt='캠핑장 이미지 등록 버튼'

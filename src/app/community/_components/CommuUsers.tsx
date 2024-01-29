@@ -10,7 +10,6 @@ import CommuEditModal from './CommuEditModal';
 
 type Props = {
   user: { id: string; nickname: string; profile_url: string | null } | null;
-  postId: string;
   data: {
     content: string;
     created_at: string;
@@ -22,7 +21,7 @@ type Props = {
   };
 };
 
-export default function CommuUser({ user, postId, data }: Props) {
+export default function CommuUser({ user, data }: Props) {
   const [isMoreBtn, setIsMoreBtn] = useState<boolean>(false);
   const [isCommuEditModal, setIsCommuEditModal] = useState<boolean>(false);
 
@@ -38,7 +37,7 @@ export default function CommuUser({ user, postId, data }: Props) {
           .from('post')
           .delete()
           .eq('user_id', userId)
-          .match({ id: postId });
+          .match({ id: data.id });
       }
     },
     onSuccess: () => {
@@ -79,7 +78,7 @@ export default function CommuUser({ user, postId, data }: Props) {
           <MoreSvg />
         </button>
         {isMoreBtn ? (
-          <div className={styles.btnsWrap}>
+          <div onClick={handleCancelBtn} className={styles.btnsWrap}>
             <div className={styles.btns}>
               <button onClick={() => setIsCommuEditModal(true)}>수정</button>
               <button onClick={handleDeletedBtn}>삭제</button>
@@ -94,7 +93,7 @@ export default function CommuUser({ user, postId, data }: Props) {
         <CommuEditModal
           onClose={() => setIsCommuEditModal(false)}
           allClose={handleCancelBtn}
-          postId={postId}
+          postId={data.id}
           data={data}
         />
       )}

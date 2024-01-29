@@ -1,0 +1,31 @@
+.modalbg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1000px;
+  background: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.modalFlex {
+  display: flex;
+}
+
+.modalSlid {
+  display: block;
+  width: 54%;
+}
