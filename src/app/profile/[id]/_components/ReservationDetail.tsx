@@ -16,18 +16,28 @@ export const ReservationDetail = () => {
     queryKey: ['mypage', 'profile', 'reservation'],
     queryFn: () => getUserReservation(userId as string),
   });
+  const currentDate = new Date();
 
   const plannedReservation = reservations?.filter(
     (reservation) =>
-      new Date(reservation.check_in_date).getTime() >=
-        new Date(new Date().setHours(0, 0, 0)).getTime() &&
-      new Date(reservation.check_out_date).getTime() >
-        new Date(new Date().setHours(0, 0, 0)).getTime(),
+      // 체크인이 내일 이후부터
+      new Date(reservation.check_in_date).getTime() >
+      new Date(
+        new Date(
+          currentDate.getFullYear(),
+          currentDate.getMonth(),
+          currentDate.getDate() + 1,
+        ),
+      ).getTime(),
   );
 
   const passedReservation = reservations?.filter(
     (reservation) =>
-      new Date(reservation.check_out_date).getTime() < new Date().getTime(),
+      // 체크인이 예약 당일인 경우도 포함
+      new Date(
+        new Date(reservation.check_in_date).setHours(0, 0, 0, 0),
+      ).getTime() <= new Date(new Date().setHours(0, 0, 0, 0)).getTime(),
+    // new Date(reservation.check_out_date).getTime() < new Date().getTime(),
   );
 
   if (isLoading) return <p>Loading...</p>;
