@@ -8,11 +8,14 @@ import ConfirmModal from './ConfirmModal';
 import { deleteUserReservation } from '../_lib/deleteUserReservation';
 import CompleteModal from './CompleteModal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import ModalCloseSvg from '@/components/ModalCloseSvg';
 
 const ReservationDetailModal = ({
   reservation,
+  onClose,
 }: {
   reservation: UserReservationInfo;
+  onClose: () => void;
 }) => {
   const {
     id,
@@ -29,7 +32,7 @@ const ReservationDetailModal = ({
   const { name: campName, check_in, check_out } = reservation.camp_area?.camp!;
   const { name: campAreaName } = reservation.camp_area!;
   const { toggleModal } = useModalStore();
-  const today = new Date().setHours(0, 0, 0, 0);
+  const today = new Date();
   const [isOpenConfirm, setIsOpenComfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
   const queryClient = useQueryClient();
@@ -50,6 +53,9 @@ const ReservationDetailModal = ({
     <>
       <p className={styles.info}>예약 상세 보기</p>
       <div className={styles.modal}>
+        <button className={styles['close-btn']} onClick={() => onClose()}>
+          <ModalCloseSvg />
+        </button>
         <div>
           <div className={styles['camp-info']}>
             <h3 className={styles.h3}>예약 정보</h3>
@@ -127,8 +133,11 @@ const ReservationDetailModal = ({
             <span className={styles.price}>{fee.toLocaleString()}원 </span>
           </p>
         </div>
-
-        {new Date(check_in_date).getTime() >= today ? (
+        {/* 체크인 날짜가 내일 날짜 이후부터 취소 가능  */}
+        {new Date(check_in_date).getTime() >=
+        new Date(
+          new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
+        ).getTime() ? (
           <div className={styles.buttons}>
             <button
               className={styles['cancel-btn']}
@@ -136,12 +145,15 @@ const ReservationDetailModal = ({
             >
               취소
             </button>
-            <button className={styles['confirm-btn']} onClick={toggleModal}>
+            <button className={styles['confirm-btn']} onClick={() => onClose()}>
               확인
             </button>
           </div>
         ) : (
-          <button className={styles['only-confirm-btn']} onClick={toggleModal}>
+          <button
+            className={styles['only-confirm-btn']}
+            onClick={() => onClose()}
+          >
             확인
           </button>
         )}

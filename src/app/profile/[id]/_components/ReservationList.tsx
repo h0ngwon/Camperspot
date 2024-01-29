@@ -33,8 +33,8 @@ const ReservationList = ({
     toggleModal();
   };
   const handleCloseModal = () => {
-    toggleModal();
     setIsOpenDetailModal(null);
+    toggleModal();
   };
 
   const handleOpenReviewModal = (index: number) => {
@@ -156,12 +156,12 @@ const ReservationList = ({
                   </div>
                 </td>
               )}
-              {isOpenDetailModal === idx ? (
+              {show && isOpenDetailModal === idx ? (
                 <ModalPortal>
                   <Modal customWidth={450} customHeight={680}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
-                      // onClose={handleCloseModal}
+                      onClose={handleCloseModal}
                     />
                   </Modal>
                 </ModalPortal>
