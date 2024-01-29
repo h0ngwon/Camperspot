@@ -13,7 +13,7 @@ export default function CarouselNextArrow({
   return (
     <div
       className={`${className} ${styles.slickNext}`}
-      style={{ ...style, right: 0 }}
+      style={{ ...style, right: '10px' }}
       onClick={onClick}
     />
   );

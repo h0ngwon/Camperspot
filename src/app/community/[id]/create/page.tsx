@@ -84,7 +84,9 @@ export default function CommuCreatePage() {
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (isEmptyValue(newHashTag)) return;
+    if (hashTags.length >= 10) {
+      return;
+    }
 
     setHashTags((prevHashTags) => {
       const uniqueHashTags = new Set([...prevHashTags, newHashTag]);

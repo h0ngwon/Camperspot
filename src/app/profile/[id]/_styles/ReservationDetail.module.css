@@ -1,9 +1,16 @@
 .layout {
+  width: 960px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 1px solid var(--neutral-100, #E6E6E9);
+  background: var(--base-white, #FFF);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
   padding: 3rem;
 }
+
 .h3 {
   color: #000;
-  font-size: 20px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;

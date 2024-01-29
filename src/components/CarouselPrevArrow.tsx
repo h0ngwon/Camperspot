@@ -14,7 +14,7 @@ export default function CarouselPrevArrow({
   return (
     <div
       className={`${className} ${styles.slickPrev}`}
-      style={{ ...style, left: 0, zIndex: 1 }}
+      style={{ ...style, left: '10px', zIndex: 1 }}
       onClick={onClick}
     />
   );

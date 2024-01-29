@@ -203,7 +203,6 @@ const AddForm = () => {
           <textarea
             value={content}
             onChange={handleContent}
-            className={styles.gridItemTextArea}
             placeholder='캠핑장을 소개해주세요'
             required
           ></textarea>
