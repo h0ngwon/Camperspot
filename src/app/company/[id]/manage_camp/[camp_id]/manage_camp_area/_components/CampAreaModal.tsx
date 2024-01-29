@@ -13,12 +13,17 @@ import { supabase } from '@/app/api/db';
 import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuid } from 'uuid';
+import Image from 'next/image';
+import removeBtn from '@/asset/ico_removePicBtn.png';
+import addImgBtn from '@/asset/addImgBtn.png';
+import closeBtn from '@/asset/ico_cancel_btn.png';
+
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
 const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const [areaName, handleAreaName] = useInput();
   const [areaMaxPeople, handleAreaMaxPeople] = useInput();
-  const [areaPrice, handleAreaPrice] = useInput();
+  const [areaPrice, setAreaPrice] = useState('');
   const [areaImg, setAreaImg] = useState<string>('');
 
   const id = uuid();
@@ -26,6 +31,15 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const campId = params.camp_id;
 
   const imgRef = useRef<HTMLInputElement>(null);
+
+  const queryClient = useQueryClient();
+
+  // 금액 입력시 자동 콤마
+  const handleAreaPrice = (e: ChangeEvent<HTMLInputElement>) => {
+    const value: string = e.target.value;
+    const removedCommaValue: number = Number(value.replaceAll(',', ''));
+    setAreaPrice(removedCommaValue.toLocaleString());
+  };
 
   // 캠핑존 이미지 업로드
   async function handleChangeInputCampArea(e: ChangeEvent<HTMLInputElement>) {
@@ -39,7 +53,6 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
     setAreaImg('');
   };
 
-  const queryClient = useQueryClient();
   // 쿼리문으로 작성한 camp_area테이블 insert
   const {
     mutate: createCampArea,
@@ -110,56 +123,82 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
 
   return (
     <div className={styles.wrap}>
-      <div>
-        <h1>캠핑존 설정</h1>
+      <div className={styles.addCampAreaHeader}>
+        <h1 className={styles.campAreaH1}>캠핑존 설정</h1>
         <button
           onClick={() => {
             setCampAreaModal(false);
           }}
+          className={styles.closeBtn}
         >
-          x
+          <Image src={removeBtn} alt='캠핑존 닫기 버튼' width={17} />
         </button>
       </div>
       <form onSubmit={handleForm} className={styles.formLayout}>
-        <div>
-          <h3>캠핑존 이름</h3>
+        <div className={styles.campAreaNameWrap}>
+          <h3 className={styles.campAreaH3}>캠핑존 이름</h3>
           <input
-            defaultValue={areaName}
+            value={areaName}
             onChange={handleAreaName}
             placeholder='이름을 입력해주세요'
+            required
           />
         </div>
-        <div>
-          <h3>최대 수용인원</h3>
+        <div className={styles.campAreaMaxPeople}>
+          <h3 className={styles.campAreaH3}>최대 수용인원</h3>
           <input
-            defaultValue={areaMaxPeople}
+            value={areaMaxPeople}
             onChange={handleAreaMaxPeople}
             type='number'
+            required
           />
         </div>
-        <div>
-          <h3>금액</h3>
-          <input defaultValue={areaPrice} onChange={handleAreaPrice} />
+        <div className={styles.campAreaPriceWrap}>
+          <h3 className={styles.campAreaH3}>금액</h3>
+          <input value={areaPrice} onChange={handleAreaPrice} required />
           <span>원</span>
         </div>
         <div>
-          <h3>캠핑존 사진 등록</h3>
-          <input
-            type='file'
-            onChange={handleChangeInputCampArea}
-            ref={imgRef}
-          />
+          <h3 className={styles.campAreaH3}>캠핑존 사진 등록</h3>
+
           {areaImg ? (
-            <div>
-              <img src={areaImg} className={styles.addedCampAreaImg} />
-              <button onClick={() => handleDeleteAreaImg()}>이미지 삭제</button>
+            <div className={styles.addedCampAreaImgWrap}>
+              <Image
+                src={areaImg}
+                alt='추가된 캠핑존 이미지'
+                width={286}
+                height={256}
+              />
+              <button
+                onClick={() => handleDeleteAreaImg()}
+                className={styles.removeImgBtn}
+              >
+                <Image src={closeBtn} alt='이미지 삭제 버튼' width={16} />
+              </button>
             </div>
           ) : (
-            ''
+            <div className={styles.uploadCampAreaImgWrap}>
+              <input
+                type='file'
+                onChange={handleChangeInputCampArea}
+                ref={imgRef}
+                className={styles.displayNone}
+                id='campAreaImg'
+              />
+              <label htmlFor='campAreaImg' className={styles.uploadCampAreaImg}>
+                <Image
+                  src={addImgBtn}
+                  alt='캠핑존 이미지 추가 버튼'
+                  width={286}
+                />
+              </label>
+            </div>
           )}
         </div>
-        <div>
-          <button type='submit'>등록하기</button>
+        <div className={styles.addCampAreaBtnWrap}>
+          <button type='submit' className={styles.addCampAreaBtn}>
+            등록하기
+          </button>
         </div>
       </form>
     </div>

@@ -83,7 +83,11 @@ const Hashtag = ({
             return (
               <div key={item} className={styles.hashtag}>
                 <div className='tag'>{'#' + item}</div>
-                <button type='button' onClick={() => handleDeleteHashtag(item)}>
+                <button
+                  type='button'
+                  onClick={() => handleDeleteHashtag(item)}
+                  className={styles.removeHashtagBtn}
+                >
                   <Image
                     src={removeBtn}
                     alt='해시태그 삭제 버튼'

@@ -60,6 +60,11 @@ const ManageAddedCamp = (props: Props) => {
       `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
     );
   };
+
+  const moreAddCamp = () => {
+    router.push(`/company/${companyUserId}/manage_camp/add_camp`);
+  };
+
   return (
     <>
       <h1 className={styles.h1}>캠핑장 운영 및 관리</h1>
@@ -158,6 +163,9 @@ const ManageAddedCamp = (props: Props) => {
           })}
         </div>
       )}
+      <button className={styles.moreAddCamp} onClick={moreAddCamp}>
+        캠핑장 추가 등록
+      </button>
     </>
   );
 };
