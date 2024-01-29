@@ -3,8 +3,13 @@
   height:575px;
   display: flex;
   flex-direction: column;
-  padding: 50px 40px 0 40px;
+  padding: 3rem;
   gap:51px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  border: 1px solid var(--neutral-100, #E6E6E9);
+  background: var(--base-white, #FFF);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
 }
 
 .profile-container {
