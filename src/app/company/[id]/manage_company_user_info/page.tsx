@@ -4,6 +4,7 @@ import { Tables } from '@/types/supabase';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getSession, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import styles from './_styles/ManageCompanyUserInfo.module.css';
 
 type Props = {};
 
@@ -79,7 +80,7 @@ const ManageCompanyInfo = () => {
 
   return (
     <>
-      <h1>회원정보관리</h1>
+      <h1 className={styles.h1}>회원정보관리</h1>
 
       {companyUserInfo?.map((item) => {
         return (
