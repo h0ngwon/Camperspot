@@ -26,9 +26,7 @@ const Camp = async ({
     sort,
   });
   if (error) console.error(error);
-  else console.log(data);
 
-  console.log(error);
   const per_page = searchParams['per_page'] ?? '9';
 
   const start = (Number(currentPage) - 1) * Number(per_page);
@@ -54,7 +52,11 @@ const Camp = async ({
           </div>
           <Spacer y={50} />
 
-          <PageController hasNextPage={end < count!} hasPrevPage={start > 0} />
+          <PageController
+            hasNextPage={end < count!}
+            hasPrevPage={start > 0}
+            count={count!}
+          />
           <Spacer y={50} />
         </div>
       </div>
