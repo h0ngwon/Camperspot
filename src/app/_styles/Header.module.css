@@ -1,4 +1,15 @@
 .container {
+    position: sticky;
+    padding-top: 32px;
+    top: -32px;
+    z-index: 2;
+    left: 0;
+    right: 0;
+    top: 0;
+    background-color: #fff;
+}
+
+.wrap {
     display: flex;
     justify-content: center;
 }
