@@ -3,6 +3,7 @@ import React from 'react';
 import styles from '../_styles/BookmarkCampContent.module.css';
 import Image from 'next/image';
 import AddressSvg from '@/components/AddressSvg';
+import Link from 'next/link';
 
 type Props = {
   camp: {
@@ -17,6 +18,7 @@ type Props = {
 const BookmarkCampContent = ({ camp }: Props) => {
   return (
     <Card>
+      <Link href={`/camp/detail/${camp.id}`}>
       <div className={styles.container}>
         <div className={styles['img-wrapper']}>
           <Image
@@ -40,6 +42,7 @@ const BookmarkCampContent = ({ camp }: Props) => {
             : `${camp.camp_area[0]?.price.toLocaleString()}원~`}
         </p>
       </div>
+      </Link>
     </Card>
   );
 };
