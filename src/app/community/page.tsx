@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
+import { ToastContainer, toast } from 'react-toastify';
 import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
@@ -12,6 +13,8 @@ import CommuCreateModal from './_components/CommuCreateModal';
 
 import styles from './_styles/Commu.module.css';
 import CreateSvg from './_svg/CreateSvg';
+import CampingImg from '@/asset/camping_illust.jpg';
+import Image from 'next/image';
 
 export default function CommunityPage() {
   const [isCommuCreateModal, setIsCommuCreateModal] = useState<boolean>(false);
@@ -41,7 +44,19 @@ export default function CommunityPage() {
   });
 
   const handleCreateModalOpen = () => {
-    setIsCommuCreateModal(true);
+    // 로그인 상태에서만 모달을 열도록 체크
+    if (session) {
+      setIsCommuCreateModal(true);
+    } else {
+      toast.error('로그인이 필요합니다.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
   };
 
   if (isLoading) {
@@ -54,12 +69,25 @@ export default function CommunityPage() {
 
   return (
     <>
+      <ToastContainer />
       <div className={styles.container}>
         <div className={styles.createBtn} onClick={handleCreateModalOpen}>
           <CreateSvg />
         </div>
         {isCommuCreateModal && (
           <CommuCreateModal onClose={() => setIsCommuCreateModal(false)} />
+        )}
+        {data && data.length === 0 && (
+          <div className={styles.noPosts}>
+            <Image
+              className={styles.img}
+              src={CampingImg}
+              alt='image'
+              width={700}
+              height={550}
+            />
+            <p>등록된 글이 없습니다.</p>
+          </div>
         )}
         <ul>
           {data?.map((item) => {

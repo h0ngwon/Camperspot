@@ -6,6 +6,7 @@ import { v4 as uuid } from 'uuid';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Database } from '@/types/supabase';
+import { toast } from 'react-toastify';
 import CommuEditPic from './CommuPic';
 
 import styles from '../_styles/CommuModal.module.css';
@@ -40,6 +41,8 @@ export default function CommuEditModal({
   const [hashTagsEdit, setHashTagsEdit] = useState<PostHashTag[]>([]);
 
   const queryClient = useQueryClient();
+
+  const MAX_HASHTAG_LENGTH = 20;
 
   useEffect(() => {
     if (data) {
@@ -104,7 +107,7 @@ export default function CommuEditModal({
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (hashTagsEdit.length >= 10) {
+    if (hashTagsEdit.length >= 10 || newHashTag.length > MAX_HASHTAG_LENGTH) {
       return;
     }
 
@@ -144,46 +147,50 @@ export default function CommuEditModal({
 
   const updateMutation = useMutation({
     mutationFn: async () => {
-      // 데이터베이스의 게시글을 업데이트합니다.
-      await supabase
-        .from('post')
-        .update({
-          content: contentEdit,
-        })
-        .eq('id', postId);
-
-      for (const pic of postPicEdit) {
-        await supabase.from('post_pic').delete().eq('id', pic.id);
-      }
-
-      // PostPic 데이터 업데이트
-      for (const pic of postPicEdit) {
+      try {
+        // 데이터베이스의 게시글을 업데이트합니다.
         await supabase
-          .from('post_pic')
-          .upsert([
-            {
-              post_id: postId,
-              photo_url: pic.photo_url,
-            },
-          ])
-          .eq('id', pic.id);
-      }
+          .from('post')
+          .update({
+            content: contentEdit,
+          })
+          .eq('id', postId);
 
-      for (const tag of hashTagsEdit) {
-        await supabase.from('post_hashtag').delete().eq('id', tag.id);
-      }
+        // PostPic 데이터 업데이트
+        for (const pic of postPicEdit) {
+          // 이미지 삭제
+          await supabase.from('post_pic').delete().eq('id', pic.id);
+          // 새로운 이미지 추가
+          await supabase
+            .from('post_pic')
+            .upsert([
+              {
+                post_id: postId,
+                photo_url: pic.photo_url,
+              },
+            ])
+            .eq('id', pic.id);
+        }
 
-      // PostHashTag 데이터 업데이트
-      for (const tag of hashTagsEdit) {
-        await supabase
-          .from('post_hashtag')
-          .upsert([
-            {
-              post_id: postId,
-              tag: tag.tag,
-            },
-          ])
-          .eq('id', tag.id);
+        // PostHashTag 데이터 업데이트
+        for (const tag of hashTagsEdit) {
+          // 해시태그 삭제
+          await supabase.from('post_hashtag').delete().eq('id', tag.id);
+          // 새로운 해시태그 추가
+          await supabase
+            .from('post_hashtag')
+            .upsert([
+              {
+                post_id: postId,
+                tag: tag.tag,
+              },
+            ])
+            .eq('id', tag.id);
+        }
+        toast.success('수정이 완료되었습니다.');
+      } catch (error) {
+        console.error('데이터베이스 업데이트 및 삭제 에러:', error);
+        throw error;
       }
     },
     onSuccess: async () => {
@@ -193,6 +200,7 @@ export default function CommuEditModal({
     },
     onError: (error) => {
       console.error('뮤테이션 에러:', error);
+      toast.error('오류가 발생했습니다. 다시 시도해주세요.');
     },
   });
 

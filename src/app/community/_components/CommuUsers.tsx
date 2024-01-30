@@ -85,22 +85,24 @@ export default function CommuUser({ user, data }: Props) {
         <Image src={user?.profile_url!} alt='' width={32} height={32} />
         <p>{user?.nickname}</p>
       </div>
-      <div className={styles.more}>
-        <button onClick={handleOnClick}>
-          <MoreSvg />
-        </button>
-        {isMoreBtn ? (
-          <div onClick={handleCancelBtn} className={styles.btnsWrap}>
-            <div className={styles.btns}>
-              <button onClick={() => setIsCommuEditModal(true)}>수정</button>
-              <button onClick={handleDeletedBtn}>삭제</button>
-              <button onClick={handleCancelBtn}>취소</button>
+      {user?.id === userId && (
+        <div className={styles.more}>
+          <button onClick={handleOnClick}>
+            <MoreSvg />
+          </button>
+          {isMoreBtn ? (
+            <div onClick={handleCancelBtn} className={styles.btnsWrap}>
+              <div className={styles.btns}>
+                <button onClick={() => setIsCommuEditModal(true)}>수정</button>
+                <button onClick={handleDeletedBtn}>삭제</button>
+                <button onClick={handleCancelBtn}>취소</button>
+              </div>
             </div>
-          </div>
-        ) : (
-          ''
-        )}
-      </div>
+          ) : (
+            ''
+          )}
+        </div>
+      )}
       {isCommuEditModal && (
         <CommuEditModal
           onClose={() => setIsCommuEditModal(false)}
