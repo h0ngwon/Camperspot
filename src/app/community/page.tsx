@@ -84,7 +84,7 @@ export default function CommunityPage() {
               src={CampingImg}
               alt='image'
               width={700}
-              height={500}
+              height={550}
             />
             <p>등록된 글이 없습니다.</p>
           </div>
