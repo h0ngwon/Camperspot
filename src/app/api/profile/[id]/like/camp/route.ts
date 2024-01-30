@@ -13,7 +13,6 @@ export const GET = async (
     .eq('user_id', params.id as string);
 
   if (error) throw new Error(error.message);
-  console.log(data);
 
   return NextResponse.json(data);
 };

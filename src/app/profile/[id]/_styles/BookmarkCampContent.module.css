@@ -1,0 +1,46 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap:12px;
+}
+
+.img-wrapper {
+  width: 174px;
+  height: 174px;
+}
+
+.img-wrapper img {
+  object-fit:cover;
+  border-radius: 16px;
+}
+
+.camp-info-container {
+  display: flex;
+  flex-direction: column;
+  gap:5.5px;
+}
+
+.camp-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.camp-address{
+  color: var(--neutral-neutral_400, var(--neutral-400, #ADB0B7));
+  font-size: 14px;
+}
+
+.address-icon-wrapper {
+  width:15px;
+  height:15px;
+}
+
+.price {
+  width: 100%;
+  color: #1A2035;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: end;
+}
