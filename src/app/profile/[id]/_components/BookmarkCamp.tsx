@@ -1,4 +1,5 @@
 'use client';
+import { LikeCampType } from '@/types/profile';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getUserLikeCamp } from '../_lib/getUserLikeCamp';
@@ -8,8 +9,8 @@ import BookmarkCampContent from './BookmarkCampContent';
 const BookmarkCamp = () => {
   const params = useParams();
   const userId = params.id as string;
-  const { data, isLoading } = useQuery({
-    queryKey: ['mypage', 'bookmark', userId],
+  const { data, isLoading, isError } = useQuery<LikeCampType>({
+    queryKey: ['mypage', 'bookmark', 'camp', userId],
     queryFn: getUserLikeCamp,
     refetchOnWindowFocus: true,
   });
@@ -17,13 +18,13 @@ const BookmarkCamp = () => {
   if (isLoading) {
     <p>로딩중...</p>;
   }
-  console.log(data);
+
   return (
     <div className={styles.container}>
       <div className={styles['bookmark-header']}>찜 목록</div>
       <div className={styles['bookmark-wrapper']}>
-        {data?.map((content) => (
-          <BookmarkCampContent key={content.camp.id} camp={content.camp} />
+        {data?.map((item) => (
+          <BookmarkCampContent key={`camp_${item.camp.id}`} camp={item.camp} />
         ))}
       </div>
     </div>

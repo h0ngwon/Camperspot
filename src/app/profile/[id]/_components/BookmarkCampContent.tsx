@@ -1,18 +1,13 @@
-'use client'
+'use client';
 import AddressSvg from '@/components/AddressSvg';
 import Card from '@/components/Card';
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from '../_styles/BookmarkCampContent.module.css';
+import { LikeCampType } from '@/types/profile';
 
 type Props = {
-  camp: {
-    id: string;
-    name: string;
-    address: string;
-    camp_area: { price: number }[];
-    camp_pic: { id: string; photo_url: string }[];
-  };
+  camp: LikeCampType[number]['camp']
 };
 
 const BookmarkCampContent = ({ camp }: Props) => {

@@ -1,11 +1,18 @@
-'use client'
+'use client';
 import Card from '@/components/Card';
-import React from 'react';
+import { LikePostType } from '@/types/profile';
+import styles from '../_styles/BookmarkPostContent.module.css';
 
-type Props = {};
+type Props = {
+  post: LikePostType[number]['post'];
+};
 
-const BookmarkPostContent = (props: Props) => {
-  return <Card>BookmarkPostContent</Card>;
+const BookmarkPostContent = ({ post }: Props) => {
+  return (
+    <Card>
+      <div className={styles.container}>{post?.id}</div>
+    </Card>
+  );
 };
 
 export default BookmarkPostContent;
