@@ -10,10 +10,7 @@ export const GET = async (
     params: { id: string };
   },
 ) => {
-  console.log(params.id);
-  return NextResponse.json(true)
+  return NextResponse.json(true);
 };
 
-export const POST = async () => {
-
-}
+export const POST = async () => {};

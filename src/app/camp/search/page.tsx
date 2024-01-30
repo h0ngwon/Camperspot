@@ -18,7 +18,6 @@ const SearchPage = async ({ searchParams }: Props) => {
     _people,
   });
   if (error) console.error(error);
-  else console.log(data);
 
   return (
     <>

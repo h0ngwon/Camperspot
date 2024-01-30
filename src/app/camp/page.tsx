@@ -3,7 +3,7 @@ import CampList from './_components/CampList';
 import Spacer from '@/components/Spacer';
 import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
-import PageController from './_components/PageController';
+import Pagination from './_components/Pagination';
 
 export const revalidate = 0;
 
@@ -13,10 +13,7 @@ const Camp = async ({
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  const currentPage = Number(searchParams.page) || 1;
-  const perPage = 9;
-  const startRange = (currentPage - 1) * perPage;
-  const endRange = startRange + perPage - 1;
+  const currentPage = Number(searchParams.page);
 
   const page = searchParams.page!.toString();
   const sort = searchParams.sort!.toString();
@@ -26,9 +23,7 @@ const Camp = async ({
     sort,
   });
   if (error) console.error(error);
-  else console.log(data);
 
-  console.log(error);
   const per_page = searchParams['per_page'] ?? '9';
 
   const start = (Number(currentPage) - 1) * Number(per_page);
@@ -54,7 +49,11 @@ const Camp = async ({
           </div>
           <Spacer y={50} />
 
-          <PageController hasNextPage={end < count!} hasPrevPage={start > 0} />
+          <Pagination
+            hasNextPage={end < count!}
+            hasPrevPage={start > 0}
+            count={count!}
+          />
           <Spacer y={50} />
         </div>
       </div>
