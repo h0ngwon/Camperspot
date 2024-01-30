@@ -159,7 +159,7 @@ const AddForm = () => {
       console.log(error);
       toast.error('에러 발생');
     } else {
-      toast.success('등록되었습니다');
+      toast.success('등록 완료!');
       router.push(
         `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
       );
