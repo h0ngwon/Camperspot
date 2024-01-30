@@ -1,27 +1,24 @@
 'use client';
 import Reservation from './Reservation';
 import { useQuery } from '@tanstack/react-query';
-import { getCompanyReservation } from '../_lib/reservation';
+import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
 import styles from '../_styles/ReservationList.module.css';
 import { useState } from 'react';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { CompanyReservationInfo } from '@/types/reservation';
+import { useParams } from 'next/navigation';
 
-const ReservationList = ({ companyId }: { companyId: string }) => {
+const ReservationList = () => {
+  const params = useParams();
   const [text, setText] = useState<string>('');
   const [result, setResult] = useState<CompanyReservationInfo[]>();
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const {
-    isLoading,
-    error,
-    data: reservations,
-  } = useQuery({
-    queryKey: ['reservations'],
-    queryFn: () => getCompanyReservation(companyId),
+  const { isLoading, data: reservations } = useQuery({
+    queryKey: ['company', 'reservation', params.id],
+    queryFn: () => getCompanyReservation(params.id as string),
   });
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
   if (!reservations?.length) return <p>예약 현황이 없습니다.</p>;
 
   const firstReservationDate = new Date(reservations?.[0].created_at);

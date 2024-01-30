@@ -16,11 +16,14 @@ const Reservation = ({
   const { id, created_at, client_name, client_phone, people } = reservation;
   const { camp_name } = reservation.camp_area?.camp!;
   const { camp_area_name } = reservation.camp_area!;
+  const { id: companyId } = reservation.camp_area?.camp?.company_user!;
 
   const deleteReservationMutaion = useMutation({
     mutationFn: () => deleteCompanyReservation(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reservations'] });
+      queryClient.invalidateQueries({
+        queryKey: ['company', 'reservation', companyId],
+      });
     },
   });
   const handleDelete = () => {
