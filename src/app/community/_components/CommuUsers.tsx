@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useSession } from 'next-auth/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -66,6 +66,18 @@ export default function CommuUser({ user, data }: Props) {
   const handleCancelBtn = () => {
     setIsMoreBtn(false);
   };
+
+  const toggleBodyOverflow = (overflow: 'hidden' | 'auto') => {
+    document.body.style.overflow = overflow;
+  };
+
+  useEffect(() => {
+    if (isCommuEditModal || isMoreBtn) {
+      toggleBodyOverflow('hidden');
+    } else {
+      toggleBodyOverflow('auto');
+    }
+  }, [isCommuEditModal, isMoreBtn]);
 
   return (
     <div className={styles.userWrap}>

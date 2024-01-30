@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
@@ -8,11 +8,14 @@ import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
 import CommuBtns from './_components/CommuBtns';
+import CommuCreateModal from './_components/CommuCreateModal';
 
 import styles from './_styles/Commu.module.css';
 import CreateSvg from './_svg/CreateSvg';
 
 export default function CommunityPage() {
+  const [isCommuCreateModal, setIsCommuCreateModal] = useState<boolean>(false);
+
   const { data: session } = useSession();
   const userId = session?.user.id as string;
 
@@ -37,6 +40,10 @@ export default function CommunityPage() {
     },
   });
 
+  const handleCreateModalOpen = () => {
+    setIsCommuCreateModal(true);
+  };
+
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -48,11 +55,12 @@ export default function CommunityPage() {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.createBtn}>
-          <Link href={`/community/${userId}/create`}>
-            <CreateSvg />
-          </Link>
+        <div className={styles.createBtn} onClick={handleCreateModalOpen}>
+          <CreateSvg />
         </div>
+        {isCommuCreateModal && (
+          <CommuCreateModal onClose={() => setIsCommuCreateModal(false)} />
+        )}
         <ul>
           {data?.map((item) => {
             return (

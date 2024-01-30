@@ -4,13 +4,13 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 99;
-  cursor: pointer;
   background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9;
+  cursor: pointer;
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -43,7 +43,7 @@
   border: 0;
 }
 
-.edit {
+.register {
   display: flex;
   justify-content: space-between;
 }
