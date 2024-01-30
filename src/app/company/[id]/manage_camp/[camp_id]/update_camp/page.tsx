@@ -14,6 +14,7 @@ import Layout from './_components/Layout';
 import CampPicture from './_components/CampPicture';
 import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -233,7 +234,12 @@ const UpdateCampPage = (props: Props) => {
         .select();
     });
 
-    alert('수정완료');
+    if (error) {
+      console.log(error);
+      toast.error('에러 발생');
+    } else {
+      toast.success('수정 완료!');
+    }
     router.push(`/company/${companyId}/manage_camp/added_camp`);
   };
 
