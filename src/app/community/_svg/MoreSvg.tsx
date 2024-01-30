@@ -4,7 +4,7 @@ export default function MoreSvg() {
   return (
     <svg
       aria-label='옵션 더 보기'
-      fill='currentColor'
+      fill='#555'
       height='24'
       role='img'
       viewBox='0 0 24 24'

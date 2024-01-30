@@ -17,7 +17,6 @@ export default function CommentSvg({ onClick }: Props) {
         d='M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z'
         fill='none'
         stroke='#121212'
-        stroke-linejoin='round'
         stroke-width='2'
       ></path>
     </svg>
