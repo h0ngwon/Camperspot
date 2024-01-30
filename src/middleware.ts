@@ -17,7 +17,6 @@ export const middleware = async (req: NextRequest) => {
   }
 
   if (pathname.startsWith('/profile')) {
-    console.log(token);
     if (!token) {
       return NextResponse.redirect(new URL('/', req.url));
     }

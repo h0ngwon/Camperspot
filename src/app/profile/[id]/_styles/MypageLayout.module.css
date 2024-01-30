@@ -36,3 +36,9 @@
   justify-content: center;
   gap:23px;
 }
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap:49px;
+}

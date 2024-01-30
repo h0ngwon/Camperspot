@@ -15,7 +15,7 @@ const MypageLayout = ({ children }: Props) => {
             <aside>
               <Sidebar />
             </aside>
-            <main>
+            <main className={styles.main}>
               {children}
             </main>
           </div>

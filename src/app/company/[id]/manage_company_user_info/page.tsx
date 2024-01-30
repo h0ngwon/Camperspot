@@ -21,7 +21,6 @@ const ManageCompanyInfo = () => {
     const fetchData = async () => {
       const sessionData = await getSession();
       const getSessionUserId = sessionData?.user.id;
-      console.log(getSessionUserId);
 
       const { data: getCompanyUserInfo, error } = await supabase
         .from('company_user')
