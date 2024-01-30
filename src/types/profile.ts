@@ -11,6 +11,19 @@ export type LikeCampType = {
       id: string;
       photo_url: string;
     }[];
-  }
-  
+  };
 }[];
+
+export type LikePostType = {
+  user_id: string;
+  post: {
+    id: string;
+    content: string;
+    post_pic: {
+      photo_url: string;
+    }[];
+    post_hashtag: {
+      tag: string;
+    }[];
+  };
+}[]
