@@ -99,7 +99,7 @@ const ManageAddedCamp = (props: Props) => {
               <div key={item.id}>
                 <div className={styles.campBox}>
                   <Image
-                    src={item.camp_pic[0].photo_url}
+                    src={item.camp_pic[0]?.photo_url}
                     alt='캠핑장 이미지'
                     width={128}
                     height={128}

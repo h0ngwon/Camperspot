@@ -17,6 +17,7 @@ import Image from 'next/image';
 import removeBtn from '@/asset/ico_removePicBtn.png';
 import addImgBtn from '@/asset/addImgBtn.png';
 import closeBtn from '@/asset/ico_cancel_btn.png';
+import { toast } from 'react-toastify';
 
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
@@ -110,8 +111,9 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
 
     if (error) {
       console.log(error);
+      toast.error('에러 발생');
     } else {
-      alert('등록완료');
+      toast.success('등록 완료!');
       setCampAreaModal(false);
     }
   };
