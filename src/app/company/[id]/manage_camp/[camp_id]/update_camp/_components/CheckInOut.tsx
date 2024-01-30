@@ -42,6 +42,7 @@ const CheckInOut = ({
             handleCheck_in(e.target.value);
           }}
           required
+          className={styles.checkOption}
         >
           <option value=''>시간 선택</option>
           {generateTimeOptions().map((time) => (
@@ -59,6 +60,7 @@ const CheckInOut = ({
             handleCheck_out(e.target.value);
           }}
           required
+          className={styles.checkOption}
         >
           <option value=''>시간 선택</option>
           {generateTimeOptions().map((time) => (

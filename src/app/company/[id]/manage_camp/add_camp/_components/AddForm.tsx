@@ -183,6 +183,7 @@ const AddForm = () => {
               <button
                 onClick={() => {
                   setAddressModal(true);
+                  document.body.style.overflow = 'hidden';
                 }}
                 type='button'
                 className={styles.addressSearchBtn}
