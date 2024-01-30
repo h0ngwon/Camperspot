@@ -8,6 +8,7 @@
   bottom: 5%;
   right: 2%;
   z-index: 7;
+  cursor: pointer;
 }
 
 .container > ul {

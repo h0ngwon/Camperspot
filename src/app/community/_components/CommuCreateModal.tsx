@@ -1,25 +1,30 @@
 'use client';
 
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { supabase } from '@/app/api/db';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { supabase } from '@/app/api/db';
 import { v4 as uuid } from 'uuid';
+import { toast, ToastContainer } from 'react-toastify';
+
+import styles from '../_styles/CommuModal.module.css';
+import CloseSvg from '../_svg/CloseSvg';
+import 'react-toastify/dist/ReactToastify.css';
 
 import type { Tables } from '@/types/supabase';
+import CommuCreatePic from './CommuCreatePic';
 
-import styles from '../../_styles/CommuCreate.module.css';
-import CloseSvg from '../../_svg/CloseSvg';
+type Props = {
+  onClose: () => void;
+};
 
-export default function CommuCreatePage() {
+export default function CommuCreateModal({ onClose }: Props) {
   const [post, setPost] = useState<Tables<'post'>[]>();
   const [content, setContent] = useState<string>('');
   const [postPic, setPostPic] = useState<string[]>([]);
   const [inputHashTag, setInputHashTag] = useState<string>('');
   const [hashTags, setHashTags] = useState<string[]>([]);
 
-  const router = useRouter();
   const postId = uuid();
   const { data: session } = useSession();
 
@@ -122,6 +127,32 @@ export default function CommuCreatePage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    // content가 비어있을 때
+    if (!content.trim()) {
+      toast.error('내용을 입력하세요.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
+    // 이미지가 선택되지 않았을 때
+    if (postPic.length === 0) {
+      toast.error('이미지를 선택하세요.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
     const { data: user } = await supabase
       .from('user')
       .select('id')
@@ -182,89 +213,100 @@ export default function CommuCreatePage() {
         .select();
 
       if (post && post_hashtag) {
-        alert('등록되었습니다');
-        router.push('/community');
+        // 성공적으로 등록되었을 때 알림
+        toast.success('게시물이 성공적으로 등록되었습니다.', {
+          position: 'top-right',
+          autoClose: 3000, // 알림이 자동으로 닫히는 시간 (ms)
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+
+        onClose();
       }
     } catch (error) {
       console.error('폼 제출 중 에러 발생:', error);
+
+      // 에러 발생 시 알림
+      toast.error('게시물 등록 중 에러가 발생했습니다.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
     }
   };
 
   return (
-    <form className={styles.container} onSubmit={handleSubmit}>
-      <div className={styles.create}>
-        <div className='fileCon'>
-          <input
-            type='file'
-            accept='image/*'
-            id='file_upload'
-            className={styles.upload}
-            onChange={handleChangeInputImageFile}
-            required
-          />
-          <label htmlFor='file_upload'>업로드</label>
-          {/* 이미지 미리보기 및 삭제 버튼 */}
-          {postPic.map((item, index) => (
-            <div key={index}>
-              <img
-                src={item}
-                alt={`이미지 ${index + 1}`}
-                style={{ maxWidth: '100px', maxHeight: '100px' }}
+    <>
+      <ToastContainer />
+      <div onClick={onClose} className={styles.modalbg}></div>
+      <div className={styles.modal}>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.btn}>
+            <button type='button' onClick={() => onClose()}>
+              취소
+            </button>
+            <p>커뮤니티 등록</p>
+            <button type='submit'>등록</button>
+          </div>
+
+          <div className={styles.register}>
+            <div className={styles.modalSlide}>
+              <CommuCreatePic
+                postPic={postPic}
+                handleDeleteCampImg={handleDeleteCampImg}
+                handleChangeInputImageFile={handleChangeInputImageFile}
               />
-              <button type='button' onClick={() => handleDeleteCampImg(index)}>
-                <CloseSvg />
-              </button>
             </div>
-          ))}
-        </div>
 
-        <div className={styles.textCon}>
-          <div className={styles.user}>
-            <Image src={userImg} alt='' width={32} height={32} />
-            <p>{session?.user?.name}</p>
-          </div>
+            <div className={styles.Con}>
+              <div className={styles.user}>
+                <Image src={userImg} alt='' width={32} height={32} />
+                <p>{session!.user!.name}</p>
+              </div>
 
-          <div>
-            <label>Content</label>
-            <textarea
-              value={content}
-              onChange={(e) => handleChangeInput(e)}
-              placeholder='문구를 입력하세요'
-              required
-            />
-          </div>
-          <div>
-            <label>해시태그</label>
+              <div className={styles.textCon}>
+                <label className={styles.blind}>Content</label>
+                <textarea
+                  value={content}
+                  onChange={(e) => handleChangeInput(e)}
+                  placeholder='문구를 입력하세요'
+                />
+              </div>
 
-            <div className={styles.tagsCon}>
-              <input
-                id='hashTagInput'
-                value={inputHashTag}
-                onChange={(e) => changeHashTagInput(e)}
-                onKeyUp={(e) => addHashTag(e)}
-                onKeyDown={(e) => keyDownHandler(e)}
-                placeholder='#해시태그를 등록해보세요. (최대 10개)'
-              />
-              {hashTags.length > 0 &&
-                hashTags.map((item, index) => {
-                  return (
-                    <span key={index}>
-                      # {item}
-                      <button
-                        type='button'
-                        onClick={() => handleDeleteHashtag(item)}
-                      >
-                        <CloseSvg />
-                      </button>
-                    </span>
-                  );
-                })}
+              <div className={styles.tagsCon}>
+                <label className={styles.blind}>해시태그</label>
+                <input
+                  id='hashTagInput'
+                  value={inputHashTag}
+                  onChange={(e) => changeHashTagInput(e)}
+                  onKeyUp={(e) => addHashTag(e)}
+                  onKeyDown={(e) => keyDownHandler(e)}
+                  placeholder='#해시태그를 등록해보세요. (최대 10개)'
+                />
+                {hashTags.length > 0 &&
+                  hashTags.map((item, index) => {
+                    return (
+                      <span key={index}>
+                        # {item}
+                        <button
+                          type='button'
+                          onClick={() => handleDeleteHashtag(item)}
+                        >
+                          <CloseSvg />
+                        </button>
+                      </span>
+                    );
+                  })}
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </div>
-
-      <button type='submit'>등록</button>
-    </form>
+    </>
   );
 }

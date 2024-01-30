@@ -3,8 +3,8 @@ export default function CreateSvg() {
     <svg
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'
-      width='40'
-      height='40'
+      width='50'
+      height='50'
       fill='#fff'
       stroke='#919191'
       strokeWidth='1'

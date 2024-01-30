@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CommuLikeBtn from './CommuLikeBtn';
 import styles from '../_styles/CommuBtn.module.css';
 import CommentSvg from '../_svg/CommentSvg';
@@ -29,6 +29,18 @@ const CommuBtns = ({ data, userId }: Props) => {
   const onClose = () => {
     setModalVisible(false);
   };
+
+  const toggleBodyOverflow = (overflow: 'hidden' | 'auto') => {
+    document.body.style.overflow = overflow;
+  };
+
+  useEffect(() => {
+    if (isModalVisible) {
+      toggleBodyOverflow('hidden');
+    } else {
+      toggleBodyOverflow('auto');
+    }
+  }, [isModalVisible]);
 
   return (
     <div className={styles.btns}>
