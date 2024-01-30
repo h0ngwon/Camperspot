@@ -4,12 +4,15 @@ import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import styles from '../_styles/CompanyHeader.module.css';
 import Image from 'next/image';
 import reservationIcon from '@/asset/ico_reservation.png';
+import reservationIcon_active from '@/asset/ico_reservation_active.png';
 import manageCampIcon from '@/asset/ico_managecamp.png';
+import manageCampIcon_active from '@/asset/ico_managecamp_active.png';
 import manageCompanyIcon from '@/asset/ico_manage_company.png';
+import manageCompanyIcon_active from '@/asset/ico_manage_company_active.png';
 
 type Props = {};
 
@@ -19,6 +22,8 @@ const CompanyHeader = (props: Props) => {
   const router = useRouter();
   const { data: session } = useSession();
   const companyId = session?.user.id;
+
+  const pathname = usePathname();
 
   const {
     data: campData,
@@ -46,6 +51,12 @@ const CompanyHeader = (props: Props) => {
     return <div>에러발생</div>;
   }
 
+  const manageReservationPath = `/company/${companyId}/manage_reservation`;
+
+  const manageCampPath = `/company/${companyId}/manage_camp/added_camp`;
+
+  const manageCompanyUserPath = `/company/${companyId}/manage_company_user_info`;
+
   // const handleClickMyCamp = () => {
   //   router.push(`/company/${companyId}/manage_camp/added_camp`);
   //   setMyCamp(true);
@@ -61,55 +72,78 @@ const CompanyHeader = (props: Props) => {
     <div className={styles.container}>
       <div className={styles.menuTextContain}>
         <Link
-          href={`/company/${companyId}/manage_reservation`}
-          className={styles.sidebarItem}
+          href={manageReservationPath}
+          className={
+            pathname === manageReservationPath
+              ? styles.active
+              : styles.sidebarItem
+          }
         >
-          <Image src={reservationIcon} alt='예약관리' width={24} height={24} />
+          {pathname === manageReservationPath ? (
+            <Image
+              src={reservationIcon_active}
+              alt='예약관리'
+              width={24}
+              height={24}
+            />
+          ) : (
+            <Image
+              src={reservationIcon}
+              alt='예약관리'
+              width={24}
+              height={24}
+            />
+          )}
           <h2>예약 현황</h2>
         </Link>
+
         <Link
-          href={`/company/${companyId}/manage_camp/added_camp`}
-          className={styles.sidebarItem}
+          href={manageCampPath}
+          className={
+            pathname === manageCampPath ? styles.active : styles.sidebarItem
+          }
         >
-          <Image src={manageCampIcon} alt='캠핑장운영' width={24} height={24} />
+          {pathname === manageCampPath ? (
+            <Image
+              src={manageCampIcon_active}
+              alt='캠핑장운영'
+              width={24}
+              height={24}
+            />
+          ) : (
+            <Image
+              src={manageCampIcon}
+              alt='캠핑장운영'
+              width={24}
+              height={24}
+            />
+          )}
           <h2>캠핑장 운영</h2>
         </Link>
-        {/* {campData && (
-          <div>
-            <h1 onClick={handleClickMyCamp} className={styles.sidebarItemMycamp}>
-              내캠핑장
-            </h1>
-            {isClickMyCamp ? (
-              <ul>
-                {campData.length !== 0
-                  ? campData.map((item) => {
-                      return (
-                        <li
-                          key={item.id}
-                          onClick={() => handleGoToCampArea(item.id)}
-                          className={styles.myCampItem}
-                        >
-                          {item.name}
-                        </li>
-                      );
-                    })
-                  : ''}
-              </ul>
-            ) : (
-              ''
-            )}
-          </div>
-        )} */}
+
         <Link
-          href={`/company/${companyId}/manage_company_user_info`}
-          className={styles.sidebarItem}
+          href={manageCompanyUserPath}
+          className={
+            pathname === manageCompanyUserPath
+              ? styles.active
+              : styles.sidebarItem
+          }
         >
-          <Image
-            src={manageCompanyIcon}
-            alt='계정관리'
-            width={24}
-            height={24}
-          />
+          {pathname === manageCompanyUserPath ? (
+            <Image
+              src={manageCompanyIcon_active}
+              alt='계정관리'
+              width={24}
+              height={24}
+            />
+          ) : (
+            <Image
+              src={manageCompanyIcon}
+              alt='계정관리'
+              width={24}
+              height={24}
+            />
+          )}
           <h2>계정 관리</h2>
         </Link>
       </div>
