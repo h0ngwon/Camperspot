@@ -3,10 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { getUserLikeCamp } from '../_lib/getUserLikeCamp';
 import styles from '../_styles/BookmarkCamp.module.css';
-import CampCard from '@/app/_components/CampCard';
-import Card from '@/components/Card';
 import BookmarkCampContent from './BookmarkCampContent';
-import Camp from '@/app/camp/page';
 
 const BookmarkCamp = () => {
   const params = useParams();
@@ -25,7 +22,9 @@ const BookmarkCamp = () => {
     <div className={styles.container}>
       <div className={styles['bookmark-header']}>찜 목록</div>
       <div className={styles['bookmark-wrapper']}>
-        {data?.map((content) => <BookmarkCampContent key={content.camp.id} camp={content.camp}/>)}
+        {data?.map((content) => (
+          <BookmarkCampContent key={content.camp.id} camp={content.camp} />
+        ))}
       </div>
     </div>
   );
