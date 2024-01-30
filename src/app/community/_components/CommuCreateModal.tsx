@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import type { Tables } from '@/types/supabase';
 import CommuCreatePic from './CommuCreatePic';
+import { useQuery } from '@tanstack/react-query';
+import { getUserData } from '@/app/profile/[id]/_lib/getUserData';
 
 type Props = {
   onClose: () => void;
@@ -27,9 +29,12 @@ export default function CommuCreateModal({ onClose }: Props) {
 
   const postId = uuid();
   const { data: session } = useSession();
+  const { data } = useQuery({
+    queryKey: ['mypage', 'profile', session?.user.id],
+    queryFn: async () => getUserData(session?.user.id as string),
+  });
 
   const userEmail = session?.user?.email as string;
-  const userImg = session?.user?.image as string;
 
   const MAX_HASHTAG_LENGTH = 20;
 
@@ -267,8 +272,8 @@ export default function CommuCreateModal({ onClose }: Props) {
 
             <div className={styles.Con}>
               <div className={styles.user}>
-                <Image src={userImg} alt='' width={32} height={32} />
-                <p>{session!.user!.name}</p>
+                <Image src={data!.profile_url!} alt='' width={32} height={32} />
+                <p>{data?.nickname}</p>
               </div>
 
               <div className={styles.textCon}>
