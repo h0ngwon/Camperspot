@@ -22,69 +22,71 @@ const Header = () => {
   });
   console.log({ data });
   return (
-    <div>
-      {!conditions && (
-        <div className={styles.container}>
-          <header className={styles.header}>
-            <Link href={'/'}>
-              <figure className={styles.img}>
-                <Image src={logo} alt='' />
-              </figure>
-            </Link>
-            <SearchBar />
-            <div className={styles.navBox}>
-              <Link
-                href={'/community'}
-                // className={styles.community}
-              >
-                <CommunitySvg />
-                <p>커뮤니티</p>
+    <>
+      <div className={styles.container}>
+        {!conditions && (
+          <div className={styles.wrap}>
+            <header className={styles.header}>
+              <Link href={'/'}>
+                <figure className={styles.img}>
+                  <Image src={logo} alt='' />
+                </figure>
               </Link>
-              {session ? (
-                <>
-                  {session.user.role === 'company' ? (
-                    <Link
-                      href={`/company/${session.user.id}/manage_reservation`}
-                      // className={styles.community}
+              <SearchBar />
+              <div className={styles.navBox}>
+                <Link
+                  href={'/community'}
+                  // className={styles.community}
+                >
+                  <CommunitySvg />
+                  <p>커뮤니티</p>
+                </Link>
+                {session ? (
+                  <>
+                    {session.user.role === 'company' ? (
+                      <Link
+                        href={`/company/${session.user.id}/manage_reservation`}
+                        // className={styles.community}
+                      >
+                        <MyProfileSvg />
+                        <p>company</p>
+                      </Link>
+                    ) : (
+                      <Link
+                        href={`/profile/${session.user.id}`}
+                        // className={styles.community}
+                      >
+                        <Image
+                          src={data?.profile_url!}
+                          alt=''
+                          width={36}
+                          height={36}
+                          className={styles.profileImg}
+                        />
+                        <p>마이</p>
+                      </Link>
+                    )}
+                    <button
+                      onClick={() => signOut()}
+                      className={styles.logOutBtn}
                     >
+                      <Image src={logOut} alt='' width={30} height={30} />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link href={'/auth/signin'} className={styles.my}>
                       <MyProfileSvg />
-                      <p>company</p>
+                      <p>로그인</p>
                     </Link>
-                  ) : (
-                    <Link
-                      href={`/profile/${session.user.id}`}
-                      // className={styles.community}
-                    >
-                      <Image
-                        src={data?.profile_url!}
-                        alt=''
-                        width={36}
-                        height={36}
-                        className={styles.profileImg}
-                      />
-                      <p>마이</p>
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => signOut()}
-                    className={styles.logOutBtn}
-                  >
-                    <Image src={logOut} alt='' width={30} height={30} />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link href={'/auth/signin'} className={styles.my}>
-                    <MyProfileSvg />
-                    <p>로그인</p>
-                  </Link>
-                </>
-              )}
-            </div>
-          </header>
-        </div>
-      )}
-    </div>
+                  </>
+                )}
+              </div>
+            </header>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

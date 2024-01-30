@@ -7,7 +7,7 @@ import '../styles/reset.css';
 import AuthSession from './_components/AuthSession';
 import Provider from './_components/CampProvider';
 import Header from './_components/Header';
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
 export const metadata: Metadata = {
   title: '캠퍼스팟 (Camperspot)',
@@ -29,9 +29,8 @@ export default function RootLayout({
         <AuthSession>
           <Provider>
             <div id='modal'></div>
-            <Spacer y={30} />
             <Header />
-            <Spacer y={50} />
+            <Spacer y={80} />
             {children}
           </Provider>
           <ToastContainer />
