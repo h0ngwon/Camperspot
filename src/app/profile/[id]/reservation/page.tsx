@@ -5,7 +5,7 @@ const MypageReservation = () => {
   return (
     <>
       <ReservationDetail />
-      <BookmarkCamp/>
+      <BookmarkCamp />
     </>
   );
 };
