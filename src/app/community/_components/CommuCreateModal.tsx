@@ -31,6 +31,8 @@ export default function CommuCreateModal({ onClose }: Props) {
   const userEmail = session?.user?.email as string;
   const userImg = session?.user?.image as string;
 
+  const MAX_HASHTAG_LENGTH = 20;
+
   // post 테이블에서 option 가져오는거
   async function fetchPostData() {
     const { data: post } = await supabase.from('post').select('*');
@@ -89,7 +91,7 @@ export default function CommuCreateModal({ onClose }: Props) {
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (hashTags.length >= 10) {
+    if (hashTags.length >= 10 || newHashTag.length > MAX_HASHTAG_LENGTH) {
       return;
     }
 
@@ -142,7 +144,7 @@ export default function CommuCreateModal({ onClose }: Props) {
 
     // 이미지가 선택되지 않았을 때
     if (postPic.length === 0) {
-      toast.error('이미지를 선택하세요.', {
+      toast.error('이미지를 등록하세요.', {
         position: 'top-right',
         autoClose: 3000,
         hideProgressBar: false,
