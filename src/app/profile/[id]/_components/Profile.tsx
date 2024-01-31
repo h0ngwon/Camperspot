@@ -17,7 +17,7 @@ const Profile = () => {
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', params.id],
-    queryFn: async () => getUserData(params.id as string),
+    queryFn: getUserData
   });
 
   return (

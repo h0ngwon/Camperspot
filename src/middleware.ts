@@ -24,10 +24,6 @@ export const middleware = async (req: NextRequest) => {
       if (token.role !== 'user') {
         return NextResponse.redirect(new URL('/', req.url));
       }
-
-      // if(!pathname.includes(userId)) {
-      //   return NextResponse.redirect(new URL('/', req.url));
-      // }
     }
   }
 

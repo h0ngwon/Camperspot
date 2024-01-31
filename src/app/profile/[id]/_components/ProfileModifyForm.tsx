@@ -97,6 +97,7 @@ const ProfileModifyForm = () => {
           type='text'
           accept='image/*'
           defaultValue={data?.nickname}
+          maxLength={12}
           onChange={nicknameHandler}
           required
         />
