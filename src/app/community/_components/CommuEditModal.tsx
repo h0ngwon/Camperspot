@@ -93,22 +93,22 @@ export default function CommuEditModal({
   }
 
   // 이미지 삭제  수정
-  const handleDeleteCampImg = (index: number) => {
-    setPostPicEdit((prev) => {
-      // 삭제할 이미지 정보 가져오기
-      const deletedImage = prev[index];
+  const handleDeleteCampImg = async (index: number) => {
+    // 삭제할 이미지 정보 가져오기
+    const deletedImage = postPicEdit[index];
 
-      // 상태 업데이트: 삭제할 이미지를 제외한 나머지 이미지만 남깁니다.
-      const updatedImages = prev.filter((_, idx) => idx !== index);
-
-      // 이미지 삭제
-      if (deletedImage.id) {
+    // 이미지 삭제
+    if (deletedImage.id) {
+      try {
         // 삭제할 이미지의 id가 있는 경우에만 Supabase에서 삭제 요청
-        supabase.from('post_pic').delete().eq('id', deletedImage.id);
-      }
+        await supabase.from('post_pic').delete().eq('id', deletedImage.id);
 
-      return updatedImages;
-    });
+        // 상태 업데이트: 삭제할 이미지를 제외한 나머지 이미지만 남깁니다.
+        setPostPicEdit((prev) => prev.filter((_, idx) => idx !== index));
+      } catch (error) {
+        console.error('이미지 삭제 오류:', error);
+      }
+    }
   };
 
   // 해시태그 수정
