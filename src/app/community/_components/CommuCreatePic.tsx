@@ -13,45 +13,16 @@ import CommuPicSvg from '../_svg/CommuPicSvg';
 import DeleteSvg from '../_svg/DeleteSvg';
 
 type Props = {
-  postPicEdit: {
-    id: string;
-    photo_url: string;
-    post_id: string;
-  }[];
-  setPostPicEdit: React.Dispatch<
-    React.SetStateAction<
-      {
-        id: string;
-        photo_url: string;
-        post_id: string;
-      }[]
-    >
-  >;
+  postPic: string[];
+  handleDeleteCampImg: (index: number) => void;
+  handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>): void;
 };
 
-export default function CommuEditPic({ postPicEdit, setPostPicEdit }: Props) {
-  // 캠핑장 이미지 업로드
-  function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const newElement = {
-        id: 'some-id',
-        photo_url: URL.createObjectURL(file),
-        post_id: 'some-post-id',
-      }; // 실제 데이터로 교체
-      setPostPicEdit((prev) => [...prev, newElement]);
-    }
-  }
-
-  // 버튼 클릭시 이미지 삭제
-  const handleDeleteCampImg = (index: number) => {
-    setPostPicEdit((prev) => {
-      const updatedPostPics = [...prev];
-      updatedPostPics.splice(index, 1); // 해당 인덱스의 이미지 삭제
-      return updatedPostPics;
-    });
-  };
-
+export default function CommuCreatePic({
+  postPic,
+  handleDeleteCampImg,
+  handleChangeInputImageFile,
+}: Props) {
   const settings = {
     dots: true,
     infinite: false,
@@ -73,15 +44,10 @@ export default function CommuEditPic({ postPicEdit, setPostPicEdit }: Props) {
 
   return (
     <Slider {...settings}>
-      {postPicEdit.map((item, index) => (
-        <div key={item.id}>
+      {postPic.map((item, index) => (
+        <div key={index}>
           <div className={styles.slideWrap}>
-            <Image
-              src={item.photo_url}
-              alt={`이미지`}
-              layout='fill'
-              objectFit='cover'
-            />
+            <Image src={item} alt={`이미지`} layout='fill' objectFit='cover' />
           </div>
           <div className={styles.deleteWrap}>
             <button type='button' onClick={() => handleDeleteCampImg(index)}>

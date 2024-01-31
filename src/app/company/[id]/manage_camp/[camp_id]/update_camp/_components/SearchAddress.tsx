@@ -1,6 +1,7 @@
 import React from 'react';
 import { Address } from 'react-daum-postcode';
 import AddressModal from './AddressModal';
+import styles from '../_styles/CampForm.module.css';
 
 type Props = {
   setAddress: React.Dispatch<React.SetStateAction<string>>;
@@ -31,15 +32,17 @@ const SearchAddress = ({
 
     setAddress(fullAddress);
     setAddressModal(false);
+    document.body.style.overflow = 'unset';
   };
   const handleClickOutsideModal = () => {
     setAddressModal(false);
+    document.body.style.overflow = 'unset';
   };
 
   return (
     <>
       {isAddressModal && (
-        <div onClick={handleClickOutsideModal}>
+        <div className={styles.modalUP} onClick={handleClickOutsideModal}>
           <AddressModal handleCompleteAddress={handleCompleteAddress} />
         </div>
       )}

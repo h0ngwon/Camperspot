@@ -7,7 +7,25 @@
   position: fixed;
   bottom: 5%;
   right: 2%;
-  z-index: 7;
+  width: 80px;
+  height: 80px;
+  background-color: #fff;
+  border-radius: 80px;
+  box-shadow: 0 0 2rem #c5ecbc;
+  z-index: 6;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.createBtn:hover {
+  box-shadow: 0 0 2rem #a9e29c;
+}
+
+.createBtn svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .container > ul {
@@ -31,4 +49,14 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.noPosts {
+  text-align: center;
+}
+
+.noPosts p {
+  font-size: 30px;
+  font-weight: bold;
+  color: #919191;
 }

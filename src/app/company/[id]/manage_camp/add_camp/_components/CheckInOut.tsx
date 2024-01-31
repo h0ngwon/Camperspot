@@ -14,10 +14,28 @@ const CheckInOut = ({
   check_out,
   handleCheck_out,
 }: Props) => {
-  // 시간 옵션 생성 함수
+  // // 시간 옵션 생성 함수
+  // const generateTimeOptions = () => {
+  //   const hours = Array.from({ length: 24 }, (_, index) =>
+  //     String(index).padStart(2, '00'),
+  //   );
+  //   const minutes = ['00', '30'];
+  //   const timeOptions: string[] = [];
+
+  //   hours.forEach((hour) => {
+  //     minutes.forEach((minute) => {
+  //       const time = `${hour}:${minute}`;
+  //       timeOptions.push(time);
+  //     });
+  //   });
+
+  //   return timeOptions;
+  // };
+
+  // 시간 옵션 생성 함수 (오전 8시부터 오후 8시까지)
   const generateTimeOptions = () => {
-    const hours = Array.from({ length: 24 }, (_, index) =>
-      String(index).padStart(2, '0'),
+    const hours = Array.from({ length: 13 }, (_, index) =>
+      String(index + 8).padStart(2, '00'),
     );
     const minutes = ['00', '30'];
     const timeOptions: string[] = [];

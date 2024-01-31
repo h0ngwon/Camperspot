@@ -26,44 +26,60 @@ export const POST = async (
     params: { id: string };
   },
 ) => {
-  // // storage upload -> get url -> db update
+  // storage upload -> get url -> db update
   const userData = await req.formData();
 
+  // user nickname update
   if (userData.get('nickname')) {
-    const { error: saveError } = await supabase
-      .from('user')
-      .update({ nickname: userData.get('nickname') as string })
-      .eq('id', params.id);
-
-    if (saveError) {
-      throw new Error(saveError.message);
-    }
+    await updateUserNickname(userData, params);
   }
 
+  // user profile update
   if (userData.get('file')) {
-    const imageId = uuid();
-    const { data, error: storageError } = await supabase.storage
-      .from('profile_pic')
-      .upload(`profile/${imageId}`, userData.get('file') as File);
-
-    if (storageError) {
-      throw new Error(storageError.message);
-    }
-    const { data: url } = await supabase.storage
-      .from('profile_pic')
-      .getPublicUrl(`profile/${imageId}`);
-
-    const { error: profileUpdateError } = await supabase
-      .from('user')
-      .update({ profile_url: url.publicUrl })
-      .eq('id', params.id);
-    if (profileUpdateError) throw new Error(profileUpdateError.message);
+    await updateUserProfile(userData, params);
   }
-  const repository = await supabase
+  
+  // database profile url update
+  const repository = await updateProfileUrl(params);
+  return NextResponse.json(repository.data);
+};
+
+async function updateProfileUrl(params: { id: string; }) {
+  return await supabase
     .from('user')
     .select('email, nickname, profile_url, provider')
     .eq('id', params.id)
     .single();
-  return NextResponse.json(repository.data);
-  // return NextResponse.json(saveError);
-};
+}
+
+async function updateUserProfile(userData: FormData, params: { id: string; }) {
+  const imageId = uuid();
+  const { data, error: storageError } = await supabase.storage
+    .from('profile_pic')
+    .upload(`profile/${imageId}`, userData.get('file') as File);
+
+  if (storageError) {
+    throw new Error(storageError.message);
+  }
+  const { data: url } = await supabase.storage
+    .from('profile_pic')
+    .getPublicUrl(`profile/${imageId}`);
+
+  const { error: profileUpdateError } = await supabase
+    .from('user')
+    .update({ profile_url: url.publicUrl })
+    .eq('id', params.id);
+  if (profileUpdateError) throw new Error(profileUpdateError.message);
+}
+
+async function updateUserNickname(userData: FormData, params: { id: string; }) {
+  const { error: saveError } = await supabase
+    .from('user')
+    .update({ nickname: userData.get('nickname') as string })
+    .eq('id', params.id);
+
+  if (saveError) {
+    throw new Error(saveError.message);
+  }
+}
+

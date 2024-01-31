@@ -14,6 +14,7 @@ import Layout from './_components/Layout';
 import CampPicture from './_components/CampPicture';
 import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -72,6 +73,15 @@ const UpdateCampPage = (props: Props) => {
 
   const [isAddressModal, setAddressModal] = useState(false);
 
+  // 등록 눌렀을 시 캠핑장 이미지 업로드
+  async function uploadStorageCampPicData(blob: Blob | File) {
+    // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+    const { data, error } = await supabase.storage
+      .from('camp_pic')
+      .upload(window.URL.createObjectURL(blob), blob);
+    return { data: data, error };
+  }
+
   const {
     mutate: updateCamp,
     isError,
@@ -116,6 +126,23 @@ const UpdateCampPage = (props: Props) => {
         // camp_pic 데이터 삭제
         const { data: deleteCampPicData, error: deleteCampPicError } =
           await supabase.from('camp_pic').delete().eq('camp_id', campId);
+
+        // 여러개 사진 table에 올리는 로직
+        campPicture.forEach(async (item) => {
+          const blob = await fetch(item).then((r) => r.blob());
+          const { data, error } = await uploadStorageCampPicData(blob);
+          const BASE_URL =
+            'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
+          if (error) return null;
+          // supabase table에 올리는 로직
+          await supabase
+            .from('camp_pic')
+            .insert({
+              camp_id: campId as string,
+              photo_url: BASE_URL + data?.path,
+            })
+            .select();
+        });
 
         // hashtag 데이터 삭제
         const { data: deleteHashtagData, error: deleteHashtagDataError } =
@@ -163,7 +190,7 @@ const UpdateCampPage = (props: Props) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['camp_id'] });
     },
   });
   if (isError) {
@@ -176,12 +203,20 @@ const UpdateCampPage = (props: Props) => {
 
     if (campPicture.length === 0) {
       // todo : campPicture가 없을 때 로직 처리해야함
-      alert('캠핑장 이미지 한 장 이상 등록');
+      toast.error('캠핑장 이미지 한 장 이상 등록');
       return;
     }
 
     updateCamp();
 
+    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
+    async function uploadStorageLayoutData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_layout')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
     // 배치 이미지 table에 올리는 로직
     async function uploadLayoutToCampTable() {
       const blob = await fetch(layout).then((r) => r.blob());
@@ -198,47 +233,18 @@ const UpdateCampPage = (props: Props) => {
 
     uploadLayoutToCampTable();
 
-    // 등록 눌렀을 시 캠핑장 이미지 업로드
-    async function uploadStorageCampPicData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_pic')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
+    if (error) {
+      console.log(error);
+      toast.error('에러 발생');
+    } else {
+      toast.success('수정 완료!');
     }
-
-    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
-    async function uploadStorageLayoutData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_layout')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
-
-    // 여러개 사진 table에 올리는 로직
-    campPicture.forEach(async (item) => {
-      const blob = await fetch(item).then((r) => r.blob());
-      const { data, error } = await uploadStorageCampPicData(blob);
-      const BASE_URL =
-        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
-      if (error) return null;
-      // supabase table에 올리는 로직
-      await supabase
-        .from('camp_pic')
-        .insert({
-          camp_id: campId as string,
-          photo_url: BASE_URL + data?.path,
-        })
-        .select();
-    });
-
-    alert('수정완료');
     router.push(`/company/${companyId}/manage_camp/added_camp`);
   };
 
   return (
     <div>
+      <h1 className={styles.h1}>캠핑장 수정</h1>
       {campData?.length === 1 ? (
         <div>
           <form onSubmit={handleForm} className={styles.formLayout}>
@@ -258,6 +264,7 @@ const UpdateCampPage = (props: Props) => {
                   <button
                     onClick={() => {
                       setAddressModal(true);
+                      document.body.style.overflow = 'hidden';
                     }}
                     type='button'
                     className={styles.addressSearchBtn}

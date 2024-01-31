@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
 import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
@@ -82,6 +83,18 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
 
   const handleLikeBtn = async () => {
     try {
+      if (!userId) {
+        toast.error('로그인이 필요합니다.', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+        return;
+      }
+
       if (liked) {
         // 이미 좋아요를 눌렀다면 취소
         deleteMutation.mutate(userId);
@@ -99,7 +112,7 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
 
   return (
     <div className={styles.commuWrap}>
-      <button className={styles.btn} onClick={handleLikeBtn} disabled={!userId}>
+      <button className={styles.btn} onClick={handleLikeBtn}>
         <HeartSvg isLiked={liked} />
       </button>
       <p key={data?.id}>좋아요 {likeCount}개</p>
