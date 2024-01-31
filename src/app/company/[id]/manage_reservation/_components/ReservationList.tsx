@@ -8,6 +8,7 @@ import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { CompanyReservationInfo } from '@/types/reservation';
 import { useParams } from 'next/navigation';
 import Calendar from './Calendar';
+import NothingReservation from './NothingReservation';
 
 const ReservationList = () => {
   const params = useParams();
@@ -37,10 +38,6 @@ const ReservationList = () => {
   console.log('endDate', endDate);
 
   if (isLoading) return <p>Loading...</p>;
-  if (!reservations?.length) return <p>예약 현황이 없습니다.</p>;
-
-  const firstReservationDate = new Date(reservations?.[0].created_at);
-  const lastReservationDate = new Date(reservations?.at(-1)!.created_at);
 
   const filterReservation = reservations?.filter(
     (reservation) =>
@@ -91,49 +88,34 @@ const ReservationList = () => {
   return (
     <>
       <h3 className={styles.h3}>오늘의 예약 현황</h3>
-      <div className={styles.div}>
-        <p>예약일시</p>
-        <p>예약자명</p>
-        <p>캠핑명</p>
-        <p>캠핑존</p>
-        <p>인원</p>
-        <p>예약자 연락처</p>
-      </div>
-      {!filterReservation?.length && <p>오늘 예약 현황이 없습니다.</p>}
-      <ul>
-        {filterReservation?.map((reservation) => (
-          <Reservation key={reservation.id} reservation={reservation} />
-        ))}
-      </ul>
+      {filterReservation?.length ? (
+        <>
+          <div className={styles.div}>
+            <p>예약일시</p>
+            <p>예약자명</p>
+            <p>캠핑명</p>
+            <p>캠핑존</p>
+            <p>인원</p>
+            <p>예약자 연락처</p>
+          </div>
+          <ul>
+            {filterReservation?.map((reservation) => (
+              <Reservation key={reservation.id} reservation={reservation} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <NothingReservation text={'오늘 예약 현황이 없습니다.'} />
+      )}
+
       <h3 className={styles.h3}>전체 예약 현황</h3>
-      <Calendar
-        startDate={startDate}
-        endDate={endDate}
-        setStartDate={setStartDate}
-        setEndDate={setEndDate}
-        // onStartDateChange={(startDate) => setStartDate(startDate)}
-        // onEndDateChange={(endDate) => setEndDate(endDate)}
-      />
       <div className={styles.div2}>
-        {new Date(firstReservationDate.setDate(1)).toLocaleString('ko', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })}
-        ~
-        {new Date(
-          lastReservationDate.setDate(
-            new Date(
-              lastReservationDate.getFullYear(),
-              lastReservationDate.getMonth() + 1,
-              0,
-            ).getDate(),
-          ),
-        ).toLocaleString('ko', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })}
+        <Calendar
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
         <div>
           <input
             className={styles.input}
@@ -146,23 +128,30 @@ const ReservationList = () => {
           <button onClick={handleUndo}>취소</button>
         </div>
       </div>
-
-      <div className={styles.div}>
-        <p>예약일시</p>
-        <p>예약자명</p>
-        <p>캠핑명</p>
-        <p>캠핑존</p>
-        <p>인원</p>
-        <p>예약자 연락처</p>
-      </div>
-      <ul>
-        {isSearch
-          ? result?.map((s) => <Reservation key={s.id} reservation={s} />)
-          : reservations?.map((reservation) => (
-              <Reservation key={reservation.id} reservation={reservation} />
-            ))}
-        {isSearch && !result?.length && <p>일치하는 예약 정보가 없습니다. </p>}
-      </ul>
+      {reservations?.length ? (
+        <>
+          <div className={styles.div}>
+            <p>예약일시</p>
+            <p>예약자명</p>
+            <p>캠핑명</p>
+            <p>캠핑존</p>
+            <p>인원</p>
+            <p>예약자 연락처</p>
+          </div>
+          <ul>
+            {isSearch
+              ? result?.map((s) => <Reservation key={s.id} reservation={s} />)
+              : reservations?.map((reservation) => (
+                  <Reservation key={reservation.id} reservation={reservation} />
+                ))}
+            {isSearch && !result?.length && (
+              <p>일치하는 예약 정보가 없습니다. </p>
+            )}
+          </ul>
+        </>
+      ) : (
+        <NothingReservation text={'해당되는 예약이 없습니다.'} />
+      )}
     </>
   );
 };
