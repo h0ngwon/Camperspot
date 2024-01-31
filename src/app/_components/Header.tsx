@@ -15,12 +15,10 @@ const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
   const { data: session } = useSession();
-  console.log('session', session);
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', session?.user.id],
     queryFn: async () => getUserData(session?.user.id as string),
   });
-  console.log({ data });
   return (
     <>
       <div className={styles.container}>

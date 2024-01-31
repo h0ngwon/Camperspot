@@ -1,4 +1,53 @@
-.container {
-    width: 550px;
-    height: 390px;
+.abbaccaddff {
+    background-color: rebeccapurple;
+}
+
+.abbaccaddff>div {
+    background-color: white;
+    border-radius: 24px;
+}
+
+.abbaccaddff>div>div:first-child {
+    background: #e2ffdb;
+    border: none
+}
+
+.abbaccaddff>div>div:last-child {}
+
+
+.abbaccaddff>.react-datepicker__day--selecting-range-start {
+    background-color: red;
+}
+
+.bbbbbbbbbbbb {
+    cursor: pointer;
+    border: none;
+    border-radius: 48px;
+    background-color: var(--primary-600, #ffffff);
+
+}
+
+.bbbbbbbbbbbb>div {
+    display: flex;
+    align-items: center;
+}
+
+
+.abbaccaddff [aria-selected="true"] {
+    background: var(--primary-600, #4DB635);
+}
+
+.abbaccaddff>div>div:last-child>div>div react-datepicker__day react-datepicker__day--001 {
+    background-color: rebeccapurple;
+    color: #4DB635;
+}
+
+.abbaccaddff>.react-datepicker__day.react-datepicker__day--keyboard-selected.react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-start.react-datepicker__day--selecting-range-end {
+    /* 스타일을 추가하세요 */
+    background-color: red;
+    color: white;
+}
+
+.aaa {
+    background-color: red;
 }

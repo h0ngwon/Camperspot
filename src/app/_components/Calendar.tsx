@@ -1,9 +1,13 @@
 'use client';
-import React, { useState } from 'react';
-import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import React, { ReactNode, useState } from 'react';
+import ReactDatePicker, {
+  CalendarContainer,
+  registerLocale,
+} from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ko from 'date-fns/locale/ko';
 import svg from '@/asset/Calendar.svg';
+import styles from '../_styles/Calendar.module.css';
 registerLocale('ko', ko);
 
 type Props = {
@@ -16,22 +20,21 @@ type Props = {
 const Calendar = ({ dateRange, setDateRange }: Props) => {
   const [startDate, endDate] = dateRange;
 
-  //컨테이너 꾸미는 로직
-  //   const MyContainer = ({ className, children }) => {
-  //     return (
-  //       <div style={{ padding: '16px', background: '#216ba5', color: '#fff' }}>
-  //         <CalendarContainer className={className}>
-  //           <div style={{ background: '#f0f0f0' }}>
-  //             What is your favorite day?
-  //           </div>
-  //           <div style={{ position: 'relative' }}>{children}</div>
-  //         </CalendarContainer>
-  //       </div>
-  //     );
-  //   };
+  // 컨테이너 꾸미는 로직
+
+  const MyContainer = ({ children }: { children: ReactNode }) => {
+    return (
+      <CalendarContainer>
+        <div style={{ position: 'relative' }} className={styles.abbaccaddff}>
+          {children}
+        </div>
+      </CalendarContainer>
+    );
+  };
 
   return (
     <ReactDatePicker
+      id='date'
       selectsRange={true}
       startDate={startDate}
       endDate={endDate}
@@ -42,8 +45,10 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
       minDate={new Date()}
       dateFormat='yyyy-MM-dd'
       showIcon
-      // calendarContainer={MyContainer}
+      calendarContainer={MyContainer}
       icon={svg}
+      className={styles.bbbbbbbbbbbb}
+      calendarClassName={styles.calenderWrapper}
     />
   );
 };
