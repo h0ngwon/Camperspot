@@ -18,7 +18,7 @@ const Camp = async ({
   const page = searchParams.page!.toString();
   const sort = searchParams.sort!.toString();
 
-  let { data, error } = await supabase.rpc('get_params_camp_data', {
+  let { data, error } = await supabase.rpc('sorted_camp', {
     page,
     sort,
   });
