@@ -1,4 +1,8 @@
 /* 캠핑존 페이지 css */
+.h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
 .backWidth {
   margin: 0 auto;
   padding: 40px 0;
@@ -10,7 +14,7 @@
   grid-row-gap: 20px;
 }
 .campArea {
-  max-width: 590px;
+  max-width: 419px;
   border: 1px solid #333;
   border-radius: 37px;
   height: 250px;
@@ -24,6 +28,8 @@
 .h3 {
   display: inline;
   float: left;
+  font-size: 20px;
+  font-weight: 600;
 }
 .deleteCardBtn {
   float: right;
@@ -34,12 +40,15 @@
 .img {
   display: block;
   float: left;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .textBox {
   float: left;
-  margin-top: 20px;
-  margin-left: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 10px;
+  margin-left: 39px;
   width: 180px;
 }
 .textAlign {
@@ -77,24 +86,113 @@
   z-index: 1;
 }
 .wrap {
-  width: 300px;
-  height: 450px;
-  background: #fff;
+  width: 387px;
   margin: 40px auto;
+  border-radius: 37px;
+  padding: 52px 31px;
+  background: #fff;
 }
+.addCampAreaHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.campAreaH1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+.closeBtn {
+  cursor: pointer;
+}
+
 .formLayout {
   display: grid;
-  width: 80%;
-  margin: 0 auto;
+  margin: 26px 0 0;
   row-gap: 20px;
 }
-.gridItem {
-  height: 30px;
+
+.campAreaNameWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.gridItemTextArea {
-  height: 60px;
+.campAreaH3 {
+  font-size: 16px;
 }
-.addedCampAreaImg {
-  width: 100px;
-  height: 100px;
+.campAreaNameWrap > input {
+  width: 198px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background: transparent;
+  margin-left: 20px;
+  padding: 10px;
+  height: 40px;
+}
+
+.campAreaMaxPeople {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.campAreaMaxPeople > input {
+  width: 80px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background: transparent;
+  margin-left: 20px;
+  height: 40px;
+  padding: 10px;
+}
+
+.campAreaPriceWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.campAreaPriceWrap > input {
+  width: 188px;
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background: transparent;
+  height: 40px;
+  padding: 10px;
+  margin: 0 20px;
+}
+
+.addedCampAreaImgWrap {
+  margin-top: 15px;
+  position: relative;
+  width: 286px;
+}
+
+.removeImgBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  padding: 0;
+  margin: 8px;
+}
+
+.uploadCampAreaImgWrap {
+  margin-top: 15px;
+}
+.displayNone {
+  display: none;
+}
+.uploadCampAreaImg {
+  cursor: pointer;
+}
+
+.addCampAreaBtnWrap {
+  margin: 0 auto;
+}
+.addCampAreaBtn {
+  font-size: 16px;
+  background: #e2e2e2;
+  padding: 0;
+  width: 79px;
+  height: 39px;
+  font-weight: 500;
+  cursor: pointer;
 }

@@ -1,4 +1,3 @@
-import Content from './_components/Content';
 import Sidebar from './_components/Sidebar';
 import styles from './_styles/MypageLayout.module.css';
 
@@ -16,8 +15,8 @@ const MypageLayout = ({ children }: Props) => {
             <aside>
               <Sidebar />
             </aside>
-            <main>
-              <Content>{children}</Content>
+            <main className={styles.main}>
+              {children}
             </main>
           </div>
         </div>

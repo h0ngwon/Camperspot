@@ -137,10 +137,14 @@
   margin-top: 19px;
 }
 .positionAbsol {
-  background-color: rgba(255, 255, 255, 0.5);
   position: absolute;
   right: 0;
   top: 0;
+  padding: 0;
+  margin: 8px;
+  cursor: pointer;
+}
+.addLayoutImgBtnWrap {
   cursor: pointer;
 }
 
@@ -186,6 +190,9 @@
   border-radius: 8px;
   height: 40px;
   padding: 10px;
+}
+.removeHashtagBtn {
+  cursor: pointer;
 }
 
 /* 등록하기 버튼 */

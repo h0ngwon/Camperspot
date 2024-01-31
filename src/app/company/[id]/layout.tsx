@@ -2,6 +2,7 @@ import Image from 'next/image';
 import CompanyHeader from './_components/CompanyHeader';
 import styles from './_styles/CompanyLayout.module.css';
 import rightArrow from '@/asset/ico_right_arrow_gray.png';
+import { ToastContainer } from 'react-toastify';
 
 type Props = {
   children: React.ReactNode;

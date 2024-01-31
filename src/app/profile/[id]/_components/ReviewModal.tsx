@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FormEvent, useState } from 'react';
 import styles from '../_styles/ReviewModal.module.css';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
@@ -28,15 +30,12 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
     },
   });
   const [ratingIndex, setRatingIndex] = useState(1);
-  const [review, handleReview] = useInput()
+  const [review, handleReview] = useInput();
 
   const submitHandler = (e: FormEvent) => {
     e.preventDefault();
-    console.log(ratingIndex);
-    console.log(review);
   };
 
-  console.log(campData);
   return (
     <div className={styles.container}>
       <span className={styles['modal-header']}>리뷰 등록</span>

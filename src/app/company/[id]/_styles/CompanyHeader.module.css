@@ -11,6 +11,15 @@
   gap: 56px;
   padding-left: 47px;
 }
+.active {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-size: 20px;
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+}
 .sidebarItem {
   display: flex;
   flex-direction: row;

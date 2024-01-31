@@ -1,8 +1,13 @@
-export default function AddressSvg() {
+type Props = {
+  width?: string;
+  height?: string
+}
+
+export default function AddressSvg({width, height}:Props) {
   return (
     <svg
-      width='20'
-      height='20'
+      width={width ?? '20'}
+      height={height ?? '20'}
       viewBox='0 0 20 20'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
