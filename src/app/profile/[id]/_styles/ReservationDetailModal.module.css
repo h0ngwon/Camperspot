@@ -118,3 +118,35 @@
 .price {
   color: var(--price-color);
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancel-btn {
+  width: 200px;
+  height: 40px;
+  border: 1px solid #4db635;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  width: 200px;
+  height: 40px;
+  background: #6fcf59;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.only-confirm-btn {
+  width: 380px;
+  height: 40px;
+  background: #6fcf59;
+  border-radius: 0.5rem;
+  margin-top: 1.5rem;
+  cursor: pointer;
+}

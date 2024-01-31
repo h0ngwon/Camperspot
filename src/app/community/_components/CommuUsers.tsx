@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useSession } from 'next-auth/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -10,7 +10,6 @@ import CommuEditModal from './CommuEditModal';
 
 type Props = {
   user: { id: string; nickname: string; profile_url: string | null } | null;
-  postId: string;
   data: {
     content: string;
     created_at: string;
@@ -22,7 +21,7 @@ type Props = {
   };
 };
 
-export default function CommuUser({ user, postId, data }: Props) {
+export default function CommuUser({ user, data }: Props) {
   const [isMoreBtn, setIsMoreBtn] = useState<boolean>(false);
   const [isCommuEditModal, setIsCommuEditModal] = useState<boolean>(false);
 
@@ -38,7 +37,7 @@ export default function CommuUser({ user, postId, data }: Props) {
           .from('post')
           .delete()
           .eq('user_id', userId)
-          .match({ id: postId });
+          .match({ id: data.id });
       }
     },
     onSuccess: () => {
@@ -68,33 +67,47 @@ export default function CommuUser({ user, postId, data }: Props) {
     setIsMoreBtn(false);
   };
 
+  const toggleBodyOverflow = (overflow: 'hidden' | 'auto') => {
+    document.body.style.overflow = overflow;
+  };
+
+  useEffect(() => {
+    if (isCommuEditModal || isMoreBtn) {
+      toggleBodyOverflow('hidden');
+    } else {
+      toggleBodyOverflow('auto');
+    }
+  }, [isCommuEditModal, isMoreBtn]);
+
   return (
     <div className={styles.userWrap}>
       <div className={styles.user}>
         <Image src={user?.profile_url!} alt='' width={32} height={32} />
         <p>{user?.nickname}</p>
       </div>
-      <div className={styles.more}>
-        <button onClick={handleOnClick}>
-          <MoreSvg />
-        </button>
-        {isMoreBtn ? (
-          <div className={styles.btnsWrap}>
-            <div className={styles.btns}>
-              <button onClick={() => setIsCommuEditModal(true)}>수정</button>
-              <button onClick={handleDeletedBtn}>삭제</button>
-              <button onClick={handleCancelBtn}>취소</button>
+      {user?.id === userId && (
+        <div className={styles.more}>
+          <button onClick={handleOnClick}>
+            <MoreSvg />
+          </button>
+          {isMoreBtn ? (
+            <div onClick={handleCancelBtn} className={styles.btnsWrap}>
+              <div className={styles.btns}>
+                <button onClick={() => setIsCommuEditModal(true)}>수정</button>
+                <button onClick={handleDeletedBtn}>삭제</button>
+                <button onClick={handleCancelBtn}>취소</button>
+              </div>
             </div>
-          </div>
-        ) : (
-          ''
-        )}
-      </div>
+          ) : (
+            ''
+          )}
+        </div>
+      )}
       {isCommuEditModal && (
         <CommuEditModal
           onClose={() => setIsCommuEditModal(false)}
           allClose={handleCancelBtn}
-          postId={postId}
+          postId={data.id}
           data={data}
         />
       )}

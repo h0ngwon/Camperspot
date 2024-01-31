@@ -1,8 +1,11 @@
-import React from 'react';
+type Props = {
+  onClick: () => void;
+};
 
-export default function CommentSvg() {
+export default function CommentSvg({ onClick }: Props) {
   return (
     <svg
+      onClick={onClick}
       aria-label='댓글 달기'
       height='24'
       role='img'
@@ -14,7 +17,6 @@ export default function CommentSvg() {
         d='M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z'
         fill='none'
         stroke='#121212'
-        stroke-linejoin='round'
         stroke-width='2'
       ></path>
     </svg>

@@ -44,6 +44,7 @@ const SearchBar = () => {
     }
   }, [params]);
   const onHandleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.currentTarget.value.trim() === '') return;
     if (e.key === 'Enter') {
       return router.push(
         `/camp/search?keyword=${searchedCamp}&check_in=${start}&check_out=${end}&people=${count}&page=1`,
@@ -54,20 +55,24 @@ const SearchBar = () => {
     <div className={styles.searchBar}>
       <div className={styles.regionSearchBox}>
         <div className={styles.regionSearch}>
-          <span className={styles.regionSearchText}> 캠핑장 검색</span>
+          <label htmlFor='search' className={styles.regionSearchText}>
+            캠핑장 검색
+          </label>
           <input
+            id='search'
             type='text'
             value={searchedCamp}
             onChange={(e) => setSearchedCamp(e.target.value)}
             onKeyUp={(e) => onHandleSearchSubmit(e)}
             className={styles.regionSearchInput}
-            placeholder='가고 싶은 캠핑장을 알려주세요.'
+            placeholder='지역이나 키워드를 검색해 주세요'
           />
         </div>
       </div>
       <div className={styles.regionSearchBox}>
-        <span className={styles.regionSearchText}>날짜</span>
-
+        <label htmlFor='date' className={styles.regionSearchText}>
+          날짜
+        </label>
         <Calendar dateRange={dateRange} setDateRange={setDateRange} />
       </div>
       <div className={styles.regionSearchBox}>

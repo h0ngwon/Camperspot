@@ -32,9 +32,11 @@ const SearchAddress = ({
 
     setAddress(fullAddress);
     setAddressModal(false);
+    document.body.style.overflow = 'unset';
   };
   const handleClickOutsideModal = () => {
     setAddressModal(false);
+    document.body.style.overflow = 'unset';
   };
 
   return (

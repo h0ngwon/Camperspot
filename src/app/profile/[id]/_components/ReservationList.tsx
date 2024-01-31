@@ -22,7 +22,6 @@ const ReservationList = ({
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<number | null>();
   const { show, toggleModal } = useModalStore();
-  
 
   const handleCopy = (address: string) => {
     copy(address);
@@ -34,8 +33,8 @@ const ReservationList = ({
     toggleModal();
   };
   const handleCloseModal = () => {
-    toggleModal();
     setIsOpenDetailModal(null);
+    toggleModal();
   };
 
   const handleOpenReviewModal = (index: number) => {
@@ -57,24 +56,49 @@ const ReservationList = ({
           const {
             id: campId,
             name: campName,
+            check_in,
+            check_out,
             address,
           } = reservation.camp_area?.camp!;
+          const [check_in_hour, check_in_minute] = check_in.split(':');
+          const [check_out_hour, check_out_minute] = check_out.split(':');
           const reservationInfo: ReviewInfo = {
             campId,
             campName,
             campAreaName,
             check_in_date,
             check_out_date,
-            photo_url
-          }
+            photo_url,
+          };
           return (
             <tr key={id}>
-              <td className={styles.td} style={{ width: '100px' }}>
+              {/* <td className={styles.td} style={{ width: '100px' }}>
                 {new Date(created_at).toLocaleDateString('ko', {
                   year: '2-digit',
                   month: '2-digit',
                   day: '2-digit',
                 })}
+              </td> */}
+              <td className={styles.td}>
+                <div className={styles.date}>
+                  <p>
+                    {' '}
+                    {`${new Date(check_in_date)
+                      .toLocaleDateString('ko', {
+                        year: '2-digit',
+                        month: '2-digit',
+                        day: '2-digit',
+                      })
+                      .replace(/\.$/, '')} ~ `}
+                  </p>
+                  <p>{`${new Date(check_out_date)
+                    .toLocaleDateString('ko', {
+                      year: '2-digit',
+                      month: '2-digit',
+                      day: '2-digit',
+                    })
+                    .replace(/\.$/, '')} `}</p>
+                </div>
               </td>
               <td className={styles.td} style={{ width: '100px' }}>
                 {campName}
@@ -83,20 +107,28 @@ const ReservationList = ({
                 {campAreaName}
               </td>
               <td className={styles.td}>
-                <div className={styles.date}>
+                <div className={styles.hour}>
                   <p>
-                    {' '}
-                    {`${new Date(check_in_date).toLocaleDateString('ko', {
-                      year: '2-digit',
-                      month: '2-digit',
-                      day: '2-digit',
-                    })} ~ `}
+                    {`${new Date(
+                      0,
+                      0,
+                      0,
+                      Number(check_in_hour),
+                      Number(check_in_minute),
+                    ).toLocaleTimeString('ko', {
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    })}/${new Date(
+                      0,
+                      0,
+                      0,
+                      Number(check_out_hour),
+                      Number(check_out_minute),
+                    ).toLocaleTimeString('ko', {
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    })}`}
                   </p>
-                  <p>{`${new Date(check_out_date).toLocaleDateString('ko', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                  })} `}</p>
                 </div>
               </td>
               {!isPlanned && (
@@ -121,7 +153,7 @@ const ReservationList = ({
                       상세 보기
                     </button>
                   </div>
-                  {show && isOpenReviewModal=== idx ? (
+                  {show && isOpenReviewModal === idx ? (
                     <ModalPortal>
                       <Modal>
                         <ReviewModal
@@ -138,7 +170,7 @@ const ReservationList = ({
               {isPlanned && (
                 <td className={styles.td}>
                   <div className={styles.address}>
-                    {address}
+                    <p className={styles['address-info']}>{address}</p>
                     <div className={styles.div}>
                       <span
                         className={styles.copy}
@@ -157,9 +189,9 @@ const ReservationList = ({
                   </div>
                 </td>
               )}
-              {isOpenDetailModal === idx ? (
+              {show && isOpenDetailModal === idx ? (
                 <ModalPortal>
-                  <Modal customWidth={450} customHeight={650}>
+                  <Modal customWidth={450} customHeight={680}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
                       onClose={handleCloseModal}

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
 import addImgBtn from '@/asset/addImgBtn.png';
-import removePicBtn from '@/asset/ico_removePicBtn.png';
+import removePicBtn from '@/asset/ico_cancel_btn.png';
 
 type Props = {
   campLayout: string;
@@ -18,7 +18,6 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
   ) {
     if (e.target.files) {
       const file = e.target.files[0];
-      console.log(file);
       setCampLayout(URL.createObjectURL(file));
     }
   }
@@ -41,7 +40,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
             id='layoutImg'
             className={styles.uploadLayoutImgBtn}
           />
-          <label htmlFor='layoutImg'>
+          <label htmlFor='layoutImg' className={styles.addLayoutImgBtnWrap}>
             <Image
               src={addImgBtn}
               alt='배치 이미지 등록 버튼'

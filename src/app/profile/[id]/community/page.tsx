@@ -1,11 +1,12 @@
 import React from 'react'
 import styles from '../_styles/Community.module.css'
+import BookmarkPost from '../_components/BookmarkPost'
 type Props = {}
 
-const page = (props: Props) => {
+const CommunityPage = (props: Props) => {
   return (
-    <div className={styles.container}>page</div>
+      <BookmarkPost/>
   )
 }
 
-export default page
+export default CommunityPage

@@ -6,10 +6,11 @@ import { v4 as uuid } from 'uuid';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Database } from '@/types/supabase';
+import { toast } from 'react-toastify';
+import CommuEditPic from './CommuPic';
 
-import styles from '../_styles/CommuEditModal.module.css';
+import styles from '../_styles/CommuModal.module.css';
 import CloseSvg from '../_svg/CloseSvg';
-import CommuPicSvg from '../_svg/CommuPicSvg';
 
 type Props = {
   onClose: () => void;
@@ -41,6 +42,8 @@ export default function CommuEditModal({
 
   const queryClient = useQueryClient();
 
+  const MAX_HASHTAG_LENGTH = 20;
+
   useEffect(() => {
     if (data) {
       setContentEdit(data!.content);
@@ -48,63 +51,6 @@ export default function CommuEditModal({
       setHashTagsEdit(data!.post_hashtag);
     }
   }, [data]);
-
-  const updateMutation = useMutation({
-    mutationFn: async () => {
-      // 게시글 내용 업데이트
-      await supabase
-        .from('post')
-        .update({
-          content: contentEdit,
-        })
-        .eq('id', postId);
-
-      // 기존 post_pic 레코드 삭제
-      await supabase.from('post_pic').delete().eq('post_id', postId);
-
-      // 새로운 post_pic 레코드 upsert
-      await supabase.from('post_pic').upsert(
-        postPicEdit.map((pic) => ({
-          id: pic.id,
-          post_id: postId,
-          photo_url: pic.photo_url,
-        })),
-      );
-
-      // 기존 post_hashtag 레코드 삭제
-      await supabase.from('post_hashtag').delete().eq('post_id', postId);
-
-      // 새로운 post_hashtag 레코드 upsert
-      await supabase.from('post_hashtag').upsert(
-        hashTagsEdit.map((tag) => ({
-          id: tag.id,
-          post_id: postId,
-          tag: tag.tag,
-        })),
-      );
-    },
-    onSuccess: async () => {
-      // 'post' 쿼리 전체를 무효화시키는 대신, 업데이트된 데이터를 가져오기 위해 데이터를 다시 가져옵니다.
-      const { data, error } = await supabase
-        .from('post')
-        .select()
-        .order('created_at', { ascending: true });
-      if (error) {
-        console.error('업데이트된 데이터 가져오기 에러:', error);
-        return;
-      }
-
-      queryClient.setQueryData(['post'], data);
-
-      // 선택적으로 필요한 경우 특정 게시물 데이터를 다시 가져올 수 있습니다.
-      queryClient.invalidateQueries({
-        queryKey: ['post', postId],
-      });
-    },
-    onError: (error) => {
-      console.error('뮤테이션 에러:', error);
-    },
-  });
 
   // 캠핑장 이미지 업로드
   function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
@@ -125,6 +71,15 @@ export default function CommuEditModal({
       const updatedPostPics = [...prev];
       updatedPostPics.splice(index, 1); // 해당 인덱스의 이미지 삭제
       return updatedPostPics;
+    });
+  };
+
+  const handleDeleteHashtag = (hashTag: string) => {
+    setHashTagsEdit((prevHashTags) => {
+      const updatedHashTags = prevHashTags.filter(
+        (item) => item.tag !== hashTag,
+      );
+      return updatedHashTags;
     });
   };
 
@@ -152,8 +107,8 @@ export default function CommuEditModal({
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (isEmptyValue(newHashTag) || hashTagsEdit.length >= 10) {
-      return setInputHashTagEdit('');
+    if (hashTagsEdit.length >= 10 || newHashTag.length > MAX_HASHTAG_LENGTH) {
+      return;
     }
 
     // 중복 체크
@@ -190,14 +145,64 @@ export default function CommuEditModal({
     setInputHashTagEdit(e.target.value);
   };
 
-  const handleDeleteHashtag = (hashTag: string) => {
-    setHashTagsEdit((prevHashTags) => {
-      const updatedHashTags = prevHashTags.filter(
-        (item) => item.tag !== hashTag,
-      );
-      return updatedHashTags;
-    });
-  };
+  const updateMutation = useMutation({
+    mutationFn: async () => {
+      try {
+        // 데이터베이스의 게시글을 업데이트합니다.
+        await supabase
+          .from('post')
+          .update({
+            content: contentEdit,
+          })
+          .eq('id', postId);
+
+        // PostPic 데이터 업데이트
+        for (const pic of postPicEdit) {
+          // 이미지 삭제
+          await supabase.from('post_pic').delete().eq('id', pic.id);
+          // 새로운 이미지 추가
+          await supabase
+            .from('post_pic')
+            .upsert([
+              {
+                post_id: postId,
+                photo_url: pic.photo_url,
+              },
+            ])
+            .eq('id', pic.id);
+        }
+
+        // PostHashTag 데이터 업데이트
+        for (const tag of hashTagsEdit) {
+          // 해시태그 삭제
+          await supabase.from('post_hashtag').delete().eq('id', tag.id);
+          // 새로운 해시태그 추가
+          await supabase
+            .from('post_hashtag')
+            .upsert([
+              {
+                post_id: postId,
+                tag: tag.tag,
+              },
+            ])
+            .eq('id', tag.id);
+        }
+        toast.success('수정이 완료되었습니다.');
+      } catch (error) {
+        console.error('데이터베이스 업데이트 및 삭제 에러:', error);
+        throw error;
+      }
+    },
+    onSuccess: async () => {
+      queryClient.invalidateQueries({
+        queryKey: ['post'],
+      });
+    },
+    onError: (error) => {
+      console.error('뮤테이션 에러:', error);
+      toast.error('오류가 발생했습니다. 다시 시도해주세요.');
+    },
+  });
 
   // 사용자가 폼을 제출할 때 이 함수를 호출합니다.
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -214,8 +219,17 @@ export default function CommuEditModal({
     allClose();
   };
 
+  // 모달 외부를 클릭하면 모달이 닫히도록 수정
+  const handleModalBgClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+      allClose();
+    }
+  };
+
   return (
-    <div className={styles.modalWrap}>
+    <>
+      <div onClick={handleModalBgClick} className={styles.modalbg}></div>
       <div className={styles.modal}>
         <form onSubmit={handleSubmit}>
           <div className={styles.btn}>
@@ -225,41 +239,14 @@ export default function CommuEditModal({
             <p>커뮤니티 수정</p>
             <button type='submit'>완료</button>
           </div>
-          <div className={styles.edit}>
-            <div>
-              <input
-                type='file'
-                accept='image/*'
-                id='file_upload'
-                className={styles.upload}
-                onChange={handleChangeInputImageFile}
+
+          <div className={styles.register}>
+            <div className={styles.modalSlide}>
+              <CommuEditPic
+                postPicEdit={postPicEdit}
+                handleDeleteCampImg={handleDeleteCampImg}
+                handleChangeInputImageFile={handleChangeInputImageFile}
               />
-              <label htmlFor='file_upload'>
-                <div className={styles.uploadPic}>
-                  <CommuPicSvg />
-                  <p>업로드</p>
-                </div>
-              </label>
-              {/* 이미지 미리보기 및 삭제 버튼 */}
-              <ul className={styles.postPics}>
-                {postPicEdit.map((item, index) => (
-                  <li key={item.id} className={styles.postPic}>
-                    <Image
-                      src={item.photo_url}
-                      alt={`이미지`}
-                      className={styles.Pic}
-                      width={100}
-                      height={100}
-                    />
-                    <button
-                      type='button'
-                      onClick={() => handleDeleteCampImg(index)}
-                    >
-                      <CloseSvg />
-                    </button>
-                  </li>
-                ))}
-              </ul>
             </div>
 
             <div className={styles.Con}>
@@ -311,6 +298,6 @@ export default function CommuEditModal({
           </div>
         </form>
       </div>
-    </div>
+    </>
   );
 }

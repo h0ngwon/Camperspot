@@ -42,7 +42,6 @@ export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
           new Date(check_out_date).getTime() >= new Date(end_date).getTime()
         );
       }) || [];
-    console.log('data', data);
     // 겹치는 날짜가 없을 때만 유효하도록 설정
     return data!.length > 0 ? false : true;
   };

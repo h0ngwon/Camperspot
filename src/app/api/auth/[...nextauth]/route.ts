@@ -134,12 +134,14 @@ const makeSocialAccount = async (
       role: 'user',
     };
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('user')
-      .insert<Omit<SocialDataType, 'id'>>(socialData);
+      .insert<Omit<SocialDataType, 'id'>>(socialData)
+      .select()
+      .single();
     console.log(error);
+    token.userId = data?.id;
   }
-  token.id = user.id;
   token.role = 'user';
   return token;
 };

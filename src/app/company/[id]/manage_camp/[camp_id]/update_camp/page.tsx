@@ -13,6 +13,8 @@ import CheckInOut from './_components/CheckInOut';
 import Layout from './_components/Layout';
 import CampPicture from './_components/CampPicture';
 import Hashtag from './_components/Hashtag';
+import styles from './_styles/CampForm.module.css';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -162,7 +164,7 @@ const UpdateCampPage = (props: Props) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['camp_id'] });
     },
   });
   if (isError) {
@@ -175,12 +177,20 @@ const UpdateCampPage = (props: Props) => {
 
     if (campPicture.length === 0) {
       // todo : campPicture가 없을 때 로직 처리해야함
-      alert('캠핑장 이미지 한 장 이상 등록');
+      toast.error('캠핑장 이미지 한 장 이상 등록');
       return;
     }
 
     updateCamp();
 
+    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
+    async function uploadStorageLayoutData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_layout')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
     // 배치 이미지 table에 올리는 로직
     async function uploadLayoutToCampTable() {
       const blob = await fetch(layout).then((r) => r.blob());
@@ -206,15 +216,6 @@ const UpdateCampPage = (props: Props) => {
       return { data: data, error };
     }
 
-    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
-    async function uploadStorageLayoutData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_layout')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
-
     // 여러개 사진 table에 올리는 로직
     campPicture.forEach(async (item) => {
       const blob = await fetch(item).then((r) => r.blob());
@@ -232,29 +233,41 @@ const UpdateCampPage = (props: Props) => {
         .select();
     });
 
-    alert('수정완료');
+    if (error) {
+      console.log(error);
+      toast.error('에러 발생');
+    } else {
+      toast.success('수정 완료!');
+    }
     router.push(`/company/${companyId}/manage_camp/added_camp`);
   };
 
   return (
     <div>
+      <h1 className={styles.h1}>캠핑장 수정</h1>
       {campData?.length === 1 ? (
         <div>
-          <form onSubmit={handleForm}>
-            <div>
+          <form onSubmit={handleForm} className={styles.formLayout}>
+            <div className={styles.campNameWrap}>
               <h3>캠핑장 명</h3>
-              <input value={name} onChange={(e) => setName(e.target.value)} />
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={styles.campNameInput}
+              />
             </div>
 
-            <div>
-              <h3>캠핑장 주소</h3>
-              <div>
+            <div className={styles.campAddressWrap}>
+              <h3>주소</h3>
+              <div className={styles.addressSearchWrap}>
                 <div>
                   <button
                     onClick={() => {
                       setAddressModal(true);
+                      document.body.style.overflow = 'hidden';
                     }}
                     type='button'
+                    className={styles.addressSearchBtn}
                   >
                     주소 검색하기
                   </button>
@@ -263,11 +276,12 @@ const UpdateCampPage = (props: Props) => {
                   value={address}
                   placeholder='주소검색하기를 클릭해주세요'
                   required
+                  className={styles.addressSearchInput}
                 />
               </div>
             </div>
 
-            <div>
+            <div className={styles.campContentWrap}>
               <h3>캠핑장 소개</h3>
               <textarea
                 value={content}
@@ -291,7 +305,7 @@ const UpdateCampPage = (props: Props) => {
               handleCheck_out={handleCheck_out}
             />
 
-            <div>
+            <div className={styles.requestCallWrap}>
               <h3>문의전화</h3>
               <input
                 value={phone}
@@ -301,6 +315,7 @@ const UpdateCampPage = (props: Props) => {
                 pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
                 maxLength={13}
                 required
+                className={styles.requestCallInput}
               />
             </div>
 
@@ -318,7 +333,12 @@ const UpdateCampPage = (props: Props) => {
               setInputHashTag={setInputHashTag}
             />
 
-            <button type='submit'>수정완료</button>
+            <div className={styles.btns}>
+              {/* <button>수정취소</button> */}
+              <button type='submit' className={styles.addCampBtn}>
+                수정완료
+              </button>
+            </div>
           </form>
           <SearchAddress
             setAddress={setAddress}
