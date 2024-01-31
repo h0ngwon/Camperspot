@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../_styles/CampForm.module.css';
 import removeBtn from '@/asset/ico_small_remove_btn.png';
 import Image from 'next/image';
+import { toast } from 'react-toastify';
 
 type Props = {
   hashTags: string[];
@@ -42,6 +43,11 @@ const Hashtag = ({
     }
 
     if (isEmptyValue(newHashTag)) return;
+
+    if (hashTags.length >= 10) {
+      toast.error('해시태그는 10개 이하로 작성해주세요!');
+      return;
+    }
 
     setHashTags((prevHashTags) => {
       // return [...new Set([...prevHashTags, newHashTag])];
@@ -105,6 +111,7 @@ const Hashtag = ({
         onKeyUp={(e) => addHashTag(e)}
         onKeyDown={(e) => keyDownHandler(e)}
         placeholder='#해시태그를 등록해보세요. (최대 10개)'
+        maxLength={20}
         className={styles.hashTagInput}
       />
       {/* <input
