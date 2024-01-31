@@ -37,7 +37,10 @@ const Profile = () => {
             <div className={styles['nickname-header']}>닉네임</div>
             <div className={styles['nickname-inner']}>
               <div className={styles['nickname']}>{data?.nickname}</div>
-              <button className={styles['modify-btn']} onClick={toggleModal}>
+              <button className={styles['modify-btn']} onClick={() => {
+                toggleModal();
+                document.body.style.overflow = 'hidden';
+              }}>
                 <Image src={pencil} width={24} height={24} alt='modify' />
               </button>
               {show && (
