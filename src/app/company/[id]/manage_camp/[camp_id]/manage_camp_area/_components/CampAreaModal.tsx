@@ -17,13 +17,14 @@ import Image from 'next/image';
 import removeBtn from '@/asset/ico_removePicBtn.png';
 import addImgBtn from '@/asset/addImgBtn.png';
 import closeBtn from '@/asset/ico_cancel_btn.png';
+import { toast } from 'react-toastify';
 
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
 const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const [areaName, handleAreaName] = useInput();
   const [areaMaxPeople, handleAreaMaxPeople] = useInput();
-  const [areaPrice, setAreaPrice] = useState('');
+  const [areaPrice, handleAreaPrice] = useInput();
   const [areaImg, setAreaImg] = useState<string>('');
 
   const id = uuid();
@@ -35,11 +36,6 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
   const queryClient = useQueryClient();
 
   // 금액 입력시 자동 콤마
-  const handleAreaPrice = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
-    const removedCommaValue: number = Number(value.replaceAll(',', ''));
-    setAreaPrice(removedCommaValue.toLocaleString());
-  };
 
   // 캠핑존 이미지 업로드
   async function handleChangeInputCampArea(e: ChangeEvent<HTMLInputElement>) {
@@ -115,8 +111,9 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
 
     if (error) {
       console.log(error);
+      toast.error('에러 발생');
     } else {
-      alert('등록완료');
+      toast.success('등록 완료!');
       setCampAreaModal(false);
     }
   };
@@ -184,6 +181,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
                 ref={imgRef}
                 className={styles.displayNone}
                 id='campAreaImg'
+                required
               />
               <label htmlFor='campAreaImg' className={styles.uploadCampAreaImg}>
                 <Image

@@ -14,6 +14,7 @@ import Layout from './_components/Layout';
 import CampPicture from './_components/CampPicture';
 import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
+import { toast } from 'react-toastify';
 
 type Props = {};
 
@@ -163,7 +164,7 @@ const UpdateCampPage = (props: Props) => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['camp_id'] });
     },
   });
   if (isError) {
@@ -176,12 +177,20 @@ const UpdateCampPage = (props: Props) => {
 
     if (campPicture.length === 0) {
       // todo : campPicture가 없을 때 로직 처리해야함
-      alert('캠핑장 이미지 한 장 이상 등록');
+      toast.error('캠핑장 이미지 한 장 이상 등록');
       return;
     }
 
     updateCamp();
 
+    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
+    async function uploadStorageLayoutData(blob: Blob | File) {
+      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+      const { data, error } = await supabase.storage
+        .from('camp_layout')
+        .upload(window.URL.createObjectURL(blob), blob);
+      return { data: data, error };
+    }
     // 배치 이미지 table에 올리는 로직
     async function uploadLayoutToCampTable() {
       const blob = await fetch(layout).then((r) => r.blob());
@@ -207,15 +216,6 @@ const UpdateCampPage = (props: Props) => {
       return { data: data, error };
     }
 
-    // 등록 눌렀을 시 storage에 캠핑장 배치 이미지 업로드
-    async function uploadStorageLayoutData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_layout')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
-
     // 여러개 사진 table에 올리는 로직
     campPicture.forEach(async (item) => {
       const blob = await fetch(item).then((r) => r.blob());
@@ -233,12 +233,18 @@ const UpdateCampPage = (props: Props) => {
         .select();
     });
 
-    alert('수정완료');
+    if (error) {
+      console.log(error);
+      toast.error('에러 발생');
+    } else {
+      toast.success('수정 완료!');
+    }
     router.push(`/company/${companyId}/manage_camp/added_camp`);
   };
 
   return (
     <div>
+      <h1 className={styles.h1}>캠핑장 수정</h1>
       {campData?.length === 1 ? (
         <div>
           <form onSubmit={handleForm} className={styles.formLayout}>
@@ -258,6 +264,7 @@ const UpdateCampPage = (props: Props) => {
                   <button
                     onClick={() => {
                       setAddressModal(true);
+                      document.body.style.overflow = 'hidden';
                     }}
                     type='button'
                     className={styles.addressSearchBtn}

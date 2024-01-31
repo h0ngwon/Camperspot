@@ -14,6 +14,7 @@ import SearchAddress from './SearchAddress';
 import CheckInOut from './CheckInOut';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 const AddForm = () => {
   const [name, handleName] = useInput();
@@ -154,8 +155,11 @@ const AddForm = () => {
       )
       .select();
 
-    if (camp_facility && hashtagData) {
-      alert('등록되었습니다');
+    if (error) {
+      console.log(error);
+      toast.error('에러 발생');
+    } else {
+      toast.success('등록 완료!');
       router.push(
         `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
       );
@@ -183,6 +187,7 @@ const AddForm = () => {
               <button
                 onClick={() => {
                   setAddressModal(true);
+                  document.body.style.overflow = 'hidden';
                 }}
                 type='button'
                 className={styles.addressSearchBtn}

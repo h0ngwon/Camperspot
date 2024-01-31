@@ -44,8 +44,11 @@
 }
 .textBox {
   float: left;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
   margin-top: 10px;
-  margin-left: 15px;
+  margin-left: 39px;
   width: 180px;
 }
 .textAlign {

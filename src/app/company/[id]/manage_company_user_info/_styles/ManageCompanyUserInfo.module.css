@@ -1,0 +1,36 @@
+.h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+.infoWrap {
+  margin-top: 46px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.UpdateName {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+}
+.UpdateName > button {
+  cursor: pointer;
+}
+.completeUpdateBtn {
+  cursor: pointer;
+  border: 1px solid #000;
+  border-radius: 8px;
+}
+.h3 {
+  font-size: 16px;
+  color: #8c8f9a;
+  font-weight: 600;
+}
+.emailWrap {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+}
