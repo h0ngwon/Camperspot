@@ -10,7 +10,7 @@ import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
 import { useQuery } from '@tanstack/react-query';
-import { getUserData } from '../profile/[id]/_lib/getUserData';
+import { getUserData } from '../profile/[id]/_lib/profile';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');

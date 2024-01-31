@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 import kakao from '../../../../asset/ico_kakao.png';
 import naver from '../../../../asset/ico_naver.png';
 import pencil from '../../../../asset/mdi_pencil.svg';
-import { getUserData } from '../_lib/getUserData';
+import { getUserData } from '../_lib/profile';
 import styles from '../_styles/Profile.module.css';
 import ProfileModifyForm from './ProfileModifyForm';
 
