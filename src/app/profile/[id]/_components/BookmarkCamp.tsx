@@ -2,7 +2,7 @@
 import { LikeCampType } from '@/types/profile';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { getUserLikeCamp } from '../_lib/getUserLikeCamp';
+import { getUserLikeCamp } from '../_lib/profile';
 import styles from '../_styles/BookmarkCamp.module.css';
 import BookmarkCampContent from './BookmarkCampContent';
 

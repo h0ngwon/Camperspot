@@ -22,13 +22,15 @@ const BookmarkCampContent = ({ camp }: Props) => {
               height={174}
               alt='캠핑장 사진'
               className={styles.img}
+              priority={true}
+              quality={100}
             />
           </div>
           <div className={styles['camp-info-container']}>
             <div className={styles['camp-name']}>{camp.name}</div>
 
             <div className={styles['camp-address']}>
-              <AddressSvg width='15' height='15' />
+              <AddressSvg width='12' height='12' />
               {camp.address}
             </div>
           </div>
