@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
@@ -22,7 +22,11 @@ export default function CommunityPage() {
   const { data: session } = useSession();
   const userId = session?.user.id as string;
 
-  const { isLoading, isError, data } = useQuery({
+  const {
+    data: post,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ['post'],
     queryFn: async () => {
       try {
@@ -69,7 +73,6 @@ export default function CommunityPage() {
 
   return (
     <>
-      <ToastContainer />
       <div className={styles.container}>
         <div className={styles.createBtn} onClick={handleCreateModalOpen}>
           <CreateSvg />
@@ -77,7 +80,7 @@ export default function CommunityPage() {
         {isCommuCreateModal && (
           <CommuCreateModal onClose={() => setIsCommuCreateModal(false)} />
         )}
-        {data && data.length === 0 && (
+        {post && post.length === 0 && (
           <div className={styles.noPosts}>
             <Image
               className={styles.img}
@@ -90,7 +93,7 @@ export default function CommunityPage() {
           </div>
         )}
         <ul>
-          {data?.map((item) => {
+          {post?.map((item) => {
             return (
               <li className={styles.card} key={item.id}>
                 <CommuUsers user={item.user} data={item} />

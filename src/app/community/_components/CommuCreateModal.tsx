@@ -1,20 +1,21 @@
 'use client';
 
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { v4 as uuid } from 'uuid';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { supabase } from '@/app/api/db';
-import { v4 as uuid } from 'uuid';
-import { toast, ToastContainer } from 'react-toastify';
+import { getUserData } from '@/app/profile/[id]/_lib/getUserData';
+import { toast } from 'react-toastify';
 
 import styles from '../_styles/CommuModal.module.css';
 import CloseSvg from '../_svg/CloseSvg';
 import 'react-toastify/dist/ReactToastify.css';
 
 import type { Tables } from '@/types/supabase';
+
 import CommuCreatePic from './CommuCreatePic';
-import { useQuery } from '@tanstack/react-query';
-import { getUserData } from '@/app/profile/[id]/_lib/getUserData';
 
 type Props = {
   onClose: () => void;
@@ -28,6 +29,9 @@ export default function CommuCreateModal({ onClose }: Props) {
   const [hashTags, setHashTags] = useState<string[]>([]);
 
   const postId = uuid();
+
+  const queryClient = useQueryClient();
+
   const { data: session } = useSession();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', session?.user.id],
@@ -35,20 +39,6 @@ export default function CommuCreateModal({ onClose }: Props) {
   });
 
   const userEmail = session?.user?.email as string;
-
-  const MAX_HASHTAG_LENGTH = 20;
-
-  // post 테이블에서 option 가져오는거
-  async function fetchPostData() {
-    const { data: post } = await supabase.from('post').select('*');
-    if (post) {
-      setPost(post);
-    }
-  }
-
-  useEffect(() => {
-    fetchPostData();
-  }, []);
 
   function handleChangeInput(e: ChangeEvent<HTMLTextAreaElement>) {
     setContent(e.currentTarget.value);
@@ -96,7 +86,7 @@ export default function CommuCreateModal({ onClose }: Props) {
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (hashTags.length >= 10 || newHashTag.length > MAX_HASHTAG_LENGTH) {
+    if (hashTags.length >= 10 || newHashTag.length > 20) {
       return;
     }
 
@@ -164,6 +154,7 @@ export default function CommuCreateModal({ onClose }: Props) {
       .from('user')
       .select('id')
       .eq('email', userEmail);
+
     if (!user) {
       return;
     }
@@ -219,11 +210,16 @@ export default function CommuCreateModal({ onClose }: Props) {
         )
         .select();
 
+      // 데이터 다시 불러오기
+      queryClient.invalidateQueries({
+        queryKey: ['post'],
+      });
+
       if (post && post_hashtag) {
         // 성공적으로 등록되었을 때 알림
         toast.success('게시물이 성공적으로 등록되었습니다.', {
           position: 'top-right',
-          autoClose: 3000, // 알림이 자동으로 닫히는 시간 (ms)
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -249,7 +245,6 @@ export default function CommuCreateModal({ onClose }: Props) {
 
   return (
     <>
-      <ToastContainer />
       <div onClick={onClose} className={styles.modalbg}></div>
       <div className={styles.modal}>
         <form onSubmit={handleSubmit}>
