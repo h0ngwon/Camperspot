@@ -62,7 +62,7 @@ export default function CommuEditModal({
         // 여러 이미지를 동시에 업로드
         const uploadPromises = files.map(async (file) => {
           const { data, error } = await supabase.storage
-            .from('post_pic') // 실제 Supabase Storage에 맞게 폴더 이름을 수정하세요.
+            .from('post_pic')
             .upload(file.name, file);
 
           if (error) {
@@ -76,11 +76,11 @@ export default function CommuEditModal({
           return {
             id: uuid(),
             photo_url: photo_url,
-            post_id: uuid(),
+            post_id: postId,
           };
         });
 
-        // 여러 이미지의 업로드가 완료되면 상태 업데이트
+        // 여러 이미지의 업로드가 완료된 후 상태 업데이트
         const newElements = await Promise.all(uploadPromises);
         setPostPicEdit((prev) => [...prev, ...newElements]);
       } catch (error) {
@@ -89,7 +89,7 @@ export default function CommuEditModal({
     }
   }
 
-  // 이미지 삭제 함수 수정
+  // 이미지 삭제  수정
   const handleDeleteCampImg = (index: number) => {
     setPostPicEdit((prev) => {
       // 삭제할 이미지 정보 가져오기
@@ -108,6 +108,7 @@ export default function CommuEditModal({
     });
   };
 
+  // 해시태그 수정
   const handleDeleteHashtag = (hashTag: string) => {
     setHashTagsEdit((prevHashTags) => {
       const updatedHashTags = prevHashTags.filter(
@@ -118,10 +119,7 @@ export default function CommuEditModal({
   };
 
   const isEmptyValue = (value: string | any[]) => {
-    if (!value.length) {
-      return true;
-    }
-    return false;
+    return !value || (Array.isArray(value) && value.length === 0);
   };
 
   const addHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -240,6 +238,7 @@ export default function CommuEditModal({
             ])
             .eq('id', tag.id);
         }
+
         toast.success('수정이 완료되었습니다.');
       } catch (error) {
         console.error('데이터베이스 업데이트 및 삭제 에러:', error);
