@@ -7,16 +7,33 @@ import { useState } from 'react';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { CompanyReservationInfo } from '@/types/reservation';
 import { useParams } from 'next/navigation';
+import Calendar from './Calendar';
 
 const ReservationList = () => {
   const params = useParams();
+  const [startDate, setStartDate] = useState<Date>(new Date('2024-01-01'));
+  const [endDate, setEndDate] = useState<Date>(new Date('2024-01-31'));
   const [text, setText] = useState<string>('');
   const [result, setResult] = useState<CompanyReservationInfo[]>();
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  //이제 날짜가 바뀔 때 마다 검색을 해줘야함.
   const { isLoading, data: reservations } = useQuery({
-    queryKey: ['company', 'reservation', params.id],
-    queryFn: () => getCompanyReservation(params.id as string),
+    queryKey: [
+      'company',
+      'reservation',
+      params.id,
+      startDate.toISOString(),
+      endDate.toISOString(),
+    ],
+    queryFn: () =>
+      getCompanyReservation(
+        params.id as string,
+        startDate.toISOString(),
+        endDate.toISOString(),
+      ),
   });
+  console.log('startDate', startDate);
+  console.log('endDate', endDate);
 
   if (isLoading) return <p>Loading...</p>;
   if (!reservations?.length) return <p>예약 현황이 없습니다.</p>;
@@ -88,6 +105,21 @@ const ReservationList = () => {
         ))}
       </ul>
       <h3 className={styles.h3}>전체 예약 현황</h3>
+      {/* <Calendar  onDatesChange={(dates)=>setDates(dates)}/> */}
+      {/* <Link
+        href={{
+          pathname: `/company/${params.id}/manage_reservation`,
+          query: {
+            startDate: `${startDate && startDate}`,
+            endDate: `${endDate && endDate}`,
+          },
+        }}
+      > */}
+      <Calendar
+        onStartDateChange={(startDate) => setStartDate(startDate)}
+        onEndDateChange={(endDate) => setEndDate(endDate)}
+      />
+      {/* </Link> */}
       <div className={styles.div2}>
         {new Date(firstReservationDate.setDate(1)).toLocaleString('ko', {
           year: 'numeric',
