@@ -61,9 +61,12 @@ export default function CommuEditModal({
       try {
         // 여러 이미지를 동시에 업로드
         const uploadPromises = files.map(async (file) => {
+          const cleanFileName = file.name.replace(/[^\w\d.]/g, '_'); // 특수 문자를 '_'로 대체
+          const uniqueFileName = uuid() + '_' + cleanFileName;
+
           const { data, error } = await supabase.storage
             .from('post_pic')
-            .upload(file.name, file);
+            .upload(uniqueFileName, file);
 
           if (error) {
             console.error('이미지 업로드 오류:', error);
