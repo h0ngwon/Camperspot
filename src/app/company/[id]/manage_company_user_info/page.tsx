@@ -5,6 +5,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { getSession, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import styles from './_styles/ManageCompanyUserInfo.module.css';
+import Image from 'next/image';
+import editCompanyUserName from '@/asset/ico_edit_company_user_name.png';
 
 type Props = {};
 
@@ -84,26 +86,40 @@ const ManageCompanyInfo = () => {
 
       {companyUserInfo?.map((item) => {
         return (
-          <div key={item.id}>
+          <div key={item.id} className={styles.infoWrap}>
             {isNameUpdate ? (
-              <div>
+              <div className={styles.UpdateName}>
+                <h3 className={styles.h3}>업체회원명</h3>
                 <input
                   value={updateCompanyUserName}
                   onChange={handleChangeName}
                   required
                 />
-                <button onClick={() => handleCompleteUpdateName(item.id)}>
+                <button
+                  onClick={() => handleCompleteUpdateName(item.id)}
+                  className={styles.completeUpdateBtn}
+                >
                   수정완료
                 </button>
               </div>
             ) : (
-              <div>
+              <div className={styles.UpdateName}>
+                <h3 className={styles.h3}>업체회원명</h3>
                 <p>{item.name}</p>
-                <button onClick={handleUpdateName}>이름수정</button>
+                <button onClick={handleUpdateName}>
+                  <Image
+                    src={editCompanyUserName}
+                    alt='이름수정'
+                    width={18}
+                    height={18}
+                  />
+                </button>
               </div>
             )}
-            <p>{item.email}</p>
-            <p>{item.password}</p>
+            <div className={styles.emailWrap}>
+              <h3 className={styles.h3}>계정정보</h3>
+              <p>{item.email}</p>
+            </div>
           </div>
         );
       })}
