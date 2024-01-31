@@ -11,13 +11,14 @@ import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
 import { useQuery } from '@tanstack/react-query';
 import { getUserData } from '../profile/[id]/_lib/profile';
+import { toast } from 'react-toastify';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
   const { data: session } = useSession();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', session?.user.id],
-    queryFn: async () => getUserData(session?.user.id as string),
+    queryFn: getUserData,
   });
   return (
     <div>
