@@ -5,25 +5,14 @@ import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
 registerLocale('ko', ko);
 
-interface Props {
-  onStartDateChange: (date: Date) => void;
-  onEndDateChange: (date: Date) => void;
-}
+type Props = {
+  startDate: Date;
+  endDate: Date;
+  setStartDate: React.Dispatch<React.SetStateAction<Date>>;
+  setEndDate: React.Dispatch<React.SetStateAction<Date>>;
+};
 
-const Calendar = ({ onStartDateChange, onEndDateChange }: Props) => {
-  const [startDate, setStartDate] = useState<Date>(new Date(2024, 0, 1));
-  const [endDate, setEndDate] = useState<Date>(new Date(2024, 0, 31));
-
-  const onStartChange = (date: Date) => {
-    onStartDateChange(date);
-    setStartDate(new Date(new Date(date).setHours(0, 0, 0, 0)));
-  };
-
-  const onEndChange = (date: Date) => {
-    onEndDateChange(date);
-    setEndDate(new Date(new Date(date).setHours(0, 0, 0, 0)));
-  };
-
+const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
   return (
     <>
       <ReactDatePicker
@@ -33,7 +22,8 @@ const Calendar = ({ onStartDateChange, onEndDateChange }: Props) => {
         endDate={endDate}
         maxDate={endDate}
         selectsStart
-        onChange={onStartChange}
+        onChange={(date) => setStartDate(date!)}
+        showIcon
         icon={svg}
       />
       <ReactDatePicker
@@ -42,7 +32,8 @@ const Calendar = ({ onStartDateChange, onEndDateChange }: Props) => {
         startDate={startDate}
         endDate={endDate}
         selectsEnd
-        onChange={onEndChange}
+        onChange={(date) => setEndDate(date!)}
+        showIcon
         icon={svg}
       />
     </>

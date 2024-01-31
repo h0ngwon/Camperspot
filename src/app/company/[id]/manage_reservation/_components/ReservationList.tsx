@@ -3,7 +3,7 @@ import Reservation from './Reservation';
 import { useQuery } from '@tanstack/react-query';
 import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
 import styles from '../_styles/ReservationList.module.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { CompanyReservationInfo } from '@/types/reservation';
 import { useParams } from 'next/navigation';
@@ -11,8 +11,8 @@ import Calendar from './Calendar';
 
 const ReservationList = () => {
   const params = useParams();
-  const [startDate, setStartDate] = useState<Date>(new Date('2024-01-01'));
-  const [endDate, setEndDate] = useState<Date>(new Date('2024-01-31'));
+  const [startDate, setStartDate] = useState<Date>(new Date(2024, 0, 1));
+  const [endDate, setEndDate] = useState<Date>(new Date(2024, 0, 31));
   const [text, setText] = useState<string>('');
   const [result, setResult] = useState<CompanyReservationInfo[]>();
   const [isSearch, setIsSearch] = useState<boolean>(false);
@@ -32,6 +32,7 @@ const ReservationList = () => {
         endDate.toISOString(),
       ),
   });
+
   console.log('startDate', startDate);
   console.log('endDate', endDate);
 
@@ -105,21 +106,14 @@ const ReservationList = () => {
         ))}
       </ul>
       <h3 className={styles.h3}>전체 예약 현황</h3>
-      {/* <Calendar  onDatesChange={(dates)=>setDates(dates)}/> */}
-      {/* <Link
-        href={{
-          pathname: `/company/${params.id}/manage_reservation`,
-          query: {
-            startDate: `${startDate && startDate}`,
-            endDate: `${endDate && endDate}`,
-          },
-        }}
-      > */}
       <Calendar
-        onStartDateChange={(startDate) => setStartDate(startDate)}
-        onEndDateChange={(endDate) => setEndDate(endDate)}
+        startDate={startDate}
+        endDate={endDate}
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+        // onStartDateChange={(startDate) => setStartDate(startDate)}
+        // onEndDateChange={(endDate) => setEndDate(endDate)}
       />
-      {/* </Link> */}
       <div className={styles.div2}>
         {new Date(firstReservationDate.setDate(1)).toLocaleString('ko', {
           year: 'numeric',
