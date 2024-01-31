@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 import kakao from '../../../../asset/ico_kakao.png';
 import naver from '../../../../asset/ico_naver.png';
 import pencil from '../../../../asset/mdi_pencil.svg';
-import { getUserData } from '../_lib/getUserData';
+import { getUserData } from '../_lib/profile';
 import styles from '../_styles/Profile.module.css';
 import ProfileModifyForm from './ProfileModifyForm';
 
@@ -17,7 +17,7 @@ const Profile = () => {
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', params.id],
-    queryFn: async () => getUserData(params.id as string),
+    queryFn: getUserData
   });
 
   return (
@@ -37,7 +37,10 @@ const Profile = () => {
             <div className={styles['nickname-header']}>닉네임</div>
             <div className={styles['nickname-inner']}>
               <div className={styles['nickname']}>{data?.nickname}</div>
-              <button className={styles['modify-btn']} onClick={toggleModal}>
+              <button className={styles['modify-btn']} onClick={() => {
+                toggleModal();
+                document.body.style.overflow = 'hidden';
+              }}>
                 <Image src={pencil} width={24} height={24} alt='modify' />
               </button>
               {show && (

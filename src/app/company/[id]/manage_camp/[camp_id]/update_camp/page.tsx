@@ -73,6 +73,15 @@ const UpdateCampPage = (props: Props) => {
 
   const [isAddressModal, setAddressModal] = useState(false);
 
+  // 등록 눌렀을 시 캠핑장 이미지 업로드
+  async function uploadStorageCampPicData(blob: Blob | File) {
+    // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
+    const { data, error } = await supabase.storage
+      .from('camp_pic')
+      .upload(window.URL.createObjectURL(blob), blob);
+    return { data: data, error };
+  }
+
   const {
     mutate: updateCamp,
     isError,
@@ -117,6 +126,23 @@ const UpdateCampPage = (props: Props) => {
         // camp_pic 데이터 삭제
         const { data: deleteCampPicData, error: deleteCampPicError } =
           await supabase.from('camp_pic').delete().eq('camp_id', campId);
+
+        // 여러개 사진 table에 올리는 로직
+        campPicture.forEach(async (item) => {
+          const blob = await fetch(item).then((r) => r.blob());
+          const { data, error } = await uploadStorageCampPicData(blob);
+          const BASE_URL =
+            'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
+          if (error) return null;
+          // supabase table에 올리는 로직
+          await supabase
+            .from('camp_pic')
+            .insert({
+              camp_id: campId as string,
+              photo_url: BASE_URL + data?.path,
+            })
+            .select();
+        });
 
         // hashtag 데이터 삭제
         const { data: deleteHashtagData, error: deleteHashtagDataError } =
@@ -206,32 +232,6 @@ const UpdateCampPage = (props: Props) => {
     }
 
     uploadLayoutToCampTable();
-
-    // 등록 눌렀을 시 캠핑장 이미지 업로드
-    async function uploadStorageCampPicData(blob: Blob | File) {
-      // const {data:campPicData} =await supabase.storage.from("camp_pic").getPublicUrl()
-      const { data, error } = await supabase.storage
-        .from('camp_pic')
-        .upload(window.URL.createObjectURL(blob), blob);
-      return { data: data, error };
-    }
-
-    // 여러개 사진 table에 올리는 로직
-    campPicture.forEach(async (item) => {
-      const blob = await fetch(item).then((r) => r.blob());
-      const { data, error } = await uploadStorageCampPicData(blob);
-      const BASE_URL =
-        'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
-      if (error) return null;
-      // supabase table에 올리는 로직
-      await supabase
-        .from('camp_pic')
-        .insert({
-          camp_id: campId as string,
-          photo_url: BASE_URL + data?.path,
-        })
-        .select();
-    });
 
     if (error) {
       console.log(error);
