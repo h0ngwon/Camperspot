@@ -68,7 +68,10 @@ const ProfileModifyForm = () => {
 
   return (
     <form className={styles.container} onSubmit={submitHandler}>
-      <button className={styles['close-btn']} onClick={toggleModal}>
+      <button className={styles['close-btn']} onClick={() => {
+        toggleModal();
+        document.body.style.overflow = 'auto';
+      }}>
         <ModalCloseSvg />
       </button>
       <div className={styles['profile-header']}>프로필 설정</div>
@@ -97,6 +100,7 @@ const ProfileModifyForm = () => {
           type='text'
           accept='image/*'
           defaultValue={data?.nickname}
+          maxLength={12}
           onChange={nicknameHandler}
           required
         />

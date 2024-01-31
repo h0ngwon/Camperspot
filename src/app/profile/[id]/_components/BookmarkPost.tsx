@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import styles from '../_styles/BookmarkPost.module.css';
 import BookmarkPostContent from './BookmarkPostContent';
 import { useQuery } from '@tanstack/react-query';
-import { getUserLikePost } from '../_lib/getUserLikePost';
+import { getUserLikePost } from '../_lib/profile';
 import { LikePostType } from '@/types/profile';
 
 const BookmarkPost = () => {
