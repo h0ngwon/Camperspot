@@ -41,7 +41,7 @@ const Reservation = ({
   return (
     <>
       <tr className={styles.tr}>
-        <td className={styles.td}>
+        {/* <td className={styles.td}>
           {new Date(created_at)
             .toLocaleString('ko', {
               year: 'numeric',
@@ -49,13 +49,13 @@ const Reservation = ({
               day: '2-digit',
             })
             .replace(/\.$/, '')}
+        </td> */}
+        <td className={styles.td}>
+          {check_in_date}/{check_out_date}{' '}
         </td>
         <td className={styles.td}>{client_name}</td>
         <td className={styles.td}>
           {camp_name}/{camp_area_name}
-        </td>
-        <td className={styles.td}>
-          {check_in_date}/{check_out_date}{' '}
         </td>
         <td className={styles.td}>{people}명</td>
         <td className={styles.td}>
