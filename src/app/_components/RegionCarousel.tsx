@@ -8,8 +8,8 @@ import styles from '../_styles/RegionFiltter.module.css';
 import Spacer from '@/components/Spacer';
 import { regions } from '../_lib/regions';
 import Image from 'next/image';
-import CarouselNextArrow from '@/components/CarouselNextArrow';
-import CarouselPrevArrow from '@/components/CarouselPrevArrow';
+import NextArrow from '@/components/NextArrow';
+import PrevArrow from '@/components/PrevArrow';
 
 export default class RegionCarousel extends Component {
   render() {
@@ -19,8 +19,8 @@ export default class RegionCarousel extends Component {
       centerPadding: '60px',
       slidesToShow: 4,
       slidesToScroll: 4,
-      nextArrow: <CarouselNextArrow />,
-      prevArrow: <CarouselPrevArrow />,
+      nextArrow: <NextArrow customStyle={true} />,
+      prevArrow: <PrevArrow customStyle={true} />,
 
       speed: 500,
       rows: 2,
