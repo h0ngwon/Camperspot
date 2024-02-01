@@ -12,6 +12,10 @@
   overflow: hidden;
 }
 
+.pics {
+  position: relative;
+}
+
 .deleteWrap {
   position: absolute;
   top: 0;

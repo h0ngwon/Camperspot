@@ -49,7 +49,7 @@ export default function CommuEditPic({
   return (
     <Slider {...settings}>
       {postPicEdit.map((item, index) => (
-        <div key={item.id}>
+        <div key={item.id} className={styles.pics}>
           <div className={styles.slideWrap}>
             <Image
               src={item.photo_url}

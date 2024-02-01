@@ -97,11 +97,13 @@ export default function CommuEditModal({
     // 삭제할 이미지 정보 가져오기
     const deletedImage = postPicEdit[index];
 
+    console.log(index);
+
     // 이미지 삭제
-    if (deletedImage.id) {
+    if (deletedImage) {
       try {
         // 삭제할 이미지의 id가 있는 경우에만 Supabase에서 삭제 요청
-        await supabase.from('post_pic').delete().eq('id', deletedImage.id);
+        await supabase.from('post_pic').delete().eq('id', postId);
 
         // 상태 업데이트: 삭제할 이미지를 제외한 나머지 이미지만 남깁니다.
         setPostPicEdit((prev) => prev.filter((_, idx) => idx !== index));
