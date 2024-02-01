@@ -13,6 +13,7 @@ const Reservation = ({
 }) => {
   const queryClient = useQueryClient();
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
+  const currentDate = new Date();
   const {
     id,
     created_at,
@@ -63,6 +64,10 @@ const Reservation = ({
             {client_phone}
             <button
               className={styles.button}
+              disabled={
+                new Date(check_in_date).getTime() <=
+                new Date(currentDate.setHours(9, 0, 0, 0)).getTime()
+              }
               onClick={() => setIsOpenConfirm(true)}
             >
               예약 취소
