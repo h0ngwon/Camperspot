@@ -35,8 +35,6 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
 
   const queryClient = useQueryClient();
 
-  // 금액 입력시 자동 콤마
-
   // 캠핑존 이미지 업로드
   async function handleChangeInputCampArea(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -63,7 +61,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
           camp_id: campId as string,
           name: areaName,
           max_people: Number(areaMaxPeople),
-          price: Number(areaPrice),
+          price: Number(String(areaPrice.replace(/[^\d]+/g, ''))),
           photo_url: areaImg,
         })
         .select();
@@ -152,7 +150,13 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
         </div>
         <div className={styles.campAreaPriceWrap}>
           <h3 className={styles.campAreaH3}>금액</h3>
-          <input value={areaPrice} onChange={handleAreaPrice} required />
+          <input
+            value={Number(areaPrice.replaceAll(',', '')).toLocaleString(
+              'ko-KR',
+            )}
+            onChange={handleAreaPrice}
+            required
+          />
           <span>원</span>
         </div>
         <div>
