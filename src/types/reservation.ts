@@ -15,6 +15,8 @@ export type CompanyReservationInfo = {
   client_name: string;
   client_phone: string;
   created_at: string;
+  check_in_date: string;
+  check_out_date: string;
   people: number;
   camp_area: {
     id: string;
@@ -60,10 +62,10 @@ export type UserReservationInfo = {
 };
 
 export type ReviewInfo = {
-    campId: string;
-    campName: string;
-    campAreaName: string;
-    check_in_date: string;
-    check_out_date: string;
-    photo_url: string;
-}
+  campId: string;
+  campName: string;
+  campAreaName: string;
+  check_in_date: string;
+  check_out_date: string;
+  photo_url: string;
+};
