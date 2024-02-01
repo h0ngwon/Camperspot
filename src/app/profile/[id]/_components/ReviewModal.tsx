@@ -8,15 +8,27 @@ import { useParams } from 'next/navigation';
 import { ReviewInfo } from '@/types/reservation';
 import Image from 'next/image';
 import useInput from '@/hooks/useInput';
+import { useForm } from 'react-hook-form';
 
 type Props = {
   reservationInfo: ReviewInfo;
   onClose: () => void;
 };
 
+type ReviewType = {
+  rating?: number;
+  review: string;
+};
+
 const ReviewModal = ({ reservationInfo, onClose }: Props) => {
-  const arrayIndex = [1, 2, 3, 4, 5];
-  const params = useParams();
+  const arrayIndex = [5, 4, 3, 2, 1];
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<ReviewType>();
+  const [ratingIndex, setRatingIndex] = useState<number>(1);
+  const [review, handleReview] = useInput();
   const { data: campData } = useQuery({
     queryKey: ['camp', 'review', reservationInfo.campId],
     queryFn: async () => {
@@ -29,11 +41,10 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
       return res.json();
     },
   });
-  const [ratingIndex, setRatingIndex] = useState(1);
-  const [review, handleReview] = useInput();
 
-  const submitHandler = (e: FormEvent) => {
-    e.preventDefault();
+  const submitHandler = (data: ReviewType) => {
+    console.log(data.rating);
+    console.log(data.review);
   };
 
   return (
@@ -62,82 +73,45 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
           </div>
         </div>
       </div>
-      <form className={styles['review-container']} onSubmit={submitHandler}>
+      <form
+        className={styles['review-container']}
+        onSubmit={handleSubmit(submitHandler)}
+      >
         <div className={styles['rating-wrapper']}>
           <span className={styles['rating-header']}>별점을 등록해주세요!</span>
           <div className={styles['rating-container']}>
             <div className={styles['stars-container']}>
               <fieldset className={styles['stars-wrapper']}>
-                <input
-                  type='radio'
-                  name='rating'
-                  id={`${arrayIndex[4]}`}
-                ></input>
-                <label
-                  htmlFor={`${arrayIndex[4]}`}
-                  className={styles['stars']}
-                  onClick={() => setRatingIndex(arrayIndex[4])}
-                >
-                  ⭐️
-                </label>
-                <input
-                  type='radio'
-                  name='rating'
-                  id={`${arrayIndex[3]}`}
-                ></input>
-                <label
-                  htmlFor={`${arrayIndex[3]}`}
-                  className={styles['stars']}
-                  onClick={() => setRatingIndex(arrayIndex[3])}
-                >
-                  ⭐️
-                </label>
-                <input
-                  type='radio'
-                  name='rating'
-                  id={`${arrayIndex[2]}`}
-                ></input>
-                <label
-                  htmlFor={`${arrayIndex[2]}`}
-                  className={styles['stars']}
-                  onClick={() => setRatingIndex(arrayIndex[2])}
-                >
-                  ⭐️
-                </label>
-                <input
-                  type='radio'
-                  name='rating'
-                  id={`${arrayIndex[1]}`}
-                ></input>
-                <label
-                  htmlFor={`${arrayIndex[1]}`}
-                  className={styles['stars']}
-                  onClick={() => setRatingIndex(arrayIndex[1])}
-                >
-                  ⭐️
-                </label>
-                <input
-                  type='radio'
-                  name='rating'
-                  id={`${arrayIndex[0]}`}
-                ></input>
-                <label
-                  htmlFor={`${arrayIndex[0]}`}
-                  className={styles['stars']}
-                  onClick={() => setRatingIndex(arrayIndex[0])}
-                >
-                  ⭐️
-                </label>
+                {arrayIndex.map((index) => (
+                  <React.Fragment key={index}>
+                    <input
+                      type='radio'
+                      id={`${index}`}
+                      required={true}
+                      {...register('rating', { required: true })}
+                    ></input>
+                    <label
+                      htmlFor={`${index}`}
+                      className={styles['stars']}
+                      onClick={() => setRatingIndex(index)}
+                    >
+                      ⭐️
+                    </label>
+                  </React.Fragment>
+                ))}
               </fieldset>
             </div>
             <div className={styles.rating}>{ratingIndex}</div>
           </div>
         </div>
         <textarea
+          id='review'
           className={styles['review-area']}
           placeholder='이용후기를 남겨주세요. (150자 이하)'
-          onChange={handleReview}
-          maxLength={150}
+          {...register('review', {
+            maxLength: 150,
+            required: true,
+          })}
         ></textarea>
         <button className={styles['submit-btn']}>확인</button>
       </form>
