@@ -27,7 +27,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
     formState: { errors },
     handleSubmit,
   } = useForm<ReviewType>();
-  const [ratingIndex, setRatingIndex] = useState<number>(1);
+  const [rate, setRate] = useState<number>(1);
   const [review, handleReview] = useInput();
   const { data: campData } = useQuery({
     queryKey: ['camp', 'review', reservationInfo.campId],
@@ -43,7 +43,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
   });
 
   const submitHandler = (data: ReviewType) => {
-    console.log(ratingIndex);
+    console.log(rate);
     console.log(data.review.trim())
   };
 
@@ -93,7 +93,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
                     <label
                       htmlFor={`${index}`}
                       className={styles['stars']}
-                      onClick={() => setRatingIndex(index)}
+                      onClick={() => setRate(index)}
                     >
                       ⭐️
                     </label>
@@ -101,7 +101,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
                 ))}
               </fieldset>
             </div>
-            <div className={styles.rating}>{ratingIndex}</div>
+            <div className={styles.rating}>{rate}</div>
           </div>
           {/* {errors.rating ? <p className='error'>별점을 선택해주세요!</p> : null} */}
         </div>
@@ -121,7 +121,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
             <p className={styles.error}>리뷰와 별점을 입력해주세요! (공백X)</p>
           ) : null}
         </div>
-        <button className={styles['submit-btn']}>확인</button>
+        <button className={styles['submit-btn']}>리뷰 등록</button>
       </form>
     </div>
   );
