@@ -42,8 +42,6 @@ export default function CommuEditModal({
 
   const queryClient = useQueryClient();
 
-  const MAX_HASHTAG_LENGTH = 20;
-
   useEffect(() => {
     if (data) {
       setContentEdit(data!.content);
@@ -53,27 +51,69 @@ export default function CommuEditModal({
   }, [data]);
 
   // 캠핑장 이미지 업로드
-  function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
+  async function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
+    const BASE_URL =
+      'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/post_pic/';
+
     if (e.target.files) {
-      const file = e.target.files[0];
-      const newElement = {
-        id: 'some-id',
-        photo_url: URL.createObjectURL(file),
-        post_id: 'some-post-id',
-      }; // 실제 데이터로 교체
-      setPostPicEdit((prev) => [...prev, newElement]);
+      const files = Array.from(e.target.files);
+
+      try {
+        // 여러 이미지를 동시에 업로드
+        const uploadPromises = files.map(async (file) => {
+          const cleanFileName = file.name.replace(/[^\w\d.]/g, '_'); // 특수 문자를 '_'로 대체
+          const uniqueFileName = uuid() + '_' + cleanFileName;
+
+          const { data, error } = await supabase.storage
+            .from('post_pic')
+            .upload(uniqueFileName, file);
+
+          if (error) {
+            console.error('이미지 업로드 오류:', error);
+            throw error;
+          }
+
+          // Supabase에서 업로드된 이미지의 URL 얻기
+          const photo_url = BASE_URL + file.name;
+
+          return {
+            id: uuid(),
+            photo_url: photo_url,
+            post_id: postId,
+          };
+        });
+
+        // 여러 이미지의 업로드가 완료된 후 상태 업데이트
+        const newElements = await Promise.all(uploadPromises);
+        setPostPicEdit((prev) => [...prev, ...newElements]);
+      } catch (error) {
+        console.error('Supabase 스토리지 오류:', error);
+      }
     }
   }
 
-  // 버튼 클릭시 이미지 삭제
-  const handleDeleteCampImg = (index: number) => {
-    setPostPicEdit((prev) => {
-      const updatedPostPics = [...prev];
-      updatedPostPics.splice(index, 1); // 해당 인덱스의 이미지 삭제
-      return updatedPostPics;
-    });
+  // 이미지 삭제  수정
+  const handleDeleteCampImg = async (index: number) => {
+    // 삭제할 이미지 정보 가져오기
+    const deletedImage = postPicEdit[index];
+
+    console.log(index);
+
+    // 이미지 삭제
+    if (deletedImage) {
+      try {
+        // 삭제할 이미지의 id가 있는 경우에만 Supabase에서 삭제 요청
+        await supabase.from('post_pic').delete().eq('id', postId);
+
+        // 상태 업데이트: 삭제할 이미지를 제외한 나머지 이미지만 남깁니다.
+        setPostPicEdit((prev) => prev.filter((_, idx) => idx !== index));
+      } catch (error) {
+        console.error('이미지 삭제 오류:', error);
+      }
+    }
   };
 
+  // 해시태그 수정
   const handleDeleteHashtag = (hashTag: string) => {
     setHashTagsEdit((prevHashTags) => {
       const updatedHashTags = prevHashTags.filter(
@@ -84,10 +124,7 @@ export default function CommuEditModal({
   };
 
   const isEmptyValue = (value: string | any[]) => {
-    if (!value.length) {
-      return true;
-    }
-    return false;
+    return !value || (Array.isArray(value) && value.length === 0);
   };
 
   const addHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -107,7 +144,7 @@ export default function CommuEditModal({
       newHashTag = newHashTag.split(',').join('');
     }
 
-    if (hashTagsEdit.length >= 10 || newHashTag.length > MAX_HASHTAG_LENGTH) {
+    if (hashTagsEdit.length >= 10 || newHashTag.length > 20) {
       return;
     }
 
@@ -156,37 +193,57 @@ export default function CommuEditModal({
           })
           .eq('id', postId);
 
+        // 이미지 삭제
+        const deletedImages = data.post_pic.filter(
+          (existingPic) =>
+            !postPicEdit.some((updatedPic) => updatedPic.id === existingPic.id),
+        );
+
+        await Promise.all(
+          deletedImages.map(async (pic) => {
+            await supabase.from('post_pic').delete().eq('id', pic.id);
+          }),
+        );
+
         // PostPic 데이터 업데이트
         for (const pic of postPicEdit) {
-          // 이미지 삭제
-          await supabase.from('post_pic').delete().eq('id', pic.id);
-          // 새로운 이미지 추가
-          await supabase
-            .from('post_pic')
-            .upsert([
-              {
-                post_id: postId,
-                photo_url: pic.photo_url,
-              },
-            ])
-            .eq('id', pic.id);
+          await supabase.from('post_pic').upsert([
+            {
+              id: pic.id,
+              post_id: postId,
+              photo_url: pic.photo_url,
+            },
+          ]);
         }
+
+        // 해시태그 삭제
+        const deletedTags = data.post_hashtag.filter(
+          (existingTag) =>
+            !hashTagsEdit.some(
+              (updatedTag) => updatedTag.tag === existingTag.tag,
+            ),
+        );
+
+        await Promise.all(
+          deletedTags.map(async (tag) => {
+            await supabase.from('post_hashtag').delete().eq('id', tag.id);
+          }),
+        );
 
         // PostHashTag 데이터 업데이트
         for (const tag of hashTagsEdit) {
-          // 해시태그 삭제
-          await supabase.from('post_hashtag').delete().eq('id', tag.id);
-          // 새로운 해시태그 추가
           await supabase
             .from('post_hashtag')
             .upsert([
               {
+                id: tag.id,
                 post_id: postId,
                 tag: tag.tag,
               },
             ])
             .eq('id', tag.id);
         }
+
         toast.success('수정이 완료되었습니다.');
       } catch (error) {
         console.error('데이터베이스 업데이트 및 삭제 에러:', error);
