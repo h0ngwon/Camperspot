@@ -13,7 +13,15 @@ const Reservation = ({
 }) => {
   const queryClient = useQueryClient();
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
-  const { id, created_at, client_name, client_phone, people } = reservation;
+  const {
+    id,
+    created_at,
+    client_name,
+    client_phone,
+    check_in_date,
+    check_out_date,
+    people,
+  } = reservation;
   const { camp_name } = reservation.camp_area?.camp!;
   const { camp_area_name } = reservation.camp_area!;
   const { id: companyId } = reservation.camp_area?.camp?.company_user!;
@@ -32,27 +40,42 @@ const Reservation = ({
 
   return (
     <>
-      <li className={styles.li}>
-        <p>
-          {new Date(created_at).toLocaleString('ko', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-          })}
-        </p>
-        <p>{client_name}</p>
-        <p>{camp_name}</p>
-        <p>{camp_area_name} </p>
-        <p>{people}</p>
-        <p>{client_phone}</p>
-        <button onClick={() => setIsOpenConfirm(true)}>예약 취소</button>
-        <ConfirmModal
-          title='예약을 취소하시겠습니까?'
-          open={isOpenConfirm}
-          onClose={() => setIsOpenConfirm(false)}
-          onConfirm={handleDelete}
-        />
-      </li>
+      <tr className={styles.tr}>
+        <td className={styles.td}>
+          {new Date(created_at)
+            .toLocaleString('ko', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+            .replace(/\.$/, '')}
+        </td>
+        <td className={styles.td}>{client_name}</td>
+        <td className={styles.td}>
+          {camp_name}/{camp_area_name}
+        </td>
+        <td className={styles.td}>
+          {check_in_date}/{check_out_date}{' '}
+        </td>
+        <td className={styles.td}>{people}명</td>
+        <td className={styles.td}>
+          <div className={styles.phone}>
+            {client_phone}
+            <button
+              className={styles.button}
+              onClick={() => setIsOpenConfirm(true)}
+            >
+              예약 취소
+            </button>
+          </div>
+        </td>
+      </tr>
+      <ConfirmModal
+        title='예약을 취소하시겠습니까?'
+        open={isOpenConfirm}
+        onClose={() => setIsOpenConfirm(false)}
+        onConfirm={handleDelete}
+      />
     </>
   );
 };

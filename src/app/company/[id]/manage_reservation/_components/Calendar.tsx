@@ -3,6 +3,7 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker';
 import svg from '@/asset/Calendar.svg';
 import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
+import styles from '../_styles/Calendar.module.css';
 registerLocale('ko', ko);
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
 
 const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
   return (
-    <>
+    <div className={styles.div}>
       <ReactDatePicker
         selected={startDate}
         dateFormat={'yyyy/MM/dd'}
@@ -25,7 +26,9 @@ const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
         onChange={(date) => setStartDate(date!)}
         showIcon
         icon={svg}
+        locale={ko}
       />
+      -
       <ReactDatePicker
         selected={endDate}
         dateFormat={'yyyy/MM/dd'}
@@ -35,8 +38,9 @@ const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
         onChange={(date) => setEndDate(date!)}
         showIcon
         icon={svg}
+        locale={ko}
       />
-    </>
+    </div>
   );
 };
 
