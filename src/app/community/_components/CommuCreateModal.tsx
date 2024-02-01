@@ -56,6 +56,7 @@ export default function CommuCreateModal({ onClose }: Props) {
       setPostPic((prev) => [...prev, URL.createObjectURL(file)]);
     }
   }
+
   // 버튼 클릭시 이미지 삭제
   const handleDeleteCampImg = (index: number) => {
     setPostPic(

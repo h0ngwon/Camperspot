@@ -1,31 +1,46 @@
 'use client';
 import Reservation from './Reservation';
 import { useQuery } from '@tanstack/react-query';
-import { getCompanyReservation } from '../_lib/reservation';
+import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
 import styles from '../_styles/ReservationList.module.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { CompanyReservationInfo } from '@/types/reservation';
+import { useParams } from 'next/navigation';
+import Calendar from './Calendar';
+import NothingReservation from './NothingReservation';
+import ResrevationSearchSvg from '../../_svg/ResrevationSearchSvg';
+import { getEndDate } from '../_lib/getEndDate';
 
-const ReservationList = ({ companyId }: { companyId: string }) => {
+const ReservationList = () => {
+  const currentDate = new Date();
+  const params = useParams();
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
+  );
+  const [endDate, setEndDate] = useState<Date>(getEndDate);
   const [text, setText] = useState<string>('');
   const [result, setResult] = useState<CompanyReservationInfo[]>();
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const {
-    isLoading,
-    error,
-    data: reservations,
-  } = useQuery({
-    queryKey: ['reservations'],
-    queryFn: () => getCompanyReservation(companyId),
+  const { isLoading, data: reservations } = useQuery({
+    queryKey: [
+      'company',
+      'reservation',
+      params.id,
+      startDate.toISOString(),
+      endDate.toISOString(),
+    ],
+    queryFn: () =>
+      getCompanyReservation(
+        params.id as string,
+        startDate.toISOString(),
+        endDate.toISOString(),
+      ),
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
-  if (!reservations?.length) return <p>예약 현황이 없습니다.</p>;
+  console.log('reservations', reservations);
 
-  const firstReservationDate = new Date(reservations?.[0].created_at);
-  const lastReservationDate = new Date(reservations?.at(-1)!.created_at);
+  if (isLoading) return <p>Loading...</p>;
 
   const filterReservation = reservations?.filter(
     (reservation) =>
@@ -75,71 +90,93 @@ const ReservationList = ({ companyId }: { companyId: string }) => {
 
   return (
     <>
-      <h3 className={styles.h3}>오늘의 예약 현황</h3>
       <div className={styles.div}>
-        <p>예약일시</p>
-        <p>예약자명</p>
-        <p>캠핑명</p>
-        <p>캠핑존</p>
-        <p>인원</p>
-        <p>예약자 연락처</p>
-      </div>
-      {!filterReservation?.length && <p>오늘 예약 현황이 없습니다.</p>}
-      <ul>
-        {filterReservation?.map((reservation) => (
-          <Reservation key={reservation.id} reservation={reservation} />
-        ))}
-      </ul>
-      <h3 className={styles.h3}>전체 예약 현황</h3>
-      <div className={styles.div2}>
-        {new Date(firstReservationDate.setDate(1)).toLocaleString('ko', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })}
-        ~
-        {new Date(
-          lastReservationDate.setDate(
-            new Date(
-              lastReservationDate.getFullYear(),
-              lastReservationDate.getMonth() + 1,
-              0,
-            ).getDate(),
-          ),
-        ).toLocaleString('ko', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-        })}
-        <div>
-          <input
-            className={styles.input}
-            type='text'
-            value={text}
-            placeholder='예약자명, 연락처를 검색하세요.'
-            onChange={(e) => setText(e.target.value)}
-          />
-          <button onClick={handleSearch}>검색</button>
-          <button onClick={handleUndo}>취소</button>
-        </div>
+        <h3 className={styles.h3}>오늘의 예약 현황</h3>
+        {filterReservation?.length ? (
+          <div>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th}>예약일시</th>
+                  <th className={styles.th}>예약자명</th>
+                  <th className={styles.th}>캠핑장/캠핑존</th>
+                  <th className={styles.th}>체크인/아웃</th>
+                  <th className={styles.th}>인원</th>
+                  <th className={styles.th}>예약자 연락처</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filterReservation?.map((reservation) => (
+                  <Reservation key={reservation.id} reservation={reservation} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <NothingReservation text={'오늘 예약 현황이 없습니다.'} />
+        )}
       </div>
 
-      <div className={styles.div}>
-        <p>예약일시</p>
-        <p>예약자명</p>
-        <p>캠핑명</p>
-        <p>캠핑존</p>
-        <p>인원</p>
-        <p>예약자 연락처</p>
+      <div>
+        <h3 className={styles.h3}>전체 예약 현황</h3>
+        <div className={styles['total-menu']}>
+          <Calendar
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+          />
+          <div className={styles['input-wrapper']}>
+            <input
+              className={styles.input}
+              type='text'
+              value={text}
+              placeholder='예약자명, 연락처를 검색하세요.'
+              onChange={(e) => setText(e.target.value)}
+            />
+            <div className={styles['search-btn']} onClick={handleSearch}>
+              <ResrevationSearchSvg />
+            </div>
+          </div>
+          {/* 취소 버튼 아이콘으로 변경할 예정 */}
+          <button onClick={handleUndo}>취소</button>
+        </div>
+        {reservations?.length ? (
+          <div>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th}>예약일시</th>
+                  <th className={styles.th}>예약자명</th>
+                  <th className={styles.th}>캠핑장/캠핑존</th>
+                  <th className={styles.th}>체크인/아웃</th>
+                  <th className={styles.th}>인원</th>
+                  <th className={styles.th}>예약자 연락처</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {isSearch
+                  ? result?.map((s) => (
+                      <Reservation key={s.id} reservation={s} />
+                    ))
+                  : reservations?.map((reservation) => (
+                      <Reservation
+                        key={reservation.id}
+                        reservation={reservation}
+                      />
+                    ))}
+              </tbody>
+            </table>
+
+            {isSearch && !result?.length && (
+              <NothingReservation text={'일치하는 예약 정보가 없습니다.'} />
+            )}
+          </div>
+        ) : (
+          <NothingReservation text={'해당되는 예약이 없습니다.'} />
+        )}
       </div>
-      <ul>
-        {isSearch
-          ? result?.map((s) => <Reservation key={s.id} reservation={s} />)
-          : reservations?.map((reservation) => (
-              <Reservation key={reservation.id} reservation={reservation} />
-            ))}
-        {isSearch && !result?.length && <p>일치하는 예약 정보가 없습니다. </p>}
-      </ul>
     </>
   );
 };

@@ -1,9 +1,9 @@
 import ReservationList from './_components/ReservationList';
 
-const page = ({ params }: { params: { id: string } }) => {
+const page = () => {
   return (
     <>
-      <ReservationList companyId={params.id} />
+      <ReservationList />
     </>
   );
 };

@@ -7,16 +7,28 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { ReviewInfo } from '@/types/reservation';
 import Image from 'next/image';
-import Rating from './Rating';
 import useInput from '@/hooks/useInput';
+import { useForm } from 'react-hook-form';
 
 type Props = {
   reservationInfo: ReviewInfo;
   onClose: () => void;
 };
 
+type ReviewType = {
+  rating?: number;
+  review: string;
+};
+
 const ReviewModal = ({ reservationInfo, onClose }: Props) => {
-  const params = useParams();
+  const arrayIndex = [5, 4, 3, 2, 1];
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<ReviewType>();
+  const [rate, setRate] = useState<number>(1);
+  const [review, handleReview] = useInput();
   const { data: campData } = useQuery({
     queryKey: ['camp', 'review', reservationInfo.campId],
     queryFn: async () => {
@@ -29,11 +41,10 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
       return res.json();
     },
   });
-  const [ratingIndex, setRatingIndex] = useState(1);
-  const [review, handleReview] = useInput();
 
-  const submitHandler = (e: FormEvent) => {
-    e.preventDefault();
+  const submitHandler = (data: ReviewType) => {
+    console.log(rate);
+    console.log(data.review.trim())
   };
 
   return (
@@ -48,7 +59,8 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
             src={reservationInfo.photo_url}
             width={123}
             height={81}
-            alt='camp area photo'
+            alt='캠프 존 사진'
+            priority={true}
           />
         </div>
         <div className={styles['camp-info-wrapper']}>
@@ -61,17 +73,55 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
           </div>
         </div>
       </div>
-      <div className={styles['rating-wrapper']}>
-        <span className={styles['rating-header']}>별점을 등록해주세요!</span>
-        <Rating ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
-      </div>
-      <form className={styles['review-container']} onSubmit={submitHandler}>
-        <textarea
-          className={styles['review-area']}
-          placeholder='이용후기를 남겨주세요.'
-          onChange={handleReview}
-        ></textarea>
-        <button className={styles['submit-btn']}>확인</button>
+      <form
+        className={styles['review-container']}
+        onSubmit={handleSubmit(submitHandler)}
+      >
+        <div className={styles['rating-wrapper']}>
+          <span className={styles['rating-header']}>별점을 등록해주세요!</span>
+          <div className={styles['rating-container']}>
+            <div className={styles['stars-container']}>
+              <fieldset className={styles['stars-wrapper']}>
+                {arrayIndex.map((index) => (
+                  <React.Fragment key={index}>
+                    <input
+                      type='radio'
+                      id={`${index}`}
+                      value={arrayIndex[index]}
+                      {...register('rating', { required: true })}
+                    ></input>
+                    <label
+                      htmlFor={`${index}`}
+                      className={styles['stars']}
+                      onClick={() => setRate(index)}
+                    >
+                      ⭐️
+                    </label>
+                  </React.Fragment>
+                ))}
+              </fieldset>
+            </div>
+            <div className={styles.rating}>{rate}</div>
+          </div>
+          {/* {errors.rating ? <p className='error'>별점을 선택해주세요!</p> : null} */}
+        </div>
+        <div className={styles['review-wrapper']}>
+          <textarea
+            id='review'
+            placeholder='이용후기를 남겨주세요. (150자 이하)'
+            className={styles['review-area']}
+            {...register('review', {
+              minLength: 1,
+              maxLength: 150,
+              required: true,
+              validate: (value) => (value.trim().length >= 1 ? true : false),
+            })}
+          ></textarea>
+          {errors.review || errors.rating ? (
+            <p className={styles.error}>리뷰와 별점을 입력해주세요! (공백X)</p>
+          ) : null}
+        </div>
+        <button className={styles['submit-btn']}>리뷰 등록</button>
       </form>
     </div>
   );
