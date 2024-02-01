@@ -18,7 +18,7 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['like'],
+    queryKey: ['like', postId],
     queryFn: async () => {
       try {
         const { data: post, error } = await supabase
