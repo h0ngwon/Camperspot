@@ -6,7 +6,7 @@ import RightArrowSvg from './RightArrowSvg';
 import { supabase } from '../api/db';
 
 const PopularCommunity = async () => {
-  let { data, error } = await supabase.rpc('get_random_pic');
+  const { data, error } = await supabase.rpc('get_random_pic');
   if (error) console.error(error);
   if (!data) {
     return;
