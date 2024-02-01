@@ -15,13 +15,10 @@ const CampFilter = () => {
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const handleSelectItem = (e: React.MouseEvent<HTMLLIElement>) => {
-    //컴파일시 e의 타입은알지만 뭐가들어오는지는모르니 as로 다시 지정
-    //브라우저 런타임은 as로 달아두는게 좋음
-    const a = e.target as HTMLLIElement;
-    setSelectedItem(a.textContent!);
+  const handleSelectItem = (list: string) => {
+    setSelectedItem(list);
     setIsOpen(false);
-    params.set('sort', a.textContent!);
+    params.set('sort', list);
     replace(`${pathname}?${params.toString()}`);
   };
   const sortList = ['예약순', '과거순', '최신순', '낮은가격순', '높은가격순'];
@@ -38,7 +35,7 @@ const CampFilter = () => {
             return (
               <li
                 key={list}
-                onClick={(e) => handleSelectItem(e)}
+                onClick={() => handleSelectItem(list)}
                 className={styles.filterItem}
               >
                 <p className={styles.filterText}>{list}</p>

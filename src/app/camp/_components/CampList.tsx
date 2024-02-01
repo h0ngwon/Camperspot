@@ -17,7 +17,7 @@ const CampList = ({ campList }: Props) => {
   const param = useSearchParams().get('sort');
   return (
     <>
-      {campList?.map((camp) => {
+      {campList.map((camp) => {
         const camp_pic = camp.camp_pic as Array<{
           id: string;
           photo_url: string;
