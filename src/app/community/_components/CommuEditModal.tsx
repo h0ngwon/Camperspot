@@ -61,12 +61,9 @@ export default function CommuEditModal({
       try {
         // 여러 이미지를 동시에 업로드
         const uploadPromises = files.map(async (file) => {
-          const cleanFileName = file.name.replace(/[^\w\d.]/g, '_'); // 특수 문자를 '_'로 대체
-          const uniqueFileName = uuid() + '_' + cleanFileName;
-
           const { data, error } = await supabase.storage
             .from('post_pic')
-            .upload(uniqueFileName, file);
+            .upload(URL.createObjectURL(file), file);
 
           if (error) {
             console.error('이미지 업로드 오류:', error);
@@ -74,7 +71,7 @@ export default function CommuEditModal({
           }
 
           // Supabase에서 업로드된 이미지의 URL 얻기
-          const photo_url = BASE_URL + file.name;
+          const photo_url = BASE_URL + data.path;
 
           return {
             id: uuid(),
@@ -96,8 +93,6 @@ export default function CommuEditModal({
   const handleDeleteCampImg = async (index: number) => {
     // 삭제할 이미지 정보 가져오기
     const deletedImage = postPicEdit[index];
-
-    console.log(index);
 
     // 이미지 삭제
     if (deletedImage) {
