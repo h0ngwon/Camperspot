@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { ReviewInfo } from '@/types/reservation';
 import Image from 'next/image';
-import Rating from './Rating';
 import useInput from '@/hooks/useInput';
 
 type Props = {
@@ -16,6 +15,7 @@ type Props = {
 };
 
 const ReviewModal = ({ reservationInfo, onClose }: Props) => {
+  const arrayIndex = [1, 2, 3, 4, 5];
   const params = useParams();
   const { data: campData } = useQuery({
     queryKey: ['camp', 'review', reservationInfo.campId],
@@ -48,7 +48,8 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
             src={reservationInfo.photo_url}
             width={123}
             height={81}
-            alt='camp area photo'
+            alt='캠프 존 사진'
+            priority={true}
           />
         </div>
         <div className={styles['camp-info-wrapper']}>
@@ -61,15 +62,82 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
           </div>
         </div>
       </div>
-      <div className={styles['rating-wrapper']}>
-        <span className={styles['rating-header']}>별점을 등록해주세요!</span>
-        <Rating ratingIndex={ratingIndex} setRatingIndex={setRatingIndex} />
-      </div>
       <form className={styles['review-container']} onSubmit={submitHandler}>
+        <div className={styles['rating-wrapper']}>
+          <span className={styles['rating-header']}>별점을 등록해주세요!</span>
+          <div className={styles['rating-container']}>
+            <div className={styles['stars-container']}>
+              <fieldset className={styles['stars-wrapper']}>
+                <input
+                  type='radio'
+                  name='rating'
+                  id={`${arrayIndex[4]}`}
+                ></input>
+                <label
+                  htmlFor={`${arrayIndex[4]}`}
+                  className={styles['stars']}
+                  onClick={() => setRatingIndex(arrayIndex[4])}
+                >
+                  ⭐️
+                </label>
+                <input
+                  type='radio'
+                  name='rating'
+                  id={`${arrayIndex[3]}`}
+                ></input>
+                <label
+                  htmlFor={`${arrayIndex[3]}`}
+                  className={styles['stars']}
+                  onClick={() => setRatingIndex(arrayIndex[3])}
+                >
+                  ⭐️
+                </label>
+                <input
+                  type='radio'
+                  name='rating'
+                  id={`${arrayIndex[2]}`}
+                ></input>
+                <label
+                  htmlFor={`${arrayIndex[2]}`}
+                  className={styles['stars']}
+                  onClick={() => setRatingIndex(arrayIndex[2])}
+                >
+                  ⭐️
+                </label>
+                <input
+                  type='radio'
+                  name='rating'
+                  id={`${arrayIndex[1]}`}
+                ></input>
+                <label
+                  htmlFor={`${arrayIndex[1]}`}
+                  className={styles['stars']}
+                  onClick={() => setRatingIndex(arrayIndex[1])}
+                >
+                  ⭐️
+                </label>
+                <input
+                  type='radio'
+                  name='rating'
+                  id={`${arrayIndex[0]}`}
+                ></input>
+                <label
+                  htmlFor={`${arrayIndex[0]}`}
+                  className={styles['stars']}
+                  onClick={() => setRatingIndex(arrayIndex[0])}
+                >
+                  ⭐️
+                </label>
+              </fieldset>
+            </div>
+            <div className={styles.rating}>{ratingIndex}</div>
+          </div>
+        </div>
         <textarea
           className={styles['review-area']}
-          placeholder='이용후기를 남겨주세요.'
+          placeholder='이용후기를 남겨주세요. (150자 이하)'
           onChange={handleReview}
+          maxLength={150}
         ></textarea>
         <button className={styles['submit-btn']}>확인</button>
       </form>

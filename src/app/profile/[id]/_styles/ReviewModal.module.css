@@ -108,3 +108,49 @@
   font-size: 24px;
   cursor: pointer;
 }
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.stars-container {
+  display: flex;
+  align-items: center;
+  gap:8px;
+}
+
+.stars-container > fieldset {
+  display: inline-block;
+  gap: 8px;
+  direction: rtl;
+}
+
+.stars {
+  font-size: 40px;
+  color: transparent;
+  text-shadow: 0 0 0 #f0f0f0;
+  cursor: pointer;
+}
+
+.stars:hover{
+  text-shadow: 0 0 0 #FBB900; /* 마우스 호버 */
+}
+
+.stars:hover ~ label{
+  text-shadow: 0 0 0 #FBB900; /* 마우스 호버 뒤에오는 이모지들 */
+}
+
+.stars-wrapper input[type=radio]{
+  display: none;
+}
+
+.stars-wrapper input[type=radio]:checked ~ label{
+  text-shadow: 0 0 0 #FBB900;
+}
+
+.rating {
+  font-size: 24px;
+  font-weight: 600;
+}
