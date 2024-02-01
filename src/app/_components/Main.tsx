@@ -6,6 +6,8 @@ import Spacer from '@/components/Spacer';
 import RegionCarousel from './RegionCarousel';
 
 import styles from '../_styles/Main.module.css';
+
+// TODO: 50은 공통적으로 자주 쓰임 -> 변수로 이름 정해놓기
 const Main = () => {
   return (
     <div className={styles.container}>
@@ -22,3 +24,5 @@ const Main = () => {
 };
 
 export default Main;
+
+

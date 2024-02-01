@@ -6,6 +6,7 @@ import Spacer from '@/components/Spacer';
 export const revalidate = 0;
 
 const PopularCamp = async () => {
+  // TODO: 인기 있는 캠프가 아닌데?
   const { data: camp, error } = await supabase
     .from('camp')
     .select(

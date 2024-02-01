@@ -22,16 +22,14 @@ function PageController({ hasNextPage, hasPrevPage }: Props) {
   const onClickPrevPage = () => {
     const newPage = Math.max(1, page - 1);
     params.set('page', String(newPage));
-
     router.push(`${pathname}/?${params.toString()}`);
   };
   const onClickNextPage = () => {
     const newPage = page + 1;
-
     params.set('page', String(newPage));
-
     router.push(`${pathname}/?${params.toString()}`);
   };
+
   return (
     <div className={styles.controllerBox}>
       <button disabled={!hasPrevPage} onClick={onClickPrevPage}>

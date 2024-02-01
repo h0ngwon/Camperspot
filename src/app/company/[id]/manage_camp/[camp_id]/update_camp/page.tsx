@@ -16,6 +16,10 @@ import Hashtag from './_components/Hashtag';
 
 type Props = {};
 
+/**
+ * TODO: 
+ * - useState를 하나로 만들어볼까요?
+ *  */
 const UpdateCampPage = (props: Props) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
@@ -101,6 +105,8 @@ const UpdateCampPage = (props: Props) => {
             .eq('camp_id', campId)
             .in('facility_id', facilityIds as number[]);
 
+        // 에러 or 오프라인 or 서버 터짐 => transaction X
+
         // 다시 체크된 facility만 insert
         const { data: checkedFacilityDataInsert, error: insertError } =
           await supabase
@@ -139,12 +145,12 @@ const UpdateCampPage = (props: Props) => {
         ) {
           throw new Error(
             error?.message ||
-              selectError?.message ||
-              deleteError?.message ||
-              insertError?.message ||
-              deleteCampPicError?.message ||
-              deleteHashtagDataError?.message ||
-              insertHashtagDataError?.message,
+            selectError?.message ||
+            deleteError?.message ||
+            insertError?.message ||
+            deleteCampPicError?.message ||
+            deleteHashtagDataError?.message ||
+            insertHashtagDataError?.message,
           );
         }
         return (
