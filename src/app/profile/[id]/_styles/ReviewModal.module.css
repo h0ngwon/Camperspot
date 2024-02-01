@@ -85,7 +85,7 @@
 .review-area {
   display: flex;
   width: 100%;
-  height: 417px;
+  height: 250px;
   padding: 16px;
   align-items: flex-start;
   flex: 1 0 0;
@@ -153,4 +153,17 @@
 .rating {
   font-size: 24px;
   font-weight: 600;
+}
+
+.review-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height:100%;
+  gap:5px;
+}
+
+.error {
+  font-size: 16px;
+  color: #F5667A;
 }

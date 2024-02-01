@@ -43,8 +43,8 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
   });
 
   const submitHandler = (data: ReviewType) => {
-    console.log(data.rating);
-    console.log(data.review);
+    console.log(ratingIndex);
+    console.log(data.review.trim())
   };
 
   return (
@@ -87,7 +87,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
                     <input
                       type='radio'
                       id={`${index}`}
-                      required={true}
+                      value={arrayIndex[index]}
                       {...register('rating', { required: true })}
                     ></input>
                     <label
@@ -103,16 +103,24 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
             </div>
             <div className={styles.rating}>{ratingIndex}</div>
           </div>
+          {/* {errors.rating ? <p className='error'>별점을 선택해주세요!</p> : null} */}
         </div>
-        <textarea
-          id='review'
-          className={styles['review-area']}
-          placeholder='이용후기를 남겨주세요. (150자 이하)'
-          {...register('review', {
-            maxLength: 150,
-            required: true,
-          })}
-        ></textarea>
+        <div className={styles['review-wrapper']}>
+          <textarea
+            id='review'
+            placeholder='이용후기를 남겨주세요. (150자 이하)'
+            className={styles['review-area']}
+            {...register('review', {
+              minLength: 1,
+              maxLength: 150,
+              required: true,
+              validate: (value) => (value.trim().length >= 1 ? true : false),
+            })}
+          ></textarea>
+          {errors.review || errors.rating ? (
+            <p className={styles.error}>리뷰와 별점을 입력해주세요! (공백X)</p>
+          ) : null}
+        </div>
         <button className={styles['submit-btn']}>확인</button>
       </form>
     </div>
