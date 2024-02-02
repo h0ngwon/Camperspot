@@ -1,4 +1,11 @@
 .slickPrev:before,
 .slickNext:before {
-    color: #000000;
+    color: #FFD766;
+}
+
+
+.mainSlick:before {
+    color: #FFD766;
+    font-size: 40px;
+    line-height: 0;
 }

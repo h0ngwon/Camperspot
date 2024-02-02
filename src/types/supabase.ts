@@ -334,16 +334,19 @@ export interface Database {
       };
       post_hashtag: {
         Row: {
+          created_at: string | null;
           id: string;
           post_id: string;
           tag: string;
         };
         Insert: {
+          created_at?: string | null;
           id?: string;
           post_id: string;
           tag: string;
         };
         Update: {
+          created_at?: string | null;
           id?: string;
           post_id?: string;
           tag?: string;
@@ -360,16 +363,19 @@ export interface Database {
       };
       post_pic: {
         Row: {
+          created_at: string | null;
           id: string;
           photo_url: string;
           post_id: string;
         };
         Insert: {
+          created_at?: string | null;
           id?: string;
           photo_url: string;
           post_id: string;
         };
         Update: {
+          created_at?: string | null;
           id?: string;
           photo_url?: string;
           post_id?: string;
@@ -521,66 +527,12 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
-      fetch_camp_data: {
-        Args: {
-          sort: string;
-          page: string;
-        };
-        Returns: {
-          id: string;
-          name: string;
-          created_at: string;
-          address: string;
-          region: string;
-          camp_area_price: number;
-          camp_pic: Json;
-          hashtag: Json;
-          total_count: number;
-        }[];
-      };
-      get_params_camp_data: {
-        Args: {
-          sort: string;
-          page: string;
-        };
-        Returns: {
-          id: string;
-          name: string;
-          created_at: string;
-          address: string;
-          region: string;
-          camp_area_min_price: number;
-          camp_area_max_price: number;
-          camp_pic: Json;
-          hashtag: Json;
-          reservation_count: number;
-          total_count: number;
-        }[];
-      };
       get_random_pic: {
         Args: Record<PropertyKey, never>;
         Returns: {
           camp_id: string;
           id: string;
           photo_url: string;
-        }[];
-      };
-      params_sorted_camp_data: {
-        Args: {
-          sort: string;
-          page: string;
-        };
-        Returns: {
-          id: string;
-          name: string;
-          created_at: string;
-          address: string;
-          region: string;
-          camp_area_price: number;
-          camp_pic: Json;
-          hashtag: Json;
-          reservation_count: number;
-          total_count: number;
         }[];
       };
       search_camp_data: {
@@ -601,6 +553,25 @@ export interface Database {
           camp_pic: Json;
           hashtag: Json;
           facility_option: Json;
+          reservation_count: number;
+          total_count: number;
+        }[];
+      };
+      sorted_camp: {
+        Args: {
+          sort: string;
+          page: string;
+        };
+        Returns: {
+          id: string;
+          name: string;
+          created_at: string;
+          address: string;
+          region: string;
+          camp_area_min_price: number;
+          camp_area_max_price: number;
+          camp_pic: Json;
+          hashtag: Json;
           reservation_count: number;
           total_count: number;
         }[];

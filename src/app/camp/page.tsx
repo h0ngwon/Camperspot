@@ -4,6 +4,7 @@ import Spacer from '@/components/Spacer';
 import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
 import Pagination from './_components/Pagination';
+import { getPageControllerProps } from './_lib/getPageControllerProps';
 
 export const revalidate = 0;
 
@@ -15,20 +16,23 @@ const Camp = async ({
 }) => {
   const currentPage = Number(searchParams.page);
 
-  const page = searchParams.page!.toString();
-  const sort = searchParams.sort!.toString();
+  const page = currentPage.toString();
+  const sort = currentPage.toString();
 
-  let { data, error } = await supabase.rpc('get_params_camp_data', {
+  const { data, error } = await supabase.rpc('sorted_camp', {
     page,
     sort,
   });
   if (error) console.error(error);
+  if (!data) return;
 
-  const per_page = searchParams['per_page'] ?? '9';
-
-  const start = (Number(currentPage) - 1) * Number(per_page);
-  const end = start + Number(per_page);
-  const count = data?.[0].total_count;
+  const perPage = searchParams['per_page'] ?? '9';
+  const count = data[0].total_count || 0;
+  const { hasNextPage, hasPrevPage } = getPageControllerProps({
+    currentPage,
+    perPage,
+    count,
+  });
   const pageTitle = '전국 인기 캠핑장';
   return (
     <>
@@ -50,9 +54,9 @@ const Camp = async ({
           <Spacer y={50} />
 
           <Pagination
-            hasNextPage={end < count!}
-            hasPrevPage={start > 0}
-            count={count!}
+            hasNextPage={hasNextPage}
+            hasPrevPage={hasPrevPage}
+            count={count}
           />
           <Spacer y={50} />
         </div>
@@ -61,5 +65,3 @@ const Camp = async ({
   );
 };
 export default Camp;
-
-//
