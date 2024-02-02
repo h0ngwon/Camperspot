@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import FacilityFilter from '../../_components/FacilityFilter';
 import CampList from '../../_components/CampList';
 import type { SearchCamp } from '@/types/campList';
-import Pagination from '../../_components/Pagination';
-import { useSearchParams } from 'next/navigation';
 import SearchPageController from './SearchPageController';
+import SearchReasultSvg from './SearchReasultSvg';
 
 type Props = {
   camp: SearchCamp;
@@ -41,13 +40,9 @@ const SearchView = ({ camp, error }: Props) => {
   useEffect(() => {
     paginateCamp(filteredCampData, currentPage);
   }, [filteredCampData, currentPage]);
-  /**
-   * hasNextPage={}
-   * totalpage
-   *  hasPrevPage={}
-   */
 
   const pageTitle = `검색 결과 (${totalData}건)`;
+
   return (
     <>
       <div className={styles.container}>
@@ -62,18 +57,29 @@ const SearchView = ({ camp, error }: Props) => {
             />
           </div>
           <Spacer y={30} />
-          <div className={styles.listWrapper}>
-            <div className={styles.camplList}>
-              <CampList campList={paginatedCamp!} />
-            </div>
-          </div>
-          <Spacer y={50} />
+          {totalData ? (
+            <>
+              <div className={styles.listWrapper}>
+                <div className={styles.camplList}>
+                  <CampList campList={paginatedCamp!} />
+                </div>
+              </div>
+              <Spacer y={50} />
 
-          <SearchPageController
-            totalData={totalData}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+              <SearchPageController
+                totalData={totalData}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </>
+          ) : (
+            <>
+              <Spacer y={100} />
+              <SearchReasultSvg />
+
+              <p className={styles.noCamp}>검색 결과가 없습니다.</p>
+            </>
+          )}
           <Spacer y={50} />
         </div>
       </div>
