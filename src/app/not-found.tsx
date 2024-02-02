@@ -9,8 +9,8 @@ const NotFoundPage = () => {
     <div className={styles.container}>
       <Image
         src={notFound}
-        width={300}
-        height={300}
+        width={400}
+        height={400}
         quality={100}
         alt='not found page'
       />
