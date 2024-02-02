@@ -7,12 +7,13 @@
     align-items: baseline;
     justify-content: space-between;
 
-
 }
 
 .popularIntro {
     display: flex;
     align-items: baseline;
+    gap: 15px;
+
 }
 
 .popularIntro p:first-child {

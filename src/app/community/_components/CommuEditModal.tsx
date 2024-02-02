@@ -26,8 +26,21 @@ type Props = {
     user: { id: string; nickname: string; profile_url: string | null } | null;
   };
 };
-type PostHashTag = Database['public']['Tables']['post_hashtag']['Row'];
-type PostPic = Database['public']['Tables']['post_pic']['Row'];
+//build중 create_at에 타입에러가나서 수정
+// type PostHashTag = Database['public']['Tables']['post_hashtag']['Row'];
+// type PostPic = Database['public']['Tables']['post_pic']['Row'];
+type PostPic = {
+  id: string;
+  photo_url: string;
+  post_id: string;
+  created_at?: string;
+};
+type PostHashTag = {
+  id: string;
+  tag: string;
+  post_id: string;
+  created_at?: string;
+};
 
 export default function CommuEditModal({
   onClose,

@@ -11,7 +11,7 @@ const SearchPage = async ({ searchParams }: Props) => {
   const _check_out = searchParams.check_out!.toString();
   const _keyword = searchParams.keyword!.toString();
   const _people = searchParams.people!.toString();
-  let { data, error } = await supabase.rpc('search_camp_data', {
+  const { data, error } = await supabase.rpc('search_camp_data', {
     _check_in,
     _check_out,
     _keyword,
