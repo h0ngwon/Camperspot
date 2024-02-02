@@ -72,6 +72,48 @@
   justify-content: space-between;
   margin: 0 auto;
 }
+/* 캠핑존 삭제 모달 css */
+.deleteCampAreaModalUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+.confirm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background: #fff;
+  border-radius: 8px;
+}
+.confirm > p {
+  margin: 20px auto 0;
+}
+.btns {
+  display: flex;
+  flex-direction: row;
+  margin: 10px auto 20px;
+  gap: 10px;
+}
+.btns > button {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #919191;
+  border-radius: 8px;
+}
+
+.btns > button:first-child {
+  color: #f02849;
+}
 
 /* 캠핑존 모달 css */
 .modalUP {

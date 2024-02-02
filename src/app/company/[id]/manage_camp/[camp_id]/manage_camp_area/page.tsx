@@ -12,6 +12,7 @@ import { toast } from 'react-toastify';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
+  const [isDeleteCampArea, setIsDeleteCampArea] = useState(false);
 
   const params = useParams();
 
@@ -29,7 +30,7 @@ const AddCampArea = () => {
     },
   });
 
-  const handleDeleteCampArea = async (id: string) => {
+  const handleCheckingBeforeDeleteCampArea = async (id: string) => {
     const { data: reservation, error: reservationError } = await supabase
       .from('reservation')
       .select('*');
@@ -42,9 +43,16 @@ const AddCampArea = () => {
     if (filteredCampAreaId?.length === 1) {
       toast.error('예약현황이 있어 삭제할 수 없습니다');
     } else {
-      confirm('해당 캠핑존을 정말 삭제하시겠습니까?');
-      deleteCampArea.mutate(id);
+      setIsDeleteCampArea(true);
     }
+  };
+
+  const handleDeleteCampArea = (id: string) => {
+    deleteCampArea.mutate(id);
+  };
+
+  const handleCancelBtn = () => {
+    setIsDeleteCampArea(false);
   };
 
   // campId에 맞는 camp area를 들고 와서 map으로 뿌려주는 로직
@@ -78,7 +86,9 @@ const AddCampArea = () => {
                 <div className={styles.areaHead}>
                   <h3 className={styles.h3}>{camparea.name}</h3>
                   <button
-                    onClick={() => handleDeleteCampArea(camparea.id)}
+                    onClick={() =>
+                      handleCheckingBeforeDeleteCampArea(camparea.id)
+                    }
                     className={styles.deleteCardBtn}
                   >
                     <Image src={removeBtn} alt='삭제버튼' width={17} />
@@ -114,6 +124,24 @@ const AddCampArea = () => {
                     </p>
                   </div>
                 </div>
+                {isDeleteCampArea && (
+                  <div
+                    onClick={handleCancelBtn}
+                    className={styles.deleteCampAreaModalUp}
+                  >
+                    <div className={styles.confirm}>
+                      <p>정말 삭제하시겠습니까?</p>
+                      <div className={styles.btns}>
+                        <button
+                          onClick={() => handleDeleteCampArea(camparea.id)}
+                        >
+                          삭제
+                        </button>
+                        <button onClick={handleCancelBtn}>취소</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })}
