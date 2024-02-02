@@ -17,12 +17,16 @@ export type CompanyReservationInfo = {
   created_at: string;
   check_in_date: string;
   check_out_date: string;
+  fee: number;
   people: number;
+  payment_method: string;
   camp_area: {
     id: string;
-    camp_area_name: string;
+    name: string;
     camp: {
-      camp_name: string;
+      name: string;
+      check_in: string;
+      check_out: string;
       company_user: {
         id: string;
       } | null;

@@ -1,5 +1,6 @@
 'use client';
-import { UserReservationInfo } from '@/types/reservation';
+import type { UserReservationInfo } from '@/types/reservation';
+import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationDetailModal.module.css';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import useModalStore from '@/store/modal';
@@ -14,7 +15,7 @@ const ReservationDetailModal = ({
   reservation,
   onClose,
 }: {
-  reservation: UserReservationInfo;
+  reservation: Omit<UserReservationInfo, 'photo_url'> | CompanyReservationInfo;
   onClose: () => void;
 }) => {
   const {
@@ -48,7 +49,6 @@ const ReservationDetailModal = ({
     deleteReservationMutaion.mutate();
     toggleModal();
   };
-  console.log('today', today);
   return (
     <>
       <p className={styles.info}>예약 상세 보기</p>
