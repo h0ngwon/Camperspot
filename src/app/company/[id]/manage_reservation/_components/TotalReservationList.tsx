@@ -41,14 +41,14 @@ const TotalReservationList = () => {
     if (!text.trim()) return;
     setIsSearch(true);
     if (NAME_REGEX.test(text)) {
-      setResult(
+      return setResult(
         reservations?.filter((reservation) => reservation.client_name === text),
       );
     }
     if (PHONE_REGEX.test(text)) {
       if (text.length === 10) {
         const formatPhone = text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-        setResult(
+        return setResult(
           reservations?.filter(
             (reservation) => reservation.client_phone === formatPhone,
           ),
@@ -57,19 +57,19 @@ const TotalReservationList = () => {
 
       if (text.length === 11) {
         const formatPhone = text.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        setResult(
+        return setResult(
           reservations?.filter(
             (reservation) => reservation.client_phone === formatPhone,
           ),
         );
       } else {
-        setResult(
+        return setResult(
           reservations?.filter(
             (reservation) => reservation.client_phone === text,
           ),
         );
       }
-    }
+    } else setResult([]);
   };
 
   const handleUndo = () => {
