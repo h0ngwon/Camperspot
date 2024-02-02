@@ -21,7 +21,14 @@ const CampFilter = () => {
     params.set('sort', list);
     replace(`${pathname}?${params.toString()}`);
   };
-  const sortList = ['예약순', '과거순', '최신순', '낮은가격순', '높은가격순'];
+  const sortList = [
+    '예약순',
+    '평점순',
+    '과거순',
+    '최신순',
+    '낮은가격순',
+    '높은가격순',
+  ];
 
   return (
     <div className={styles.dropDownBtnBox}>

@@ -3,18 +3,17 @@ import styles from '../_styles/CampCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import AddressSvg from '@/components/AddressSvg';
+import { TopReservedCamp } from '@/types/campList';
 
 type Props = {
-  camp: {
-    id: string;
-    name: string;
-    address: string;
-    camp_area: { price: number }[];
-    camp_pic: { id: string; photo_url: string }[];
-  };
+  camp: TopReservedCamp;
 };
 
 const CampCard = ({ camp }: Props) => {
+  const camp_pic = camp.camp_pic as Array<{
+    id: string;
+    photo_url: string;
+  }>;
   return (
     <Link
       href={`/camp/detail/${camp.id}`}
@@ -24,7 +23,7 @@ const CampCard = ({ camp }: Props) => {
       <div className={styles.campIntro}>
         <figure className={styles.photoWrap}>
           <Image
-            src={camp.camp_pic[0]?.photo_url}
+            src={camp_pic[0]?.photo_url}
             fill
             alt='캠프 이미지'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
@@ -40,9 +39,9 @@ const CampCard = ({ camp }: Props) => {
         </div>
       </div>
       <p className={styles.price}>
-        {camp.camp_area[0]?.price === 0
+        {camp.camp_area_min_price === 0
           ? '무료'
-          : `${camp.camp_area[0]?.price.toLocaleString()}원~`}
+          : `${camp.camp_area_min_price.toLocaleString()}원~`}
       </p>
     </Link>
   );

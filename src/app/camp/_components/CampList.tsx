@@ -1,5 +1,4 @@
 'use client';
-import React, { useEffect } from 'react';
 import styles from '../_styles/CampList.module.css';
 import { FaStar } from 'react-icons/fa';
 import Hashtag from './Hashtag';
@@ -18,6 +17,7 @@ const CampList = ({ campList }: Props) => {
   return (
     <>
       {campList.map((camp) => {
+        console.log(camp.review_average);
         const camp_pic = camp.camp_pic as Array<{
           id: string;
           photo_url: string;

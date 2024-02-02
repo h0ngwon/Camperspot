@@ -11,14 +11,13 @@ const SearchPage = async ({ searchParams }: Props) => {
   const _check_out = searchParams.check_out!.toString();
   const _keyword = searchParams.keyword!.toString();
   const _people = searchParams.people!.toString();
-  const { data, error } = await supabase.rpc('search_camp_data', {
+  const { data, error } = await supabase.rpc('search_page_data', {
     _check_in,
     _check_out,
     _keyword,
     _people,
   });
   if (error) console.error(error);
-
   return (
     <>
       <SearchView camp={data!} error={error} />
