@@ -35,6 +35,10 @@ const ManageAddedCamp = (props: Props) => {
         // 에러를 감지해서 쿼리문에 선언된 error로 들어가진다
       }
 
+      const { data: reservation, error: reservationError } = await supabase
+        .from('reservation')
+        .select('*');
+
       return camp;
     },
   });
