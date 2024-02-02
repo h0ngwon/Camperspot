@@ -47,7 +47,7 @@ const ManageAddedCamp = (props: Props) => {
     console.log(error);
     return <div>에러 발생</div>;
   }
-
+  console.log(data?.map((item) => item.camp_pic));
   const handleGoToCampDetail = (campId: string) => {
     router.push(`/camp/detail/${campId}`);
   };

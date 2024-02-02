@@ -190,7 +190,7 @@ const UpdateCampPage = (props: Props) => {
       }
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: ['camp'] });
+      queryClient.invalidateQueries({ queryKey: ['camp_id'] });
     },
     onError: (error) => {
       console.error('뮤테이션 에러:', error);
