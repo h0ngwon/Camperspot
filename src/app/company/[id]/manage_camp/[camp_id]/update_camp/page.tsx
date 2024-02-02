@@ -128,20 +128,19 @@ const UpdateCampPage = (props: Props) => {
           await supabase.from('camp_pic').delete().eq('camp_id', campId);
 
         // 여러개 사진 table에 올리는 로직
-        campPicture.forEach(async (item) => {
+        const updateCampPic = campPicture.forEach(async (item) => {
           const blob = await fetch(item).then((r) => r.blob());
           const { data, error } = await uploadStorageCampPicData(blob);
           const BASE_URL =
             'https://kuxaffboxknwphgulogp.supabase.co/storage/v1/object/public/camp_pic/';
           if (error) return null;
           // supabase table에 올리는 로직
-          await supabase
-            .from('camp_pic')
-            .insert({
+          await supabase.from('camp_pic').upsert([
+            {
               camp_id: campId as string,
               photo_url: BASE_URL + data?.path,
-            })
-            .select();
+            },
+          ]);
         });
 
         // hashtag 데이터 삭제
@@ -182,15 +181,20 @@ const UpdateCampPage = (props: Props) => {
           checkedFacilityDataInsert &&
           deleteCampPicData &&
           deleteHashtagData &&
-          insertHashtagData
+          insertHashtagData &&
+          updateCampPic
         );
       } catch (error) {
         console.error('An error occurred:', error);
         throw error; // 다시 던져서 상위 레벨로 전파
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['camp_id'] });
+    onSuccess: async () => {
+      queryClient.invalidateQueries({ queryKey: ['camp'] });
+    },
+    onError: (error) => {
+      console.error('뮤테이션 에러:', error);
+      toast.error('오류가 발생했습니다. 다시 시도해주세요.');
     },
   });
   if (isError) {
