@@ -40,7 +40,6 @@ const AddCampArea = () => {
       })
       .map((item) => item.camp_area_id);
 
-    console.log(filteredCampAreaId?.length);
     if (filteredCampAreaId?.length !== 0) {
       toast.error('예약현황이 있어 삭제할 수 없습니다');
     } else {
