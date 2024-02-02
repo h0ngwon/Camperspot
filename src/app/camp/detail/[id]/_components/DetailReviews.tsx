@@ -7,7 +7,6 @@ type Props = {
   review:
     | {
         id: string;
-        title: string;
         rating: number;
         camp_id: string;
         content: string;

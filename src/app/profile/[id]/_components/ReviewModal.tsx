@@ -1,50 +1,52 @@
 'use client';
 
-import React, { FormEvent, useState } from 'react';
-import styles from '../_styles/ReviewModal.module.css';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { ReviewInfo } from '@/types/reservation';
+import { FormReviewType } from '@/types/review';
+import { useMutation } from '@tanstack/react-query';
 import Image from 'next/image';
-import useInput from '@/hooks/useInput';
+import { useParams } from 'next/navigation';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { addReview } from '../_lib/review';
+import styles from '../_styles/ReviewModal.module.css';
 
 type Props = {
   reservationInfo: ReviewInfo;
   onClose: () => void;
 };
 
-type ReviewType = {
-  rating?: number;
-  review: string;
-};
-
 const ReviewModal = ({ reservationInfo, onClose }: Props) => {
+  const params = useParams();
+  const userId = params.id as string;
   const arrayIndex = [5, 4, 3, 2, 1];
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<ReviewType>();
+  } = useForm<FormReviewType>();
   const [rate, setRate] = useState<number>(1);
-  const [review, handleReview] = useInput();
-  const { data: campData } = useQuery({
-    queryKey: ['camp', 'review', reservationInfo.campId],
-    queryFn: async () => {
-      const res = await fetch(`/api/camp/review/${reservationInfo.campId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      return res.json();
-    },
+  // const { data: campData } = useQuery({
+  //   queryKey: ['camp', 'review', reservationInfo.campId],
+  //   queryFn: async () => {
+  //     const res = await fetch(`/api/camp/review/${reservationInfo.campId}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     return res.json();
+  //   },
+  // });
+  const mutation = useMutation({
+    mutationFn: addReview,
   });
 
-  const submitHandler = (data: ReviewType) => {
-    console.log(rate);
-    console.log(data.review.trim())
+  const submitHandler = (data: FormReviewType) => {
+    const review = data.review.trim();
+    const campId = reservationInfo.campId;
+
+    mutation.mutate({ rate, review, userId, campId });
   };
 
   return (
@@ -103,7 +105,6 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
             </div>
             <div className={styles.rating}>{rate}</div>
           </div>
-          {/* {errors.rating ? <p className='error'>별점을 선택해주세요!</p> : null} */}
         </div>
         <div className={styles['review-wrapper']}>
           <textarea
