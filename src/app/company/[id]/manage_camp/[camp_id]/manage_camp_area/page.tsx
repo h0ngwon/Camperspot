@@ -8,6 +8,7 @@ import { supabase } from '@/app/api/db';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import removeBtn from '@/asset/ico_removePicBtn.png';
+import { toast } from 'react-toastify';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
@@ -28,8 +29,22 @@ const AddCampArea = () => {
     },
   });
 
-  const handleDeleteCampArea = (id: string) => {
-    deleteCampArea.mutate(id);
+  const handleDeleteCampArea = async (id: string) => {
+    const { data: reservation, error: reservationError } = await supabase
+      .from('reservation')
+      .select('*');
+    const filteredCampAreaId = reservation
+      ?.filter((item) => {
+        return item.camp_area_id === id;
+      })
+      .map((item) => item.camp_area_id);
+
+    if (filteredCampAreaId?.length === 1) {
+      toast.error('예약현황이 있어 삭제할 수 없습니다');
+    } else {
+      confirm('해당 캠핑존을 정말 삭제하시겠습니까?');
+      deleteCampArea.mutate(id);
+    }
   };
 
   // campId에 맞는 camp area를 들고 와서 map으로 뿌려주는 로직
@@ -45,7 +60,6 @@ const AddCampArea = () => {
     },
   });
 
-  console.log(data);
   if (isLoading) {
     return <div>로딩중</div>;
   }
