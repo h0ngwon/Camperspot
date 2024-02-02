@@ -7,17 +7,10 @@ import 'slick-carousel/slick/slick-theme.css';
 import styles from '../_styles/CampCarousel.module.css';
 import NextArrow from '@/components/NextArrow';
 import PrevArrow from '@/components/PrevArrow';
+import { TopReservedCamp } from '@/types/campList';
 
 type Props = {
-  camp:
-    | {
-        id: string;
-        name: string;
-        address: string;
-        camp_area: { price: number }[];
-        camp_pic: { id: string; photo_url: string }[];
-      }[]
-    | null;
+  camp: TopReservedCamp[];
 };
 
 const CampCarousel = ({ camp }: Props) => {
@@ -31,11 +24,11 @@ const CampCarousel = ({ camp }: Props) => {
     nextArrow: <NextArrow customStyle={true} />,
     prevArrow: <PrevArrow customStyle={true} />,
   };
-
+  console.log(camp);
   return (
     <ul>
       <Slider {...settings}>
-        {camp!.map((item, index) => (
+        {camp?.map((item, index) => (
           <li key={index}>
             <div className={styles.card}>
               <CampCard camp={item} />

@@ -98,7 +98,7 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
   const handleLikeBtn = async () => {
     try {
       if (!userId) {
-        toast.error('로그인이 필요합니다.', {
+        toast.error('로그인 후 이용해 주세요.', {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,

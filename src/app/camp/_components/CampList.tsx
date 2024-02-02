@@ -1,5 +1,4 @@
 'use client';
-import React, { useEffect } from 'react';
 import styles from '../_styles/CampList.module.css';
 import { FaStar } from 'react-icons/fa';
 import Hashtag from './Hashtag';
@@ -18,6 +17,7 @@ const CampList = ({ campList }: Props) => {
   return (
     <>
       {campList.map((camp) => {
+        const reviewAverage = Math.ceil(camp.review_average * 100) / 100;
         const camp_pic = camp.camp_pic as Array<{
           id: string;
           photo_url: string;
@@ -54,7 +54,8 @@ const CampList = ({ campList }: Props) => {
               <div className={styles.cardMiddle}>
                 <div className={styles.campInfoBox2}>
                   <p>
-                    <FaStar size='15' color='#fff384' /> 평점(리뷰수)
+                    <FaStar size='15' color='#fff384' /> {reviewAverage}(
+                    {camp.review_count})
                   </p>
                   <p>{camp.address}</p>
                 </div>

@@ -6,18 +6,9 @@ import Spacer from '@/components/Spacer';
 export const revalidate = 0;
 
 const PopularCamp = async () => {
-  const { data: camp, error } = await supabase
-    .from('camp')
-    .select(
-      `
-    id,
-    name,
-    address,
-    camp_area(price),
-    camp_pic(id,photo_url)
-    `,
-    )
-    .range(0, 9);
+  const { data: camp, error } = await supabase.rpc('main_page_data');
+  if (error) console.error(error);
+  console.log(camp);
   //인기순 캠핑 기준 설정 후 적용예정
   return (
     <div className={styles.wrap}>
@@ -30,7 +21,7 @@ const PopularCamp = async () => {
       </div>
       <Spacer y={20} />
 
-      <CampCarousel camp={camp} />
+      <CampCarousel camp={camp!} />
     </div>
   );
 };

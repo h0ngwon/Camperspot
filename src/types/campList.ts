@@ -1,20 +1,5 @@
 import { Json } from './supabase';
 
-export type CampLists = {
-  campList: TCamp[];
-};
-
-export type TCamp = {
-  id: string;
-  name: string;
-  created_at: string;
-  address: string;
-  camp_area: { price: number; id: string }[];
-  camp_pic: { id: string; photo_url: string }[];
-  hashtag: { tag: string | null }[];
-  camp_facility?: { facility: { option: string } }[];
-};
-
 export type ParamsCamp = {
   id: string;
   name: string;
@@ -27,6 +12,8 @@ export type ParamsCamp = {
   hashtag: Json;
   reservation_count: number;
   total_count: number;
+  review_average: number;
+  review_count: number;
 }[];
 
 export type SearchCamp = {
@@ -42,4 +29,18 @@ export type SearchCamp = {
   facility_option: Json;
   reservation_count: number;
   total_count: number;
+  review_average: number;
+  review_count: number;
 }[];
+
+export type TopReservedCamp = {
+  id: string;
+  name: string;
+  address: string;
+  camp_area_min_price: number;
+  camp_pic: Json;
+  hashtag: Json;
+  review_average: number;
+  reservation_count: number;
+  review_count: number;
+};
