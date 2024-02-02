@@ -5,10 +5,21 @@ type MutateReviewType = {
   campId: string;
 };
 
+export const getReview = async (campId: string) => {
+  const res = await fetch(`/api/camp/${campId}/review`, {
+    method: 'GET'
+  })
+  const data = await res.json();
+  return data;
+}
+
 export const addReview = async (data: MutateReviewType) => {
-  const res = await fetch('/api/camp/review', {
+  const campId = data.campId;
+  const res = await fetch(`/api/camp/${campId}/review`, {
     method: 'POST',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
-  return res;
+  const fetchData = await res.json();
+  return fetchData
 };
+
