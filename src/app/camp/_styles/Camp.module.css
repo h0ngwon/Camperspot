@@ -39,3 +39,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
+
+.noCamp {
+    font-size: 24px
+}

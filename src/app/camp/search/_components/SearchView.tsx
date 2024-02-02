@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import FacilityFilter from '../../_components/FacilityFilter';
 import CampList from '../../_components/CampList';
 import type { SearchCamp } from '@/types/campList';
-import Pagination from '../../_components/Pagination';
-import { useSearchParams } from 'next/navigation';
 import SearchPageController from './SearchPageController';
+import SearchReasultSvg from './SearchReasultSvg';
 
 type Props = {
   camp: SearchCamp;
@@ -76,8 +75,9 @@ const SearchView = ({ camp, error }: Props) => {
           ) : (
             <>
               <Spacer y={100} />
+              <SearchReasultSvg />
 
-              <p>검색 결과가 없습니다.</p>
+              <p className={styles.noCamp}>검색 결과가 없습니다.</p>
             </>
           )}
           <Spacer y={50} />
