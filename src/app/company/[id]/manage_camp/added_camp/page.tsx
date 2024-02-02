@@ -20,7 +20,6 @@ const ManageAddedCamp = (props: Props) => {
   const { isLoading, isError, error, data } = useQuery({
     queryKey: ['camp_id', companyUserId],
     queryFn: async ({ queryKey }) => {
-      console.log('쿼리펑션 실행');
       const [, companyUserId] = queryKey; // queryKey에서 companyUserId를 추출
 
       const { data: camp, error } = await supabase
