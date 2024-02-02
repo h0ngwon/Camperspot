@@ -1,12 +1,12 @@
 .container {
-  width: 100%;
-  height: auto;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   position: absolute;
-  top:40%;
+  top:0;
   gap: 10px;
 }
 
