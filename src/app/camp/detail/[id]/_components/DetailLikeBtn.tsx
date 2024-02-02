@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import HeartSvg from '../_svg/HeartSvg';
 
 import styles from '../_styles/Like.module.css';
+import { toast } from 'react-toastify';
 
 type Props = {
   campId: string;
@@ -98,6 +99,7 @@ export default function DetailLikeBtn({ campId }: Props) {
   }
 
   const handleLikeBtn = async () => {
+    if (!userId) return toast.error('로그인 후 이용해 주세요.');
     try {
       if (liked) {
         // 이미 좋아요를 눌렀다면 취소
@@ -117,7 +119,7 @@ export default function DetailLikeBtn({ campId }: Props) {
 
   return (
     <div className={styles.wrap}>
-      <button className={styles.btn} onClick={handleLikeBtn} disabled={!userId}>
+      <button className={styles.btn} onClick={handleLikeBtn}>
         <HeartSvg isLiked={liked} />
       </button>
       <p key={data?.id}>{likeCount}</p>
