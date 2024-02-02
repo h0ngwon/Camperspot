@@ -3,7 +3,7 @@
 import { facilities } from '@/app/_lib/facility';
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import styles from '../_styles/FacilityFilter.module.css';
-import type { SearchCamp, TCamp } from '@/types/campList';
+import type { SearchCamp } from '@/types/campList';
 
 type Props = {
   campData: SearchCamp;
