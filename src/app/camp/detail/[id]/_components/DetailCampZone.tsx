@@ -76,6 +76,7 @@ export default function DetailCampZone({ campArea }: Props) {
   };
   const { data: session } = useSession();
   const openReservationModal = () => {
+    if (!session) return toast.error('로그인 후 이용해 주세요.');
     if (session?.user.role === 'company') {
       toast.error('업체회원은 예약할 수 없습니다.', { autoClose: 3000 });
       return;
