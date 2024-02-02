@@ -49,7 +49,6 @@ const ReservationDetailModal = ({
     deleteReservationMutaion.mutate();
     toggleModal();
   };
-  console.log('today', today);
   return (
     <>
       <p className={styles.info}>예약 상세 보기</p>

@@ -117,7 +117,12 @@ const TotalReservationList = () => {
 
             <tbody>
               {isSearch
-                ? result?.map((s) => <Reservation key={s.id} reservation={s} />)
+                ? result?.map((reservation) => (
+                    <Reservation
+                      key={reservation.id}
+                      reservation={reservation}
+                    />
+                  ))
                 : reservations?.map((reservation) => (
                     <Reservation
                       key={reservation.id}
@@ -126,7 +131,6 @@ const TotalReservationList = () => {
                   ))}
             </tbody>
           </table>
-
           {isSearch && !result?.length && (
             <NothingReservation text={'일치하는 예약 정보가 없습니다.'} />
           )}

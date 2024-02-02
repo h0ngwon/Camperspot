@@ -23,7 +23,6 @@ const Reservation = ({
   const currentDate = new Date();
   const {
     id,
-    created_at,
     client_name,
     client_phone,
     check_in_date,
@@ -58,15 +57,6 @@ const Reservation = ({
   return (
     <>
       <tr className={styles.tr}>
-        {/* <td className={styles.td}>
-          {new Date(created_at)
-            .toLocaleString('ko', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-            })
-            .replace(/\.$/, '')}
-        </td> */}
         <td className={styles.td}>
           {check_in_date}/{check_out_date}{' '}
         </td>
