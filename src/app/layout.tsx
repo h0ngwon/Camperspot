@@ -1,17 +1,15 @@
 import Spacer from '@/components/Spacer';
 import type { Metadata } from 'next';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/ReactToastify.css';
 import '../styles/globals.css';
 import '../styles/reset.css';
-import AuthSession from './_components/AuthSession';
-import Provider from './_components/CampProvider';
 import Header from './_components/Header';
 import localFont from 'next/font/local';
+import Providers from './_components/Providers';
 
 export const metadata: Metadata = {
   title: '캠퍼스팟 (Camperspot)',
-  description: '캠퍼스팟은 캠핑을 즐기는 이용자들에게 간편한 예약 시스템과 활발한 커뮤니티 경험을 제공하며 업체 회원들에게는 간편한 캠핑장 등록 및 관리 기능을 제공하는 서비스입니다.',
+  description:
+    '캠퍼스팟은 캠핑을 즐기는 이용자들에게 간편한 예약 시스템과 활발한 커뮤니티 경험을 제공하며 업체 회원들에게는 간편한 캠핑장 등록 및 관리 기능을 제공하는 서비스입니다.',
 };
 
 export const Pretendard = localFont({
@@ -26,15 +24,12 @@ export default function RootLayout({
   return (
     <html lang='ko'>
       <body className={Pretendard.className}>
-        <AuthSession>
-          <Provider>
-            <div id='modal'></div>
-            <Header />
-            <Spacer y={80} />
-            {children}
-          </Provider>
-          <ToastContainer />
-        </AuthSession>
+        <Providers>
+          <div id='modal'></div>
+          <Header />
+          <Spacer y={80} />
+          {children}
+        </Providers>
       </body>
     </html>
   );
