@@ -80,7 +80,7 @@
   transform: translate(-50%, -50%);
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 2;
   cursor: pointer;
 }
@@ -96,23 +96,30 @@
   border-radius: 8px;
 }
 .confirm > p {
-  margin: 20px auto 0;
+  margin: 30px auto 10px;
+  font-size: 20px;
 }
 .btns {
   display: flex;
   flex-direction: row;
-  margin: 10px auto 20px;
-  gap: 10px;
+  margin: 10px auto 30px;
+  gap: 20px;
 }
 .btns > button {
+  width: 60px;
   cursor: pointer;
   padding: 10px;
   border: 1px solid #919191;
   border-radius: 8px;
+  font-size: 16px;
 }
 
 .btns > button:first-child {
   color: #f02849;
+}
+.btns > button:hover {
+  background: #919191;
+  color: #fff;
 }
 
 /* 캠핑존 모달 css */
