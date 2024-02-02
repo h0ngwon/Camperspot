@@ -107,7 +107,6 @@ const TotalReservationList = () => {
           <table className={styles.table}>
             <thead>
               <tr>
-                {/* <th className={styles.th}>예약일시</th> */}
                 <th className={styles.th}>체크인/아웃</th>
                 <th className={styles.th}>예약자명</th>
                 <th className={styles.th}>캠핑장/캠핑존</th>

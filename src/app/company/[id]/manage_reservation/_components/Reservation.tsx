@@ -102,7 +102,7 @@ const Reservation = ({
       />
       {show && isShowDetail === id && (
         <ModalPortal>
-          <Modal>
+          <Modal customWidth={450} customHeight={680}>
             <ReservationDetailModal
               reservation={reservation}
               onClose={handleCloseModal}
