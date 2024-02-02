@@ -4,29 +4,44 @@ import { useQuery } from '@tanstack/react-query';
 import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
 import styles from '../_styles/ReservationList.module.css';
 import React, { useState } from 'react';
-import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
-import { CompanyReservationInfo } from '@/types/reservation';
 import { useParams } from 'next/navigation';
 import NothingReservation from './NothingReservation';
-import ResrevationSearchSvg from '../../_svg/ResrevationSearchSvg';
-
 import TotalReservationList from './TotalReservationList';
 import { getTodayReservation } from '../../_lib/getTodayReservation';
 
 const ReservationList = () => {
   const params = useParams();
+  const currentDate = new Date();
+  const [filter, setFilter] = useState<string>('ongoing');
   const { isLoading, data: reservation } = useQuery({
     queryKey: ['company', 'reservation', 'today'],
     queryFn: () => getTodayReservation(params.id as string),
   });
   if (isLoading) return <p>Loading...</p>;
 
+  const onGoingReservation = reservation?.filter(
+    (reservation) =>
+      reservation.camp_area?.camp?.check_in! <=
+      currentDate.getHours() + ':' + currentDate.getMinutes(),
+  );
+  const upComingReservation = reservation?.filter(
+    (reservation) =>
+      reservation.camp_area?.camp?.check_in! >
+      currentDate.getHours() + ':' + currentDate.getMinutes(),
+  );
+  console.log('onGoing', onGoingReservation, 'unComing', upComingReservation);
   return (
     <>
       <div className={styles.div}>
         <h3 className={styles.h3}>오늘의 예약 현황</h3>
         {reservation?.length ? (
           <div>
+            <li onClick={() => setFilter('ongoing')}>
+              이용 중 {onGoingReservation?.length}팀
+            </li>
+            <li onClick={() => setFilter('upcoming')}>
+              체크인 예정 {upComingReservation?.length}팀
+            </li>
             <table className={styles.table}>
               <thead>
                 <tr>
@@ -38,9 +53,22 @@ const ReservationList = () => {
                 </tr>
               </thead>
               <tbody>
-                {reservation?.map((reservation) => (
+                {filter === 'ongoing'
+                  ? onGoingReservation?.map((reservation) => (
+                      <Reservation
+                        key={reservation.id}
+                        reservation={reservation}
+                      />
+                    ))
+                  : upComingReservation?.map((reservation) => (
+                      <Reservation
+                        key={reservation.id}
+                        reservation={reservation}
+                      />
+                    ))}
+                {/* {reservation?.map((reservation) => (
                   <Reservation key={reservation.id} reservation={reservation} />
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>
