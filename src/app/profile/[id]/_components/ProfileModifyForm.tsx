@@ -64,6 +64,7 @@ const ProfileModifyForm = () => {
 
     mutation.mutate({ id, formData });
     toast.success('프로필 변경 완료!');
+    toggleModal();
   };
 
   return (
@@ -83,6 +84,7 @@ const ProfileModifyForm = () => {
               width={120}
               height={120}
               alt='profile'
+              className={styles['profile-image']}
             />
           </div>
           <input

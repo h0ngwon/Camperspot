@@ -62,6 +62,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
               height={81}
               alt='캠프 존 사진'
               priority={true}
+              objectFit='cover'
             />
           </div>
           <div className={styles['camp-info-wrapper']}>
