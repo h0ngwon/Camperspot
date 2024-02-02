@@ -11,7 +11,6 @@ type Props = {
         created_at: string;
         id: string;
         rating: number;
-        title: string;
         user_id: string;
       }[]
     | undefined;

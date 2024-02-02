@@ -18,7 +18,7 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
   const [likeCount, setLikeCount] = useState<number>(0);
 
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['like'],
+    queryKey: ['like', postId],
     queryFn: async () => {
       try {
         const { data: post, error } = await supabase
@@ -66,12 +66,26 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
   });
 
   useEffect(() => {
-    if (data) {
-      const result = data.like?.some((item) => item.user_id === userId);
-      setLiked(!!result);
-      setLikeCount(data.like?.length);
-    }
-  }, [data]);
+    const fetchData = async () => {
+      try {
+        const { data: post, error } = await supabase
+          .from('post')
+          .select('id, like(user_id)')
+          .eq('id', postId)
+          .single();
+
+        if (post) {
+          const result = post.like?.some((item) => item.user_id === userId);
+          setLiked(!!result);
+          setLikeCount(post.like?.length);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData(); // 함수 호출 추가
+  }, [data, postId, userId]); // data 대신 postId와 userId를 의존성 배열에 추가
 
   if (isLoading) {
     return <div>로딩중</div>;

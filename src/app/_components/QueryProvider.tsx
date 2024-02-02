@@ -8,7 +8,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function Provider({ children }: Props) {
+export default function QueryProvider({ children }: Props) {
   const queryClient = new QueryClient();
 
   return (

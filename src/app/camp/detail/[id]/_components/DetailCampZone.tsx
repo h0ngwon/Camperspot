@@ -7,6 +7,8 @@ import { useParams } from 'next/navigation';
 import styles from '../_styles/DetailCampZone.module.css';
 import ClockSvg from '../_svg/ClockSvg';
 import useModalStore from '@/store/modal';
+import { useSession } from 'next-auth/react';
+import { toast } from 'react-toastify';
 
 type Props = {
   campArea:
@@ -57,7 +59,6 @@ type Props = {
               created_at: string;
               id: string;
               rating: number;
-              title: string;
               user_id: string;
             }[]
           | undefined;
@@ -72,6 +73,14 @@ export default function DetailCampZone({ campArea }: Props) {
   const { toggleModal } = useModalStore();
   const campPrice = (price: number) => {
     return price.toLocaleString();
+  };
+  const { data: session } = useSession();
+  const openReservationModal = () => {
+    if (session?.user.role === 'company') {
+      toast.error('업체회원은 예약할 수 없습니다.', { autoClose: 3000 });
+      return;
+    }
+    toggleModal();
   };
 
   return (
@@ -104,7 +113,7 @@ export default function DetailCampZone({ campArea }: Props) {
                       query: { id: area.id },
                     }}
                   >
-                    <a id='link' onClick={toggleModal}>
+                    <a id='link' onClick={openReservationModal}>
                       예약하기
                     </a>
                   </Link>

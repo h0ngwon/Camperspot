@@ -119,11 +119,8 @@ export interface Reservation {
 export interface Review {
   id: string /* primary key */;
   created_at: string;
-  title: string;
   content: string;
   rating: number;
   camp_id: string /* foreign key to camp.id */;
   user_id: string /* foreign key to user.id */;
-  camp?: Camp;
-  user?: User;
 }

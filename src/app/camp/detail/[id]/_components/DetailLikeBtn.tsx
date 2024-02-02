@@ -68,12 +68,26 @@ export default function DetailLikeBtn({ campId }: Props) {
   });
 
   useEffect(() => {
-    if (data) {
-      const result = data.like?.some((item) => item.user_id === userId);
-      setLiked(!!result);
-      setLikeCount(data.like?.length);
-    }
-  }, [data]);
+    const fetchData = async () => {
+      try {
+        const { data: camp, error } = await supabase
+          .from('camp')
+          .select('id, like(user_id)')
+          .eq('id', campId)
+          .single();
+
+        if (camp) {
+          const result = camp.like?.some((item) => item.user_id === userId);
+          setLiked(!!result);
+          setLikeCount(camp.like?.length);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData(); // 함수 호출 추가
+  }, [data, campId, userId]); // data 대신 campId와 userId를 의존성 배열에 추가
 
   if (isLoading) {
     return <div>로딩중</div>;
