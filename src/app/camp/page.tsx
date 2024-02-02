@@ -15,9 +15,11 @@ const Camp = async ({
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
   const currentPage = Number(searchParams.page);
-
+  const paramsSort = searchParams.sort || '예약순';
   const page = currentPage.toString();
-  const sort = currentPage.toString();
+  const sort = paramsSort.toString();
+  console.log(page);
+  console.log('aaaaaaa', sort);
 
   const { data, error } = await supabase.rpc('sorted_camp', {
     page,
@@ -25,6 +27,7 @@ const Camp = async ({
   });
   if (error) console.error(error);
   if (!data) return;
+  console.log(data[0].name);
 
   const perPage = searchParams['per_page'] ?? '9';
   const count = data[0].total_count || 0;

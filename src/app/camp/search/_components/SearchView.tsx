@@ -41,13 +41,9 @@ const SearchView = ({ camp, error }: Props) => {
   useEffect(() => {
     paginateCamp(filteredCampData, currentPage);
   }, [filteredCampData, currentPage]);
-  /**
-   * hasNextPage={}
-   * totalpage
-   *  hasPrevPage={}
-   */
 
   const pageTitle = `검색 결과 (${totalData}건)`;
+
   return (
     <>
       <div className={styles.container}>
@@ -62,18 +58,28 @@ const SearchView = ({ camp, error }: Props) => {
             />
           </div>
           <Spacer y={30} />
-          <div className={styles.listWrapper}>
-            <div className={styles.camplList}>
-              <CampList campList={paginatedCamp!} />
-            </div>
-          </div>
-          <Spacer y={50} />
+          {totalData ? (
+            <>
+              <div className={styles.listWrapper}>
+                <div className={styles.camplList}>
+                  <CampList campList={paginatedCamp!} />
+                </div>
+              </div>
+              <Spacer y={50} />
 
-          <SearchPageController
-            totalData={totalData}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+              <SearchPageController
+                totalData={totalData}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            </>
+          ) : (
+            <>
+              <Spacer y={100} />
+
+              <p>검색 결과가 없습니다.</p>
+            </>
+          )}
           <Spacer y={50} />
         </div>
       </div>
