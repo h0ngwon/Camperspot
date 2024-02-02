@@ -17,7 +17,7 @@ const Profile = () => {
   const params = useParams();
   const { data } = useQuery({
     queryKey: ['mypage', 'profile', params.id],
-    queryFn: getUserData
+    queryFn: getUserData,
   });
 
   return (
@@ -25,22 +25,29 @@ const Profile = () => {
       <div className={styles['profile-container']}>
         <div className={styles['profile-header']}>프로필 관리</div>
         <div className={styles['profile-inner']}>
-          {data?.profile_url && (
-            <Image
-              src={`${data?.profile_url}` as string}
-              width={120}
-              height={120}
-              alt='profile'
-            />
-          )}
+          <div className={styles['profile-image-wrapper']}>
+            {data?.profile_url && (
+              <Image
+                src={`${data?.profile_url}` as string}
+                width={120}
+                height={120}
+                alt='profile'
+                className={styles['profile-image']}
+                onClick={toggleModal}
+              />
+            )}
+          </div>
           <div className={styles['nickname-container']}>
             <div className={styles['nickname-header']}>닉네임</div>
             <div className={styles['nickname-inner']}>
               <div className={styles['nickname']}>{data?.nickname}</div>
-              <button className={styles['modify-btn']} onClick={() => {
-                toggleModal();
-                document.body.style.overflow = 'hidden';
-              }}>
+              <button
+                className={styles['modify-btn']}
+                onClick={() => {
+                  toggleModal();
+                  document.body.style.overflow = 'hidden';
+                }}
+              >
                 <Image src={pencil} width={24} height={24} alt='modify' />
               </button>
               {show && (
