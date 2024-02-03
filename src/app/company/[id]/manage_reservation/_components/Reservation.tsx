@@ -58,7 +58,13 @@ const Reservation = ({
     <>
       <tr className={styles.tr}>
         <td className={styles.td}>
-          {check_in_date}/{check_out_date}{' '}
+          {new Date(check_in_date)
+            .toLocaleString('ko', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })
+            .replace(/\.$/, '')}
         </td>
         <td className={styles.td}>{client_name}</td>
         <td className={styles.td}>
@@ -68,19 +74,21 @@ const Reservation = ({
         <td className={styles.td}>
           <div className={styles.phone}>
             {client_phone}
-            <button
-              className={styles.button}
-              disabled={
-                new Date(check_in_date).getTime() <=
-                new Date(currentDate.setHours(9, 0, 0, 0)).getTime()
-              }
-              onClick={() => setIsOpenConfirm(true)}
-            >
-              예약 취소
-            </button>
-            <button className={styles.button} onClick={handleOpenModal}>
-              상세보기
-            </button>
+            <div className={styles.buttons}>
+              <button
+                className={styles.button}
+                disabled={
+                  new Date(check_in_date).getTime() <=
+                  new Date(currentDate.setHours(9, 0, 0, 0)).getTime()
+                }
+                onClick={() => setIsOpenConfirm(true)}
+              >
+                예약 취소
+              </button>
+              <button className={styles.button} onClick={handleOpenModal}>
+                상세보기
+              </button>
+            </div>
           </div>
         </td>
       </tr>

@@ -1,3 +1,8 @@
+.h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
 .input-wrapper {
   position: relative;
   display: flex;
@@ -5,10 +10,11 @@
 }
 
 .input {
-  width: 300px;
+  width: 380px;
   border: none;
   border-radius: 74px;
   padding: 0.5rem;
+  font-size: 18px;
   color: #adb0b7;
   background-color: #e4f6df;
 }
@@ -35,7 +41,7 @@
 }
 
 .table {
-  width: 900px;
+  width: 800px;
   border-collapse: collapse;
   border-spacing: 0;
 }

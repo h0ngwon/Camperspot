@@ -41,14 +41,14 @@ const TotalReservationList = () => {
     if (!text.trim()) return;
     setIsSearch(true);
     if (NAME_REGEX.test(text)) {
-      setResult(
+      return setResult(
         reservations?.filter((reservation) => reservation.client_name === text),
       );
     }
     if (PHONE_REGEX.test(text)) {
       if (text.length === 10) {
         const formatPhone = text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
-        setResult(
+        return setResult(
           reservations?.filter(
             (reservation) => reservation.client_phone === formatPhone,
           ),
@@ -57,19 +57,19 @@ const TotalReservationList = () => {
 
       if (text.length === 11) {
         const formatPhone = text.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-        setResult(
+        return setResult(
           reservations?.filter(
             (reservation) => reservation.client_phone === formatPhone,
           ),
         );
       } else {
-        setResult(
+        return setResult(
           reservations?.filter(
             (reservation) => reservation.client_phone === text,
           ),
         );
       }
-    }
+    } else setResult([]);
   };
 
   const handleUndo = () => {
@@ -92,7 +92,7 @@ const TotalReservationList = () => {
             className={styles.input}
             type='text'
             value={text}
-            placeholder='예약자명, 연락처를 검색하세요.'
+            placeholder='예약자명, 연락처를 검색하세요'
             onChange={(e) => setText(e.target.value)}
           />
           <div className={styles['search-btn']} onClick={handleSearch}>
@@ -107,7 +107,7 @@ const TotalReservationList = () => {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th className={styles.th}>체크인/아웃</th>
+                <th className={styles.th}>체크인 날짜</th>
                 <th className={styles.th}>예약자명</th>
                 <th className={styles.th}>캠핑장/캠핑존</th>
                 <th className={styles.th}>인원</th>

@@ -1,15 +1,16 @@
-/* .tr {
-  display: flex;
-  gap: 1rem;
-} */
-
 .td {
   text-align: left;
+  padding: 0.5rem;
 }
 
 .phone {
   display: flex;
   align-items: center;
+  gap: 3rem;
+}
+
+.buttons {
+  display: flex;
   gap: 1rem;
 }
 
@@ -18,4 +19,9 @@
   border-radius: 0.5rem;
   padding: 0.5rem 0.6rem;
   cursor: pointer;
+}
+
+.button:disabled {
+  color: black;
+  background-color: #e6e6e9;
 }
