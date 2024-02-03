@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import KakaoPaySvg from '../_svg/KakaoPaySvg';
 import CompleteModal from './CompleteModal';
+import useModalStore from '@/store/modal';
 
 type UserInfo = {
   people: number;
@@ -62,6 +63,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
   const { max_people, price, name } = reservation!;
   const { check_in, check_out } = reservation?.camp!;
   const { data: session } = useSession();
+  const { toggleModal } = useModalStore();
 
   const onSubmit: SubmitHandler<UserInfo> = async (userInfo) => {
     const { data, error } = await supabase
@@ -82,6 +84,10 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
       setIsOpenComplete(true);
     }
     if (error) console.log('error', error);
+  };
+  const handleCloseModal = () => {
+    setIsOpenComplete(false);
+    toggleModal();
   };
 
   useEffect(() => {
@@ -246,7 +252,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
           <button
             type='button'
             className={styles.button}
-            disabled={!isValid || isActive === null || !session?.user.id}
+            disabled={!isValid || isActive === null}
             onClick={() => setIsOpenConfirm(true)}
           >
             결제하기
@@ -262,7 +268,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
       {!isOpenConfirm && isOpenComplete && (
         <CompleteModal
           title='예약이 완료되었습니다'
-          onClose={() => setIsOpenComplete(false)}
+          onClose={handleCloseModal}
         />
       )}
     </>
