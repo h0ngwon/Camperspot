@@ -158,11 +158,14 @@ const AddForm = () => {
     if (error) {
       console.log(error);
       toast.error('에러 발생');
+    } else if (campPicture.length === 0) {
+      toast.error('캠핑장 이미지 다섯장 이상 등록필수');
     } else {
       toast.success('등록 완료!');
       router.push(
         `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
       );
+      return { camp_facility, hashtagData };
     }
   };
 

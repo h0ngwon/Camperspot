@@ -8,6 +8,7 @@ import Link from 'next/link';
 import SearchSvg from '@/components/SearchSvg';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { formattedDate } from '../camp/_lib/formattedDate';
+import { toast } from 'react-toastify';
 const SearchBar = () => {
   const [searchedCamp, setSearchedCamp] = useState<string>('');
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
@@ -43,16 +44,23 @@ const SearchBar = () => {
       setCount(2);
     }
   }, [params]);
-  const onHandleSearchSubmit = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.trim() === '') return;
-    if (e.key === 'Enter') {
-      return router.push(
-        `/camp/search?keyword=${searchedCamp}&check_in=${start}&check_out=${end}&people=${count}&page=1`,
-      );
-    }
+  const onHandleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchedCamp === '') return toast.error('키워드를 입력해 주세요.');
+    if (!dateRange[1]) return toast.error('날짜를 정확히 입력해 주세요.');
+    return router.push(
+      `/camp/search?keyword=${searchedCamp}&check_in=${start}&check_out=${end}&people=${count}&page=1`,
+    );
+  };
+  const onHandlekeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const keyword = e.target.value.trim();
+    setSearchedCamp(keyword);
   };
   return (
-    <div className={styles.searchBar}>
+    <form
+      className={styles.searchBar}
+      onSubmit={(e) => onHandleSearchSubmit(e)}
+    >
       <div className={styles.regionSearchBox}>
         <div className={styles.regionSearch}>
           <label htmlFor='search' className={styles.regionSearchText}>
@@ -62,8 +70,8 @@ const SearchBar = () => {
             id='search'
             type='text'
             value={searchedCamp}
-            onChange={(e) => setSearchedCamp(e.target.value)}
-            onKeyUp={(e) => onHandleSearchSubmit(e)}
+            onChange={(e) => onHandlekeywordChange(e)}
+            autoComplete='off'
             className={styles.regionSearchInput}
             placeholder='지역이나 키워드를 검색해 주세요'
           />
@@ -79,19 +87,10 @@ const SearchBar = () => {
         <span className={styles.regionSearchText}>인원</span>
         <People count={count} setCount={setCount} />
       </div>
-      {searchedCamp ? (
-        <Link
-          href={`/camp/search?keyword=${searchedCamp}&check_in=${start}&check_out=${end}&people=${count}&page=1`}
-          className={`${styles.searchBtn} ${styles.active}`}
-        >
-          <SearchSvg />
-        </Link>
-      ) : (
-        <div className={`${styles.searchBtn} ${styles.inactive}`}>
-          <SearchSvg />
-        </div>
-      )}
-    </div>
+      <button type='submit' className={`${styles.searchBtn} ${styles.active}`}>
+        <SearchSvg />
+      </button>
+    </form>
   );
 };
 

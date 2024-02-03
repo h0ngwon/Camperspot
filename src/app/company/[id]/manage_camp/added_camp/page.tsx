@@ -18,7 +18,7 @@ const ManageAddedCamp = (props: Props) => {
   const companyUserId = params.id;
 
   const { isLoading, isError, error, data } = useQuery({
-    queryKey: ['camp', companyUserId],
+    queryKey: ['camp_id', companyUserId],
     queryFn: async ({ queryKey }) => {
       const [, companyUserId] = queryKey; // queryKey에서 companyUserId를 추출
 

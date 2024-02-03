@@ -1,0 +1,28 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: absolute;
+  top:0;
+  gap: 10px;
+}
+
+.container h1 {
+  font-size:56px;
+}
+
+.main-btn {
+  font-size:20px;
+  border-radius: 14px;
+  border: 1px solid #D9D9D9;
+  background: var(--base-white, #FFF);
+  display: inline-flex;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}

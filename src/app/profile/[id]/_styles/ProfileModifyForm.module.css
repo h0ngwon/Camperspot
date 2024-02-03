@@ -30,12 +30,38 @@
   width:120px;
   height:120px;
   cursor: pointer;
+  position: relative;
 }
 
-.img-wrapper img{
+.profile-image{
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
   overflow: hidden;
+}
+
+.profile-image:hover {
+  filter: blur(5px);
+}
+
+.img-wrapper::before {
+  width: 80%;
+  text-align: center;
+  content: "프로필 변경";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color:#000;
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.img-wrapper:hover::before {
+  opacity: 1;
 }
 
 .nickname-container {
