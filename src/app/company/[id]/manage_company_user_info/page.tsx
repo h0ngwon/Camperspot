@@ -1,26 +1,25 @@
 'use client';
 import { supabase } from '@/app/api/db';
 import { Tables } from '@/types/supabase';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getSession, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import styles from './_styles/ManageCompanyUserInfo.module.css';
 import Image from 'next/image';
 import editCompanyUserName from '@/asset/ico_edit_company_user_name.png';
 
-type Props = {};
-
 const ManageCompanyInfo = () => {
   const queryClient = useQueryClient();
-  const session = useSession();
-  const [companyUserInfo, setCompanyUserInfo] =
-    useState<Tables<'company_user'>[]>();
+  // const session = useSession();
+  // const [companyUserInfo, setCompanyUserInfo] =
+  //   useState<Tables<'company_user'>[]>();
   const [isNameUpdate, setIsNameUpdate] = useState(false);
 
   const [updateCompanyUserName, setUpdateCompanyUserName] = useState<string>();
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const { data: getCompanyUserInfoData, error } = useQuery({
+    queryKey: ['company_user'],
+    queryFn: async () => {
       const sessionData = await getSession();
       const getSessionUserId = sessionData?.user.id;
 
@@ -29,15 +28,42 @@ const ManageCompanyInfo = () => {
         .select('*')
         .eq('id', getSessionUserId as string);
 
-      if (getCompanyUserInfo) {
-        setCompanyUserInfo(getCompanyUserInfo);
-      } else if (error) {
-        console.log(error.message);
+      if (error) {
+        throw new Error(error.message);
+      } else {
+        return getCompanyUserInfo;
       }
-    };
+    },
+  });
+  if (error) {
+    console.log(error);
+  }
+  // 초반 데이터 불러오는 방식 << 지우지 말아주세요
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const sessionData = await getSession();
+  //     const getSessionUserId = sessionData?.user.id;
 
-    fetchData();
-  }, [session]);
+  //     const { data: getCompanyUserInfo, error } = await supabase
+  //       .from('company_user')
+  //       .select('*')
+  //       .eq('id', getSessionUserId as string);
+
+  //     if (getCompanyUserInfo) {
+  //       setCompanyUserInfo(getCompanyUserInfo);
+  //     } else if (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [session]);
+  useEffect(() => {
+    if (!getCompanyUserInfoData) {
+      return;
+    }
+    setUpdateCompanyUserName(getCompanyUserInfoData[0].name);
+  }, [getCompanyUserInfoData]);
 
   const handleUpdateName = () => {
     setIsNameUpdate(true);
@@ -50,7 +76,7 @@ const ManageCompanyInfo = () => {
   const {
     mutate: updateCompanyUserInfo,
     isError,
-    error,
+    error: updateError,
   } = useMutation({
     mutationFn: async (companyuserid: string) => {
       // const sessionData = await getSession();
@@ -66,11 +92,11 @@ const ManageCompanyInfo = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['company_user'] });
     },
   });
   if (isError) {
-    console.log(error);
+    console.log(updateError);
     return <div>에러발생</div>;
   }
 
@@ -84,7 +110,7 @@ const ManageCompanyInfo = () => {
     <>
       <h1 className={styles.h1}>회원정보관리</h1>
 
-      {companyUserInfo?.map((item) => {
+      {getCompanyUserInfoData?.map((item) => {
         return (
           <div key={item.id} className={styles.infoWrap}>
             {isNameUpdate ? (
