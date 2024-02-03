@@ -58,6 +58,7 @@ const ManageCompanyInfo = () => {
 
   //   fetchData();
   // }, [session]);
+
   useEffect(() => {
     if (!getCompanyUserInfoData) {
       return;
