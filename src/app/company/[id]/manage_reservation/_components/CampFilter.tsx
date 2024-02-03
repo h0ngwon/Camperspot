@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Reservation from './Reservation';
 import styles from '../_styles/CampFilter.module.css';
 import NothingReservation from './NothingReservation';
+import Drop from '@/components/Drop';
+import ExclamationMarkSvg from '../../_svg/ExclamationMarkSvg';
 
 const CampFilter = ({
   reservation,
@@ -15,8 +17,14 @@ const CampFilter = ({
       reservation?.map((reservation) => reservation.camp_area?.camp?.name),
     ),
   );
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [campFilter, setCampFilter] = useState<string>(campFilters[0]!);
   const [filter, setFilter] = useState<string>('ongoing');
+
+  const handleSelectFilter = (filter: string) => {
+    setCampFilter(filter);
+    setIsOpen(false);
+  };
 
   const filterReservation = reservation.filter(
     (reservation) => reservation.camp_area?.camp?.name === campFilter,
@@ -31,26 +39,63 @@ const CampFilter = ({
       reservation.camp_area?.camp?.check_in! >
       currentDate.getHours() + ':' + currentDate.getMinutes(),
   );
-  console.log('onGoing', onGoingReservation, 'unComing', upComingReservation);
 
   return (
     <>
-      <ul>
-        {campFilters.map((filter) => (
-          <li onClick={() => setCampFilter(filter!)}>{filter}</li>
-        ))}
-      </ul>
-      <li onClick={() => setFilter('ongoing')}>
-        이용 중 {onGoingReservation?.length}팀
-      </li>
-      <li onClick={() => setFilter('upcoming')}>
-        체크인 예정 {upComingReservation?.length}팀
-      </li>
+      <div className={styles['drop-btn-box']}>
+        <div className={styles.div}>
+          <button
+            className={styles['drop-btn']}
+            onClick={() => setIsOpen((prev) => !prev)}
+          >
+            <p>{campFilter}</p>
+            <Drop color={'white'} />
+          </button>
+          <p>의 현황입니다.</p>
+        </div>
+        {isOpen && (
+          <ul className={styles.filters}>
+            {campFilters.map((filter) => (
+              <li
+                key={filter}
+                className={styles.filter}
+                onClick={() => handleSelectFilter(filter!)}
+              >
+                {filter}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <div className={styles.standard}>
+        <ExclamationMarkSvg /> <p>현재 시간 기준</p>
+      </div>
+
+      <div className={styles.buttons}>
+        <li
+          className={`${styles.li} ${
+            filter === 'ongoing' ? styles.active : ''
+          }`}
+          onClick={() => setFilter('ongoing')}
+        >
+          이용 중{'   '}
+          <span className={styles.span}> {onGoingReservation?.length}팀</span>
+        </li>
+        <li
+          className={`${styles.li} ${
+            filter === 'upcoming' ? styles.active : ''
+          }`}
+          onClick={() => setFilter('upcoming')}
+        >
+          체크인 예정{'   '}
+          <span className={styles.span}> {upComingReservation?.length}팀</span>
+        </li>
+      </div>
 
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.th}>체크인/아웃</th>
+            <th className={styles.th}>체크인 날짜</th>
             <th className={styles.th}>예약자명</th>
             <th className={styles.th}>캠핑장/캠핑존</th>
             <th className={styles.th}>인원</th>
