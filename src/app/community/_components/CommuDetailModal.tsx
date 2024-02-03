@@ -40,7 +40,7 @@ export default function CommuDetailModal({ data, userId, onClose }: Props) {
               <CommuHashTags hashTag={data.post_hashtag} />
             </div>
           </div>
-          <CommuComment />
+          <CommuComment postId={data.id} userId={userId} />
         </div>
       </div>
     </>
