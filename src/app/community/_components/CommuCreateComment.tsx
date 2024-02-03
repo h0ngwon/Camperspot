@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { supabase } from '@/app/api/db';
 import { v4 as uuid } from 'uuid';
 
@@ -77,6 +77,7 @@ export default function CommuCreateComment({ postId, userId }: Props) {
         placeholder='댓글을 입력하세요'
         value={content}
         onChange={(e) => handleChangeInput(e)}
+        required
       />
       <button type='submit'>등록</button>
     </form>

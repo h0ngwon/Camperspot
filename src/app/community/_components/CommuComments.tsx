@@ -5,14 +5,19 @@ import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
-export default function CommuComments() {
+type Props = {
+  postId: string;
+};
+
+export default function CommuComments({ postId }: Props) {
   const { isLoading, isError, data } = useQuery({
     queryKey: ['comment'],
     queryFn: async () => {
       try {
         const { data: comment, error } = await supabase
           .from('comment')
-          .select('*,user(*)');
+          .select('*,user(*)')
+          .eq('post_id', postId);
 
         if (error) {
           throw error;

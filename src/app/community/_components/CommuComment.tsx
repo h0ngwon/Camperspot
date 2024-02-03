@@ -9,7 +9,7 @@ type Props = {
 export default function CommuComment({ postId, userId }: Props) {
   return (
     <>
-      <CommuComments />
+      <CommuComments postId={postId} />
       <CommuCreateComment postId={postId} userId={userId} />
     </>
   );
