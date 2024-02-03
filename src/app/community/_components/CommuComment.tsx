@@ -1,5 +1,16 @@
-import React from 'react';
+import CommuComments from './CommuComments';
+import CommuCreateComment from './CommuCreateComment';
 
-export default function CommuComment() {
-  return <div>CommuComment</div>;
+type Props = {
+  postId: string;
+  userId: string;
+};
+
+export default function CommuComment({ postId, userId }: Props) {
+  return (
+    <>
+      <CommuComments />
+      <CommuCreateComment postId={postId} userId={userId} />
+    </>
+  );
 }

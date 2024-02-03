@@ -1,0 +1,16 @@
+.container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  background: #ffffffb7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top:0;
+}
+
+.image {
+  width: 700px;
+  height: 700px;
+}
