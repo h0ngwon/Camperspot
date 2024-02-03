@@ -49,7 +49,7 @@ export default function CommuComments() {
     <ul>
       {data?.map((item) => {
         return (
-          <li>
+          <li key={item.id}>
             {item?.user?.profile_url && (
               <Image
                 src={item.user.profile_url}
