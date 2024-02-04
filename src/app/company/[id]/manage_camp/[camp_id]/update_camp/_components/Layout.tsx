@@ -42,8 +42,16 @@ const Layout = ({ layout, setLayout }: Props) => {
           <Image
             alt='등록된 캠핑장 배치 이미지'
             src={layout}
-            width={200}
-            height={200}
+            width='0'
+            height='0'
+            sizes='100vw'
+            style={{
+              width: '100%',
+              height: '100vh',
+              objectFit: 'cover',
+              objectPosition: '50% 50%',
+            }}
+            priority
           />
           <button
             type='button'

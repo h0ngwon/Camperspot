@@ -230,9 +230,9 @@ const UpdateCampPage = (props: Props) => {
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (campPicture.length === 0) {
+    if (campPicture.length < 5) {
       // todo : campPicture가 없을 때 로직 처리해야함
-      toast.error('캠핑장 이미지 한 장 이상 등록');
+      toast.error('캠핑장 이미지 다섯 장 이상 등록');
       return;
     }
 
@@ -279,7 +279,7 @@ const UpdateCampPage = (props: Props) => {
             <div className={styles.campNameWrap}>
               <h3>캠핑장 명</h3>
               <input
-                value={name}
+                defaultValue={name}
                 onChange={(e) => setName(e.target.value)}
                 className={styles.campNameInput}
               />
@@ -301,7 +301,7 @@ const UpdateCampPage = (props: Props) => {
                   </button>
                 </div>
                 <input
-                  value={address}
+                  defaultValue={address}
                   placeholder='주소검색하기를 클릭해주세요'
                   required
                   className={styles.addressSearchInput}
@@ -336,7 +336,7 @@ const UpdateCampPage = (props: Props) => {
             <div className={styles.requestCallWrap}>
               <h3>문의전화</h3>
               <input
-                value={phone}
+                defaultValue={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 type='tel'
                 placeholder='예) 02-000-0000 / 063-000-0000'

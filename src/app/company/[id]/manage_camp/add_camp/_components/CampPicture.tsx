@@ -16,7 +16,11 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
   async function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       const file = e.target.files[0];
-      setCampPicture((prev) => [URL.createObjectURL(file), ...prev]);
+      if (!file) {
+        return;
+      } else {
+        setCampPicture((prev) => [URL.createObjectURL(file), ...prev]);
+      }
     }
   }
   // 버튼 클릭시 이미지 삭제
@@ -40,7 +44,20 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
                 key={item + index}
                 className={styles.uploadCampImgPositionRel}
               >
-                <Image src={item} alt='캠핑장이미지' width={206} height={184} />
+                <Image
+                  src={item}
+                  alt='캠핑장이미지'
+                  width='0'
+                  height='0'
+                  sizes='100vw'
+                  style={{
+                    width: '100%',
+                    height: '100vh',
+                    objectFit: 'cover',
+                    objectPosition: '50% 50%',
+                  }}
+                  priority
+                />
                 <button
                   type='button'
                   onClick={() => handleDeleteCampImg(index)}
@@ -61,7 +78,6 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
               type='file'
               onChange={handleChangeInputImageFile}
               ref={imgRef}
-              required
               id='campImg'
               className={styles.uploadLayoutImgBtn}
             />
@@ -69,8 +85,9 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
               <Image
                 src={addImgBtn}
                 alt='캠핑장 이미지 등록 버튼'
-                width={206}
-                height={184}
+                width='0'
+                height='0'
+                style={{ width: '200px', height: '200px' }}
               />
             </label>
           </div>

@@ -75,6 +75,7 @@ const ManageAddedCamp = (props: Props) => {
             alt='등록된 캠핑장이 없습니다.'
             width={174}
             height={174}
+            priority
           />
           <p className={styles.p}>등록된 캠핑장이 없습니다.</p>
           <button
@@ -84,7 +85,13 @@ const ManageAddedCamp = (props: Props) => {
             className={styles.button}
           >
             캠핑장 등록하기
-            <Image src={arrow} alt='캠핑장 등록하기' width={10} height={20} />
+            <Image
+              src={arrow}
+              alt='캠핑장 등록하기'
+              width={10}
+              height={20}
+              priority
+            />
           </button>
         </div>
       ) : (
@@ -103,6 +110,7 @@ const ManageAddedCamp = (props: Props) => {
                     alt='캠핑장 이미지'
                     width={128}
                     height={128}
+                    priority
                   />
                   <div className={styles.campNameWrap}>
                     <h1 className={styles.campName}>{item.name}</h1>

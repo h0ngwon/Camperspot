@@ -132,8 +132,8 @@
 }
 .positionRel {
   position: relative;
-  width: 206px;
-  height: 184px;
+  width: 200px;
+  height: 200px;
   margin-top: 19px;
 }
 .positionAbsol {
@@ -163,8 +163,8 @@
 }
 .uploadCampImgPositionRel {
   position: relative;
-  width: 206px;
-  height: 184px;
+  width: 200px;
+  height: 200px;
 }
 
 /* 해시태그 추가 */
