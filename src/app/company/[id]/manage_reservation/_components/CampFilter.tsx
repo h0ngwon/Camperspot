@@ -100,6 +100,7 @@ const CampFilter = ({
             <th className={styles.th}>캠핑장/캠핑존</th>
             <th className={styles.th}>인원</th>
             <th className={styles.th}>예약자 연락처</th>
+            <th className={styles.th}></th>
           </tr>
         </thead>
         <tbody>
