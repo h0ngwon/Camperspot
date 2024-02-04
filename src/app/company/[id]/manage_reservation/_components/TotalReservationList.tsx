@@ -11,6 +11,8 @@ import NothingReservation from './NothingReservation';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/TotalReservationList.module.css';
+import Tooltip from './Tooltip';
+import QuestionMarkSvg from '../../_svg/QuestionMarkSvg';
 
 const TotalReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(getStartDate);
@@ -87,6 +89,10 @@ const TotalReservationList = () => {
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />
+        <Tooltip text={'체크인 날짜 기준으로 검색기간 설정'}>
+          <QuestionMarkSvg />
+        </Tooltip>
+
         <div className={styles['input-wrapper']}>
           <input
             className={styles.input}
