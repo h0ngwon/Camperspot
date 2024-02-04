@@ -11,9 +11,10 @@ import { toast } from 'react-toastify';
 
 type Props = {
   campId: string;
+  showCount: boolean;
 };
 
-export default function DetailLikeBtn({ campId }: Props) {
+export default function DetailLikeBtn({ campId, showCount }: Props) {
   const [liked, setLiked] = useState<boolean>(false);
   const [likeCount, setLikeCount] = useState<number>(0);
 
@@ -122,7 +123,7 @@ export default function DetailLikeBtn({ campId }: Props) {
       <button className={styles.btn} onClick={handleLikeBtn}>
         <HeartSvg isLiked={liked} />
       </button>
-      <p key={data?.id}>{likeCount}</p>
+      {showCount && <p key={data?.id}>{likeCount}</p>}
     </div>
   );
 }

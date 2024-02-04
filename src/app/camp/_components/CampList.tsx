@@ -61,7 +61,9 @@ const CampList = ({ campList }: Props) => {
                 </div>
               </div>
             </Link>
-            <DetailLikeBtn campId={camp.id} />
+            <div className={styles.likeWrap}>
+              <DetailLikeBtn campId={camp.id} showCount={false} />
+            </div>
             <ul className={styles.cardTag}>
               <Hashtag tags={hashtag} />
             </ul>
