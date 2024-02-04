@@ -18,7 +18,11 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
   async function handleChangeInputImageFile(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       const file = e.target.files[0];
-      setCampPicture((prev) => [URL.createObjectURL(file), ...prev]);
+      if (!file) {
+        return;
+      } else {
+        setCampPicture((prev) => [URL.createObjectURL(file), ...prev]);
+      }
     }
   }
   // 버튼 클릭시 이미지 삭제

@@ -230,9 +230,9 @@ const UpdateCampPage = (props: Props) => {
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (campPicture.length === 0) {
+    if (campPicture.length < 5) {
       // todo : campPicture가 없을 때 로직 처리해야함
-      toast.error('캠핑장 이미지 한 장 이상 등록');
+      toast.error('캠핑장 이미지 다섯 장 이상 등록');
       return;
     }
 
