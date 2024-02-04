@@ -34,7 +34,6 @@ const Camp = async ({
     count,
   });
   const pageTitle = '전국 인기 캠핑장';
-  console.log(data);
 
   return (
     <>
