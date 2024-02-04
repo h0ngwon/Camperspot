@@ -13,14 +13,14 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 1920px;
+    width: 1200px;
 }
 
 .mainHeader {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    width: 1400px;
+    width: 1200px;
     position: relative;
 }
 
@@ -37,7 +37,7 @@
 .camplList {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 28px;
 }
 
 .noCamp {

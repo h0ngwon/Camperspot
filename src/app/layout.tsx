@@ -5,6 +5,7 @@ import '../styles/globals.css';
 import '../styles/reset.css';
 import Header from './_components/Header';
 import Providers from './_components/Providers';
+import Footer from './_components/Footer';
 
 export const metadata: Metadata = {
   title: '캠퍼스팟 (Camperspot)',
@@ -29,6 +30,9 @@ export default function RootLayout({
           <Header />
           <Spacer y={80} />
           {children}
+          <Spacer y={80} />
+
+          <Footer />
         </Providers>
       </body>
     </html>

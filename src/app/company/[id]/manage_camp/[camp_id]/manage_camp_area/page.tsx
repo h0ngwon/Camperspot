@@ -99,6 +99,7 @@ const AddCampArea = () => {
                   alt='캠핑존 이미지'
                   width={150}
                   height={150}
+                  priority
                   className={styles.img}
                 />
                 <div className={styles.textBox}>

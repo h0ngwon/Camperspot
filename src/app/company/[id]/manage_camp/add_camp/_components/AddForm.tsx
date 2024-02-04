@@ -74,8 +74,11 @@ const AddForm = () => {
       }
       return data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries();
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
+      router.push(
+        `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
+      );
     },
   });
   if (isError) {
@@ -86,6 +89,12 @@ const AddForm = () => {
   // Form Submit
   const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (campPicture.length < 5) {
+      // todo : campPicture가 없을 때 로직 처리해야함
+      toast.error('캠핑장 이미지 다섯 장 이상 등록');
+      return;
+    }
 
     createCamp();
 
@@ -158,13 +167,8 @@ const AddForm = () => {
     if (error) {
       console.log(error);
       toast.error('에러 발생');
-    } else if (campPicture.length === 0) {
-      toast.error('캠핑장 이미지 다섯장 이상 등록필수');
     } else {
       toast.success('등록 완료!');
-      router.push(
-        `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
-      );
       return { camp_facility, hashtagData };
     }
   };
