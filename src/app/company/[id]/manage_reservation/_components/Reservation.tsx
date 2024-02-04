@@ -71,24 +71,22 @@ const Reservation = ({
           {camp_name}/{camp_area_name}
         </td>
         <td className={styles.td}>{people}명</td>
+        <td className={styles.td}>{client_phone}</td>
         <td className={styles.td}>
-          <div className={styles.phone}>
-            {client_phone}
-            <div className={styles.buttons}>
-              <button
-                className={styles.button}
-                disabled={
-                  new Date(check_in_date).getTime() <=
-                  new Date(currentDate.setHours(9, 0, 0, 0)).getTime()
-                }
-                onClick={() => setIsOpenConfirm(true)}
-              >
-                예약 취소
-              </button>
-              <button className={styles.button} onClick={handleOpenModal}>
-                상세보기
-              </button>
-            </div>
+          <div className={styles.buttons}>
+            <button
+              className={styles.button}
+              disabled={
+                new Date(check_in_date).getTime() <=
+                new Date(currentDate.setHours(9, 0, 0, 0)).getTime()
+              }
+              onClick={() => setIsOpenConfirm(true)}
+            >
+              예약 취소
+            </button>
+            <button className={styles.button} onClick={handleOpenModal}>
+              상세보기
+            </button>
           </div>
         </td>
       </tr>
