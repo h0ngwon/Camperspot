@@ -1,6 +1,5 @@
 'use client';
 import logOut from '@/asset/logOut.png';
-import logo from '@/asset/logo.png';
 import CommunitySvg from '@/components/CommunitySvg';
 import MyProfileSvg from '@/components/MyProfileSvg';
 import { signOut, useSession } from 'next-auth/react';
@@ -9,8 +8,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
-import { toast } from 'react-toastify';
 import ProfileDivider from './ProfileDivider';
+import LogoSvg from '../_Svg/LogoSvg';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
@@ -24,10 +23,8 @@ const Header = () => {
       <div className={styles.container}>
         <div className={styles.wrap}>
           <header className={styles.header}>
-            <Link href={'/'}>
-              <figure className={styles.img}>
-                <Image src={logo} alt='' />
-              </figure>
+            <Link href={'/'} className={styles.logo}>
+              <LogoSvg x={154} y={22} />
             </Link>
             <SearchBar />
             <div className={styles.navBox}>
