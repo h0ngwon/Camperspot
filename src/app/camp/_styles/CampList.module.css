@@ -1,5 +1,5 @@
 .cardWrap {
-    width: 450px;
+    width: 381px;
     position: relative;
 }
 
@@ -10,15 +10,6 @@
     right: 10px;
 }
 
-.photoAndLike {
-    position: relative;
-}
-
-.like {
-    position: absolute;
-    z-index: 3;
-    right: 5px;
-}
 
 .cardMiddle {
     display: flex;

@@ -48,7 +48,6 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
       calendarContainer={MyContainer}
       icon={svg}
       className={styles.bbbbbbbbbbbb}
-      calendarClassName={styles.calenderWrapper}
     />
   );
 };
