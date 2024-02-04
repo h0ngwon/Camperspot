@@ -1,3 +1,4 @@
+'use client';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 import styles from '../_styles/CompleteModal.module.css';
 import Link from 'next/link';
@@ -32,10 +33,13 @@ const CompleteModal = ({ title, onClose }: Props) => {
 
       <h2 className={styles.h2}>{title}</h2>
       <Link
+        legacyBehavior
         className={styles.link}
         href={`/profile/${session?.user.id}/reservation`}
       >
-        예약현황 바로가기
+        <a id='link' onClick={onClose}>
+          예약현황 바로가기
+        </a>
       </Link>
     </div>
   );

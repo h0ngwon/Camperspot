@@ -1,9 +1,9 @@
 import Spacer from '@/components/Spacer';
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import '../styles/globals.css';
 import '../styles/reset.css';
 import Header from './_components/Header';
-import localFont from 'next/font/local';
 import Providers from './_components/Providers';
 import Footer from './_components/Footer';
 

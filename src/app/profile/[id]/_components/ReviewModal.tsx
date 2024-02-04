@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { addReview, getReview } from '../_lib/review';
+import { addReview, getCampReview } from '../_lib/review';
 import styles from '../_styles/ReviewModal.module.css';
 import { toast } from 'react-toastify';
 import useModalStore from '@/store/modal';
@@ -113,9 +113,8 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
               id='review'
               placeholder='이용후기를 남겨주세요. (150자 이하)'
               className={styles['review-area']}
+              maxLength={150}
               {...register('review', {
-                minLength: 1,
-                maxLength: 150,
                 required: true,
                 validate: (value) => (value.trim().length >= 1 ? true : false),
               })}
