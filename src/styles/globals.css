@@ -3,6 +3,42 @@
   --reservation-info-color: #999999;
   --reservation-info-bg-color: rgb(244, 229, 215, 30%);
   --light-gray-color: rgb(64 64 64);
+
+  --neutral-50: #f7f8f8;
+  --neutral-100: #e6e6e9;
+  --neutral-200: #d4d5d9;
+  --neutral-300: #bfc1c7;
+  --netural-400: #adb0b7;
+  --neutral-500: #8c8f9a;
+  --neutral-600: #666a7a;
+  --neutral-700: #404557;
+  --neutral-800: #33394c;
+  --neutral-900: #1a2035;
+  --neutral-950: #00071f;
+
+  --primary-50:#F1FAEF;
+  --primary-100: #E4F6DF;
+  --primary-200: #C5ECBC;
+  --primary-300: #A9E29C;
+  --primary-400: #8AD878;
+  --primary-500: #6FCF59;
+  --primary-600: #4DB635;
+  --primary-700: #3A8A28;
+  --primary-800: #265B1A;
+  --primary-900: #142F0E;
+  --primary-950: #0A1807;
+
+  --secondary-50:#FFF8E5;
+  --secondary-100: #FFF2CC;
+  --secondary-200: #FFE499;
+  --secondary-300: #FFD766;
+  --secondary-400: #FFC82E;
+  --secondary-500: #FBB900;
+  --secondary-600: #C79300;
+  --secondary-700: #997100;
+  --secondary-800: #664B00;
+  --secondary-900: #332600;
+  --secondary-950: #1A1300;
 }
 
 * {

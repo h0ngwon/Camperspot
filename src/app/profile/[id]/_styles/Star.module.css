@@ -1,0 +1,11 @@
+.active {
+  color: transparent;
+  text-shadow: 0 0 0 var(--secondary-500);
+  font-size: 20px;
+}
+
+.in-active {
+  color: transparent;
+  text-shadow: 0 0 0 var(--neutral-200);
+  font-size: 20px;
+}
