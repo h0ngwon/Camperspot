@@ -3,6 +3,11 @@
   font-weight: 600;
   margin-bottom: 1rem;
 }
+
+.search-container {
+  display: flex;
+  gap: 0.5rem;
+}
 .input-wrapper {
   position: relative;
   display: flex;
@@ -13,7 +18,7 @@
   width: 380px;
   border: none;
   border-radius: 74px;
-  padding: 0.5rem;
+  padding: 10px;
   font-size: 18px;
   color: #adb0b7;
   background-color: #e4f6df;
@@ -26,18 +31,39 @@
   margin-bottom: 1.5rem;
 }
 
+.eraser-btn {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  right: 37px;
+  width: 32px;
+  height: 32px;
+}
+
 .search-btn {
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 3px;
+  top: 5px;
   bottom: 3px;
-  right: 8px;
-  width: 1.5rem;
-  height: 1.5rem;
+  right: 5px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   background-color: #ffffff;
+}
+
+.cancel-btn {
+  border: 1px solid #e6e6e9;
+  border-radius: 8px;
+  background-color: white;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.cancel-btn:disabled {
+  background-color: #e6e6e9;
 }
 
 .table {

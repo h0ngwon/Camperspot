@@ -13,6 +13,7 @@ import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/TotalReservationList.module.css';
 import Tooltip from './Tooltip';
 import QuestionMarkSvg from '../../_svg/QuestionMarkSvg';
+import InputEraserSvg from '../../_svg/InputEraserSvg';
 
 const TotalReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(getStartDate);
@@ -89,24 +90,37 @@ const TotalReservationList = () => {
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />
-        <Tooltip text={'체크인 날짜 기준으로 검색기간 설정'}>
-          <QuestionMarkSvg />
-        </Tooltip>
 
-        <div className={styles['input-wrapper']}>
-          <input
-            className={styles.input}
-            type='text'
-            value={text}
-            placeholder='예약자명, 연락처를 검색하세요'
-            onChange={(e) => setText(e.target.value)}
-          />
-          <div className={styles['search-btn']} onClick={handleSearch}>
-            <ResrevationSearchSvg />
+        <div className={styles['search-container']}>
+          <div className={styles['input-wrapper']}>
+            <input
+              className={styles.input}
+              type='text'
+              value={text}
+              placeholder='예약자명, 연락처를 검색하세요'
+              onChange={(e) => setText(e.target.value)}
+            />
+            {text && (
+              <button
+                className={styles['eraser-btn']}
+                onClick={() => setText('')}
+              >
+                <InputEraserSvg />
+              </button>
+            )}
+            <div className={styles['search-btn']} onClick={handleSearch}>
+              <ResrevationSearchSvg />
+            </div>
           </div>
+
+          <button
+            className={styles['cancel-btn']}
+            onClick={handleUndo}
+            disabled={!text}
+          >
+            취소
+          </button>
         </div>
-        {/* 취소 버튼 아이콘으로 변경할 예정 */}
-        <button onClick={handleUndo}>취소</button>
       </div>
       {reservations?.length ? (
         <div>
@@ -118,6 +132,7 @@ const TotalReservationList = () => {
                 <th className={styles.th}>캠핑장/캠핑존</th>
                 <th className={styles.th}>인원</th>
                 <th className={styles.th}>예약자 연락처</th>
+                <th className={styles.th}></th>
               </tr>
             </thead>
 
