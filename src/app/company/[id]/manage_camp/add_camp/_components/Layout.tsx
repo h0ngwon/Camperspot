@@ -44,8 +44,9 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
             <Image
               src={addImgBtn}
               alt='배치 이미지 등록 버튼'
-              width={206}
-              height={184}
+              width='0'
+              height='0'
+              style={{ width: '200px', height: '200px' }}
             />
           </label>
         </div>
@@ -55,8 +56,16 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
           <Image
             alt='캠핑장 배치 이미지'
             src={campLayout}
-            width={206}
-            height={184}
+            width='0'
+            height='0'
+            sizes='100vw'
+            style={{
+              width: '100%',
+              height: '100vh',
+              objectFit: 'cover',
+              objectPosition: '50% 50%',
+            }}
+            priority
           />
           <button
             type='button'
