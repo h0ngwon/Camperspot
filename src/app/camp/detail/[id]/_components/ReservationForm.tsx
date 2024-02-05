@@ -72,7 +72,10 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         check_in_date: dates[0].toDateString(),
         check_out_date: dates[1].toDateString(),
         client_name: userInfo.name,
-        client_phone: userInfo.phone,
+        client_phone: userInfo.phone.replace(
+          /(\d{3})(\d{3,4})(\d{4})/,
+          '$1-$2-$3',
+        ),
         fee: price * nights,
         payment_method: methods[isActive!],
         people: userInfo.people,
@@ -220,6 +223,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
               id='phone'
               {...register('phone', {
                 required: '휴대폰번호를 입력해주세요.',
+
                 pattern: {
                   value: PHONE_REGEX,
                   message: '010-1234-5678 형식으로 입력해주세요.',
