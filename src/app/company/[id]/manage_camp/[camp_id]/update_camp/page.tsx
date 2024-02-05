@@ -1,10 +1,9 @@
 'use client';
 import { supabase } from '@/app/api/db';
-import useInput from '@/hooks/useInput';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import SearchAddress from './_components/SearchAddress';
 import Facility from './_components/Facility';
 import { Tables } from '@/types/supabase';
@@ -16,9 +15,7 @@ import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
 import { toast } from 'react-toastify';
 
-type Props = {};
-
-const UpdateCampPage = (props: Props) => {
+const UpdateCampPage = () => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [content, setContent] = useState('');
@@ -127,10 +124,8 @@ const UpdateCampPage = (props: Props) => {
         const { data: deleteCampPicData, error: deleteCampPicError } =
           await supabase.from('camp_pic').delete().eq('camp_id', campId);
 
-        // 여러개 사진 table에 올리는
-
+        // 여러개 사진 table에 올리는 로직
         // for of로 리팩터링
-
         // campPicture.forEach(async (item) => {
         //   const blob = await fetch(item).then((r) => r.blob());
         //   const { data, error } = await uploadStorageCampPicData(blob);

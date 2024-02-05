@@ -132,8 +132,10 @@
 }
 .positionRel {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 206px;
+  height: 184px;
+  border-radius: 8px;
+  overflow: hidden;
   margin-top: 19px;
 }
 .positionAbsol {
@@ -163,8 +165,10 @@
 }
 .uploadCampImgPositionRel {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 206px;
+  height: 184px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 /* 해시태그 추가 */
@@ -193,6 +197,8 @@
 }
 .removeHashtagBtn {
   cursor: pointer;
+  padding: 0;
+  height: 19px;
 }
 
 /* 등록하기 버튼 */
