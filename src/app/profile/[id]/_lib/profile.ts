@@ -1,5 +1,5 @@
 import { UserType } from '@/types/auth';
-import { LikeCampType, LikePostType } from '@/types/profile';
+import { LikeCampType, MyPostType } from '@/types/profile';
 import { QueryFunction, QueryFunctionContext } from '@tanstack/react-query';
 
 export type MutationType = {
@@ -37,11 +37,11 @@ export const getUserLikeCamp = async ({
   return fetchData;
 };
 
-export const getUserLikePost = async ({
+export const getUserPost = async ({
   queryKey,
-}: QueryFunctionContext): Promise<LikePostType> => {
+}: QueryFunctionContext): Promise<MyPostType> => {
   const [_, __, ___, userId] = queryKey;
-  const res = await fetch(`/api/profile/${userId}/community/like`, {
+  const res = await fetch(`/api/profile/${userId}/community/user/post`, {
     method: 'GET',
   });
 

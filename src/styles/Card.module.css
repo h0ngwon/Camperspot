@@ -11,3 +11,16 @@
   border: 1px solid #D9D9D9;
   background: #FFF;
 }
+
+.large {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap:8px;
+  width: 430px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--neutral-100)
+}
