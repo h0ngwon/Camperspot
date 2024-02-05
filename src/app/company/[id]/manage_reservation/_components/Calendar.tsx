@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import ReactDatePicker, {
+  CalendarContainer,
+  registerLocale,
+} from 'react-datepicker';
 import svg from '@/asset/Calendar.svg';
 import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
 import styles from '../_styles/Calendar.module.css';
+import Tooltip from './Tooltip';
+import QuestionMarkSvg from '../../_svg/QuestionMarkSvg';
 registerLocale('ko', ko);
 
 type Props = {
@@ -14,6 +19,15 @@ type Props = {
 };
 
 const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
+  const MyContainer = ({ children }: { children: React.ReactNode }) => {
+    return (
+      <CalendarContainer>
+        <div style={{ position: 'relative' }} className={styles.abbaccaddff}>
+          {children}
+        </div>
+      </CalendarContainer>
+    );
+  };
   return (
     <div className={styles.div}>
       <ReactDatePicker
@@ -27,8 +41,10 @@ const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
         showIcon
         icon={svg}
         locale={ko}
+        calendarContainer={MyContainer}
+        className={styles.calendar}
       />
-      -
+      <span className={styles.span}> - </span>
       <ReactDatePicker
         selected={endDate}
         dateFormat={'yyyy/MM/dd'}
@@ -39,7 +55,12 @@ const Calendar = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
         showIcon
         icon={svg}
         locale={ko}
+        calendarContainer={MyContainer}
+        className={styles.calendar}
       />
+      <Tooltip text={'체크인 날짜 기준으로 검색기간 설정'}>
+        <QuestionMarkSvg />
+      </Tooltip>
     </div>
   );
 };

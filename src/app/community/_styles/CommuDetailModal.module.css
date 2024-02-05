@@ -14,7 +14,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 1000px;
+  width: 1100px;
   background: #fff;
   padding: 24px;
   border-radius: 8px;
@@ -23,6 +23,7 @@
 
 .modalFlex {
   display: flex;
+  justify-content: space-between;
 }
 
 .modalSlid {
@@ -31,11 +32,44 @@
 }
 
 .scroll {
-  height: 630px;
+  height: 700px;
   overflow: auto;
 }
 
 .scroll::-webkit-scrollbar-thumb {
   width: 10px;
   background: #000;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none; /* 파이어폭스 */
+}
+
+.scroll > li {
+  padding: 16px 8px;
+  border-bottom: 1px dashed #ddd;
+}
+
+.commentWrap {
+  width: 43%;
+}
+
+.users img {
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.users {
+  display: flex;
+  align-items: center;
+}
+
+.scroll p {
+  padding: 8px 0;
+}
+
+.created {
+  font-size: 12px;
+  color: #919191;
 }
