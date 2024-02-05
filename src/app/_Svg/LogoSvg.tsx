@@ -67,8 +67,8 @@ const LogoSvg = ({ x, y }: Props) => {
       <path
         d='M127.536 13.3646L130.238 16.1697L135.628 10.5459'
         stroke='#6FCF59'
-        stroke-width='2'
-        stroke-miterlimit='10'
+        strokeWidth='2'
+        strokeMiterlimit='10'
       />
     </svg>
   );

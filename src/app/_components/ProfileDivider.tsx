@@ -22,6 +22,8 @@ const ProfileDivider = ({ session }: Props) => {
   const onHandleOpenDropdown = () => {
     setIsOpen((prev) => !prev);
   };
+
+  //돔 직접 조작 다른방법...
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropDownRef.current &&
@@ -32,12 +34,11 @@ const ProfileDivider = ({ session }: Props) => {
       }, 0);
     }
   };
-
   useEffect(() => {
-    document.addEventListener('mouseup', handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mouseup', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, []);
   return (

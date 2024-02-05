@@ -1,7 +1,7 @@
 .searchBar {
     display: flex;
     width: 890px;
-    padding: 0 8px;
+    padding: 4px 8px;
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
@@ -10,7 +10,7 @@
     box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.08);
 }
 
-.regionSearchBox {
+.searchBox {
     display: flex;
     width: 264px;
     padding: 0px 24px;
@@ -18,7 +18,6 @@
     justify-content: center;
     align-items: flex-start;
     height: 70px;
-
 }
 
 .regionSearch {
@@ -32,10 +31,16 @@
 
 }
 
-.regionSearchBox:hover {
+.searchBox:hover {
     background-color: #ddfad6;
     border-radius: 48px;
 
+}
+
+
+.searchBox:nth-child(3) {
+    width: 180px;
+    cursor: pointer;
 }
 
 .regionSearchText {
@@ -81,14 +86,6 @@
 }
 
 
-
-.people {
-    display: flex;
-    width: 150px;
-    justify-content: space-between;
-}
-
-
 .countBtn {
     border: none;
     border-radius: 50%;
@@ -102,7 +99,6 @@
     cursor: not-allowed;
 }
 
-.count {}
 
 .searchBtn {
     display: flex;

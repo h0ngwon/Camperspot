@@ -1,5 +1,4 @@
 'use client';
-import logOut from '@/asset/logOut.png';
 import CommunitySvg from '@/components/CommunitySvg';
 import MyProfileSvg from '@/components/MyProfileSvg';
 import { useSession } from 'next-auth/react';

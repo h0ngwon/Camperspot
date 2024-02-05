@@ -2,10 +2,7 @@ import Image from 'next/image';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
 import styles from '../_styles/CommuPhotos.module.css';
-import CarouselNextArrow from '@/components/CarouselNextArrow';
-import CarouselPrevArrow from '@/components/CarouselPrevArrow';
 import PrevArrow from '@/components/PrevArrow';
 import NextArrow from '@/components/NextArrow';
 
