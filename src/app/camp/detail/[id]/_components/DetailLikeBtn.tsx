@@ -8,6 +8,7 @@ import HeartSvg from '../_svg/HeartSvg';
 
 import styles from '../_styles/Like.module.css';
 import { toast } from 'react-toastify';
+import Loading from '@/app/loading';
 
 type Props = {
   campId: string;
@@ -92,7 +93,7 @@ export default function DetailLikeBtn({ campId, showCount }: Props) {
   }, [data, campId, userId]); // data 대신 campId와 userId를 의존성 배열에 추가
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>;
   }
 
   if (isError) {

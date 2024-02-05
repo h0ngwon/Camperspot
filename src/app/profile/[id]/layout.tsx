@@ -1,5 +1,7 @@
+import React, { Suspense } from 'react';
 import Sidebar from './_components/Sidebar';
 import styles from './_styles/MypageLayout.module.css';
+import Loading from '@/app/loading';
 
 type Props = {
   children: React.ReactNode;
@@ -16,7 +18,9 @@ const MypageLayout = ({ children }: Props) => {
               <Sidebar />
             </aside>
             <main className={styles.main}>
+              <Suspense fallback={<Loading/>}>
               {children}
+              </Suspense>
             </main>
           </div>
         </div>
@@ -25,4 +29,4 @@ const MypageLayout = ({ children }: Props) => {
   );
 };
 
-export default MypageLayout;
+export default React.memo(MypageLayout);

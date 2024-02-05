@@ -15,6 +15,7 @@ import DetailAddress from './_components/DetailAddress';
 
 import styles from './_styles/Detail.module.css';
 import DetailAvg from './_components/DetailAvg';
+import Loading from '@/app/loading';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -44,7 +45,7 @@ export default function DetailPage() {
   });
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {

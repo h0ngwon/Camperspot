@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import removeBtn from '@/asset/ico_removePicBtn.png';
 import { toast } from 'react-toastify';
+import Loading from '@/app/loading';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
@@ -69,7 +70,7 @@ const AddCampArea = () => {
   });
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
   if (isError) {
     return <div>에러 발생</div>;

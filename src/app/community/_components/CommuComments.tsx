@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
 import styles from '../_styles/CommuDetailModal.module.css';
+import Loading from '@/app/loading';
 
 type Props = {
   postId: string;
@@ -46,7 +47,7 @@ export default function CommuComments({ postId }: Props) {
   };
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {
