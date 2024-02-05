@@ -9,8 +9,7 @@
   cursor: pointer;
 }
 
-.commuWrap p {
-  font-size: 14px;
+.commuWrap span {
   font-weight: bold;
 }
 

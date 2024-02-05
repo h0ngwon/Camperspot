@@ -129,7 +129,9 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
       <button className={styles.btn} onClick={handleLikeBtn}>
         <HeartSvg isLiked={liked} />
       </button>
-      <p key={data?.id}>좋아요 {likeCount}개</p>
+      <p key={data?.id}>
+        좋아요 <span>{likeCount}</span>개
+      </p>
     </div>
   );
 }
