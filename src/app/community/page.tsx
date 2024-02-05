@@ -16,6 +16,7 @@ import CommuDetailModal from './_components/CommuDetailModal';
 import styles from './_styles/Commu.module.css';
 import CampingImg from '@/asset/camping_illust.jpg';
 import CreateSvg from './_svg/CreateSvg';
+import Loading from '../loading';
 
 export default function CommunityPage() {
   const [isCommuCreateModal, setIsCommuCreateModal] = useState<boolean>(false);
@@ -67,7 +68,7 @@ export default function CommunityPage() {
   };
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {
