@@ -19,6 +19,7 @@
   text-decoration: none;
   color: #000;
   font-weight: 600;
+  align-items: center;
 }
 .sidebarItem {
   display: flex;
@@ -28,6 +29,7 @@
   text-decoration: none;
   color: #8c8f9a;
   font-weight: 600;
+  align-items: center;
 }
 .sidebarItem:hover {
   color: #000;

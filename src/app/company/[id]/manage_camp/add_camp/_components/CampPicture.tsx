@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
-import addImgBtn from '@/asset/addImgBtn.png';
-import removePicBtn from '@/asset/ico_cancel_btn.png';
+import CancelBtnSvg from '../_svg/CancelBtnSvg';
+import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
 
 type Props = {
   campPicture: string[];
@@ -63,12 +63,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
                   onClick={() => handleDeleteCampImg(index)}
                   className={styles.positionAbsol}
                 >
-                  <Image
-                    src={removePicBtn}
-                    alt='이미지 삭제 버튼'
-                    width={20}
-                    height={20}
-                  />
+                  <CancelBtnSvg />
                 </button>
               </div>
             );
@@ -82,13 +77,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
               className={styles.uploadLayoutImgBtn}
             />
             <label htmlFor='campImg' className={styles.addLayoutImgBtnWrap}>
-              <Image
-                src={addImgBtn}
-                alt='캠핑장 이미지 등록 버튼'
-                width='0'
-                height='0'
-                style={{ width: '200px', height: '200px' }}
-              />
+              <AddImgBtnSvg />
             </label>
           </div>
         </div>

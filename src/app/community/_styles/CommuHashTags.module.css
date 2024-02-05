@@ -1,6 +1,6 @@
 .wrap {
   display: flex;
-  margin-top: 8px;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -8,5 +8,5 @@
 
 .tag {
   padding-right: 4px;
-  color: #4db635;
+  color: var(--primary-600);
 }

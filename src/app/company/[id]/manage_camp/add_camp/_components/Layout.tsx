@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
-import addImgBtn from '@/asset/addImgBtn.png';
 import removePicBtn from '@/asset/ico_cancel_btn.png';
+import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
+import CancelBtnSvg from '../_svg/CancelBtnSvg';
 
 type Props = {
   campLayout: string;
@@ -41,13 +42,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
             className={styles.uploadLayoutImgBtn}
           />
           <label htmlFor='layoutImg' className={styles.addLayoutImgBtnWrap}>
-            <Image
-              src={addImgBtn}
-              alt='배치 이미지 등록 버튼'
-              width='0'
-              height='0'
-              style={{ width: '200px', height: '200px' }}
-            />
+            <AddImgBtnSvg />
           </label>
         </div>
       )}
@@ -72,12 +67,7 @@ const Layout = ({ campLayout, setCampLayout }: Props) => {
             onClick={() => handleDeleteCampLayoutImg()}
             className={styles.positionAbsol}
           >
-            <Image
-              src={removePicBtn}
-              alt='이미지 삭제 버튼'
-              width={20}
-              height={20}
-            />
+            <CancelBtnSvg />
           </button>
         </div>
       )}
