@@ -1,11 +1,12 @@
-import MyProfileSvg from '@/components/MyProfileSvg';
+'use client';
 import Image from 'next/image';
-import Link from 'next/link';
-import React from 'react';
-import styles from '../_styles/Header.module.css';
+import React, { useEffect, useRef, useState } from 'react';
+import styles from '../_styles/ProfileDiveder.module.css';
 import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
 import { getUserData } from '../profile/[id]/_lib/profile';
+import Company from '../_Svg/Company';
+import ProfileDropDown from './ProfileDropDown';
 
 type Props = {
   session: Session;
@@ -16,25 +17,56 @@ const ProfileDivider = ({ session }: Props) => {
     queryKey: ['mypage', 'profile', session?.user.id],
     queryFn: getUserData,
   });
+  const dropDownRef = useRef<HTMLDivElement | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const onHandleOpenDropdown = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  //돔 직접 조작 다른방법...
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropDownRef.current &&
+      !dropDownRef.current.contains(event.target as Node)
+    ) {
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 0);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
   return (
     <>
-      {session.user.role === 'company' ? (
-        <Link href={`/company/${session.user.id}/manage_reservation`}>
-          <MyProfileSvg />
-          <p>company</p>
-        </Link>
-      ) : (
-        <Link href={`/profile/${session.user.id}`}>
-          <Image
-            src={data?.profile_url!}
-            alt=''
-            width={36}
-            height={36}
-            className={styles.profileImg}
-          />
-          <p>마이</p>
-        </Link>
-      )}
+      <div
+        onClick={onHandleOpenDropdown}
+        className={styles.profileType}
+        ref={dropDownRef}
+      >
+        {session.user.role === 'company' ? (
+          <>
+            <Company />
+            <p>사장님</p>
+          </>
+        ) : (
+          <>
+            <Image
+              src={data?.profile_url!}
+              alt=''
+              width={36}
+              height={36}
+              className={styles.profileImg}
+            />
+            <p>마이</p>
+          </>
+        )}
+      </div>
+      {isOpen && <ProfileDropDown session={session} />}
     </>
   );
 };

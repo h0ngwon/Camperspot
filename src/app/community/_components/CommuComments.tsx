@@ -77,7 +77,7 @@ export default function CommuComments({ postId }: Props) {
                 )}
                 <span>{item?.user?.nickname}</span>
               </div>
-              <p>{item.content}</p>
+              <p className={styles.content}>{item.content}</p>
               <span>{formatCreatedAt(item.created_at)}</span>
             </li>
           ))}

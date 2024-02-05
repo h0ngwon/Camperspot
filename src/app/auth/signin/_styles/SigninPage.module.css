@@ -3,14 +3,16 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height:100vh;
+  height: 100vh;
 }
 
 .img-wrapper {
-  width:124px;
-  height:96px;
+  width: 124px;
+  height: 96px;
   flex-shrink: 0;
-  margin-bottom:72px;
+  margin-bottom: 72px;
+  display: flex;
+  justify-content: center;
 }
 
 .img-wrapper img {
@@ -50,5 +52,5 @@
   width: 402px;
   align-items: center;
   gap: 168px;
-  margin-top:4px;
+  margin-top: 4px;
 }

@@ -27,7 +27,6 @@ const Camp = async ({
   });
   if (error) console.error(error);
   if (!data) return;
-
   const perPage = searchParams['per_page'] ?? '9';
   const count = data[0].total_count || 0;
   const { hasNextPage, hasPrevPage } = getPageControllerProps({

@@ -1,24 +1,30 @@
 .wrap {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(49%, 1fr));
-  grid-gap: 20px 24px;
   margin: 8px 0;
 }
 
 .wrap li {
-  border: 1px solid #e6e6e6;
-  border-radius: 8px;
-  padding: 16px;
+  border-bottom: 1px solid var(--neutral-100);
+  padding: 24px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .con {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  color: #919191;
   margin: 8px 0;
-  font-size: 12px;
-  line-height: 2;
+  font-size: 14px;
+}
+
+.con img {
+  margin-right: 8px;
+  border-radius: 50%;
+  border: 1px solid var(--neutral-100);
+}
+
+.commentWrap {
+  width: 80%;
 }
 
 .content {
@@ -30,4 +36,9 @@
   overflow: hidden;
   font-size: 14px;
   line-height: 2;
+}
+
+.commentWrap span {
+  color: var(--neutral-300);
+  font-size: 12px;
 }

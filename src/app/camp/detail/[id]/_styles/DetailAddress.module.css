@@ -9,8 +9,13 @@
   align-items: center;
 }
 
+.address div {
+  color: var(--netural-400);
+}
+
 .addressWrap button {
   background: transparent;
-  color: #21416b;
+  color: #5685ff;
   cursor: pointer;
+  font-size: 12px;
 }
