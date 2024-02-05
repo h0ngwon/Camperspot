@@ -124,7 +124,7 @@ export default function DetailLikeBtn({ campId, showCount }: Props) {
       <button className={styles.btn} onClick={handleLikeBtn}>
         <HeartSvg isLiked={liked} />
       </button>
-      {showCount && <p key={data?.id}>{likeCount}</p>}
+      {/* {showCount && <p key={data?.id}>{likeCount}</p>} */}
     </div>
   );
 }
