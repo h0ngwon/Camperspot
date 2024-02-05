@@ -8,7 +8,7 @@ export default function HeartSvg({ isLiked }: Props) {
       {isLiked ? (
         <svg
           aria-label='좋아요 취소'
-          fill='#f02849'
+          fill='var(--secondary-400)'
           height='24'
           role='img'
           viewBox='0 0 48 48'
@@ -20,7 +20,7 @@ export default function HeartSvg({ isLiked }: Props) {
       ) : (
         <svg
           aria-label='좋아요'
-          fill='#f02849'
+          fill='var(--neutral-200)'
           height='24'
           role='img'
           viewBox='0 0 24 24'
