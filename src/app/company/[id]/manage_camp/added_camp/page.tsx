@@ -5,13 +5,11 @@ import styles from './_styles/Camp.module.css';
 import React from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import emptycampImg from '@/asset/ico_empty_camp.png';
-import arrow from '@/asset/ico_right_arrow.png';
-import preview from '@/asset/icon-preview.svg';
+import EmptyCampIllustSvg from './_svg/EmptyCampIllustSvg';
+import RightArrowSvg from './_svg/RightArrowSvg';
+import PreviewSvg from './_svg/PreviewSvg';
 
-type Props = {};
-
-const ManageAddedCamp = (props: Props) => {
+const ManageAddedCamp = () => {
   const router = useRouter();
   const params = useParams();
 
@@ -70,14 +68,8 @@ const ManageAddedCamp = (props: Props) => {
       <h1 className={styles.h1}>캠핑장 운영 및 관리</h1>
       {data?.length === 0 ? (
         <div className={styles.emptyCampContainer}>
-          <Image
-            src={emptycampImg}
-            alt='등록된 캠핑장이 없습니다.'
-            width={174}
-            height={174}
-            priority
-          />
           <p className={styles.p}>등록된 캠핑장이 없습니다.</p>
+          <EmptyCampIllustSvg />
           <button
             onClick={() => {
               router.push(`/company/${companyUserId}/manage_camp/add_camp`);
@@ -85,13 +77,7 @@ const ManageAddedCamp = (props: Props) => {
             className={styles.button}
           >
             캠핑장 등록하기
-            <Image
-              src={arrow}
-              alt='캠핑장 등록하기'
-              width={10}
-              height={20}
-              priority
-            />
+            <RightArrowSvg />
           </button>
         </div>
       ) : (
@@ -116,6 +102,7 @@ const ManageAddedCamp = (props: Props) => {
                       priority
                     />
                   </div>
+
                   <div className={styles.campNameWrap}>
                     <h1 className={styles.campName}>{item.name}</h1>
                     <button
@@ -123,43 +110,10 @@ const ManageAddedCamp = (props: Props) => {
                       className={styles.preview}
                     >
                       <span>미리보기</span>
-                      <Image
-                        src={preview}
-                        alt='미리보기'
-                        width={16}
-                        height={16}
-                      />
+                      <PreviewSvg />
                     </button>
                   </div>
-                  {/* <p>{item.address}</p>
-                  <p>{item.phone}</p>
-                  <p>{item.content}</p>
-                  {item.camp_facility.map((facility, index) => {
-                    return (
-                      <div key={index}>
-                        <p>{String(facility.facility?.option)}</p>
-                      </div>
-                    );
-                  })} */}
-                  {/* {item.camp_pic.map((campPic) => {
-                    return (
-                      <div key={campPic.id}>
-                        <Image
-                          src={campPic.photo_url}
-                          alt='캠핑장 이미지'
-                          width={100}
-                          height={100}
-                        />
-                      </div>
-                    );
-                  })} */}
-                  {/* {item.hashtag.map((tag) => {
-                    return (
-                      <div key={tag.tag}>
-                        <p>#{tag.tag}</p>
-                      </div>
-                    );
-                  })} */}
+
                   <div className={styles.editWrap}>
                     <button onClick={() => goToUpdateCampPage(item.id)}>
                       캠핑장 정보 수정
