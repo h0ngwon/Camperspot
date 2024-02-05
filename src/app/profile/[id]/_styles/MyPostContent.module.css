@@ -4,20 +4,22 @@
   display: flex;
   flex-direction: column;
   gap:12px;
+  overflow-wrap: break-word;
 }
 
 .img-wrapper {
-  width: 174px;
-  height: 174px;
+  width: 381px;
+  height: 381px;
 }
 
 .img-wrapper img {
   object-fit:cover;
-  border-radius: 16px;
+  border-radius: 8px;
 }
 
 .content {
   font-size:16px;
+  word-break: normal;
 }
 
 .tags {
@@ -26,4 +28,22 @@
   font-size: 14px;
   flex-wrap: wrap;
   color: #4db635;
+  gap: 8px;
+  word-break: normal;
+}
+
+.mics {
+  display: flex;
+  gap:8px;
+  align-items: center;
+}
+
+.like {
+  display: flex;
+  gap: 1px;
+}
+
+.comment {
+  display: flex;
+  gap: 1px;
 }
