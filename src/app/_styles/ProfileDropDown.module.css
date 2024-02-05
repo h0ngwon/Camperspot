@@ -1,5 +1,4 @@
-.dropDwonBox {
-
+.dropDownBox {
     position: absolute;
     width: 118px;
     background: white;
@@ -10,16 +9,35 @@
     align-items: center;
     display: inline-flex;
     top: 60px;
+    user-select: none;
 }
 
-.dropDwonBox>a {
-    width: 118;
+.dropDownItem {
+    width: 100%;
     padding: 10px 24px;
     background: white;
     justify-content: center;
     align-items: center;
     gap: 10;
     display: inline-flex;
+    cursor: pointer;
+
+}
+
+.dropDownItem:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.dropDownItem:last-child {
+    border-radius: 0 0 8px 8px;
+}
+
+.dropDownItem:hover {
+    background-color: var(--neutral-100);
+}
+
+.dropDownItem>a {
+    width: 100%;
 }
 
 .logOutBtn {
