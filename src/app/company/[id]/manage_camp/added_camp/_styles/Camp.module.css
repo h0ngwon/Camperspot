@@ -64,6 +64,11 @@
   flex-direction: row;
   align-items: center;
 }
+.campImg {
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+}
 .campNameWrap {
   margin-left: 36px;
   width: 560px;

@@ -105,13 +105,17 @@ const ManageAddedCamp = (props: Props) => {
             return (
               <div key={item.id}>
                 <div className={styles.campBox}>
-                  <Image
-                    src={item.camp_pic[0]?.photo_url}
-                    alt='캠핑장 이미지'
-                    width={128}
-                    height={128}
-                    priority
-                  />
+                  <div className={styles.campImg}>
+                    <Image
+                      src={item.camp_pic[0]?.photo_url}
+                      alt='캠핑장 이미지'
+                      width='0'
+                      height='0'
+                      sizes='100vw'
+                      style={{ width: '100%', height: '100vh' }}
+                      priority
+                    />
+                  </div>
                   <div className={styles.campNameWrap}>
                     <h1 className={styles.campName}>{item.name}</h1>
                     <button
