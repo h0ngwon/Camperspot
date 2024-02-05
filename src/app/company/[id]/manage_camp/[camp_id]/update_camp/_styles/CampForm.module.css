@@ -132,6 +132,10 @@
   width: 300px;
   padding: 10px;
 }
+.isRightNumber {
+  color: red;
+  margin-left: 20px;
+}
 
 /* 캠핑장 배치도 등록 */
 .uploadLayoutImgWrap {

@@ -11,8 +11,8 @@ export default function CancelBtnSvg() {
       <path
         d='M4.50781 11.4946L8.00315 7.99924L11.4985 11.4946M11.4985 4.50391L8.00248 7.99924L4.50781 4.50391'
         stroke='white'
-        stroke-linecap='round'
-        stroke-linejoin='round'
+        strokeLinecap='round'
+        strokeLinejoin='round'
       />
     </svg>
   );

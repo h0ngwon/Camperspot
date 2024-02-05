@@ -25,6 +25,7 @@ const UpdateCampPage = () => {
   const [check_in, handleCheck_in] = useState('');
   const [check_out, handleCheck_out] = useState('');
   const [phone, setPhone] = useState('');
+  const [isRightNumber, setIsRightNumber] = useState(false);
   const [layout, setLayout] = useState('');
   const [campPicture, setCampPicture] = useState<string[]>([]);
   const [hashTags, setHashTags] = useState<string[]>([]);
@@ -37,6 +38,9 @@ const UpdateCampPage = () => {
   const queryClient = useQueryClient();
 
   const router = useRouter();
+
+  // 전화번호 유효성 검사 정규식
+  const pattern = /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/;
 
   const { data: campData, isLoading } = useQuery({
     queryKey: ['camp_id'],
@@ -64,6 +68,9 @@ const UpdateCampPage = () => {
     handleCheck_in(campData[0].check_in);
     handleCheck_out(campData[0].check_out);
     setPhone(campData[0].phone);
+    if (pattern.test(campData[0].phone)) {
+      setIsRightNumber(true);
+    }
     setLayout(campData[0].layout);
     setCampPicture(campData[0].camp_pic?.map((picture) => picture.photo_url!)!);
     setHashTags(campData[0].hashtag?.map((hashtag) => hashtag.tag!)!);
@@ -80,6 +87,22 @@ const UpdateCampPage = () => {
     return { data: data, error };
   }
 
+  // 지역정보 구분
+  const regionSplit = address.split(' ');
+  const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
+
+  // 전화번호 유효성 검사
+  const checkRightNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value);
+    if (pattern.test(e.target.value)) {
+      setIsRightNumber(true);
+      return setPhone(e.target.value);
+    } else {
+      setIsRightNumber(false);
+      return;
+    }
+  };
+
   const {
     mutate: updateCamp,
     isPending,
@@ -91,7 +114,16 @@ const UpdateCampPage = () => {
         // 수정된 input value들을 update
         const { data, error } = await supabase
           .from('camp')
-          .update({ name, address, check_in, check_out, phone, layout })
+          .update({
+            name,
+            content,
+            address,
+            region: regionDoGun,
+            check_in,
+            check_out,
+            phone,
+            layout,
+          })
           .eq('id', campId);
 
         // select로 campId에 맞는 camp_facility를 불러오고
@@ -220,11 +252,11 @@ const UpdateCampPage = () => {
     },
   });
 
-  if (isPending) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'unset';
-  }
+  // if (isPending) {
+  //   document.body.style.overflow = 'hidden';
+  // } else {
+  //   document.body.style.overflow = 'unset';
+  // }
 
   if (isError) {
     console.log(error);
@@ -350,7 +382,7 @@ const UpdateCampPage = () => {
                     <h3>문의전화</h3>
                     <input
                       defaultValue={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={checkRightNumber}
                       type='tel'
                       placeholder='예) 02-000-0000 / 063-000-0000'
                       pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
@@ -358,6 +390,11 @@ const UpdateCampPage = () => {
                       required
                       className={styles.requestCallInput}
                     />
+                    {isRightNumber ? (
+                      ''
+                    ) : (
+                      <p className={styles.isRightNumber}>형식을 맞춰주세요</p>
+                    )}
                   </div>
 
                   <Layout layout={layout} setLayout={setLayout} />

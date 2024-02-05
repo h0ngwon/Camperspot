@@ -21,7 +21,8 @@ const AddForm = () => {
   const [content, handleContent] = useInput();
   const [address, setAddress] = useState('');
   const [isAddressModal, setAddressModal] = useState(false);
-  const [phone, handlePhone] = useInput();
+  const [phone, handlePhone] = useState('');
+  const [isRightNumber, setIsRightNumber] = useState(false);
   const [check_in, handleCheck_in] = useState<string>('');
   const [check_out, handleCheck_out] = useState<string>('');
   // const [layout, handleLayout] = useInput();
@@ -45,6 +46,19 @@ const AddForm = () => {
   // 지역정보 구분
   const regionSplit = address.split(' ');
   const regionDoGun = regionSplit[0] + ' ' + regionSplit[1];
+
+  // 전화번호 유효성 검사
+  const checkRightNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handlePhone(e.target.value);
+    const pattern = /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/;
+    if (pattern.test(e.target.value)) {
+      setIsRightNumber(true);
+      return handlePhone(e.target.value);
+    } else {
+      setIsRightNumber(false);
+      return;
+    }
+  };
 
   // 쿼리문으로 작성한 camp테이블 insert
   const {
@@ -83,11 +97,11 @@ const AddForm = () => {
     },
   });
 
-  if (isPending) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'unset';
-  }
+  // if (isPending) {
+  //   document.body.style.overflow = 'hidden';
+  // } else {
+  //   document.body.style.overflow = 'unset';
+  // }
   if (isError) {
     console.log(error);
     return <div>에러 발생</div>;
@@ -246,7 +260,7 @@ const AddForm = () => {
               <h3>문의전화</h3>
               <input
                 value={phone}
-                onChange={handlePhone}
+                onChange={checkRightNumber}
                 type='tel'
                 placeholder='예) 02-000-0000 / 063-000-0000'
                 pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
@@ -254,6 +268,11 @@ const AddForm = () => {
                 required
                 className={styles.requestCallInput}
               />
+              {isRightNumber ? (
+                ''
+              ) : (
+                <p className={styles.isRightNumber}>형식을 맞춰주세요</p>
+              )}
             </div>
             <Layout campLayout={campLayout} setCampLayout={setCampLayout} />
             <CampPicture
