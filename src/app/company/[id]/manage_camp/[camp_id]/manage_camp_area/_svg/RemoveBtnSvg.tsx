@@ -1,14 +1,14 @@
 export default function RemoveBtnSvg() {
   return (
     <svg
-      width='19'
-      height='19'
-      viewBox='0 0 19 19'
+      width='25'
+      height='25'
+      viewBox='0 0 32 32'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
-        d='M5.35156 13.651L9.50227 9.50032L13.653 13.651M13.653 5.34961L9.50148 9.50032L5.35156 5.34961'
+        d='M9.00977 22.9891L16.0004 15.9985L22.9911 22.9891M22.9911 9.00781L15.9991 15.9985L9.00977 9.00781'
         stroke='black'
         strokeLinecap='round'
         strokeLinejoin='round'

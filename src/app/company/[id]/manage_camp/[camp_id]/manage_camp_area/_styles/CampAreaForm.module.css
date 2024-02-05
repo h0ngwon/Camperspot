@@ -23,6 +23,10 @@
 .areaHead {
   width: 100%;
   float: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .h3 {

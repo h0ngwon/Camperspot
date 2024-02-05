@@ -1,12 +1,10 @@
 'use client';
 import { supabase } from '@/app/api/db';
-import { Tables } from '@/types/supabase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getSession, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import styles from './_styles/ManageCompanyUserInfo.module.css';
-import Image from 'next/image';
-import editCompanyUserName from '@/asset/ico_edit_company_user_name.png';
+import EditPencilSvg from './_svg/EditPencilSvg';
 
 const ManageCompanyInfo = () => {
   const queryClient = useQueryClient();
@@ -134,12 +132,7 @@ const ManageCompanyInfo = () => {
                 <h3 className={styles.h3}>업체회원명</h3>
                 <p>{item.name}</p>
                 <button onClick={handleUpdateName}>
-                  <Image
-                    src={editCompanyUserName}
-                    alt='이름수정'
-                    width={18}
-                    height={18}
-                  />
+                  <EditPencilSvg />
                 </button>
               </div>
             )}

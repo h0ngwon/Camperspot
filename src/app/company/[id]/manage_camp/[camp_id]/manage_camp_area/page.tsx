@@ -7,8 +7,9 @@ import styles from './_styles/CampAreaForm.module.css';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import removeBtn from '@/asset/ico_removePicBtn.png';
 import { toast } from 'react-toastify';
+import RemoveBtnSvg from './_svg/RemoveBtnSvg';
+import AddBtnSvg from './_svg/AddBtnSvg';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
@@ -91,7 +92,7 @@ const AddCampArea = () => {
                     }
                     className={styles.deleteCardBtn}
                   >
-                    <Image src={removeBtn} alt='삭제버튼' width={17} />
+                    <RemoveBtnSvg />
                   </button>
                 </div>
                 <Image
@@ -153,7 +154,7 @@ const AddCampArea = () => {
             className={styles.addCampArea}
           >
             <div className={styles.btnWrap}>
-              <Image src={plusBtn} alt='캠핑존 추가하기 버튼' />
+              <AddBtnSvg />
               <p>캠핑존 추가하기</p>
             </div>
           </div>
