@@ -2,8 +2,7 @@
 import logOut from '@/asset/logOut.png';
 import CommunitySvg from '@/components/CommunitySvg';
 import MyProfileSvg from '@/components/MyProfileSvg';
-import { signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
@@ -35,12 +34,6 @@ const Header = () => {
               {session ? (
                 <>
                   <ProfileDivider session={session} />
-                  <button
-                    onClick={() => signOut()}
-                    className={styles.logOutBtn}
-                  >
-                    <Image src={logOut} alt='' width={30} height={30} />
-                  </button>
                 </>
               ) : (
                 <>
