@@ -58,7 +58,9 @@ export default function CommuComments({ postId }: Props) {
   return (
     <div>
       {reversedComments.length === 0 ? (
-        <p>댓글이 없습니다.</p>
+        <div className={styles.noComment}>
+          <p>댓글을 등록해주세요.</p>
+        </div>
       ) : (
         <ul className={styles.scroll}>
           {reversedComments.map((item) => (
