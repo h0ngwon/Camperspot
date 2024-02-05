@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
 import Image from 'next/image';
-import addImgBtn from '@/asset/addImgBtn.png';
-import removePicBtn from '@/asset/ico_cancel_btn.png';
+import CancelBtnSvg from '../_svg/CancelBtnSvg';
+import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
 
 type Props = {
   layout: string;
@@ -19,11 +19,7 @@ const Layout = ({ layout, setLayout }: Props) => {
     if (e.target.files) {
       const file = e.target.files[0];
       const uploadFile = URL.createObjectURL(file);
-      // if (uploadFile !== layout) {
-      //   setLayout(uploadFile);
-      // } else {
-      //   setCampLayout(uploadFile);
-      // }
+
       setLayout(uploadFile);
     }
   }
@@ -58,16 +54,11 @@ const Layout = ({ layout, setLayout }: Props) => {
             className={styles.positionAbsol}
             onClick={() => handleDeleteCampLayoutImg()}
           >
-            <Image
-              src={removePicBtn}
-              alt='이미지 삭제 버튼'
-              width={20}
-              height={20}
-            />
+            <CancelBtnSvg />
           </button>
         </div>
       ) : (
-        <div>
+        <div className={styles.uploadLayoutImgWrap}>
           <input
             type='file'
             onChange={handleChangeInputLayoutImageFile}
@@ -76,12 +67,7 @@ const Layout = ({ layout, setLayout }: Props) => {
             className={styles.uploadLayoutImgBtn}
           />
           <label htmlFor='layoutImg' className={styles.addLayoutImgBtnWrap}>
-            <Image
-              src={addImgBtn}
-              alt='배치 이미지 등록 버튼'
-              width={206}
-              height={184}
-            />
+            <AddImgBtnSvg />
           </label>
         </div>
       )}
