@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { getUserLikeCamp } from '../_lib/profile';
 import styles from '../_styles/BookmarkCamp.module.css';
 import BookmarkCampContent from './BookmarkCampContent';
+import Loading from '@/app/loading';
 
 const BookmarkCamp = () => {
   const params = useParams();
@@ -16,7 +17,7 @@ const BookmarkCamp = () => {
   });
 
   if (isLoading) {
-    <p>로딩중...</p>;
+    <Loading/>
   }
 
   return (

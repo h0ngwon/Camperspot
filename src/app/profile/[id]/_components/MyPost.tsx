@@ -5,15 +5,21 @@ import MyPostContent from './MyPostContent';
 import { useQuery } from '@tanstack/react-query';
 import { getUserPost } from '../_lib/profile';
 import { MyPostType } from '@/types/profile';
+import Loading from '@/app/loading';
 
 const MyPost = () => {
   const params = useParams();
   const userId = params.id as string;
-  const { data } = useQuery<MyPostType>({
+  const { data, isLoading } = useQuery<MyPostType>({
     queryKey: ['mypage', 'bookmark', 'post', userId],
     queryFn: getUserPost,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+  
   return (
     <div className={styles.container}>
       <div className={styles['bookmark-header']}>나의 캠핑톡</div>

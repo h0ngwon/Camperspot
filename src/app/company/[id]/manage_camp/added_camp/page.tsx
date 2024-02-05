@@ -8,6 +8,7 @@ import { useParams, useRouter } from 'next/navigation';
 import EmptyCampIllustSvg from './_svg/EmptyCampIllustSvg';
 import RightArrowSvg from './_svg/RightArrowSvg';
 import PreviewSvg from './_svg/PreviewSvg';
+import Loading from '@/app/loading';
 
 const ManageAddedCamp = () => {
   const router = useRouter();
@@ -38,7 +39,7 @@ const ManageAddedCamp = () => {
   });
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import styles from '../_styles/CommuDetailModal.module.css';
+import Loading from '@/app/loading';
 
 type Props = {
   postId: string;
@@ -76,7 +77,7 @@ export default function CommuCreateComment({ postId, userId }: Props) {
   };
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {
