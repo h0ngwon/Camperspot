@@ -45,10 +45,9 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
     },
     mode: 'onChange',
   });
-  // 달력에서 날짜 선택할 때마다 값이 변동됨.
   const dates = watch('dates');
 
-  const methods = ['카카오페이', '휴대폰', '카드', '실시간 계좌이체'];
+  const methods = ['카카오페이', '카드', '휴대폰', '실시간 계좌이체'];
   const [isActive, setIsActive] = useState<number | null>(null);
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
@@ -123,12 +122,14 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
             명
           </div>
           {errors.people && (
-            <div className={styles.errors}>
+            <div className={styles['people-errors']}>
               <p>{errors.people.message}</p>
             </div>
           )}
-
-          <Calendar control={control} />
+          <div>
+            <span className={styles.span}>날짜</span>
+            <Calendar control={control} />
+          </div>
 
           {dates?.[0] && dates?.[1] && (
             <div className={styles.div}>
@@ -190,20 +191,20 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         <div className={styles['vertical-divider']}></div>
         <div className={styles['person-info']}>
           <h3 className={styles.h3}>예약자 정보</h3>
-          <div>
+          <div className={styles.info}>
             <label htmlFor='userName'>*예약자명 </label>
             <input
               className={styles.input}
               type='text'
               id='userName'
               {...register('name', {
-                required: '예약자 명을 입력해주세요',
+                required: '예약자명을 입력해주세요.',
                 pattern: {
                   value: NAME_REGEX,
                   message: '예약자 이름은 2자이상 16자 이하만 가능합니다.',
                 },
               })}
-              placeholder='실명을 입력해주세요'
+              placeholder='실명을 입력해주세요.'
             />
           </div>
           {errors.name && (
@@ -211,7 +212,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
               <p>{errors.name.message}</p>
             </div>
           )}
-          <div>
+          <div className={styles.info}>
             <label htmlFor='phone'>*전화번호 </label>
             <input
               className={styles.input}
@@ -221,7 +222,7 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
                 required: '휴대폰번호를 입력해주세요.',
                 pattern: {
                   value: PHONE_REGEX,
-                  message: '010-1234-5678 형식으로 입력해주세요',
+                  message: '010-1234-5678 형식으로 입력해주세요.',
                 },
               })}
               placeholder='예시) 010-1234-5678'
@@ -260,14 +261,14 @@ const ReservationForm = ({ reservation }: { reservation: ReservationInfo }) => {
         </div>
       </form>
       <ConfirmModal
-        title='예약을 하시겠습니까?'
+        title='정말로 예약하시겠습니까?'
         open={isOpenConfirm}
         onClose={() => setIsOpenConfirm(false)}
         onConfirm={() => handleSubmit(onSubmit)()}
       />
       {!isOpenConfirm && isOpenComplete && (
         <CompleteModal
-          title='예약이 완료되었습니다'
+          title='예약이 완료되었습니다.'
           onClose={handleCloseModal}
         />
       )}
