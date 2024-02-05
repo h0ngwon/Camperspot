@@ -5,7 +5,6 @@ import useInput from '@/hooks/useInput';
 import type { Tables } from '@/types/supabase';
 import React, { FormEvent, useState } from 'react';
 import styles from '../_styles/CampForm.module.css';
-import { useSession } from 'next-auth/react';
 import Facility from './Facility';
 import Layout from './Layout';
 import CampPicture from './CampPicture';
