@@ -9,7 +9,7 @@ type Props = {
 const People = ({ count, setCount }: Props) => {
   return (
     <div className={styles.people}>
-      <button
+      {/* <button
         type='button'
         className={`${styles.countBtn} ${count < 2 && styles.disable}`}
         onClick={() => {
@@ -18,11 +18,9 @@ const People = ({ count, setCount }: Props) => {
         disabled={count < 2}
       >
         -
-      </button>
-      <div className={styles.count}>
-        {count} <span>{count > 9 ? '명 이상' : '명'}</span>
-      </div>
-      <button
+      </button> */}
+      <div className={styles.count}></div>
+      {/* <button
         type='button'
         onClick={() => {
           setCount((prev) => prev + 1);
@@ -31,7 +29,7 @@ const People = ({ count, setCount }: Props) => {
         className={`${styles.countBtn} ${count > 9 && styles.disable}`}
       >
         +
-      </button>
+      </button> */}
     </div>
   );
 };

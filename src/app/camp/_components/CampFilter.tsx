@@ -7,7 +7,7 @@ import styles from '../_styles/CampFilter.module.css';
 const CampFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>('예약순');
-  const handleOpenDropdown = () => {
+  const onHandleOpenDropdown = () => {
     setIsOpen((prev) => !prev);
   };
   const searchParams = useSearchParams();
@@ -32,7 +32,7 @@ const CampFilter = () => {
 
   return (
     <div className={styles.dropDownBtnBox}>
-      <button onClick={handleOpenDropdown} className={styles.dropDownBtn}>
+      <button onClick={onHandleOpenDropdown} className={styles.dropDownBtn}>
         <p className={styles.filterText}>{selectedItem}</p>
         <Drop />
       </button>
