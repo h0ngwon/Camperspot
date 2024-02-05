@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import emptycampImg from '@/asset/ico_empty_camp.png';
 import arrow from '@/asset/ico_right_arrow.png';
-import preview from '@/asset/icon-preview.png';
+import preview from '@/asset/icon-preview.svg';
 
 type Props = {};
 
