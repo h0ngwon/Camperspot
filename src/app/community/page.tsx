@@ -5,16 +5,17 @@ import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
 import { toast } from 'react-toastify';
+import Image from 'next/image';
 import CommuPhotos from './_components/CommuPhotos';
 import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
 import CommuBtns from './_components/CommuBtns';
 import CommuCreateModal from './_components/CommuCreateModal';
+import CommuDetailModal from './_components/CommuDetailModal';
 
 import styles from './_styles/Commu.module.css';
-import CreateSvg from './_svg/CreateSvg';
 import CampingImg from '@/asset/camping_illust.jpg';
-import Image from 'next/image';
+import CreateSvg from './_svg/CreateSvg';
 
 export default function CommunityPage() {
   const [isCommuCreateModal, setIsCommuCreateModal] = useState<boolean>(false);
@@ -32,7 +33,9 @@ export default function CommunityPage() {
       try {
         const { data: post, error } = await supabase
           .from('post')
-          .select('*,post_pic(*),post_hashtag(*),user(id,nickname,profile_url)')
+          .select(
+            '*,post_pic(*),post_hashtag(*),user(id,nickname,profile_url),comment(id)',
+          )
           .order('created_at', { ascending: false });
 
         if (error) {

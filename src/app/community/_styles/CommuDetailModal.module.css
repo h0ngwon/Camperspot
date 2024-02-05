@@ -36,11 +36,6 @@
   overflow: auto;
 }
 
-.scroll::-webkit-scrollbar-thumb {
-  width: 10px;
-  background: #000;
-}
-
 .scroll::-webkit-scrollbar {
   display: none;
   scrollbar-width: none; /* 파이어폭스 */
@@ -48,7 +43,10 @@
 
 .scroll > li {
   padding: 16px 8px;
-  border-bottom: 1px dashed #ddd;
+  border-bottom: 1px dashed var(--neutral-300);
+}
+.scroll > li:last-child {
+  border-bottom: none;
 }
 
 .commentWrap {
@@ -72,4 +70,34 @@
 .created {
   font-size: 12px;
   color: #919191;
+}
+
+.submitWrap {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 40px;
+}
+
+.submitWrap input {
+  border: transparent;
+  height: 40px;
+  width: 88%;
+  font-size: 14px;
+}
+
+.submitWrap button {
+  color: var(--primary-700);
+}
+
+.submitWrap button:disabled {
+  color: var(--neutral-200);
+}
+
+.noComment {
+  height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

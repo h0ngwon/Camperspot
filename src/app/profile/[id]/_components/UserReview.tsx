@@ -28,6 +28,11 @@ const UserReview = () => {
     setIsOpenReviewModal(idx);
     toggleModal();
   };
+
+  const closeModalHandler = () => {
+    toggleModal();
+    setIsOpenReviewModal(null);
+  }
   return (
     <div className={styles.container}>
       <div className={styles['review-header']}>리뷰 관리</div>
@@ -57,7 +62,7 @@ const UserReview = () => {
             {show && isOpenReviewModal === idx && (
               <ModalPortal>
                 <Modal customWidth={526} customHeight={250}>
-                  <ReviewConfirmModal reviewId={item.id} userId={userId}/>
+                  <ReviewConfirmModal reviewId={item.id} userId={userId} onClose={closeModalHandler}/>
                 </Modal>
               </ModalPortal>
             )}
