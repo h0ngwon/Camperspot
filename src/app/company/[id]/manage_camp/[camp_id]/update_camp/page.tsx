@@ -14,6 +14,7 @@ import CampPicture from './_components/CampPicture';
 import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
 import { toast } from 'react-toastify';
+import Loading from '@/app/loading';
 
 const UpdateCampPage = () => {
   const [name, setName] = useState('');
@@ -37,7 +38,7 @@ const UpdateCampPage = () => {
 
   const router = useRouter();
 
-  const { data: campData } = useQuery({
+  const { data: campData, isLoading } = useQuery({
     queryKey: ['camp_id'],
     queryFn: async () => {
       const { data: campData } = await supabase
@@ -81,6 +82,7 @@ const UpdateCampPage = () => {
 
   const {
     mutate: updateCamp,
+    isPending,
     isError,
     error,
   } = useMutation({
@@ -217,6 +219,13 @@ const UpdateCampPage = () => {
       toast.error('오류가 발생했습니다. 다시 시도해주세요.');
     },
   });
+
+  if (isPending) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'unset';
+  }
+
   if (isError) {
     console.log(error);
     return <div>에러 발생</div>;
@@ -266,113 +275,123 @@ const UpdateCampPage = () => {
   };
 
   return (
-    <div>
-      <h1 className={styles.h1}>캠핑장 수정</h1>
-      {campData?.length === 1 ? (
-        <div>
-          <form onSubmit={handleForm} className={styles.formLayout}>
-            <div className={styles.campNameWrap}>
-              <h3>캠핑장 명</h3>
-              <input
-                defaultValue={name}
-                onChange={(e) => setName(e.target.value)}
-                className={styles.campNameInput}
-              />
-            </div>
-
-            <div className={styles.campAddressWrap}>
-              <h3>주소</h3>
-              <div className={styles.addressSearchWrap}>
-                <div>
-                  <button
-                    onClick={() => {
-                      setAddressModal(true);
-                      document.body.style.overflow = 'hidden';
-                    }}
-                    type='button'
-                    className={styles.addressSearchBtn}
-                  >
-                    주소 검색하기
-                  </button>
-                </div>
-                <input
-                  defaultValue={address}
-                  placeholder='주소검색하기를 클릭해주세요'
-                  required
-                  className={styles.addressSearchInput}
-                />
-              </div>
-            </div>
-
-            <div className={styles.campContentWrap}>
-              <h3>캠핑장 소개</h3>
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder='캠핑장을 소개해주세요'
-                required
-              ></textarea>
-            </div>
-
-            <Facility
-              facility={facility}
-              setFacility={setFacility}
-              checkedFacility={checkedFacility}
-              setCheckedFacility={setCheckedFacility}
-            />
-
-            <CheckInOut
-              check_in={check_in}
-              handleCheck_in={handleCheck_in}
-              check_out={check_out}
-              handleCheck_out={handleCheck_out}
-            />
-
-            <div className={styles.requestCallWrap}>
-              <h3>문의전화</h3>
-              <input
-                defaultValue={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                type='tel'
-                placeholder='예) 02-000-0000 / 063-000-0000'
-                pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
-                maxLength={13}
-                required
-                className={styles.requestCallInput}
-              />
-            </div>
-
-            <Layout layout={layout} setLayout={setLayout} />
-
-            <CampPicture
-              campPicture={campPicture}
-              setCampPicture={setCampPicture}
-            />
-
-            <Hashtag
-              hashTags={hashTags}
-              setHashTags={setHashTags}
-              inputHashTag={inputHashTag}
-              setInputHashTag={setInputHashTag}
-            />
-
-            <div className={styles.btns}>
-              {/* <button>수정취소</button> */}
-              <button type='submit' className={styles.addCampBtn}>
-                수정완료
-              </button>
-            </div>
-          </form>
-          <SearchAddress
-            setAddress={setAddress}
-            isAddressModal={isAddressModal}
-            setAddressModal={setAddressModal}
-          />
+    <>
+      {isPending ? (
+        <div className={styles.isPending}>
+          <Loading />
         </div>
       ) : (
-        ''
+        <div>
+          <h1 className={styles.h1}>캠핑장 수정</h1>
+          {isLoading ? (
+            <div>로딩중입니다.</div>
+          ) : (
+            campData?.length === 1 && (
+              <div>
+                <form onSubmit={handleForm} className={styles.formLayout}>
+                  <div className={styles.campNameWrap}>
+                    <h3>캠핑장 명</h3>
+                    <input
+                      defaultValue={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className={styles.campNameInput}
+                    />
+                  </div>
+
+                  <div className={styles.campAddressWrap}>
+                    <h3>주소</h3>
+                    <div className={styles.addressSearchWrap}>
+                      <div>
+                        <button
+                          onClick={() => {
+                            setAddressModal(true);
+                            document.body.style.overflow = 'hidden';
+                          }}
+                          type='button'
+                          className={styles.addressSearchBtn}
+                        >
+                          주소 검색하기
+                        </button>
+                      </div>
+                      <input
+                        defaultValue={address}
+                        placeholder='주소검색하기를 클릭해주세요'
+                        required
+                        className={styles.addressSearchInput}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.campContentWrap}>
+                    <h3>캠핑장 소개</h3>
+                    <textarea
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      placeholder='캠핑장을 소개해주세요'
+                      required
+                    ></textarea>
+                  </div>
+
+                  <Facility
+                    facility={facility}
+                    setFacility={setFacility}
+                    checkedFacility={checkedFacility}
+                    setCheckedFacility={setCheckedFacility}
+                  />
+
+                  <CheckInOut
+                    check_in={check_in}
+                    handleCheck_in={handleCheck_in}
+                    check_out={check_out}
+                    handleCheck_out={handleCheck_out}
+                  />
+
+                  <div className={styles.requestCallWrap}>
+                    <h3>문의전화</h3>
+                    <input
+                      defaultValue={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      type='tel'
+                      placeholder='예) 02-000-0000 / 063-000-0000'
+                      pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
+                      maxLength={13}
+                      required
+                      className={styles.requestCallInput}
+                    />
+                  </div>
+
+                  <Layout layout={layout} setLayout={setLayout} />
+
+                  <CampPicture
+                    campPicture={campPicture}
+                    setCampPicture={setCampPicture}
+                  />
+
+                  <Hashtag
+                    hashTags={hashTags}
+                    setHashTags={setHashTags}
+                    inputHashTag={inputHashTag}
+                    setInputHashTag={setInputHashTag}
+                  />
+
+                  <div className={styles.btns}>
+                    {/* <button>수정취소</button> */}
+                    <button type='submit' className={styles.addCampBtn}>
+                      수정완료
+                    </button>
+                  </div>
+                </form>
+                <SearchAddress
+                  setAddress={setAddress}
+                  isAddressModal={isAddressModal}
+                  setAddressModal={setAddressModal}
+                />
+              </div>
+            )
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
