@@ -6,6 +6,8 @@ import '../styles/reset.css';
 import Header from './_components/Header';
 import Providers from './_components/Providers';
 import Footer from './_components/Footer';
+import { Suspense } from 'react';
+import Loading from './loading';
 
 export const metadata: Metadata = {
   title: '캠퍼스팟 (Camperspot)',
@@ -29,9 +31,10 @@ export default function RootLayout({
           <div id='modal'></div>
           <Header />
           <Spacer y={80} />
+          <Suspense fallback={<Loading/>}>
           {children}
+          </Suspense>
           <Spacer y={80} />
-
           <Footer />
         </Providers>
       </body>

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
 import HeartSvg from '@/app/camp/detail/[id]/_svg/HeartSvg';
+import Loading from '@/app/loading';
 
 type Props = {
   postId: string;
@@ -88,7 +89,7 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
   }, [data, postId, userId]); // data 대신 postId와 userId를 의존성 배열에 추가
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {
@@ -129,7 +130,9 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
       <button className={styles.btn} onClick={handleLikeBtn}>
         <HeartSvg isLiked={liked} />
       </button>
-      <p key={data?.id}>좋아요 {likeCount}개</p>
+      <p key={data?.id}>
+        좋아요 <span>{likeCount}</span>개
+      </p>
     </div>
   );
 }

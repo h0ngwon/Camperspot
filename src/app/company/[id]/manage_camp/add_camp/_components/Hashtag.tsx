@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from '../_styles/CampForm.module.css';
-import removeBtn from '@/asset/ico_small_remove_btn.png';
-import Image from 'next/image';
 import { toast } from 'react-toastify';
+import RemoveBtnSvg from '../_svg/RemoveBtnSvg';
 
 type Props = {
   hashTags: string[];
@@ -94,12 +93,7 @@ const Hashtag = ({
                   onClick={() => handleDeleteHashtag(item)}
                   className={styles.removeHashtagBtn}
                 >
-                  <Image
-                    src={removeBtn}
-                    alt='해시태그 삭제 버튼'
-                    width={8}
-                    height={8}
-                  />
+                  <RemoveBtnSvg />
                 </button>
               </div>
             );

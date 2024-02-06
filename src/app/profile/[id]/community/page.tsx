@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from '../_styles/Community.module.css'
-import BookmarkPost from '../_components/BookmarkPost'
+import MyPost from '../_components/MyPost'
 type Props = {}
 
 const CommunityPage = (props: Props) => {
   return (
-      <BookmarkPost/>
+      <MyPost/>
   )
 }
 

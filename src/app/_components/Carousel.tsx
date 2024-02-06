@@ -23,6 +23,10 @@ const Carousel = () => {
     autoplaySpeed: 2000,
     pauseOnHover: true,
     arrows: false,
+    centerPadding: '360px',
+
+    className: 'center',
+    centerMode: true,
   };
 
   return (

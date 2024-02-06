@@ -11,15 +11,19 @@ import pencil from '../../../../asset/mdi_pencil.svg';
 import { getUserData } from '../_lib/profile';
 import styles from '../_styles/Profile.module.css';
 import ProfileModifyForm from './ProfileModifyForm';
+import Loading from '@/app/loading';
 
 const Profile = () => {
   const { show, toggleModal } = useModalStore();
   const params = useParams();
-  const { data } = useQuery({
+  const { data, isLoading, isFetching } = useQuery({
     queryKey: ['mypage', 'profile', params.id],
     queryFn: getUserData,
   });
 
+  if(isLoading) {
+    return <Loading/>
+  }
   return (
     <div className={styles.container}>
       <div className={styles['profile-container']}>

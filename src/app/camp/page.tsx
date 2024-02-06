@@ -5,6 +5,8 @@ import styles from './_styles/Camp.module.css';
 import CampFilter from './_components/CampFilter';
 import Pagination from './_components/Pagination';
 import { getPageControllerProps } from './_lib/getPageControllerProps';
+import { Suspense } from 'react';
+import Loading from '../loading';
 
 export const revalidate = 0;
 
@@ -25,7 +27,6 @@ const Camp = async ({
   });
   if (error) console.error(error);
   if (!data) return;
-
   const perPage = searchParams['per_page'] ?? '9';
   const count = data[0].total_count || 0;
   const { hasNextPage, hasPrevPage } = getPageControllerProps({
@@ -47,13 +48,14 @@ const Camp = async ({
             </div>
           </div>
           <Spacer y={20} />
-          <div className={styles.listWrapper}>
-            <div className={styles.camplList}>
-              <CampList campList={data!} />
+          <Suspense fallback={<Loading />}>
+            <div className={styles.listWrapper}>
+              <div className={styles.camplList}>
+                <CampList campList={data!} />
+              </div>
             </div>
-          </div>
+          </Suspense>
           <Spacer y={50} />
-
           <Pagination
             hasNextPage={hasNextPage}
             hasPrevPage={hasPrevPage}

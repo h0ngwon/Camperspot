@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { modifyUserData } from '../_lib/modifyUserData';
 import styles from '../_styles/ProfileModifyForm.module.css';
+import Loading from '@/app/loading';
 
 const ProfileModifyForm = () => {
   const queryClient = useQueryClient();
@@ -69,10 +70,13 @@ const ProfileModifyForm = () => {
 
   return (
     <form className={styles.container} onSubmit={submitHandler}>
-      <button className={styles['close-btn']} onClick={() => {
-        toggleModal();
-        document.body.style.overflow = 'auto';
-      }}>
+      <button
+        className={styles['close-btn']}
+        onClick={() => {
+          toggleModal();
+          document.body.style.overflow = 'auto';
+        }}
+      >
         <ModalCloseSvg />
       </button>
       <div className={styles['profile-header']}>프로필 설정</div>

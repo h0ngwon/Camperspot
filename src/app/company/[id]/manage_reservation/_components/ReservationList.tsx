@@ -9,6 +9,7 @@ import NothingReservation from './NothingReservation';
 import TotalReservationList from './TotalReservationList';
 import { getTodayReservation } from '../../_lib/getTodayReservation';
 import CampFilter from './CampFilter';
+import Loading from '@/app/loading';
 
 const ReservationList = () => {
   const params = useParams();
@@ -16,7 +17,7 @@ const ReservationList = () => {
     queryKey: ['company', 'reservation', 'today'],
     queryFn: () => getTodayReservation(params.id as string),
   });
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading/>
 
   return (
     <>

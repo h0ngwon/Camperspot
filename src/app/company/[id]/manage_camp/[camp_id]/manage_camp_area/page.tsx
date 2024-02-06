@@ -1,14 +1,15 @@
 'use client';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import plusBtn from '../../../../../../asset/ph_plus.png';
 import CampAreaModal from './_components/CampAreaModal';
 import styles from './_styles/CampAreaForm.module.css';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import removeBtn from '@/asset/ico_removePicBtn.png';
 import { toast } from 'react-toastify';
+import Loading from '@/app/loading';
+import RemoveBtnSvg from './_svg/RemoveBtnSvg';
+import AddBtnSvg from './_svg/AddBtnSvg';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
@@ -69,7 +70,7 @@ const AddCampArea = () => {
   });
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading />;
   }
   if (isError) {
     return <div>에러 발생</div>;
@@ -91,7 +92,7 @@ const AddCampArea = () => {
                     }
                     className={styles.deleteCardBtn}
                   >
-                    <Image src={removeBtn} alt='삭제버튼' width={17} />
+                    <RemoveBtnSvg />
                   </button>
                 </div>
                 <Image
@@ -153,7 +154,7 @@ const AddCampArea = () => {
             className={styles.addCampArea}
           >
             <div className={styles.btnWrap}>
-              <Image src={plusBtn} alt='캠핑존 추가하기 버튼' />
+              <AddBtnSvg />
               <p>캠핑존 추가하기</p>
             </div>
           </div>

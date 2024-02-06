@@ -8,3 +8,8 @@
   left: 30px;
   cursor: pointer;
 }
+
+.comment {
+  color: var(--neutral-500);
+  cursor: pointer;
+}

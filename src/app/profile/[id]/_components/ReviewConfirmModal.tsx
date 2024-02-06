@@ -6,9 +6,10 @@ import styles from '../_styles/ReviewConfirmModal.module.css';
 type Props = {
   reviewId: string;
   userId: string
+  onClose: () => void;
 };
 
-const ReviewConfirmModal = ({ reviewId, userId }: Props) => {
+const ReviewConfirmModal = ({ reviewId, userId, onClose }: Props) => {
   const { toggleModal } = useModalStore();
   const queryClient = useQueryClient();
   const deleteReview = useMutation({
@@ -29,7 +30,7 @@ const ReviewConfirmModal = ({ reviewId, userId }: Props) => {
       <span className={styles.content}>정말로 삭제하시겠습니까?</span>
       <div className={styles['btns-container']}>
         <button className={styles.confirm} onClick={deleteHandler}>확인</button>
-        <button className={styles.cancel} onClick={toggleModal}>취소</button>
+        <button className={styles.cancel} onClick={onClose}>취소</button>
       </div>
     </div>
   );

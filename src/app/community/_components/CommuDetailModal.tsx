@@ -1,13 +1,13 @@
 'use client';
 
+import { useEffect } from 'react';
 import CommuUser from './CommuUsers';
+import CommuComment from './CommuComment';
 import CommuPhotos from './CommuPhotos';
 import CommuBtns from './CommuBtns';
 import CommuHashTags from './CommuHashTags';
 
 import styles from '../_styles/CommuDetailModal.module.css';
-import { useEffect } from 'react';
-import CommuComment from './CommuComment';
 
 type Props = {
   data: {

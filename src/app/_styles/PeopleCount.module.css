@@ -1,0 +1,80 @@
+.countControlBox {
+    position: absolute;
+    top: 105px;
+    width: 354px;
+    height: 92px;
+    padding: 26px 20px;
+    background: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    display: inline-flex;
+}
+
+.countControlBox>div {
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    display: inline-flex;
+}
+
+.boxLeft {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 4px;
+    display: inline-flex;
+}
+
+.boxLeft>p {
+    color: #8C8F9A;
+    font-size: 13px;
+    font-family: Pretendard;
+    font-weight: 400;
+}
+
+.boxLeft>p:first-child {
+    color: black;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.boxRight {
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    display: flex;
+}
+
+.btnBox {
+    width: 30px;
+    height: 30px;
+    background: white;
+    border-radius: 50%;
+    border: 1px #E6E6E9 solid;
+}
+
+.boxRight>p {
+    color: black;
+    font-size: 24px;
+    font-family: Pretendard;
+    font-weight: 600;
+}
+
+.countController {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.disable {
+    cursor: not-allowed;
+    background-color: #E6E6E9;
+    border-radius: 50%;
+}

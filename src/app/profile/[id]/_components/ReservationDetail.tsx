@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import styles from '../_styles/ReservationDetail.module.css';
 import ReservationList from './ReservationList';
 import { NothingReservation } from './NothingReservation';
+import Loading from '@/app/loading';
 
 export const ReservationDetail = () => {
   const params = useParams();
@@ -40,7 +41,7 @@ export const ReservationDetail = () => {
       ).getTime() <= new Date(new Date().setHours(0, 0, 0, 0)).getTime(),
   );
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
 
   return (

@@ -12,6 +12,7 @@ import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/TotalReservationList.module.css';
 import InputEraserSvg from '../../_svg/InputEraserSvg';
+import Loading from '@/app/loading';
 
 const TotalReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(getStartDate);
@@ -36,7 +37,7 @@ const TotalReservationList = () => {
       ),
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading/>
 
   const handleSearch = () => {
     if (!text.trim()) return;

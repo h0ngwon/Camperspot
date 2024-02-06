@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import SignupForm from './_components/SignupForm';
 import styles from './_styles/SignupPage.module.css';
-import Image from 'next/image';
-import logo from '../../../asset/logo.png';
+import LogoSvg from '@/app/_Svg/LogoSvg';
 type Props = {};
 
 const SignupPage = (props: Props) => {
@@ -10,7 +9,7 @@ const SignupPage = (props: Props) => {
     <div className={styles.container}>
       <div className={styles['img-wrapper']}>
         <Link href='/'>
-          <Image src={logo} width={0} height={0} alt='lgoo' />
+          <LogoSvg x={294} y={42} />
         </Link>
       </div>
       <SignupForm />

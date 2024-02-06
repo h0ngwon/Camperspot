@@ -15,6 +15,7 @@ import DetailAddress from './_components/DetailAddress';
 
 import styles from './_styles/Detail.module.css';
 import DetailAvg from './_components/DetailAvg';
+import Loading from '@/app/loading';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -44,7 +45,7 @@ export default function DetailPage() {
   });
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {
@@ -54,24 +55,34 @@ export default function DetailPage() {
   return (
     <div className={styles.container}>
       <DetailImg campPic={data?.camp_pic} />
-      <div className={styles.titleWrap}>
-        <h3>{data?.name}</h3>
-        <div className={styles.BtnWrap}>
-          <DetailLikeBtn campId={params.id} showCount={true} />
-          <DetailShareBtn />
+      <div className={styles.con}>
+        <div className={styles.titleWrap}>
+          <h3>{data?.name}</h3>
+          <div className={styles.BtnWrap}>
+            <DetailLikeBtn campId={params.id} showCount={true} />
+            <DetailShareBtn />
+          </div>
         </div>
+        <DetailAddress address={data?.address} />
+        <DetailAvg reviewAvg={data?.review} />
+        <DetailHashtags campHashtag={data?.hashtag} />
       </div>
-      <DetailAddress address={data?.address} />
-      <DetailAvg reviewAvg={data?.review} />
-      <DetailHashtags campHashtag={data?.hashtag} />
-      <h4>시설정보</h4>
-      <DetailFacility campFacilty={data?.camp_facility} />
-      <h4>캠핑장 소개</h4>
-      <p className={styles.campInfo}>{data?.content}</p>
-      <h4>캠핑존</h4>
-      <DetailCampZone campArea={data} />
-      <h4>위치</h4>
-      <KakaoMap campAddress={data?.address} />
+      <div className={styles.con}>
+        <h4>시설정보</h4>
+        <DetailFacility campFacilty={data?.camp_facility} />
+      </div>
+      <div className={styles.con}>
+        <h4>캠핑장 소개</h4>
+        <p className={styles.campInfo}>{data?.content}</p>
+      </div>
+      <div className={styles.con}>
+        <h4>캠핑존</h4>
+        <DetailCampZone campArea={data} />
+      </div>
+      <div className={styles.con}>
+        <h4>위치</h4>
+        <KakaoMap campAddress={data?.address} />
+      </div>
       <h4>리뷰 및 평가</h4>
       <DetailAvg reviewAvg={data?.review} />
       <DetailReviews review={data?.review} />

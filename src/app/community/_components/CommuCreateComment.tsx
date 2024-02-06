@@ -4,6 +4,11 @@ import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/app/api/db';
 import { v4 as uuid } from 'uuid';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import styles from '../_styles/CommuDetailModal.module.css';
+import Loading from '@/app/loading';
 
 type Props = {
   postId: string;
@@ -12,6 +17,8 @@ type Props = {
 
 export default function CommuCreateComment({ postId, userId }: Props) {
   const [content, setContent] = useState<string>('');
+
+  const queryClient = useQueryClient();
 
   const { isLoading, isError, data } = useQuery({
     queryKey: ['comment'],
@@ -46,6 +53,13 @@ export default function CommuCreateComment({ postId, userId }: Props) {
         })
         .select();
     },
+    onSuccess: () => {
+      toast.success('댓글이 등록되었습니다.');
+      queryClient.invalidateQueries({
+        queryKey: ['comment'],
+      });
+      setContent('');
+    },
   });
 
   function handleChangeInput(e: ChangeEvent<HTMLInputElement>) {
@@ -63,7 +77,7 @@ export default function CommuCreateComment({ postId, userId }: Props) {
   };
 
   if (isLoading) {
-    return <div>로딩중</div>;
+    return <Loading/>
   }
 
   if (isError) {
@@ -71,14 +85,16 @@ export default function CommuCreateComment({ postId, userId }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.submitWrap} onSubmit={handleSubmit}>
       <input
         type='text'
-        placeholder='댓글을 입력하세요'
+        placeholder='댓글 달기...'
         value={content}
         onChange={(e) => handleChangeInput(e)}
       />
-      <button type='submit'>등록</button>
+      <button type='submit' disabled={!content.trim()}>
+        등록
+      </button>
     </form>
   );
 }

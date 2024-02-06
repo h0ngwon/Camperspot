@@ -36,25 +36,23 @@ export default function DetailReviews({ review }: Props) {
     <ul className={styles.wrap}>
       {review?.map((item) => (
         <li key={item?.id}>
-          <div>
-            <DetailReveiwStar rating={item?.rating || 0} />
-          </div>
           <div className={styles.con}>
-            <div>
-              {/* {item?.user?.profile_url && (
-                <Image
-                  src={item.user.profile_url}
-                  alt=''
-                  width={12}
-                  height={12}
-                />
-              )} */}
-              <span>{item?.user?.nickname}</span>
+            {item?.user?.profile_url && (
+              <Image
+                src={item.user.profile_url}
+                alt='유저'
+                width={24}
+                height={24}
+              />
+            )}
+            <span>{item?.user?.nickname}</span>
+          </div>
+          <div className={styles.commentWrap}>
+            <DetailReveiwStar rating={item?.rating || 0} />
+            <div className={styles.content}>
+              <p>{item?.content}</p>
             </div>
             <span>{formatCreatedAt(item?.created_at)}</span>
-          </div>
-          <div className={styles.content}>
-            <p>{item?.content}</p>
           </div>
         </li>
       ))}

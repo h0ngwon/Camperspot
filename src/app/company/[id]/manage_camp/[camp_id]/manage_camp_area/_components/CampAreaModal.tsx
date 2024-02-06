@@ -14,10 +14,10 @@ import { useParams } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { v4 as uuid } from 'uuid';
 import Image from 'next/image';
-import removeBtn from '@/asset/ico_removePicBtn.png';
-import addImgBtn from '@/asset/addImgBtn.png';
-import closeBtn from '@/asset/ico_cancel_btn.png';
 import { toast } from 'react-toastify';
+import RemoveBtnSvg from '../_svg/RemoveBtnSvg';
+import CancelBtnSvg from '../_svg/CancelBtnSvg';
+import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
 
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 
@@ -126,7 +126,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
           }}
           className={styles.closeBtn}
         >
-          <Image src={removeBtn} alt='캠핑존 닫기 버튼' width={17} />
+          <RemoveBtnSvg />
         </button>
       </div>
       <form onSubmit={handleForm} className={styles.formLayout}>
@@ -174,7 +174,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
                 onClick={() => handleDeleteAreaImg()}
                 className={styles.removeImgBtn}
               >
-                <Image src={closeBtn} alt='이미지 삭제 버튼' width={16} />
+                <CancelBtnSvg />
               </button>
             </div>
           ) : (
@@ -188,11 +188,7 @@ const CampAreaModal = ({ setCampAreaModal }: Props) => {
                 required
               />
               <label htmlFor='campAreaImg' className={styles.uploadCampAreaImg}>
-                <Image
-                  src={addImgBtn}
-                  alt='캠핑존 이미지 추가 버튼'
-                  width={286}
-                />
+                <AddImgBtnSvg />
               </label>
             </div>
           )}
