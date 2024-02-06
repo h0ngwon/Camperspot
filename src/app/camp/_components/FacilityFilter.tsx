@@ -4,6 +4,8 @@ import { facilities } from '@/app/_lib/facility';
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import styles from '../_styles/FacilityFilter.module.css';
 import type { SearchCamp } from '@/types/campList';
+import ResetSvg from '@/app/_Svg/ResetSvg';
+import Divider from '@/app/_Svg/Divider';
 
 type Props = {
   campData: SearchCamp;
@@ -59,20 +61,41 @@ const FacilityFilter = ({
     }
   };
 
+  const onHandleClearFacility = () => {
+    setFilterFacility([]);
+    setCheckedItems({});
+  };
   return (
-    <ul className={styles.checkBox}>
-      {facilities.map((facility, idx) => (
-        <li key={idx}>
-          <input
-            type='checkbox'
-            id={facility}
-            checked={checkedItems[facility] || false} //체크된 facility만 true 나머지는 false
-            onChange={() => onHandleFilterFacility(facility)}
-          />
-          <label htmlFor={facility}>{facility}</label>
-        </li>
-      ))}
-    </ul>
+    <>
+      <div className={styles.filter}>
+        <button className={styles.facility} onClick={onHandleClearFacility}>
+          <p>초기화</p>
+          <ResetSvg />
+        </button>
+        <div className={styles.divider}>
+          <Divider />
+        </div>
+        <ul className={styles.checkBox}>
+          {facilities.map((facility, idx) => (
+            <li key={idx}>
+              <input
+                type='checkbox'
+                id={facility}
+                checked={checkedItems[facility] || false} //체크된 facility만 true 나머지는 false
+                onChange={() => onHandleFilterFacility(facility)}
+              />
+              <label
+                htmlFor={facility}
+                className={`${styles.facility}
+                  ${checkedItems[facility] ? `${styles.checkedLabel}` : ''}`}
+              >
+                {facility}
+              </label>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

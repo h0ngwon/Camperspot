@@ -8,16 +8,15 @@ type Props = {
 };
 
 const PeopleCount = ({ count, setCount }: Props) => {
-  const handleClickInside = (
+  const onHandleClickInside = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     e.stopPropagation();
-    // 여기에 필요한 기능 구현
   };
   return (
     <div
       className={styles.countControlBox}
-      onClick={(e) => handleClickInside(e)}
+      onClick={(e) => onHandleClickInside(e)}
     >
       <div>
         <div className={styles.boxLeft}>

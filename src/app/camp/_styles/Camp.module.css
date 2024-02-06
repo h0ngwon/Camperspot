@@ -5,7 +5,21 @@
 }
 
 .title {
-    font-size: 32px;
+
+    height: 29px;
+
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
 }
 
 .mainWrapper {
@@ -18,17 +32,13 @@
 
 .mainHeader {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: baseline;
     width: 1200px;
-    position: relative;
+    gap: 16px;
 }
 
-.campFilter {
-    position: absolute;
-    right: 0;
-    z-index: 1;
-}
 
 .listWrapper {
     padding: 0 auto;

@@ -56,6 +56,7 @@ const SearchView = ({ camp, error }: Props) => {
               setCurrentPage={setCurrentPage}
             />
           </div>
+
           <Spacer y={30} />
           {totalData ? (
             <>
