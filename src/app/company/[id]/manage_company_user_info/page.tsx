@@ -5,6 +5,7 @@ import { getSession, useSession } from 'next-auth/react';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import styles from './_styles/ManageCompanyUserInfo.module.css';
 import EditPencilSvg from './_svg/EditPencilSvg';
+import Loading from '@/app/loading';
 
 const ManageCompanyInfo = () => {
   const queryClient = useQueryClient();
@@ -15,7 +16,11 @@ const ManageCompanyInfo = () => {
 
   const [updateCompanyUserName, setUpdateCompanyUserName] = useState<string>();
 
-  const { data: getCompanyUserInfoData, error } = useQuery({
+  const {
+    data: getCompanyUserInfoData,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['company_user'],
     queryFn: async () => {
       const sessionData = await getSession();
@@ -33,6 +38,7 @@ const ManageCompanyInfo = () => {
       }
     },
   });
+
   if (error) {
     console.log(error);
   }
@@ -94,6 +100,11 @@ const ManageCompanyInfo = () => {
       queryClient.invalidateQueries({ queryKey: ['company_user'] });
     },
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   if (isError) {
     console.log(updateError);
     return <div>에러발생</div>;

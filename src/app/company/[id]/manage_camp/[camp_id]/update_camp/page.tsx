@@ -31,6 +31,8 @@ const UpdateCampPage = () => {
   const [hashTags, setHashTags] = useState<string[]>([]);
   const [inputHashTag, setInputHashTag] = useState('');
 
+  const [isDeleteCamp, setIsDeleteCamp] = useState(false);
+
   const params = useParams();
   const campId = params.camp_id;
   const companyId = params.id;
@@ -41,6 +43,50 @@ const UpdateCampPage = () => {
 
   // 전화번호 유효성 검사 정규식
   const pattern = /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/;
+
+  // 캠핑장 삭제
+  const {
+    mutate: deleteCamp,
+    isPending: isPendingDeleteCamp,
+    error: deleteCampError,
+  } = useMutation({
+    mutationFn: async () => {
+      await supabase.from('camp').delete().eq('id', campId);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
+    },
+  });
+
+  const handleDeleteCamp = async () => {
+    const { data: campAreaData } = await supabase
+      .from('camp_area')
+      .select('*')
+      .eq('camp_id', campId);
+
+    if (campAreaData?.length !== 0) {
+      toast.error('캠핑존 데이터가 있어 삭제할 수 없습니다.');
+      return;
+    } else {
+      setIsDeleteCamp(true);
+    }
+  };
+
+  const handleDeleteComplete = () => {
+    deleteCamp();
+    if (isPendingDeleteCamp) {
+      return <Loading />;
+    }
+    if (deleteCampError) {
+      console.log(deleteCampError);
+      return;
+    }
+    router.push(`/company/${companyId}/manage_camp/added_camp`);
+  };
+
+  const handleCancelBtn = () => {
+    setIsDeleteCamp(false);
+  };
 
   const { data: campData, isLoading } = useQuery({
     queryKey: ['camp_id'],
@@ -56,7 +102,7 @@ const UpdateCampPage = () => {
   });
 
   useEffect(() => {
-    if (!campData) {
+    if (!campData?.length) {
       return;
     }
     setName(campData[0].name);
@@ -413,8 +459,9 @@ const UpdateCampPage = () => {
 
                   <div className={styles.btns}>
                     {/* <button>수정취소</button> */}
-                    <button type='submit' className={styles.addCampBtn}>
-                      수정완료
+                    <button type='submit'>수정완료</button>
+                    <button type='button' onClick={handleDeleteCamp}>
+                      삭제하기
                     </button>
                   </div>
                 </form>
@@ -426,6 +473,17 @@ const UpdateCampPage = () => {
               </div>
             )
           )}
+        </div>
+      )}
+      {isDeleteCamp && (
+        <div onClick={handleCancelBtn} className={styles.deleteCampModalUp}>
+          <div className={styles.confirm}>
+            <p>정말 삭제하시겠습니까?</p>
+            <div className={styles.delbtns}>
+              <button onClick={handleDeleteComplete}>삭제</button>
+              <button onClick={handleCancelBtn}>취소</button>
+            </div>
+          </div>
         </div>
       )}
     </>

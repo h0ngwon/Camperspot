@@ -89,10 +89,10 @@ const AddForm = () => {
       }
       return data;
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
       router.push(
-        `/company/${companyUserId}/manage_camp/${campId}/manage_camp_area`,
+        `/company/${companyUserId}/manage_camp/${data[0].id}/manage_camp_area`,
       );
     },
   });
