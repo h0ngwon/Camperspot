@@ -31,6 +31,8 @@ const UpdateCampPage = () => {
   const [hashTags, setHashTags] = useState<string[]>([]);
   const [inputHashTag, setInputHashTag] = useState('');
 
+  const [isDeleteCamp, setIsDeleteCamp] = useState(false);
+
   const params = useParams();
   const campId = params.camp_id;
   const companyId = params.id;
@@ -56,7 +58,7 @@ const UpdateCampPage = () => {
   });
 
   useEffect(() => {
-    if (!campData) {
+    if (!campData?.length) {
       return;
     }
     setName(campData[0].name);
@@ -307,7 +309,6 @@ const UpdateCampPage = () => {
   };
 
   // 캠핑장 삭제
-
   const {
     mutate: deleteCamp,
     isPending: isPendingDeleteCamp,
@@ -331,8 +332,12 @@ const UpdateCampPage = () => {
       toast.error('캠핑존 데이터가 있어 삭제할 수 없습니다.');
       return;
     } else {
-      deleteCamp();
+      setIsDeleteCamp(true);
     }
+  };
+
+  const handleDeleteComplete = () => {
+    deleteCamp();
     if (isPendingDeleteCamp) {
       return <Loading />;
     }
@@ -341,6 +346,10 @@ const UpdateCampPage = () => {
       return;
     }
     router.push(`/company/${companyId}/manage_camp/added_camp`);
+  };
+
+  const handleCancelBtn = () => {
+    setIsDeleteCamp(false);
   };
 
   return (
@@ -464,6 +473,17 @@ const UpdateCampPage = () => {
               </div>
             )
           )}
+        </div>
+      )}
+      {isDeleteCamp && (
+        <div onClick={handleCancelBtn} className={styles.deleteCampModalUp}>
+          <div className={styles.confirm}>
+            <p>정말 삭제하시겠습니까?</p>
+            <div className={styles.delbtns}>
+              <button onClick={handleDeleteComplete}>삭제</button>
+              <button onClick={handleCancelBtn}>취소</button>
+            </div>
+          </div>
         </div>
       )}
     </>

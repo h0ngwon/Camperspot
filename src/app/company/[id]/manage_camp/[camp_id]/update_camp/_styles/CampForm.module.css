@@ -257,3 +257,57 @@
   z-index: 2;
   padding: 20px;
 }
+
+/* 캠핑장 삭제 모달 */
+.deleteCampModalUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  cursor: pointer;
+}
+.confirm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  background: #fff;
+  border-radius: 8px;
+}
+.confirm > p {
+  margin: 30px auto 10px;
+  font-size: 20px;
+}
+.delbtns {
+  display: flex;
+  flex-direction: row;
+  margin: 10px auto 30px;
+  gap: 20px;
+}
+.delbtns > button {
+  width: 60px;
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #919191;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.delbtns > button:first-child {
+  color: #f02849;
+}
+.delbtns > button:first-child:hover {
+  background: #f02849;
+  color: #fff;
+  border-color: #f2415a;
+}
+.delbtns > button:last-child:hover {
+  background: #919191;
+  color: #fff;
+}
