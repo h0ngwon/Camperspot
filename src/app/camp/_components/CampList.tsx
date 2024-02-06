@@ -35,10 +35,17 @@ const CampList = ({ campList }: Props) => {
               </div>
 
               <div className={styles.campInfo}>
-                <p>
-                  <FaStar size='15' color='#fff384' /> {reviewAverage}(
-                  {camp.review_count})
-                </p>
+                {camp.review_count === null ? (
+                  <p>
+                    <FaStar size='15' color='#fff384' />
+                    0(0)
+                  </p>
+                ) : (
+                  <p>
+                    <FaStar size='15' color='#fff384' /> {reviewAverage}(
+                    {camp.review_count})
+                  </p>
+                )}
                 <p className={styles.campTitle}>{camp.name}</p>
                 <div className={styles.campAddress}>
                   <AddressSvg width={'16'} height={'17'} />
