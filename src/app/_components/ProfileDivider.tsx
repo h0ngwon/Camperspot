@@ -5,8 +5,8 @@ import styles from '../_styles/ProfileDiveder.module.css';
 import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
 import { getUserData } from '../profile/[id]/_lib/profile';
-import Company from '../_Svg/Company';
 import ProfileDropDown from './ProfileDropDown';
+import Company from '../_Svg/CompanySvg';
 
 type Props = {
   session: Session;
