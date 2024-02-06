@@ -47,7 +47,6 @@ const AddCampArea = () => {
 
     if (filteredCampAreaId?.length !== 0) {
       toast.error('예약현황이 있어 삭제할 수 없습니다');
-      return;
     } else {
       setIsDeleteCampArea(true);
     }

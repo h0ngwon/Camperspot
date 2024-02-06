@@ -330,9 +330,9 @@ const UpdateCampPage = () => {
     if (campAreaData?.length !== 0) {
       toast.error('캠핑존 데이터가 있어 삭제할 수 없습니다.');
       return;
+    } else {
+      deleteCamp();
     }
-
-    deleteCamp();
     if (isPendingDeleteCamp) {
       return <Loading />;
     }
