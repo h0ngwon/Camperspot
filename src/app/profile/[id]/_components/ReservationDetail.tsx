@@ -4,6 +4,7 @@ import { getUserReservation } from '../_lib/getUserReservation';
 import { useParams } from 'next/navigation';
 import styles from '../_styles/ReservationDetail.module.css';
 import ReservationList from './ReservationList';
+import { NothingReservation } from './NothingReservation';
 import Loading from '@/app/loading';
 
 export const ReservationDetail = () => {
@@ -40,54 +41,28 @@ export const ReservationDetail = () => {
       ).getTime() <= new Date(new Date().setHours(0, 0, 0, 0)).getTime(),
   );
 
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
   if (error) return <p>{error.message}</p>;
 
   return (
     <div className={styles.layout}>
       <h3 className={styles.h3}>예약 현황</h3>
       <p className={styles.p1}>이용 전</p>
-      <div className={styles.container}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th className={styles.th}>예약기간</th>
-              <th className={styles.th}>캠핑장</th>
-              <th className={styles.th}>캠핑존</th>
-              <th className={styles.th}>체크인/아웃</th>
-              <th className={styles.th}>주소</th>
-            </tr>
-          </thead>
+      {plannedReservation?.length ? (
+        <ul className={styles.ul}>
+          <ReservationList
+            reservations={plannedReservation!}
+            isPlanned={true}
+          />
+        </ul>
+      ) : (
+        <NothingReservation />
+      )}
 
-          <tbody>
-            <ReservationList
-              reservations={plannedReservation!}
-              isPlanned={true}
-            />
-          </tbody>
-        </table>
-      </div>
-      <p className={styles.p1}>이용 후</p>
-      <div>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th className={styles.th}>예약기간</th>
-              <th className={styles.th}>캠핑장</th>
-              <th className={styles.th}>캠핑존</th>
-              <th className={styles.th}>체크인/아웃</th>
-              <th className={styles.th}></th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <ReservationList
-              reservations={passedReservation!}
-              isPlanned={false}
-            />
-          </tbody>
-        </table>
-      </div>
+      <p className={styles.p1}>이용 완료</p>
+      <ul className={styles.ul}>
+        <ReservationList reservations={passedReservation!} isPlanned={false} />
+      </ul>
     </div>
   );
 };

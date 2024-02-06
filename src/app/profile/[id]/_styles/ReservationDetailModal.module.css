@@ -116,7 +116,7 @@
 }
 
 .price {
-  color: var(--price-color);
+  color: #ed6c30;
 }
 
 .buttons {
@@ -135,17 +135,10 @@
 }
 
 .confirm-btn {
-  width: 200px;
-  height: 40px;
-  background: #6fcf59;
-  border-radius: 0.5rem;
-  cursor: pointer;
-}
-
-.only-confirm-btn {
   width: 380px;
-  height: 40px;
-  background: #6fcf59;
+  height: 45px;
+  color: white;
+  background: var(--primary-500);
   border-radius: 0.5rem;
   margin-top: 1.5rem;
   cursor: pointer;

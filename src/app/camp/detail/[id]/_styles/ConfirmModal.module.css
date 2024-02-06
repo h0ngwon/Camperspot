@@ -1,6 +1,6 @@
 .div {
   width: 380px;
-  height: 200px;
+  height: 185px;
   padding: 2rem;
   position: absolute;
   top: 40%;
@@ -12,12 +12,41 @@
   z-index: 999;
 }
 
+.close-btn {
+  position: absolute;
+  top: 4%;
+  right: 5%;
+}
+
 .h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
 }
 
-.confirm {
-  background-color: #6fcf59;
+.buttons {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.confirm-btn {
+  width: 150px;
+  margin: 0 0.5rem;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-size: 18px;
+  color: white;
+  background-color: var(--primary-600);
+}
+
+.cancel-btn {
+  width: 150px;
+  margin: 0 0.5rem;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  font-size: 18px;
+  color: #030712;
+  border: 1px solid var(--primary-500);
 }
