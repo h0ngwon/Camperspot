@@ -1,6 +1,6 @@
 import { getToken } from 'next-auth/jwt';
+import { getSession } from 'next-auth/react';
 import { NextRequest, NextResponse } from 'next/server';
-
 export { default } from 'next-auth/middleware';
 
 export const middleware = async (req: NextRequest) => {

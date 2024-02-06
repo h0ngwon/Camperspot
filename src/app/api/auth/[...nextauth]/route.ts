@@ -54,6 +54,7 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.KAKAO_CLIENT_SECRET as string,
     }),
   ],
+
   callbacks: {
     // 로그인 시 토큰 발급
     async jwt({ token, user, account }) {
@@ -73,7 +74,7 @@ const authOptions: NextAuthOptions = {
     },
 
     // 세션에 로그인한 유저 정보
-    async session({ session, token }) {
+    async session({ session, token, user }) {
       if (token.role === 'user') {
         const repData = (
           await supabase
@@ -87,6 +88,7 @@ const authOptions: NextAuthOptions = {
           role: repData?.role,
           provider: repData?.provider,
         };
+
         session.user = { ...session.user, ...userSessionData };
       } else if (token.role === 'company') {
         const repData = (
@@ -100,6 +102,7 @@ const authOptions: NextAuthOptions = {
           id: repData?.id,
           role: repData?.role,
         };
+
         session.user = { ...session.user, ...userSessionData };
       }
       return session;
@@ -139,7 +142,7 @@ const makeSocialAccount = async (
       .insert<Omit<SocialDataType, 'id'>>(socialData)
       .select()
       .single();
-    console.log(error);
+
     token.userId = data?.id;
   }
   token.role = 'user';
