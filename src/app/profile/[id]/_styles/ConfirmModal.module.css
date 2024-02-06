@@ -4,7 +4,7 @@
   padding: 2rem;
   position: absolute;
   top: 40%;
-  left: 10%;
+  left: 50%;
   border: 1px solid #999999;
   border-radius: 1rem;
   background-color: #ffffff;
@@ -31,10 +31,6 @@
   cursor: pointer;
   border: 1px solid #4db635;
   border-radius: 0.5rem;
-}
-
-.no-cancel-btn:hover {
-  background-color: #6fcf59;
 }
 
 .cancel-btn {

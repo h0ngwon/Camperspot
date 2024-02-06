@@ -134,7 +134,7 @@ const ReservationDetailModal = ({
           </p>
         </div>
         {/* 체크인 날짜가 내일 날짜 이후부터 취소 가능  */}
-        {new Date(check_in_date).getTime() >=
+        {/* {new Date(check_in_date).getTime() >=
         new Date(
           new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
         ).getTime() ? (
@@ -144,19 +144,12 @@ const ReservationDetailModal = ({
               onClick={() => setIsOpenComfirm(true)}
             >
               취소
-            </button>
-            <button className={styles['confirm-btn']} onClick={() => onClose()}>
-              확인
-            </button>
-          </div>
-        ) : (
-          <button
-            className={styles['only-confirm-btn']}
-            onClick={() => onClose()}
-          >
-            확인
-          </button>
-        )}
+            </button> */}
+
+        <button className={styles['confirm-btn']} onClick={() => onClose()}>
+          확인
+        </button>
+
         {isOpenConfirm && (
           <ConfirmModal
             title={'예약을 취소하시겠습니까?'}

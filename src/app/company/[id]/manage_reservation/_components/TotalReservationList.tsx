@@ -11,8 +11,6 @@ import NothingReservation from './NothingReservation';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/TotalReservationList.module.css';
-import Tooltip from './Tooltip';
-import QuestionMarkSvg from '../../_svg/QuestionMarkSvg';
 import InputEraserSvg from '../../_svg/InputEraserSvg';
 
 const TotalReservationList = () => {
