@@ -44,6 +44,50 @@ const UpdateCampPage = () => {
   // 전화번호 유효성 검사 정규식
   const pattern = /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/;
 
+  // 캠핑장 삭제
+  const {
+    mutate: deleteCamp,
+    isPending: isPendingDeleteCamp,
+    error: deleteCampError,
+  } = useMutation({
+    mutationFn: async () => {
+      await supabase.from('camp').delete().eq('id', campId);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
+    },
+  });
+
+  const handleDeleteCamp = async () => {
+    const { data: campAreaData } = await supabase
+      .from('camp_area')
+      .select('*')
+      .eq('camp_id', campId);
+
+    if (campAreaData?.length !== 0) {
+      toast.error('캠핑존 데이터가 있어 삭제할 수 없습니다.');
+      return;
+    } else {
+      setIsDeleteCamp(true);
+    }
+  };
+
+  const handleDeleteComplete = () => {
+    deleteCamp();
+    if (isPendingDeleteCamp) {
+      return <Loading />;
+    }
+    if (deleteCampError) {
+      console.log(deleteCampError);
+      return;
+    }
+    router.push(`/company/${companyId}/manage_camp/added_camp`);
+  };
+
+  const handleCancelBtn = () => {
+    setIsDeleteCamp(false);
+  };
+
   const { data: campData, isLoading } = useQuery({
     queryKey: ['camp_id'],
     queryFn: async () => {
@@ -306,50 +350,6 @@ const UpdateCampPage = () => {
     } else {
       toast.success('수정 완료!');
     }
-  };
-
-  // 캠핑장 삭제
-  const {
-    mutate: deleteCamp,
-    isPending: isPendingDeleteCamp,
-    error: deleteCampError,
-  } = useMutation({
-    mutationFn: async () => {
-      await supabase.from('camp').delete().eq('id', campId);
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
-    },
-  });
-
-  const handleDeleteCamp = async () => {
-    const { data: campAreaData } = await supabase
-      .from('camp_area')
-      .select('*')
-      .eq('camp_id', campId);
-
-    if (campAreaData?.length !== 0) {
-      toast.error('캠핑존 데이터가 있어 삭제할 수 없습니다.');
-      return;
-    } else {
-      setIsDeleteCamp(true);
-    }
-  };
-
-  const handleDeleteComplete = () => {
-    deleteCamp();
-    if (isPendingDeleteCamp) {
-      return <Loading />;
-    }
-    if (deleteCampError) {
-      console.log(deleteCampError);
-      return;
-    }
-    router.push(`/company/${companyId}/manage_camp/added_camp`);
-  };
-
-  const handleCancelBtn = () => {
-    setIsDeleteCamp(false);
   };
 
   return (
