@@ -25,8 +25,8 @@ const Carousel = () => {
     arrows: false,
     centerPadding: '360px',
 
-    className: 'center',
-    centerMode: true,
+    // className: 'center',
+    // centerMode: true,
   };
 
   return (
