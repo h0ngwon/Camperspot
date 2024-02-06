@@ -3,12 +3,6 @@ import type { UserReservationInfo } from '@/types/reservation';
 import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationDetailModal.module.css';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
-import useModalStore from '@/store/modal';
-import { useState } from 'react';
-import ConfirmModal from './ConfirmModal';
-import { deleteUserReservation } from '../_lib/deleteUserReservation';
-import CompleteModal from './CompleteModal';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 
 const ReservationDetailModal = ({
@@ -32,23 +26,7 @@ const ReservationDetailModal = ({
 
   const { name: campName, check_in, check_out } = reservation.camp_area?.camp!;
   const { name: campAreaName } = reservation.camp_area!;
-  const { toggleModal } = useModalStore();
-  const today = new Date();
-  const [isOpenConfirm, setIsOpenComfirm] = useState<boolean>(false);
-  const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
-  const queryClient = useQueryClient();
-  const deleteReservationMutaion = useMutation({
-    mutationFn: () => deleteUserReservation(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['mypage', 'profile', 'reservation'],
-      });
-    },
-  });
-  const handleDelete = () => {
-    deleteReservationMutaion.mutate();
-    toggleModal();
-  };
+
   return (
     <>
       <p className={styles.info}>예약 상세 보기</p>
@@ -133,39 +111,9 @@ const ReservationDetailModal = ({
             <span className={styles.price}>{fee.toLocaleString()}원 </span>
           </p>
         </div>
-        {/* 체크인 날짜가 내일 날짜 이후부터 취소 가능  */}
-        {/* {new Date(check_in_date).getTime() >=
-        new Date(
-          new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
-        ).getTime() ? (
-          <div className={styles.buttons}>
-            <button
-              className={styles['cancel-btn']}
-              onClick={() => setIsOpenComfirm(true)}
-            >
-              취소
-            </button> */}
-
         <button className={styles['confirm-btn']} onClick={() => onClose()}>
           확인
         </button>
-
-        {isOpenConfirm && (
-          <ConfirmModal
-            title={'예약을 취소하시겠습니까?'}
-            onCancel={() => {
-              setIsOpenComfirm(false);
-              setIsOpenComplete(true);
-            }}
-            onClose={() => setIsOpenComfirm(false)}
-          />
-        )}
-        {isOpenComplete && (
-          <CompleteModal
-            title={'예약이 취소되었습니다'}
-            onClose={handleDelete}
-          />
-        )}
       </div>
     </>
   );
