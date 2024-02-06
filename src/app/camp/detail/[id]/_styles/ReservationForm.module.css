@@ -59,7 +59,7 @@
 .divider {
   width: 50%;
   border: 1px solid #d9d9d9;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 .h3 {
@@ -80,14 +80,15 @@
 }
 
 .total {
-  width: 45%;
+  width: 50%;
   display: flex;
   justify-content: space-between;
 }
 
 .total2 {
+  width: 50%;
+  font-size: 20px;
   font-weight: 600;
-  width: 45%;
   display: flex;
   justify-content: space-between;
 }
@@ -145,7 +146,7 @@
 
 .method {
   position: absolute;
-  top: 60%;
+  top: 55%;
   left: 55%;
   padding: 1rem;
 }
@@ -190,18 +191,4 @@
 .button:disabled {
   color: black;
   background-color: var(--neutral-100);
-}
-
-.payInfo {
-  /* display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  position: absolute;
-  left: 50%;
-  top: 20%; */
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem 0;
 }

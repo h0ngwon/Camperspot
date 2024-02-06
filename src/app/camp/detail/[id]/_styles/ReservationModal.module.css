@@ -1,6 +1,5 @@
 .title {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
 }
 
 .modal {
@@ -31,6 +30,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  margin-top: 1.5rem;
   padding: 1rem 0.8rem;
   background-color: var(--reservation-info-bg-color);
   border-top-left-radius: 8px;
