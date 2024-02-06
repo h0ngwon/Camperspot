@@ -77,7 +77,7 @@ export default function CommuCreateComment({ postId, userId }: Props) {
   };
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {

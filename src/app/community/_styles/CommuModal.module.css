@@ -101,9 +101,8 @@
 }
 
 .tagsCon span {
-  color: #fff;
   word-wrap: break-word;
-  background-color: #4db635;
+  border: 1px solid var(--primary-400);
   border-radius: 2px;
   display: inline-block;
   margin: 0 5px 6px 0;
@@ -111,4 +110,8 @@
   position: relative;
   vertical-align: top;
   word-break: break-all;
+}
+
+.tagsCon button {
+  padding: 0;
 }

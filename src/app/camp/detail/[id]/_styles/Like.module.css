@@ -4,7 +4,7 @@
 }
 
 .btn {
-  padding-left: 4px;
+  padding: 0;
   background: transparent;
   cursor: pointer;
 }
