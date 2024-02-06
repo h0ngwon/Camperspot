@@ -61,11 +61,11 @@ const SearchBar = () => {
     setIsOpen((prev) => !prev);
   };
   //
-  const dropDownRef = useRef<HTMLDivElement | null>(null);
-  const handleClickOutside = (event: MouseEvent) => {
+  const peopleRef = useRef<HTMLDivElement | null>(null);
+  const handleClickOutside2 = (event: MouseEvent) => {
     if (
-      dropDownRef.current &&
-      !dropDownRef.current.contains(event.target as Node)
+      peopleRef.current &&
+      !peopleRef.current.contains(event.target as Node)
     ) {
       setTimeout(() => {
         setIsOpen(false);
@@ -73,10 +73,11 @@ const SearchBar = () => {
     }
   };
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    console.log('hi');
+    document.addEventListener('click', handleClickOutside2);
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside2);
     };
   }, []);
   return (
@@ -107,7 +108,7 @@ const SearchBar = () => {
         <Calendar dateRange={dateRange} setDateRange={setDateRange} />
       </div>
       <div className={styles.searchBox}>
-        <div onClick={onHandlePeoPleController} ref={dropDownRef}>
+        <div onClick={onHandlePeoPleController} ref={peopleRef}>
           <label htmlFor='people' className={styles.regionSearchText}>
             인원
           </label>
@@ -115,8 +116,8 @@ const SearchBar = () => {
             <span>게스트</span> {count}
             <span>{count > 9 ? '명 이상' : '명'}</span>
           </div>
+          {isOpen && <PeopleCount count={count} setCount={setCount} />}
         </div>
-        {isOpen && <PeopleCount count={count} setCount={setCount} />}
       </div>
       <button type='submit' className={`${styles.searchBtn} ${styles.active}`}>
         <SearchSvg />

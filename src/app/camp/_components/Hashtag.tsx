@@ -37,7 +37,7 @@ const Hashtag = ({ tags }: Props) => {
       {tags?.map((tag, i) => {
         return (
           <li key={i} onClick={onHandleHashTagClick} className={styles.tag}>
-            #{tag}
+            <p>#{tag}</p>
           </li>
         );
       })}
