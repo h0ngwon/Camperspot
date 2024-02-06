@@ -38,6 +38,7 @@ const CampCard = ({ camp }: Props) => {
           </div>
         </div>
       </div>
+
       <p className={styles.price}>
         {camp.camp_area_min_price === 0
           ? '무료'
