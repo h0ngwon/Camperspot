@@ -217,18 +217,33 @@
 
 /* 등록하기 버튼 */
 .btns {
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto;
 }
-.addCampBtn {
+.btns > button:first-child {
   font-size: 20px;
-  border: 1px solid #8ad878;
+  border: 1px solid var(--primary-500);
   border-radius: 4px;
   padding: 10px;
   cursor: pointer;
 }
-.addCampBtn:hover {
+.btns > button:first-child:hover {
   color: #fff;
-  background: #8ad878;
+  background: var(--primary-500);
+}
+.btns > button:last-child {
+  font-size: 20px;
+  border: 1px solid #f2415a;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+}
+.btns > button:last-child:hover {
+  color: #fff;
+  background: #f2415a;
 }
 
 /* 주소검색 눌렀을 시 검색모달업 */

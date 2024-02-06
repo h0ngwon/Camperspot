@@ -13,6 +13,7 @@ import AddBtnSvg from './_svg/AddBtnSvg';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
+  const [selectedId, setSelectedId] = useState<string>('');
   const [isDeleteCampArea, setIsDeleteCampArea] = useState(false);
 
   const params = useParams();
@@ -24,17 +25,20 @@ const AddCampArea = () => {
 
   const deleteCampArea = useMutation({
     mutationFn: async (campareaId: string) => {
+      console.log(campareaId);
       await supabase.from('camp_area').delete().eq('id', campareaId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      queryClient.invalidateQueries({ queryKey: ['camp_area'] });
     },
   });
 
   const handleCheckingBeforeDeleteCampArea = async (id: string) => {
+    setSelectedId(id);
     const { data: reservation, error: reservationError } = await supabase
       .from('reservation')
       .select('*');
+
     const filteredCampAreaId = reservation
       ?.filter((item) => {
         return item.camp_area_id === id;
@@ -43,6 +47,7 @@ const AddCampArea = () => {
 
     if (filteredCampAreaId?.length !== 0) {
       toast.error('예약현황이 있어 삭제할 수 없습니다');
+      return;
     } else {
       setIsDeleteCampArea(true);
     }
@@ -126,27 +131,25 @@ const AddCampArea = () => {
                     </p>
                   </div>
                 </div>
-                {isDeleteCampArea && (
-                  <div
-                    onClick={handleCancelBtn}
-                    className={styles.deleteCampAreaModalUp}
-                  >
-                    <div className={styles.confirm}>
-                      <p>정말 삭제하시겠습니까?</p>
-                      <div className={styles.btns}>
-                        <button
-                          onClick={() => handleDeleteCampArea(camparea.id)}
-                        >
-                          삭제
-                        </button>
-                        <button onClick={handleCancelBtn}>취소</button>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             );
           })}
+          {isDeleteCampArea && (
+            <div
+              onClick={handleCancelBtn}
+              className={styles.deleteCampAreaModalUp}
+            >
+              <div className={styles.confirm}>
+                <p>정말 삭제하시겠습니까?</p>
+                <div className={styles.btns}>
+                  <button onClick={() => handleDeleteCampArea(selectedId)}>
+                    삭제
+                  </button>
+                  <button onClick={handleCancelBtn}>취소</button>
+                </div>
+              </div>
+            </div>
+          )}
           <div
             onClick={() => {
               setCampAreaModal(true);

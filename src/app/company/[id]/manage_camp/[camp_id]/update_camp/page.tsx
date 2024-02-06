@@ -306,6 +306,43 @@ const UpdateCampPage = () => {
     }
   };
 
+  // 캠핑장 삭제
+
+  const {
+    mutate: deleteCamp,
+    isPending: isPendingDeleteCamp,
+    error: deleteCampError,
+  } = useMutation({
+    mutationFn: async () => {
+      await supabase.from('camp').delete().eq('id', campId);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
+    },
+  });
+
+  const handleDeleteCamp = async () => {
+    const { data: campAreaData } = await supabase
+      .from('camp_area')
+      .select('*')
+      .eq('camp_id', campId);
+
+    if (campAreaData?.length !== 0) {
+      toast.error('캠핑존 데이터가 있어 삭제할 수 없습니다.');
+      return;
+    }
+
+    deleteCamp();
+    if (isPendingDeleteCamp) {
+      return <Loading />;
+    }
+    if (deleteCampError) {
+      console.log(deleteCampError);
+      return;
+    }
+    router.push(`/company/${companyId}/manage_camp/added_camp`);
+  };
+
   return (
     <>
       {isPending ? (
@@ -413,8 +450,9 @@ const UpdateCampPage = () => {
 
                   <div className={styles.btns}>
                     {/* <button>수정취소</button> */}
-                    <button type='submit' className={styles.addCampBtn}>
-                      수정완료
+                    <button type='submit'>수정완료</button>
+                    <button type='button' onClick={handleDeleteCamp}>
+                      삭제하기
                     </button>
                   </div>
                 </form>
