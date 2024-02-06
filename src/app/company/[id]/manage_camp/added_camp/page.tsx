@@ -29,7 +29,6 @@ const ManageAddedCamp = () => {
         .eq('company_id', companyUserId as string);
 
       if (error) {
-        // console.log('Supabase Error:', error);
         throw new Error(error.message);
         // 에러를 감지해서 쿼리문에 선언된 error로 들어가진다
       }
@@ -39,7 +38,7 @@ const ManageAddedCamp = () => {
   });
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {

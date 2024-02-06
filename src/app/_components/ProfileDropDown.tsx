@@ -5,7 +5,6 @@ import styles from '../_styles/ProfileDropDown.module.css';
 
 type Props = {
   session: Session;
-  // ref: React.MutableRefObject<HTMLDivElement | null>;
 };
 
 const ProfileDropDown = ({ session }: Props) => {

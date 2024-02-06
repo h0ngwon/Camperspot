@@ -12,7 +12,7 @@ const PlusSvg = () => {
       <path
         d='M2.5 10H17.5M10 2.5L10 17.5'
         stroke='black'
-        stroke-linecap='round'
+        strokeLinecap='round'
       />
     </svg>
   );

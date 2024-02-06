@@ -2,8 +2,8 @@ import React from 'react';
 import styles from '../_styles/CampCard.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddressSvg from '@/components/AddressSvg';
 import { TopReservedCamp } from '@/types/campList';
+import AddressSvg from '../_svg/AddressSvg';
 
 type Props = {
   camp: TopReservedCamp;

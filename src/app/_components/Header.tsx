@@ -1,13 +1,13 @@
 'use client';
-import CommunitySvg from '@/components/CommunitySvg';
-import MyProfileSvg from '@/components/MyProfileSvg';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
 import ProfileDivider from './ProfileDivider';
-import LogoSvg from '../_Svg/LogoSvg';
+import LogoSvg from '../_svg/LogoSvg';
+import CommunitySvg from '../_svg/CommunitySvg';
+import MyProfileSvg from '../_svg/MyProfileSvg';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');

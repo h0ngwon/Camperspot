@@ -1,6 +1,5 @@
 'use client';
 
-import ModalCloseSvg from '@/components/ModalCloseSvg';
 import { ReviewInfo } from '@/types/reservation';
 import { FormReviewType } from '@/types/review';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -12,6 +11,7 @@ import { addReview, getCampReview } from '../_lib/review';
 import styles from '../_styles/ReviewModal.module.css';
 import { toast } from 'react-toastify';
 import useModalStore from '@/store/modal';
+import ModalCloseSvg from '@/app/_svg/ModalCloseSvg';
 
 type Props = {
   reservationInfo: ReviewInfo;
@@ -30,7 +30,7 @@ const ReviewModal = ({ reservationInfo, onClose }: Props) => {
   const params = useParams();
   const userId = params.id as string;
   const queryClient = useQueryClient();
-  
+
   const mutation = useMutation({
     mutationFn: addReview,
     onSuccess: () => {

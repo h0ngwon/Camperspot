@@ -1,5 +1,4 @@
 'use client';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
 import useInput from '@/hooks/useInput';
 import useModalStore from '@/store/modal';
 import { UserType } from '@/types/auth';
@@ -11,6 +10,7 @@ import { toast } from 'react-toastify';
 import { modifyUserData } from '../_lib/modifyUserData';
 import styles from '../_styles/ProfileModifyForm.module.css';
 import Loading from '@/app/loading';
+import ModalCloseSvg from '@/app/_svg/ModalCloseSvg';
 
 const ProfileModifyForm = () => {
   const queryClient = useQueryClient();

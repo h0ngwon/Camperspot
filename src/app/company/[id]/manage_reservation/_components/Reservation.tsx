@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteCompanyReservation } from '../_lib/reservation';
 import useModalStore from '@/store/modal';
-import { ReservationDetail } from '@/app/profile/[id]/_components/ReservationDetail';
 import ReservationDetailModal from '@/app/profile/[id]/_components/ReservationDetailModal';
 import ModalPortal from '@/components/ModalPortal';
 import Modal from '@/components/Modal';

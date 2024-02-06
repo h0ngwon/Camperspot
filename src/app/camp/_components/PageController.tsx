@@ -5,18 +5,14 @@ import styles from '../_styles/PageController.module.css';
 interface Props {
   hasNextPage: boolean;
   hasPrevPage: boolean;
-  count: number;
 }
 
-//데이터 / 9 총 페이지 길이
-
-function PageController({ hasNextPage, hasPrevPage, count }: Props) {
+function PageController({ hasNextPage, hasPrevPage }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
   const pathname = usePathname();
 
-  const totalPages = Math.ceil(count / 9);
   const page = Number(searchParams.get('page')) ?? '1';
 
   const onClickPrevPage = () => {

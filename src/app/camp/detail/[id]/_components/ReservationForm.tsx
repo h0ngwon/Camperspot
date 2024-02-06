@@ -9,10 +9,10 @@ import { ReservationInfo } from '@/types/reservation';
 import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import KakaoPaySvg from '../_svg/KakaoPaySvg';
 import CompleteModal from './CompleteModal';
 import useModalStore from '@/store/modal';
+import ReservationArrowSvg from '@/app/_svg/ReservationArrowSvg';
 
 type UserInfo = {
   people: number;

@@ -2,8 +2,8 @@
 import type { UserReservationInfo } from '@/types/reservation';
 import type { CompanyReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationDetailModal.module.css';
-import ReservationArrowSvg from '@/components/ReservationArrowSvg';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
+import ModalCloseSvg from '@/app/_svg/ModalCloseSvg';
+import ReservationArrowSvg from '@/app/_svg/ReservationArrowSvg';
 
 const ReservationDetailModal = ({
   reservation,

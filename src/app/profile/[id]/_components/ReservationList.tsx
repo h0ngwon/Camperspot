@@ -11,12 +11,12 @@ import Modal from '@/components/Modal';
 import useModalStore from '@/store/modal';
 import ReviewModal from './ReviewModal';
 import Image from 'next/image';
-import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import CoordiateSvg from '../_svg/CoordiateSvg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteUserReservation } from '../_lib/deleteUserReservation';
 import ConfirmModal from './ConfirmModal';
 import CompleteModal from './CompleteModal';
+import ReservationArrowSvg from '@/app/_svg/ReservationArrowSvg';
 
 const ReservationList = ({
   reservations,

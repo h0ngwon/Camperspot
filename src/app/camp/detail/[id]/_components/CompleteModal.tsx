@@ -1,9 +1,9 @@
 'use client';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
 import styles from '../_styles/CompleteModal.module.css';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import CheckSvg from '../_svg/CheckSvg';
+import ModalCloseSvg from '@/app/_svg/ModalCloseSvg';
 
 type Props = {
   title: string;

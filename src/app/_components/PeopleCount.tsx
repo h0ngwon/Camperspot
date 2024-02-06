@@ -1,6 +1,6 @@
 import React from 'react';
-import MinusSvg from '../_Svg/MinusSvg';
-import PlusSvg from '../_Svg/PlusSvg';
+import MinusSvg from '../_svg/MinusSvg';
+import PlusSvg from '../_svg/PlusSvg';
 import styles from '../_styles/PeopleCount.module.css';
 type Props = {
   count: number;

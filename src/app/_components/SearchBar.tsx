@@ -3,11 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from '../_styles/SearchBar.module.css';
 import Calendar from './Calendar';
 import formatDate from '../_utils/date';
-import SearchSvg from '@/components/SearchSvg';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { formattedDate } from '../camp/_lib/formattedDate';
 import { toast } from 'react-toastify';
 import PeopleCount from './PeopleCount';
+import SearchSvg from '../_svg/SearchSvg';
 const SearchBar = () => {
   const [searchedCamp, setSearchedCamp] = useState<string>('');
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
@@ -73,7 +73,6 @@ const SearchBar = () => {
     }
   };
   useEffect(() => {
-    console.log('hi');
     document.addEventListener('click', handleClickOutside2);
 
     return () => {

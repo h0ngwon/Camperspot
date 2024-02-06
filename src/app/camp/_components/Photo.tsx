@@ -5,8 +5,6 @@ import styles from '../_styles/Photo.module.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Image from 'next/image';
-import CarouselPrevArrow from '@/components/CarouselPrevArrow';
-import CarouselNextArrow from '@/components/CarouselNextArrow';
 import NextArrow from '@/components/NextArrow';
 import PrevArrow from '@/components/PrevArrow';
 

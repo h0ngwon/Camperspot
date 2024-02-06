@@ -1,5 +1,5 @@
+import ModalCloseSvg from '@/app/_svg/ModalCloseSvg';
 import styles from '../_styles/ConfirmModal.module.css';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
 
 type Props = {
   title: string;

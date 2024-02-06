@@ -25,7 +25,6 @@ const AddForm = () => {
   const [isRightNumber, setIsRightNumber] = useState(false);
   const [check_in, handleCheck_in] = useState<string>('');
   const [check_out, handleCheck_out] = useState<string>('');
-  // const [layout, handleLayout] = useInput();
   const [facility, setFacility] = useState<Tables<'facility'>[]>([]);
   const [checkedFacility, setCheckedFacility] = useState<number[]>([]);
   const [campLayout, setCampLayout] = useState<string>('');
@@ -40,7 +39,6 @@ const AddForm = () => {
 
   const campId = uuid();
 
-  // const companyUserId = session?.user.id;
   const companyUserId = params.id;
 
   // 지역정보 구분
@@ -97,11 +95,6 @@ const AddForm = () => {
     },
   });
 
-  // if (isPending) {
-  //   document.body.style.overflow = 'hidden';
-  // } else {
-  //   document.body.style.overflow = 'unset';
-  // }
   if (isError) {
     console.log(error);
     return <div>에러 발생</div>;

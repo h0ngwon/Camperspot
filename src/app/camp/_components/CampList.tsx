@@ -8,7 +8,7 @@ import Spacer from '@/components/Spacer';
 import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
 import type { ParamsCamp, SearchCamp } from '@/types/campList';
 import { useSearchParams } from 'next/navigation';
-import AddressSvg from '@/components/AddressSvg';
+import AddressSvg from '@/app/_svg/AddressSvg';
 
 type Props = {
   campList: ParamsCamp | SearchCamp;

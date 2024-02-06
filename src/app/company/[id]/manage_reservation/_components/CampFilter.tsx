@@ -3,8 +3,8 @@ import { useState } from 'react';
 import Reservation from './Reservation';
 import styles from '../_styles/CampFilter.module.css';
 import NothingReservation from './NothingReservation';
-import Drop from '@/components/Drop';
 import ExclamationMarkSvg from '../../_svg/ExclamationMarkSvg';
+import Drop from '@/app/_svg/DropSvg';
 
 const CampFilter = ({
   reservation,

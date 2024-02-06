@@ -1,14 +1,13 @@
-import { UserType } from '@/types/auth';
 import { LikeCampType, MyPostType } from '@/types/profile';
-import { QueryFunction, QueryFunctionContext } from '@tanstack/react-query';
+import { QueryFunctionContext } from '@tanstack/react-query';
 
 export type MutationType = {
   id: string;
   formData: FormData;
 };
 
-export const getUserData = async ({queryKey} : QueryFunctionContext) => {
-  const [, , userId] = queryKey
+export const getUserData = async ({ queryKey }: QueryFunctionContext) => {
+  const [, , userId] = queryKey;
   try {
     const response = await fetch(`/api/profile/${userId}`, {
       method: 'GET',

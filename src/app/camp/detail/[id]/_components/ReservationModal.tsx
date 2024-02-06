@@ -5,9 +5,9 @@ import ReservationForm from './ReservationForm';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import type { ReservationInfo } from '@/types/reservation';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
 import { useRouter } from 'next/navigation';
 import useModalStore from '@/store/modal';
+import ModalCloseSvg from '@/app/_svg/ModalCloseSvg';
 
 const ReservationModal = () => {
   const [reservation, setReservation] = useState<ReservationInfo>();
@@ -26,7 +26,7 @@ const ReservationModal = () => {
       setReservation(data!);
     };
     fetchReservation();
-  }, []);
+  }, [campAreaId]);
   if (!reservation) return null;
 
   return (

@@ -51,7 +51,6 @@ const Hashtag = ({
     }
 
     setHashTags((prevHashTags) => {
-      // return [...new Set([...prevHashTags, newHashTag])];
       const uniqueHashTags = new Set([...prevHashTags, newHashTag]);
       return Array.from(uniqueHashTags);
     });
@@ -109,11 +108,6 @@ const Hashtag = ({
         placeholder='#해시태그를 등록해보세요. (최대 10개)'
         className={styles.hashTagInput}
       />
-      {/* <input
-                placeholder='해시태그를 추가해주세요'
-                defaultValue={hashtag}
-                onChange={setHashtag}
-              /> */}
     </div>
   );
 };

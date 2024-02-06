@@ -3,7 +3,7 @@ import { supabase } from '@/app/api/db';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import SearchAddress from './_components/SearchAddress';
 import Facility from './_components/Facility';
 import { Tables } from '@/types/supabase';
@@ -42,7 +42,16 @@ const UpdateCampPage = () => {
   const router = useRouter();
 
   // 전화번호 유효성 검사 정규식
-  const pattern = /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/;
+  const pattern = useMemo(() => /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/, []);
+
+  useEffect(
+    () => {
+      // 여기서 pattern 변수를 사용할 수 있습니다.
+    },
+    [
+      /* useEffect의 dependencies */
+    ],
+  );
 
   // 캠핑장 삭제
   const {
@@ -120,7 +129,7 @@ const UpdateCampPage = () => {
     setLayout(campData[0].layout);
     setCampPicture(campData[0].camp_pic?.map((picture) => picture.photo_url!)!);
     setHashTags(campData[0].hashtag?.map((hashtag) => hashtag.tag!)!);
-  }, [campData]);
+  }, [campData, pattern]);
 
   const [isAddressModal, setAddressModal] = useState(false);
 
@@ -289,7 +298,6 @@ const UpdateCampPage = () => {
     onSuccess: async (data) => {
       console.log('data', data);
       await queryClient.invalidateQueries({ queryKey: ['camp_id'] });
-      // await queryClient.refetchQueries({ queryKey: ['camp_id'] });
       router.push(`/company/${companyId}/manage_camp/added_camp`);
     },
     onError: (error) => {
@@ -297,12 +305,6 @@ const UpdateCampPage = () => {
       toast.error('오류가 발생했습니다. 다시 시도해주세요.');
     },
   });
-
-  // if (isPending) {
-  //   document.body.style.overflow = 'hidden';
-  // } else {
-  //   document.body.style.overflow = 'unset';
-  // }
 
   if (isError) {
     console.log(error);

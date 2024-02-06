@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import emptyCamp from '../asset/ico_empty_camp.png';
-import notFound from '../asset/404.gif'
+import notFound from '../asset/404.gif';
 import styles from '../styles/NotFound.module.css';
 
 const NotFoundPage = () => {
