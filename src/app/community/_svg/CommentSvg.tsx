@@ -7,10 +7,10 @@ export default function CommentSvg({ onClick }: Props) {
     <svg
       onClick={onClick}
       aria-label='댓글 달기'
-      height='24'
+      width='22'
+      height='22'
       role='img'
       viewBox='0 0 24 24'
-      width='24'
     >
       <title>댓글 달기</title>
       <path

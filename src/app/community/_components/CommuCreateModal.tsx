@@ -219,14 +219,13 @@ export default function CommuCreateModal({ onClose }: Props) {
         // 성공적으로 등록되었을 때 알림
         toast.success('게시물이 성공적으로 등록되었습니다.', {
           position: 'top-right',
-          autoClose: 3000, // 알림이 자동으로 닫히는 시간 (ms)
+          autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
+          onClose: () => setTimeout(() => window.location.reload(), 0),
         });
-
-        onClose();
       }
     } catch (error) {
       console.error('폼 제출 중 에러 발생:', error);
@@ -234,7 +233,7 @@ export default function CommuCreateModal({ onClose }: Props) {
       // 에러 발생 시 알림
       toast.error('게시물 등록 중 에러가 발생했습니다.', {
         position: 'top-right',
-        autoClose: 3000,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,

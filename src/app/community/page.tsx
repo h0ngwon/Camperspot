@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
 import { toast } from 'react-toastify';
 import Image from 'next/image';
@@ -11,7 +11,6 @@ import CommuHashTags from './_components/CommuHashTags';
 import CommuUsers from './_components/CommuUsers';
 import CommuBtns from './_components/CommuBtns';
 import CommuCreateModal from './_components/CommuCreateModal';
-import CommuDetailModal from './_components/CommuDetailModal';
 
 import styles from './_styles/Commu.module.css';
 import CampingImg from '@/asset/camping_illust.jpg';
@@ -68,7 +67,7 @@ export default function CommunityPage() {
   };
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {
