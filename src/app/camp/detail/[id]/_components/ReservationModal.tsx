@@ -50,7 +50,9 @@ const ReservationModal = () => {
               <span className={styles['camp-name']}>
                 {reservation.camp?.name}
               </span>
-              {reservation.name}
+              <span className={styles['camp-area-name']}>
+                {reservation.name}
+              </span>
             </p>
           </div>
           <ReservationForm reservation={reservation} />

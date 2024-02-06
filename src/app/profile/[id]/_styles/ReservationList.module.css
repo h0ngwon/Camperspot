@@ -1,44 +1,67 @@
 .td {
-  text-align: left;
-  padding: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  border-bottom: 1px solid #e6e6e9;
+  padding: 1rem 0;
 }
 
-.date {
-  width: 120px;
+.camp-info {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+}
+
+.camp-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.camp-area-name {
+  font-weight: 400;
 }
 
 .hour {
-  width: 150px;
-  display: flex;
-}
-
-.div {
-  display: flex;
-  gap: 1.5rem;
 }
 
 .button {
   width: 75px;
   height: 30px;
-  border: 1px solid #404557;
-  border-radius: 4px;
-  color: #404557;
+  border: 1px solid var(--primary-600);
+  border-radius: 8px;
+  color: #030712;
   cursor: pointer;
 }
 
-.address {
-  width: 200px;
-  line-height: 1.6;
+.button.highlight {
+  color: white;
+  background-color: var(--primary-600);
 }
 
-.address-info {
-  width: 140px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  word-break: break-all;
+.use-complete {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--neutral-700);
+  margin-left: 350px;
+}
+
+.dates {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-left: 2rem;
+}
+
+.date {
+  font-weight: 600;
+  color: var(--neutral-800);
+}
+
+.address {
+  width: 340px;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 
 .copy {
@@ -46,20 +69,8 @@
   cursor: pointer;
 }
 
-.address {
-  width: 340px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
 .div {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
-  gap: 1rem;
-}
-
-.button:hover {
-  background-color: #d9d9d9;
+  gap: 0.5rem;
 }
