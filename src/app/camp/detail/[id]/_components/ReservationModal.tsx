@@ -26,7 +26,7 @@ const ReservationModal = () => {
       setReservation(data!);
     };
     fetchReservation();
-  }, []);
+  }, [campAreaId]);
   if (!reservation) return null;
 
   return (

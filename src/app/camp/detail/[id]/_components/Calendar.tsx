@@ -48,7 +48,7 @@ export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
 
   useEffect(() => {
     getCampAreaReservation(id!).then((res) => setExcludeDates(res));
-  }, []);
+  }, [id]);
 
   return (
     <>
