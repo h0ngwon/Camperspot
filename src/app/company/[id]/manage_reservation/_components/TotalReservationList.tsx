@@ -122,7 +122,9 @@ const TotalReservationList = () => {
         </div>
       </div>
       {reservations?.length ? (
-        <div className={styles.scroll}>
+        <div
+          className={isSearch && !result?.length ? undefined : styles.scroll}
+        >
           <table className={styles.table}>
             <thead>
               <tr>

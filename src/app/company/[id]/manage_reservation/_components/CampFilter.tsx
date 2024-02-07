@@ -92,7 +92,14 @@ const CampFilter = ({
         </li>
       </div>
 
-      <div className={styles.scroll}>
+      <div
+        className={
+          (filter === 'ongoing' && onGoingReservation.length) ||
+          (filter === 'upcoming' && upComingReservation.length)
+            ? styles.scroll
+            : undefined
+        }
+      >
         <table className={styles.table}>
           <thead>
             <tr>
