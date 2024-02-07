@@ -12,6 +12,7 @@ export const useLikeCampQuery = () => {
       queryKey: ['mypage', 'bookmark', 'camp', userIdTest],
       queryFn: getUserLikeCamp,
       refetchOnWindowFocus: true,
+      refetchOnMount: true,
     });
 
   return { likeCampData, isLikeCampLoading };

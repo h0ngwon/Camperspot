@@ -11,6 +11,7 @@ export const useProfileQuery = () => {
   const { data: profile, isLoading: isProfileLoading } = useQuery({
     queryKey: ['mypage', 'profile', userId],
     queryFn: getUserData,
+    refetchOnMount: true,
   });
   const {mutate: profileMutate, isPending: isProfilePending} = useMutation({
     mutationFn: modifyUserData,

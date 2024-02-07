@@ -10,6 +10,7 @@ export const useMyPostQuery = () => {
     queryKey: ['mypage', 'bookmark', 'post', userId],
     queryFn: getUserPost,
     refetchOnWindowFocus: true,
+    refetchOnMount: true,
   });
   
   return {myPost, isMyPostLoading}
