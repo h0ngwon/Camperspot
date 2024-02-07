@@ -108,18 +108,18 @@ const ReservationList = ({
                     </span>
                   </p>
                   {isPlanned && (
-                    <div className={styles.address}>
+                    <div className={styles['address-info']}>
                       <CoordiateSvg />
-                      <p>{address}</p>
-                      {/* <div className={styles.div}> */}
-                      <span
-                        className={styles.copy}
-                        onClick={() => handleCopy(address)}
-                      >
-                        {' '}
-                        복사하기
-                      </span>
-                      {/* </div> */}
+                      <p className={styles.address}>{address}</p>
+                      <div className={styles.div}>
+                        <span
+                          className={styles.copy}
+                          onClick={() => handleCopy(address)}
+                        >
+                          {' '}
+                          복사하기
+                        </span>
+                      </div>
                     </div>
                   )}
                   <div className={styles.div}>

@@ -1,4 +1,4 @@
-.td {
+.li {
   display: flex;
   align-items: center;
   gap: 1.5rem;
@@ -21,7 +21,21 @@
   font-weight: 400;
 }
 
-.hour {
+.div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.address-info {
+  width: 380px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.address {
+  width: 200px;
 }
 
 .button {
@@ -49,7 +63,7 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  margin-left: 2rem;
+  /* margin-left: 2rem; */
 }
 
 .date {
@@ -57,20 +71,7 @@
   color: var(--neutral-800);
 }
 
-.address {
-  width: 340px;
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
-}
-
 .copy {
   color: #00a3ff;
   cursor: pointer;
-}
-
-.div {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
