@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import ReactDatePicker, { registerLocale } from 'react-datepicker';
+import React, { ReactNode, useEffect, useState } from 'react';
+import ReactDatePicker, { CalendarContainer, registerLocale } from 'react-datepicker';
 import { subDays } from 'date-fns';
 import svg from '@/asset/Calendar.svg';
 import ko from 'date-fns/locale/ko';
@@ -8,6 +8,8 @@ import { getCampAreaReservation } from '@/app/company/[id]/manage_reservation/_l
 import { useSearchParams } from 'next/navigation';
 import type { CampAreaRservationInfo } from '@/types/reservation';
 import { Control, Controller } from 'react-hook-form';
+import styles from '../_styles/Calendar.module.css';
+
 registerLocale('ko', ko);
 
 type UserInfo = {
@@ -50,6 +52,16 @@ export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
     getCampAreaReservation(id!).then((res) => setExcludeDates(res));
   }, [id]);
 
+  const MyContainer = ({ children }: { children: ReactNode }) => {
+    return (
+      <CalendarContainer className={styles.popper}>
+        <div style={{ position: 'relative' }} className={styles.calendarRef}>
+          {children}
+        </div>
+      </CalendarContainer>
+    );
+  };
+
   return (
     <>
       <Controller
@@ -72,8 +84,9 @@ export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
                 end: subDays(new Date(exclude.check_out_date), 1),
               }))}
               locale='ko'
-              showIcon
-              icon={svg}
+              className={styles['date-input']}
+              calendarContainer={MyContainer}
+              popperPlacement='left-start'
             />
             {/* 유효하지 않을 때(이미 예약된 날짜와 겹치는 경우) 안내 문구 */}
             {value[0] && value[1] && !isValidDate(value) && (

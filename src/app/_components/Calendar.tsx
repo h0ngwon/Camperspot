@@ -24,7 +24,7 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
 
   const MyContainer = ({ children }: { children: ReactNode }) => {
     return (
-      <CalendarContainer>
+      <CalendarContainer className={styles.popper}>
         <div style={{ position: 'relative' }} className={styles.calendarRef}>
           {children}
         </div>
@@ -43,11 +43,10 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
       }}
       locale='ko'
       minDate={new Date()}
-      dateFormat='yyyy-MM-dd'
-      showIcon
+      dateFormat='yyyy.MM.dd'
       calendarContainer={MyContainer}
-      icon={svg}
-      className={styles.dateInput}
+      className={styles['date-input']}
+      monthsShown={2}
     />
   );
 };
