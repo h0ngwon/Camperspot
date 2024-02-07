@@ -56,13 +56,20 @@ export const ReservationDetail = () => {
           />
         </ul>
       ) : (
-        <NothingReservation />
+        <NothingReservation text={'예약된 캠핑장이 없습니다.'} />
       )}
 
       <p className={styles.p1}>이용 완료</p>
-      <ul className={styles.ul}>
-        <ReservationList reservations={passedReservation!} isPlanned={false} />
-      </ul>
+      {passedReservation?.length ? (
+        <ul className={styles.ul}>
+          <ReservationList
+            reservations={passedReservation!}
+            isPlanned={false}
+          />
+        </ul>
+      ) : (
+        <NothingReservation text={'이용 완료된 캠핑장이 없습니다.'} />
+      )}
     </div>
   );
 };
