@@ -3,7 +3,7 @@ import { supabase } from '@/app/api/db';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useMemo, useState } from 'react';
 import SearchAddress from './_components/SearchAddress';
 import Facility from './_components/Facility';
 import { Tables } from '@/types/supabase';
@@ -42,8 +42,7 @@ const UpdateCampPage = () => {
   const router = useRouter();
 
   // 전화번호 유효성 검사 정규식
-  const pattern = /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/;
-
+  const pattern = useMemo(() => /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/, []);
   // 캠핑장 삭제
   const {
     mutate: deleteCamp,
@@ -120,7 +119,7 @@ const UpdateCampPage = () => {
     setLayout(campData[0].layout);
     setCampPicture(campData[0].camp_pic?.map((picture) => picture.photo_url!)!);
     setHashTags(campData[0].hashtag?.map((hashtag) => hashtag.tag!)!);
-  }, [campData]);
+  }, [campData, pattern]);
 
   const [isAddressModal, setAddressModal] = useState(false);
 

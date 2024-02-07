@@ -73,7 +73,6 @@ const SearchBar = () => {
     }
   };
   useEffect(() => {
-    console.log('hi');
     document.addEventListener('click', handleClickOutside2);
 
     return () => {

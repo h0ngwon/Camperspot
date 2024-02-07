@@ -6,7 +6,7 @@ import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
 import { getUserData } from '../profile/[id]/_lib/profile';
 import ProfileDropDown from './ProfileDropDown';
-import Company from '../_Svg/CompanySvg';
+import Company from '../_svg/CompanySvg';
 
 type Props = {
   session: Session;
@@ -23,7 +23,6 @@ const ProfileDivider = ({ session }: Props) => {
     setIsOpen((prev) => !prev);
   };
 
-  //돔 직접 조작 다른방법...
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropDownRef.current &&
