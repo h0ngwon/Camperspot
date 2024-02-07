@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    opacity: 30%;
 }
 
 .wrap {
@@ -38,6 +37,8 @@
 .carouselBox {
     width: 1200px;
     overflow: hidden;
+    opacity: 30%;
+
 }
 
 .carouselLeft {

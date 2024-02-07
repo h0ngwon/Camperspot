@@ -106,13 +106,17 @@ const SearchBar = () => {
         </label>
         <Calendar dateRange={dateRange} setDateRange={setDateRange} />
       </div>
-      <div className={styles.searchBox}>
-        <div onClick={onHandlePeoPleController} ref={peopleRef}>
+      <div
+        className={styles.searchBox}
+        onClick={onHandlePeoPleController}
+        ref={peopleRef}
+      >
+        <div>
           <label htmlFor='people' className={styles.regionSearchText}>
             인원
           </label>
           <div>
-            <span>게스트</span> {count}
+            <span>총 인원</span> {count}
             <span>{count > 9 ? '명 이상' : '명'}</span>
           </div>
           {isOpen && <PeopleCount count={count} setCount={setCount} />}
