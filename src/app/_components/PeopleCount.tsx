@@ -13,6 +13,7 @@ const PeopleCount = ({ count, setCount }: Props) => {
   ) => {
     e.stopPropagation();
   };
+
   return (
     <div
       className={styles.countControlBox}
