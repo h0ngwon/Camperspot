@@ -17,6 +17,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteUserReservation } from '../_lib/deleteUserReservation';
 import ReservationCancelConfirmModal from './ReservationCancelConfirmModal';
 import ReservationCancelCompleteModal from './ReservationCancelCompleteModal';
+import Link from 'next/link';
 
 const ReservationList = ({
   reservations,
@@ -97,13 +98,15 @@ const ReservationList = ({
           return (
             <React.Fragment key={id}>
               <li className={styles.li}>
-                <Image
-                  src={photo_url}
-                  width={120}
-                  height={120}
-                  alt='camping'
-                  style={{ borderRadius: '8px' }}
-                />
+                <Link href={`/camp/detail/${campId}`}>
+                  <Image
+                    src={photo_url}
+                    width={120}
+                    height={120}
+                    alt='camping'
+                    style={{ borderRadius: '8px' }}
+                  />
+                </Link>
                 <div className={styles['camp-info']}>
                   <p className={styles['camp-name']}>
                     {campName}{' '}
