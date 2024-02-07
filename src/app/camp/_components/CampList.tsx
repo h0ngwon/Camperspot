@@ -4,7 +4,6 @@ import { FaStar } from 'react-icons/fa';
 import Hashtag from './Hashtag';
 import Link from 'next/link';
 import Photo from './Photo';
-import Spacer from '@/components/Spacer';
 import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
 import type { ParamsCamp, SearchCamp } from '@/types/campList';
 import { useSearchParams } from 'next/navigation';
