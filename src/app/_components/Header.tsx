@@ -5,9 +5,9 @@ import { usePathname } from 'next/navigation';
 import styles from '../_styles/Header.module.css';
 import SearchBar from './SearchBar';
 import ProfileDivider from './ProfileDivider';
-import LogoSvg from '../_svg/LogoSvg';
-import CommunitySvg from '../_svg/CommunitySvg';
-import MyProfileSvg from '../_svg/MyProfileSvg';
+import LogoSvg from '../_Svg/LogoSvg';
+import CommunitySvg from '../_Svg/CommunitySvg';
+import MyProfileSvg from '../_Svg/MyProfileSvg';
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');
