@@ -1,30 +1,21 @@
 'use client';
-import { LikeCampType } from '@/types/profile';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { getUserLikeCamp } from '../_lib/profile';
+import Loading from '@/app/loading';
+import { useLikeCampQuery } from '@/hooks/useLikeCampQuery';
 import styles from '../_styles/BookmarkCamp.module.css';
 import BookmarkCampContent from './BookmarkCampContent';
-import Loading from '@/app/loading';
 
 const BookmarkCamp = () => {
-  const params = useParams();
-  const userId = params.id as string;
-  const { data, isLoading, isError } = useQuery<LikeCampType>({
-    queryKey: ['mypage', 'bookmark', 'camp', userId],
-    queryFn: getUserLikeCamp,
-    refetchOnWindowFocus: true,
-  });
+  const { likeCampData, isLikeCampLoading } = useLikeCampQuery();
 
-  if (isLoading) {
-    <Loading/>
+  if (isLikeCampLoading) {
+    <Loading />;
   }
 
   return (
     <div className={styles.container}>
       <div className={styles['bookmark-header']}>찜 목록</div>
       <div className={styles['bookmark-wrapper']}>
-        {data?.map((item) => (
+        {likeCampData?.map((item) => (
           <BookmarkCampContent key={`camp_${item.camp.id}`} camp={item.camp} />
         ))}
       </div>

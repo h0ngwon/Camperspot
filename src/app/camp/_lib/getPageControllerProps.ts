@@ -4,7 +4,6 @@ export const getPageControllerProps = ({
   count,
 }: {
   currentPage: number;
-  //넘버가 왜안돼??
   perPage: string | string[];
   count: number;
 }) => {

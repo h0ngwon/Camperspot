@@ -27,6 +27,7 @@ export default class CommunityCarousel extends Component<Props> {
       autoplaySpeed: 0,
       arrows: false,
       rtl: rtl,
+      pauseOnHover: false,
     };
     return (
       <div className={styles.box}>

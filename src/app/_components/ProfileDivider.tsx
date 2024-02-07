@@ -23,7 +23,6 @@ const ProfileDivider = ({ session }: Props) => {
     setIsOpen((prev) => !prev);
   };
 
-  //돔 직접 조작 다른방법...
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropDownRef.current &&

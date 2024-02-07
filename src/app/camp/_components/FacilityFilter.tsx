@@ -1,7 +1,13 @@
 'use client';
 
 import { facilities } from '@/app/_lib/facility';
-import { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import styles from '../_styles/FacilityFilter.module.css';
 import type { SearchCamp } from '@/types/campList';
 import ResetSvg from '@/app/_Svg/ResetSvg';
@@ -27,7 +33,7 @@ const FacilityFilter = ({
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {},
   );
-  const filterCampData = () => {
+  const filterCampData = useCallback(() => {
     if (!campData) return [];
     return campData.filter((camp) => {
       const facility = camp.facility_option as Array<{ option: string }>;
@@ -36,12 +42,12 @@ const FacilityFilter = ({
           facility?.some((option) => option.option === selectedFacility),
       );
     });
-  };
+  }, [campData, filterFacility]);
   useEffect(() => {
     const filteredData = filterCampData();
     setFilteredCampData(filteredData);
     setCurrentPage(1);
-  }, [filterFacility]);
+  }, [filterFacility, filterCampData, setCurrentPage, setFilteredCampData]);
   const onHandleFilterFacility = (facility: string) => {
     if (filterFacility.includes(facility)) {
       const filteredFacility = filterFacility.filter(

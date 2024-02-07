@@ -15,7 +15,7 @@ const MinusSvg = () => {
         x2='17.5'
         y2='10'
         stroke='black'
-        stroke-linecap='round'
+        strokeLinecap='round'
       />
     </svg>
   );
