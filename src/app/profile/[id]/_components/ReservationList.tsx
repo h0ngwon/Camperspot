@@ -15,8 +15,8 @@ import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import CoordiateSvg from '../_svg/CoordiateSvg';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteUserReservation } from '../_lib/deleteUserReservation';
-import ConfirmModal from './ConfirmModal';
-import CompleteModal from './CompleteModal';
+import ReservationCancelConfirmModal from './ReservationCancelConfirmModal';
+import ReservationCancelCompleteModal from './ReservationCancelCompleteModal';
 
 const ReservationList = ({
   reservations,
@@ -92,7 +92,7 @@ const ReservationList = ({
           };
           return (
             <>
-              <li className={styles.td} key={id}>
+              <li className={styles.li} key={id}>
                 <Image
                   src={photo_url}
                   width={120}
@@ -174,7 +174,7 @@ const ReservationList = ({
                           })
                           .replace(/\.\s*\((.)\)$/, ' ($1)')}
                       </p>
-                      <p className={styles.hour}>체크인 {check_in} ~ </p>
+                      <p>체크인 {check_in} ~ </p>
                     </div>
                     <ReservationArrowSvg />
                     <div>
@@ -188,7 +188,7 @@ const ReservationList = ({
                           })
                           .replace(/\.\s*\((.)\)$/, ' ($1)')}
                       </p>
-                      <p className={styles.hour}>체크아웃 ~ {check_out} </p>
+                      <p>체크아웃 ~ {check_out} </p>
                     </div>
                   </div>
                 )}
@@ -219,8 +219,7 @@ const ReservationList = ({
                 ''
               )}
               {isOpenConfirm == id && (
-                <ConfirmModal
-                  title={'예약을 취소하시겠습니까?'}
+                <ReservationCancelConfirmModal
                   onCancel={() => {
                     setIsOpenComfirm(null);
                     setIsOpenComplete(id);
@@ -229,10 +228,7 @@ const ReservationList = ({
                 />
               )}
               {isOpenComplete == id && (
-                <CompleteModal
-                  title={'예약이 취소되었습니다.'}
-                  onClose={handleDelete}
-                />
+                <ReservationCancelCompleteModal onClose={handleDelete} />
               )}
             </>
           );

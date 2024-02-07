@@ -12,6 +12,12 @@
   z-index: 999;
 }
 
+.close-btn {
+  position: absolute;
+  top: 4%;
+  right: 5%;
+}
+
 .h2 {
   font-size: 1.5rem;
   font-weight: 600;
