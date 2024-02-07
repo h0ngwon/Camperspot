@@ -37,7 +37,7 @@ const TotalReservationList = () => {
       ),
   });
 
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
 
   const handleSearch = () => {
     if (!text.trim()) return;
@@ -122,7 +122,9 @@ const TotalReservationList = () => {
         </div>
       </div>
       {reservations?.length ? (
-        <div>
+        <div
+          className={isSearch && !result?.length ? undefined : styles.scroll}
+        >
           <table className={styles.table}>
             <thead>
               <tr>

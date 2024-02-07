@@ -92,31 +92,36 @@ const CampFilter = ({
         </li>
       </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th className={styles.th}>체크인 날짜</th>
-            <th className={styles.th}>예약자명</th>
-            <th className={styles.th}>캠핑장/캠핑존</th>
-            <th className={styles.th}>인원</th>
-            <th className={styles.th}>예약자 연락처</th>
-            <th className={styles.th}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {filter === 'ongoing'
-            ? onGoingReservation?.map((reservation) => (
-                <Reservation key={reservation.id} reservation={reservation} />
-              ))
-            : upComingReservation?.map((reservation) => (
-                <Reservation key={reservation.id} reservation={reservation} />
-              ))}
-
-          {/* {reservation?.map((reservation) => (
+      <div
+        className={
+          (filter === 'ongoing' && onGoingReservation.length) ||
+          (filter === 'upcoming' && upComingReservation.length)
+            ? styles.scroll
+            : undefined
+        }
+      >
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th className={styles.th}>체크인 날짜</th>
+              <th className={styles.th}>예약자명</th>
+              <th className={styles.th}>캠핑장/캠핑존</th>
+              <th className={styles.th}>인원</th>
+              <th className={styles.th}>예약자 연락처</th>
+              <th className={styles.th}></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filter === 'ongoing'
+              ? onGoingReservation?.map((reservation) => (
                   <Reservation key={reservation.id} reservation={reservation} />
-                ))} */}
-        </tbody>
-      </table>
+                ))
+              : upComingReservation?.map((reservation) => (
+                  <Reservation key={reservation.id} reservation={reservation} />
+                ))}
+          </tbody>
+        </table>
+      </div>
       {filter === 'ongoing' && !onGoingReservation.length && (
         <NothingReservation
           text={`${campFilter}에서 이용 중인 예약이 없습니다.`}
