@@ -15,6 +15,7 @@ import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
 import { toast } from 'react-toastify';
 import Loading from '@/app/loading';
+import { pattern } from './_lib/validation';
 
 const UpdateCampPage = () => {
   const [name, setName] = useState('');
@@ -41,8 +42,6 @@ const UpdateCampPage = () => {
 
   const router = useRouter();
 
-  // 전화번호 유효성 검사 정규식
-  const pattern = useMemo(() => /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/, []);
   // 캠핑장 삭제
   const {
     mutate: deleteCamp,
@@ -119,7 +118,7 @@ const UpdateCampPage = () => {
     setLayout(campData[0].layout);
     setCampPicture(campData[0].camp_pic?.map((picture) => picture.photo_url!)!);
     setHashTags(campData[0].hashtag?.map((hashtag) => hashtag.tag!)!);
-  }, [campData, pattern]);
+  }, [campData]);
 
   const [isAddressModal, setAddressModal] = useState(false);
 
@@ -418,7 +417,7 @@ const UpdateCampPage = () => {
               <div className={styles.requestCallWrap}>
                 <h3>문의전화</h3>
                 <input
-                  defaultValue={phone}
+                  value={phone}
                   onChange={checkRightNumber}
                   type='tel'
                   placeholder='예) 02-000-0000 / 063-000-0000'
