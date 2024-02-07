@@ -3,7 +3,7 @@ import { ReviewInfo, UserReservationInfo } from '@/types/reservation';
 import styles from '../_styles/ReservationList.module.css';
 import copy from 'clipboard-copy';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import ReservationDetailModal from './ReservationDetailModal';
 import { useRouter } from 'next/navigation';
 import ModalPortal from '@/components/ModalPortal';
@@ -91,8 +91,8 @@ const ReservationList = ({
             photo_url,
           };
           return (
-            <>
-              <li className={styles.li} key={id}>
+            <React.Fragment key={id}>
+              <li className={styles.li}>
                 <Image
                   src={photo_url}
                   width={120}
@@ -111,15 +111,15 @@ const ReservationList = ({
                     <div className={styles.address}>
                       <CoordiateSvg />
                       <p>{address}</p>
-                      <div className={styles.div}>
-                        <span
-                          className={styles.copy}
-                          onClick={() => handleCopy(address)}
-                        >
-                          {' '}
-                          복사하기
-                        </span>
-                      </div>
+                      {/* <div className={styles.div}> */}
+                      <span
+                        className={styles.copy}
+                        onClick={() => handleCopy(address)}
+                      >
+                        {' '}
+                        복사하기
+                      </span>
+                      {/* </div> */}
                     </div>
                   )}
                   <div className={styles.div}>
@@ -230,7 +230,7 @@ const ReservationList = ({
               {isOpenComplete == id && (
                 <ReservationCancelCompleteModal onClose={handleDelete} />
               )}
-            </>
+            </React.Fragment>
           );
         })}
     </>
