@@ -22,6 +22,12 @@
     flex-grow: 0;
 }
 
+.campFilter {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
 .mainWrapper {
     display: flex;
     flex-direction: column;
@@ -39,6 +45,13 @@
     gap: 16px;
 }
 
+.mainHeadercamp {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 1200px;
+    position: relative;
+}
 
 .listWrapper {
     padding: 0 auto;

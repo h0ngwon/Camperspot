@@ -41,7 +41,7 @@ const Camp = async ({
       <div className={styles.container}>
         <Spacer y={30} />
         <div className={styles.mainWrapper}>
-          <div className={styles.mainHeader}>
+          <div className={styles.mainHeadercamp}>
             <h1 className={styles.title}>{pageTitle}</h1>
             <div className={styles.campFilter}>
               <CampFilter />
