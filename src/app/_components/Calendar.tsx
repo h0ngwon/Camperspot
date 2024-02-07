@@ -1,5 +1,5 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import ReactDatePicker, {
   CalendarContainer,
   registerLocale,
@@ -25,7 +25,7 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
   const MyContainer = ({ children }: { children: ReactNode }) => {
     return (
       <CalendarContainer>
-        <div style={{ position: 'relative' }} className={styles.abbaccaddff}>
+        <div style={{ position: 'relative' }} className={styles.calendarRef}>
           {children}
         </div>
       </CalendarContainer>
@@ -47,7 +47,7 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
       showIcon
       calendarContainer={MyContainer}
       icon={svg}
-      className={styles.bbbbbbbbbbbb}
+      className={styles.dateInput}
     />
   );
 };
