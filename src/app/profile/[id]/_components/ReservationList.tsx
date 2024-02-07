@@ -28,11 +28,15 @@ const ReservationList = ({
   const router = useRouter();
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<number | null>();
-  const [isOpenConfirm, setIsOpenComfirm] = useState<string | null>();
-  const [isOpenComplete, setIsOpenComplete] = useState<string | null>();
+  const [isOpenReservationConfirm, setIsOpenReservationComfirm] = useState<
+    string | null
+  >();
+  const [isOpenReservationComplete, setIsOpenReservationComplete] = useState<
+    string | null
+  >();
   const queryClient = useQueryClient();
   const deleteReservationMutaion = useMutation({
-    mutationFn: () => deleteUserReservation(isOpenComplete!),
+    mutationFn: () => deleteUserReservation(isOpenReservationComplete!),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['mypage', 'profile', 'reservation'],
@@ -41,7 +45,7 @@ const ReservationList = ({
   });
   const handleDelete = () => {
     deleteReservationMutaion.mutate();
-    //setIsOpenComplete(null)
+    // setIsOpenComplete(null);
   };
   const { show, toggleModal } = useModalStore();
 
@@ -50,11 +54,11 @@ const ReservationList = ({
     toast.success('클립보드에 복사되었습니다');
   };
 
-  const handleOpenModal = (index: number) => {
+  const handleOpenReservationModal = (index: number) => {
     setIsOpenDetailModal(index);
     toggleModal();
   };
-  const handleCloseModal = () => {
+  const handleCloseReservationModal = () => {
     setIsOpenDetailModal(null);
     toggleModal();
   };
@@ -135,14 +139,14 @@ const ReservationList = ({
                       className={`${styles.button} ${
                         isPlanned ? styles.highlight : ''
                       }`}
-                      onClick={() => handleOpenModal(idx)}
+                      onClick={() => handleOpenReservationModal(idx)}
                     >
                       상세보기
                     </button>
                     {isPlanned && (
                       <button
                         className={styles.button}
-                        onClick={() => setIsOpenComfirm(id)}
+                        onClick={() => setIsOpenReservationComfirm(id)}
                       >
                         취소하기
                       </button>
@@ -211,23 +215,23 @@ const ReservationList = ({
                   <Modal customWidth={450} customHeight={680}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
-                      onClose={handleCloseModal}
+                      onClose={handleCloseReservationModal}
                     />
                   </Modal>
                 </ModalPortal>
               ) : (
                 ''
               )}
-              {isOpenConfirm == id && (
+              {isOpenReservationConfirm == id && (
                 <ReservationCancelConfirmModal
                   onCancel={() => {
-                    setIsOpenComfirm(null);
-                    setIsOpenComplete(id);
+                    setIsOpenReservationComfirm(null);
+                    setIsOpenReservationComplete(id);
                   }}
-                  onClose={() => setIsOpenComfirm(null)}
+                  onClose={() => setIsOpenReservationComfirm(null)}
                 />
               )}
-              {isOpenComplete == id && (
+              {isOpenReservationComplete == id && (
                 <ReservationCancelCompleteModal onClose={handleDelete} />
               )}
             </React.Fragment>

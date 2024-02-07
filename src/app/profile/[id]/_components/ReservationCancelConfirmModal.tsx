@@ -1,10 +1,22 @@
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 import styles from '../_styles/ReservationCancelConfirmModal.module.css';
-type Props = { onClose: () => void; onCancel: () => void };
+type Props = {
+  onClose: () => void;
+  onCancel: () => void;
+  customLeft?: number;
+  customTop?: number;
+};
 
-const ConfirmModal = ({ onClose, onCancel }: Props) => {
+const ConfirmModal = ({ onClose, onCancel, customLeft, customTop }: Props) => {
   return (
-    <div className={styles.div}>
+    <div
+      className={styles.div}
+      style={
+        customLeft && customTop
+          ? { left: `${customLeft}%`, top: `${customTop}%` }
+          : undefined
+      }
+    >
       <button className={styles['close-btn']} onClick={() => onClose()}>
         <ModalCloseSvg />
       </button>
