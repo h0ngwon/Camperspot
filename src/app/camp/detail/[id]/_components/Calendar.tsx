@@ -1,5 +1,8 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import ReactDatePicker, { CalendarContainer, registerLocale } from 'react-datepicker';
+import ReactDatePicker, {
+  CalendarContainer,
+  registerLocale,
+} from 'react-datepicker';
 import { subDays } from 'date-fns';
 import svg from '@/asset/Calendar.svg';
 import ko from 'date-fns/locale/ko';
@@ -90,10 +93,10 @@ export const Calendar = ({ control }: { control: Control<UserInfo> }) => {
             />
             {/* 유효하지 않을 때(이미 예약된 날짜와 겹치는 경우) 안내 문구 */}
             {value[0] && value[1] && !isValidDate(value) && (
-              <p style={{ color: 'red' }}>이미 예약된 날짜입니다.</p>
+              <p className={styles['date-error']}>이미 예약된 날짜입니다.</p>
             )}
             {(!value[0] || !value[1]) && (
-              <p style={{ color: 'red' }}>날짜를 선택해주세요.</p>
+              <p className={styles['date-error']}>날짜를 선택해주세요.</p>
             )}
           </>
         )}
