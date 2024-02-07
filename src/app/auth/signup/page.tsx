@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import SignupForm from './_components/SignupForm';
 import styles from './_styles/SignupPage.module.css';
-import LogoSvg from '@/app/_Svg/LogoSvg';
+import LogoSvg from '@/app/_svg/LogoSvg';
 type Props = {};
 
 const SignupPage = (props: Props) => {
