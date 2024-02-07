@@ -28,7 +28,10 @@ const RegionCarousel = () => {
 
   return (
     <div className={styles.container}>
-      <p>지역별 캠핑장</p>
+      <div className={styles.regionIntro}>
+        <p>지역별 캠핑장</p>
+        <p>지역별 캠핑장을 둘러보세요</p>
+      </div>
       <Spacer y={20} />
 
       <Slider {...settings}>
@@ -41,8 +44,8 @@ const RegionCarousel = () => {
               <figure>
                 <Image
                   src={region.pic}
-                  width={250}
-                  height={200}
+                  width={285}
+                  height={285}
                   alt=''
                   className={styles.pic}
                 />
