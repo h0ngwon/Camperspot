@@ -15,6 +15,7 @@ import Hashtag from './_components/Hashtag';
 import styles from './_styles/CampForm.module.css';
 import { toast } from 'react-toastify';
 import Loading from '@/app/loading';
+import { pattern } from './_lib/validation';
 
 const UpdateCampPage = () => {
   const [name, setName] = useState('');
@@ -41,8 +42,6 @@ const UpdateCampPage = () => {
 
   const router = useRouter();
 
-  // 전화번호 유효성 검사 정규식
-  const pattern = useMemo(() => /^[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}$/, []);
   // 캠핑장 삭제
   const {
     mutate: deleteCamp,
@@ -119,7 +118,7 @@ const UpdateCampPage = () => {
     setLayout(campData[0].layout);
     setCampPicture(campData[0].camp_pic?.map((picture) => picture.photo_url!)!);
     setHashTags(campData[0].hashtag?.map((hashtag) => hashtag.tag!)!);
-  }, [campData, pattern]);
+  }, [campData]);
 
   const [isAddressModal, setAddressModal] = useState(false);
 
@@ -297,11 +296,9 @@ const UpdateCampPage = () => {
     },
   });
 
-  // if (isPending) {
-  //   document.body.style.overflow = 'hidden';
-  // } else {
-  //   document.body.style.overflow = 'unset';
-  // }
+  if (isPending) {
+    return <Loading />;
+  }
 
   if (isError) {
     console.log(error);
@@ -353,127 +350,120 @@ const UpdateCampPage = () => {
 
   return (
     <>
-      {isPending ? (
-        <div className={styles.isPending}>
-          <Loading />
-        </div>
+      <h1 className={styles.h1}>캠핑장 수정</h1>
+      {isLoading ? (
+        <div>로딩중입니다.</div>
       ) : (
-        <div>
-          <h1 className={styles.h1}>캠핑장 수정</h1>
-          {isLoading ? (
-            <div>로딩중입니다.</div>
-          ) : (
-            campData?.length === 1 && (
-              <div>
-                <form onSubmit={handleForm} className={styles.formLayout}>
-                  <div className={styles.campNameWrap}>
-                    <h3>캠핑장 명</h3>
-                    <input
-                      defaultValue={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className={styles.campNameInput}
-                    />
-                  </div>
-
-                  <div className={styles.campAddressWrap}>
-                    <h3>주소</h3>
-                    <div className={styles.addressSearchWrap}>
-                      <div>
-                        <button
-                          onClick={() => {
-                            setAddressModal(true);
-                            document.body.style.overflow = 'hidden';
-                          }}
-                          type='button'
-                          className={styles.addressSearchBtn}
-                        >
-                          주소 검색하기
-                        </button>
-                      </div>
-                      <input
-                        defaultValue={address}
-                        placeholder='주소검색하기를 클릭해주세요'
-                        required
-                        className={styles.addressSearchInput}
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.campContentWrap}>
-                    <h3>캠핑장 소개</h3>
-                    <textarea
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      placeholder='캠핑장을 소개해주세요'
-                      required
-                    ></textarea>
-                  </div>
-
-                  <Facility
-                    facility={facility}
-                    setFacility={setFacility}
-                    checkedFacility={checkedFacility}
-                    setCheckedFacility={setCheckedFacility}
-                  />
-
-                  <CheckInOut
-                    check_in={check_in}
-                    handleCheck_in={handleCheck_in}
-                    check_out={check_out}
-                    handleCheck_out={handleCheck_out}
-                  />
-
-                  <div className={styles.requestCallWrap}>
-                    <h3>문의전화</h3>
-                    <input
-                      defaultValue={phone}
-                      onChange={checkRightNumber}
-                      type='tel'
-                      placeholder='예) 02-000-0000 / 063-000-0000'
-                      pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
-                      maxLength={13}
-                      required
-                      className={styles.requestCallInput}
-                    />
-                    {isRightNumber ? (
-                      ''
-                    ) : (
-                      <p className={styles.isRightNumber}>형식을 맞춰주세요</p>
-                    )}
-                  </div>
-
-                  <Layout layout={layout} setLayout={setLayout} />
-
-                  <CampPicture
-                    campPicture={campPicture}
-                    setCampPicture={setCampPicture}
-                  />
-
-                  <Hashtag
-                    hashTags={hashTags}
-                    setHashTags={setHashTags}
-                    inputHashTag={inputHashTag}
-                    setInputHashTag={setInputHashTag}
-                  />
-
-                  <div className={styles.btns}>
-                    {/* <button>수정취소</button> */}
-                    <button type='submit'>수정완료</button>
-                    <button type='button' onClick={handleDeleteCamp}>
-                      삭제하기
-                    </button>
-                  </div>
-                </form>
-                <SearchAddress
-                  setAddress={setAddress}
-                  isAddressModal={isAddressModal}
-                  setAddressModal={setAddressModal}
+        campData?.length === 1 && (
+          <div>
+            <form onSubmit={handleForm} className={styles.formLayout}>
+              <div className={styles.campNameWrap}>
+                <h3>캠핑장 명</h3>
+                <input
+                  defaultValue={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={styles.campNameInput}
                 />
               </div>
-            )
-          )}
-        </div>
+
+              <div className={styles.campAddressWrap}>
+                <h3>주소</h3>
+                <div className={styles.addressSearchWrap}>
+                  <div>
+                    <button
+                      onClick={() => {
+                        setAddressModal(true);
+                        document.body.style.overflow = 'hidden';
+                      }}
+                      type='button'
+                      className={styles.addressSearchBtn}
+                    >
+                      주소 검색하기
+                    </button>
+                  </div>
+                  <input
+                    defaultValue={address}
+                    placeholder='주소검색하기를 클릭해주세요'
+                    required
+                    className={styles.addressSearchInput}
+                  />
+                </div>
+              </div>
+
+              <div className={styles.campContentWrap}>
+                <h3>캠핑장 소개</h3>
+                <textarea
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  placeholder='캠핑장을 소개해주세요'
+                  required
+                ></textarea>
+              </div>
+
+              <Facility
+                facility={facility}
+                setFacility={setFacility}
+                checkedFacility={checkedFacility}
+                setCheckedFacility={setCheckedFacility}
+              />
+
+              <CheckInOut
+                check_in={check_in}
+                handleCheck_in={handleCheck_in}
+                check_out={check_out}
+                handleCheck_out={handleCheck_out}
+              />
+
+              <div className={styles.requestCallWrap}>
+                <h3>문의전화</h3>
+                <input
+                  value={phone}
+                  onChange={checkRightNumber}
+                  type='tel'
+                  placeholder='예) 02-000-0000 / 063-000-0000'
+                  pattern='[0-9]{2,4}-[0-9]{3,4}-[0-9]{4}'
+                  maxLength={13}
+                  required
+                  className={styles.requestCallInput}
+                />
+                {isRightNumber ? (
+                  ''
+                ) : (
+                  <p className={styles.isRightNumber}>형식을 맞춰주세요</p>
+                )}
+              </div>
+
+              <Layout layout={layout} setLayout={setLayout} />
+
+              <CampPicture
+                campPicture={campPicture}
+                setCampPicture={setCampPicture}
+              />
+
+              <Hashtag
+                hashTags={hashTags}
+                setHashTags={setHashTags}
+                inputHashTag={inputHashTag}
+                setInputHashTag={setInputHashTag}
+              />
+
+              <div className={styles.btns}>
+                {/* <button>수정취소</button> */}
+                <button type='submit'>수정완료</button>
+                <button type='button' onClick={handleDeleteCamp}>
+                  삭제하기
+                </button>
+              </div>
+            </form>
+            <SearchAddress
+              setAddress={setAddress}
+              isAddressModal={isAddressModal}
+              setAddressModal={setAddressModal}
+            />
+          </div>
+        )
       )}
+
       {isDeleteCamp && (
         <div onClick={handleCancelBtn} className={styles.deleteCampModalUp}>
           <div className={styles.confirm}>
