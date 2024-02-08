@@ -1,11 +1,11 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
-import { getUserReservation } from '../_lib/getUserReservation';
-import { useParams } from 'next/navigation';
-import styles from '../_styles/ReservationDetail.module.css';
-import ReservationList from './ReservationList';
-import { NothingReservation } from './NothingReservation';
 import Loading from '@/app/loading';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { getUserReservation } from '../_lib/getUserReservation';
+import styles from '../_styles/ReservationDetail.module.css';
+import { NothingReservation } from './NothingReservation';
+import ReservationList from './ReservationList';
 
 export const ReservationDetail = () => {
   const params = useParams();

@@ -1,15 +1,14 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import { getCampAreaReservation } from '@/app/company/[id]/manage_reservation/_lib/reservation';
+import type { CampAreaRservationInfo } from '@/types/reservation';
+import { subDays } from 'date-fns';
+import ko from 'date-fns/locale/ko';
+import { useSearchParams } from 'next/navigation';
+import { ReactNode, useEffect, useState } from 'react';
 import ReactDatePicker, {
   CalendarContainer,
   registerLocale,
 } from 'react-datepicker';
-import { subDays } from 'date-fns';
-import svg from '@/asset/Calendar.svg';
-import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
-import { getCampAreaReservation } from '@/app/company/[id]/manage_reservation/_lib/reservation';
-import { useSearchParams } from 'next/navigation';
-import type { CampAreaRservationInfo } from '@/types/reservation';
 import { Control, Controller } from 'react-hook-form';
 import styles from '../_styles/Calendar.module.css';
 

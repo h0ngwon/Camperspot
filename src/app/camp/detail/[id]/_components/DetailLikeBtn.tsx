@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import HeartSvg from '../_svg/HeartSvg';
 
-import styles from '../_styles/Like.module.css';
-import { toast } from 'react-toastify';
 import Loading from '@/app/loading';
+import { toast } from 'react-toastify';
+import styles from '../_styles/Like.module.css';
 
 type Props = {
   campId: string;
@@ -93,7 +93,7 @@ export default function DetailLikeBtn({ campId, showCount }: Props) {
   }, [data, campId, userId]); // data 대신 campId와 userId를 의존성 배열에 추가
 
   if (isLoading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   if (isError) {

@@ -1,6 +1,6 @@
+import AddressModal from '@/app/company/[id]/manage_camp/add_camp/_components/AddressModal';
 import React from 'react';
 import { Address } from 'react-daum-postcode';
-import AddressModal from '@/app/company/[id]/manage_camp/add_camp/_components/AddressModal';
 import styles from '../_styles/CampForm.module.css';
 
 type Props = {

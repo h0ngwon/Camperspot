@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
 import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 
-import styles from '../_styles/CommuDetailModal.module.css';
 import Loading from '@/app/loading';
+import styles from '../_styles/CommuDetailModal.module.css';
 
 type Props = {
   postId: string;
@@ -47,7 +46,7 @@ export default function CommuComments({ postId }: Props) {
   };
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {

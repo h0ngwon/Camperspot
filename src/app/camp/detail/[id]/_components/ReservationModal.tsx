@@ -1,13 +1,12 @@
 'use client';
 import { supabase } from '@/app/api/db';
+import ModalCloseSvg from '@/components/ModalCloseSvg';
+import useModalStore from '@/store/modal';
+import type { ReservationInfo } from '@/types/reservation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import styles from '../_styles/ReservationModal.module.css';
 import ReservationForm from './ReservationForm';
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import type { ReservationInfo } from '@/types/reservation';
-import ModalCloseSvg from '@/components/ModalCloseSvg';
-import { useRouter } from 'next/navigation';
-import useModalStore from '@/store/modal';
 
 const ReservationModal = () => {
   const [reservation, setReservation] = useState<ReservationInfo>();

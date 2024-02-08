@@ -1,9 +1,9 @@
 'use client';
+import Modal from '@/components/Modal';
+import ModalPortal from '@/components/ModalPortal';
 import useModalStore from '@/store/modal';
 import ReservationModal from '../_components/ReservationModal';
 import DetailPage from '../page';
-import ModalPortal from '@/components/ModalPortal';
-import Modal from '@/components/Modal';
 
 const ReservationPage = () => {
   const { show } = useModalStore();

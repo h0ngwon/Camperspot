@@ -1,8 +1,8 @@
 'use client';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
-import styles from '../_styles/CompleteModal.module.css';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import styles from '../_styles/CompleteModal.module.css';
 import CheckSvg from '../_svg/CheckSvg';
 
 type Props = {

@@ -1,18 +1,18 @@
 'use client';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import styles from '../_styles/ReservationForm.module.css';
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import { supabase } from '@/app/api/db';
-import { useEffect, useState } from 'react';
-import ConfirmModal from './ConfirmModal';
+import ReservationArrowSvg from '@/components/ReservationArrowSvg';
+import useModalStore from '@/store/modal';
 import { ReservationInfo } from '@/types/reservation';
-import { Calendar } from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import ReservationArrowSvg from '@/components/ReservationArrowSvg';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import styles from '../_styles/ReservationForm.module.css';
 import KakaoPaySvg from '../_svg/KakaoPaySvg';
+import { Calendar } from './Calendar';
 import CompleteModal from './CompleteModal';
-import useModalStore from '@/store/modal';
+import ConfirmModal from './ConfirmModal';
 
 type UserInfo = {
   people: number;

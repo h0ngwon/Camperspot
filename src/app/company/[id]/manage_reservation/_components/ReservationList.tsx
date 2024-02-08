@@ -1,15 +1,12 @@
 'use client';
-import Reservation from './Reservation';
+import Loading from '@/app/loading';
 import { useQuery } from '@tanstack/react-query';
-import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
-import styles from '../_styles/ReservationList.module.css';
-import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
+import { getTodayReservation } from '../../_lib/getTodayReservation';
+import styles from '../_styles/ReservationList.module.css';
+import CampFilter from './CampFilter';
 import NothingReservation from './NothingReservation';
 import TotalReservationList from './TotalReservationList';
-import { getTodayReservation } from '../../_lib/getTodayReservation';
-import CampFilter from './CampFilter';
-import Loading from '@/app/loading';
 
 const ReservationList = () => {
   const params = useParams();
@@ -17,7 +14,7 @@ const ReservationList = () => {
     queryKey: ['company', 'reservation', 'today'],
     queryFn: () => getTodayReservation(params.id as string),
   });
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
 
   return (
     <>

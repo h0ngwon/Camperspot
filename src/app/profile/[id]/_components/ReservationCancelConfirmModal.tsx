@@ -1,5 +1,6 @@
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 import styles from '../_styles/ReservationCancelConfirmModal.module.css';
+
 type Props = {
   onClose: () => void;
   onCancel: () => void;

@@ -1,12 +1,8 @@
-import React from 'react'
-import styles from '../_styles/Community.module.css'
-import MyPost from '../_components/MyPost'
-type Props = {}
+import MyPost from '../_components/MyPost';
+type Props = {};
 
 const CommunityPage = (props: Props) => {
-  return (
-      <MyPost/>
-  )
-}
+  return <MyPost />;
+};
 
-export default CommunityPage
+export default CommunityPage;

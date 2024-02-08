@@ -4,11 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-import styles from '../_styles/DetailCampZone.module.css';
-import ClockSvg from '../_svg/ClockSvg';
 import useModalStore from '@/store/modal';
 import { useSession } from 'next-auth/react';
 import { toast } from 'react-toastify';
+import styles from '../_styles/DetailCampZone.module.css';
+import ClockSvg from '../_svg/ClockSvg';
 
 type Props = {
   campArea:

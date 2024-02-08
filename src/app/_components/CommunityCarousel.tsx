@@ -1,10 +1,10 @@
 'use client';
-import React, { Component } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import styles from '../_styles/CommunityCarousel.module.css';
 import Image from 'next/image';
+import { Component } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import styles from '../_styles/CommunityCarousel.module.css';
 
 type Props = {
   pics: { camp_id: string; id: string; photo_url: string }[];

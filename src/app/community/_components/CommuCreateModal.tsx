@@ -1,15 +1,15 @@
 'use client';
 
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { supabase } from '@/app/api/db';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { supabase } from '@/app/api/db';
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
 import { v4 as uuid } from 'uuid';
-import { toast, ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '../_styles/CommuModal.module.css';
 import CloseSvg from '../_svg/CloseSvg';
-import 'react-toastify/dist/ReactToastify.css';
 
 import type { Tables } from '@/types/supabase';
 import CommuCreatePic from './CommuCreatePic';

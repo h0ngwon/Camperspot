@@ -9,16 +9,16 @@ type addMutateReviewType = {
 
 type deleteMutateReviewType = {
   userId: string;
-  reviewId: string
-}
+  reviewId: string;
+};
 
 export const getCampReview = async (campId: string) => {
   const res = await fetch(`/api/camp/${campId}/review`, {
-    method: 'GET'
-  })
+    method: 'GET',
+  });
   const data = await res.json();
   return data;
-}
+};
 
 export const addReview = async (data: addMutateReviewType) => {
   const campId = data.campId;
@@ -27,26 +27,29 @@ export const addReview = async (data: addMutateReviewType) => {
     body: JSON.stringify(data),
   });
   const fetchData = await res.json();
-  return fetchData
+  return fetchData;
 };
 
-export const getUserReview = async ({queryKey} : QueryFunctionContext) => {
-  const [, , ,userId] = queryKey
+export const getUserReview = async ({ queryKey }: QueryFunctionContext) => {
+  const [, , , userId] = queryKey;
   const res = await fetch(`/api/profile/${userId}/review`, {
-    method: 'GET'
+    method: 'GET',
   });
   const fetchData = await res.json();
 
   return fetchData;
-}
+};
 
-export const deleteUserReview = async ({userId, reviewId} : deleteMutateReviewType) => {
+export const deleteUserReview = async ({
+  userId,
+  reviewId,
+}: deleteMutateReviewType) => {
   const res = await fetch(`/api/profile/${userId}/review`, {
     method: 'POST',
     body: JSON.stringify({
-      reviewId: reviewId
-    })
+      reviewId: reviewId,
+    }),
   });
 
   return res.json();
-}
+};

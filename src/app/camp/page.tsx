@@ -1,12 +1,12 @@
-import { supabase } from '../api/db';
-import CampList from './_components/CampList';
 import Spacer from '@/components/Spacer';
-import styles from './_styles/Camp.module.css';
+import { Suspense } from 'react';
+import { supabase } from '../api/db';
+import Loading from '../loading';
 import CampFilter from './_components/CampFilter';
+import CampList from './_components/CampList';
 import Pagination from './_components/Pagination';
 import { getPageControllerProps } from './_lib/getPageControllerProps';
-import { Suspense } from 'react';
-import Loading from '../loading';
+import styles from './_styles/Camp.module.css';
 
 export const revalidate = 0;
 

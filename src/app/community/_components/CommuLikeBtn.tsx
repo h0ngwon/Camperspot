@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { supabase } from '@/app/api/db';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import styles from '@/app/camp/detail/[id]/_styles/Like.module.css';
@@ -89,7 +89,7 @@ export default function CommuLikeBtn({ postId, userId }: Props) {
   }, [data, postId, userId]); // data 대신 postId와 userId를 의존성 배열에 추가
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {

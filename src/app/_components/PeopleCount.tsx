@@ -1,7 +1,8 @@
 import React from 'react';
-import styles from '../_styles/PeopleCount.module.css';
 import MinusSvg from '../_Svg/MinusSvg';
 import PlusSvg from '../_Svg/PlusSvg';
+import styles from '../_styles/PeopleCount.module.css';
+
 type Props = {
   count: number;
   setCount: React.Dispatch<React.SetStateAction<number>>;

@@ -1,10 +1,10 @@
+import NextArrow from '@/components/NextArrow';
+import PrevArrow from '@/components/PrevArrow';
 import Image from 'next/image';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import styles from '../_styles/CommuPhotos.module.css';
-import PrevArrow from '@/components/PrevArrow';
-import NextArrow from '@/components/NextArrow';
 
 type Props = {
   photo: {
