@@ -42,6 +42,7 @@ export default class CommunityCarousel extends Component<Props> {
                     height={133}
                     alt=''
                     className={styles.pic}
+                    loading='lazy'
                   />
                 </figure>
               </div>

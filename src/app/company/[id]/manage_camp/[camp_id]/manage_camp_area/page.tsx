@@ -104,7 +104,9 @@ const AddCampArea = () => {
                   alt='캠핑존 이미지'
                   width={150}
                   height={150}
-                  priority
+                  loading='lazy'
+                  placeholder='blur'
+                  blurDataURL={camparea.photo_url}
                   className={styles.img}
                 />
                 <div className={styles.textBox}>

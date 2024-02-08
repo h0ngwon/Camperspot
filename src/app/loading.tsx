@@ -7,6 +7,7 @@ const Loading = () => {
   return (
     <div className={styles.container}>
       <Image src={loader} width={0} height={0} alt='loader' className={styles.image} priority/>
+      
     </div>
   );
 };

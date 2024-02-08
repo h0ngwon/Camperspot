@@ -56,7 +56,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
                     objectFit: 'cover',
                     objectPosition: '50% 50%',
                   }}
-                  priority
+                  loading='lazy'
                 />
                 <button
                   type='button'

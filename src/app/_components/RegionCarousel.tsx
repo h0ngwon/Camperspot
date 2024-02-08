@@ -47,6 +47,7 @@ const RegionCarousel = () => {
                   height={285}
                   alt=''
                   className={styles.pic}
+                  loading='lazy'
                 />
               </figure>
               <p>{region.name}</p>
