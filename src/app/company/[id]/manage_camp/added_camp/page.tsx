@@ -103,7 +103,7 @@ const ManageAddedCamp = () => {
                           height='0'
                           sizes='100vw'
                           style={{ width: '100%', height: '100vh' }}
-                          priority
+                          loading='lazy'
                         />
                       </div>
                       <div className={styles.campNameWrap}>

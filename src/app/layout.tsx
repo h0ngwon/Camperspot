@@ -8,6 +8,7 @@ import Footer from './_components/Footer';
 import Header from './_components/Header';
 import Providers from './_components/Providers';
 import Loading from './loading';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 export const metadata: Metadata = {
   title: '캠퍼스팟 (Camperspot)',
@@ -56,7 +57,10 @@ export default function RootLayout({
           <div id='modal'></div>
           <Header />
           <Spacer y={80} />
-          <Suspense fallback={<Loading />}>{children}</Suspense>
+          <Suspense fallback={<Loading />}>
+            {children}
+            <SpeedInsights />
+          </Suspense>
           <Spacer y={80} />
           <Footer />
         </Providers>

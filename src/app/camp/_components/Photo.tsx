@@ -37,6 +37,7 @@ export default class Photo extends Component<PhotoProps> {
                 fill
                 sizes='(min-width: 900px) 450px, 100vw'
                 className={styles.pic}
+                loading='lazy'
               />
             </div>
           ))}

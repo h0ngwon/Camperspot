@@ -17,6 +17,8 @@ export default function DetailImg({ campPic }: Props) {
               alt=''
               fill
               priority
+              placeholder='blur'
+              blurDataURL={photo.photo_url}
               sizes='(min-width: 900px) 450px, 100vw'
             />
           </div>

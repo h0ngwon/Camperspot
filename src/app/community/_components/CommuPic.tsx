@@ -55,7 +55,6 @@ export default function CommuEditPic({
               src={item.photo_url}
               alt={`이미지`}
               fill
-              priority
               quality={100}
               sizes='(min-width: 900px) 450px, 100vw'
               className={styles['slide-wrap-img']}

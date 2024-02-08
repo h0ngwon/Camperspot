@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation';
 import styles from '../_styles/Like.module.css';
 import ShareSvg from '../_svg/ShareSvg';
+import { toast } from 'react-toastify';
 
 export default function DetailShareBtn() {
   const params = useParams() as { id: string };
@@ -13,7 +14,7 @@ export default function DetailShareBtn() {
       // Clipboard API를 이용하여 텍스트를 클립보드에 복사
       await navigator.clipboard.writeText(text);
       // 복사 성공 시 알림 메시지 표시
-      alert('클립보드에 복사되었습니다.');
+      toast.success('클립보드에 복사되었습니다!')
     } catch (error) {
       // 복사 실패 시 에러 로그 출력
       console.error(error);

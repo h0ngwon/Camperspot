@@ -24,6 +24,9 @@ const CampCard = ({ camp }: Props) => {
           <Image
             src={camp_pic[0]?.photo_url}
             fill
+            loading='lazy'
+            placeholder='blur'
+            blurDataURL={camp_pic[0]?.photo_url}
             alt='캠프 이미지'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
             className={styles.img}
