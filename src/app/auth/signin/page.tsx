@@ -1,12 +1,11 @@
 'use client';
-import Image from 'next/image';
 import Link from 'next/link';
 // import logo from '../../../asset/logo.png';
+import LogoSvg from '@/app/_Svg/LogoSvg';
 import KakaoButton from './_components/KakaoButton';
 import NaverButton from './_components/NaverButton';
 import SigninForm from './_components/SigninForm';
 import styles from './_styles/SigninPage.module.css';
-import LogoSvg from '@/app/_Svg/LogoSvg';
 
 const SigninPage = () => {
   return (

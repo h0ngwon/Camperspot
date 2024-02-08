@@ -84,6 +84,7 @@ const ProfileModifyForm = () => {
               width={120}
               height={120}
               alt='profile'
+              priority
               className={styles['profile-image']}
             />
           </div>

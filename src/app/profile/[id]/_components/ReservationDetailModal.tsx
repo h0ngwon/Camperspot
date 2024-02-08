@@ -1,9 +1,11 @@
 'use client';
-import type { UserReservationInfo } from '@/types/reservation';
-import type { CompanyReservationInfo } from '@/types/reservation';
-import styles from '../_styles/ReservationDetailModal.module.css';
-import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
+import ReservationArrowSvg from '@/components/ReservationArrowSvg';
+import type {
+  CompanyReservationInfo,
+  UserReservationInfo,
+} from '@/types/reservation';
+import styles from '../_styles/ReservationDetailModal.module.css';
 
 const ReservationDetailModal = ({
   reservation,

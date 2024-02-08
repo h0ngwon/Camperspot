@@ -1,11 +1,11 @@
 'use client';
 import { supabase } from '@/app/api/db';
+import Loading from '@/app/loading';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getSession, useSession } from 'next-auth/react';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { getSession } from 'next-auth/react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './_styles/ManageCompanyUserInfo.module.css';
 import EditPencilSvg from './_svg/EditPencilSvg';
-import Loading from '@/app/loading';
 
 const ManageCompanyInfo = () => {
   const queryClient = useQueryClient();

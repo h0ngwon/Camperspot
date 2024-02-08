@@ -1,13 +1,14 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../_styles/SearchBar.module.css';
-import Calendar from './Calendar';
-import formatDate from '../_utils/date';
 import SearchSvg from '@/components/SearchSvg';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { formattedDate } from '../camp/_lib/formattedDate';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import styles from '../_styles/SearchBar.module.css';
+import formatDate from '../_utils/date';
+import { formattedDate } from '../camp/_lib/formattedDate';
+import Calendar from './Calendar';
 import PeopleCount from './PeopleCount';
+
 const SearchBar = () => {
   const [searchedCamp, setSearchedCamp] = useState<string>('');
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([

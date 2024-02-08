@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import DetailAddress from './DetailAddress';
 
 import styles from '../_styles/kakaoMap.module.css';

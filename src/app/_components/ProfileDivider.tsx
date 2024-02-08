@@ -1,12 +1,12 @@
 'use client';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../_styles/ProfileDiveder.module.css';
-import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
+import { Session } from 'next-auth';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import Company from '../_Svg/CompanySvg';
+import styles from '../_styles/ProfileDiveder.module.css';
 import { getUserData } from '../profile/[id]/_lib/profile';
 import ProfileDropDown from './ProfileDropDown';
-import Company from '../_Svg/CompanySvg';
 
 type Props = {
   session: Session;

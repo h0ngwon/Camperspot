@@ -1,5 +1,6 @@
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 import styles from '../_styles/ReservationCancelCompleteModal.module.css';
+
 type Props = { onClose: () => void; customLeft?: number; customTop?: number };
 
 export default function ReservationCancelCompleteModal({

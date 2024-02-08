@@ -1,4 +1,3 @@
-import React from 'react';
 import Star from '../_svg/Star';
 
 import styles from '../_styles/DetailAvg.module.css';

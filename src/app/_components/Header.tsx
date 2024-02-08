@@ -4,10 +4,11 @@ import MyProfileSvg from '@/components/MyProfileSvg';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import styles from '../_styles/Header.module.css';
-import SearchBar from './SearchBar';
-import ProfileDivider from './ProfileDivider';
 import LogoSvg from '../_Svg/LogoSvg';
+import styles from '../_styles/Header.module.css';
+import ProfileDivider from './ProfileDivider';
+import SearchBar from './SearchBar';
+
 const Header = () => {
   const pathname = usePathname();
   const conditions = pathname.startsWith('/auth');

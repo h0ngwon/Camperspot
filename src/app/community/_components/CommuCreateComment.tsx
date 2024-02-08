@@ -1,14 +1,14 @@
 'use client';
 
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/app/api/db';
-import { v4 as uuid } from 'uuid';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { v4 as uuid } from 'uuid';
 
-import styles from '../_styles/CommuDetailModal.module.css';
 import Loading from '@/app/loading';
+import styles from '../_styles/CommuDetailModal.module.css';
 
 type Props = {
   postId: string;

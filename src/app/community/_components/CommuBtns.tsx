@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CommuLikeBtn from './CommuLikeBtn';
 
 import styles from '../_styles/CommuBtn.module.css';

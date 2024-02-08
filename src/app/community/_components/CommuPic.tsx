@@ -1,14 +1,14 @@
 'use client';
 
-import React, { ChangeEvent } from 'react';
 import Image from 'next/image';
+import React, { ChangeEvent } from 'react';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 
-import styles from '../_styles/CommuPhotos.module.css';
 import CarouselNextArrow from '@/components/CarouselNextArrow';
 import CarouselPrevArrow from '@/components/CarouselPrevArrow';
+import styles from '../_styles/CommuPhotos.module.css';
 import CommuPicSvg from '../_svg/CommuPicSvg';
 import DeleteSvg from '../_svg/DeleteSvg';
 
@@ -54,8 +54,11 @@ export default function CommuEditPic({
             <Image
               src={item.photo_url}
               alt={`이미지`}
-              layout='fill'
-              objectFit='cover'
+              fill
+              priority
+              quality={100}
+              sizes='(min-width: 900px) 450px, 100vw'
+              className={styles['slide-wrap-img']}
             />
           </div>
           <div className={styles.deleteWrap}>

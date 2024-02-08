@@ -1,4 +1,5 @@
 import styles from '@/styles/CarouselBtn.module.css';
+
 type Props = {
   className?: any;
   style?: any;

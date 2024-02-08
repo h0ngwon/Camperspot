@@ -1,14 +1,13 @@
 'use client';
 import { supabase } from '@/app/api/db';
+import Loading from '@/app/loading';
 import { useQuery } from '@tanstack/react-query';
-import styles from './_styles/Camp.module.css';
-import React from 'react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
+import styles from './_styles/Camp.module.css';
 import EmptyCampIllustSvg from './_svg/EmptyCampIllustSvg';
-import RightArrowSvg from './_svg/RightArrowSvg';
 import PreviewSvg from './_svg/PreviewSvg';
-import Loading from '@/app/loading';
+import RightArrowSvg from './_svg/RightArrowSvg';
 
 const ManageAddedCamp = () => {
   const router = useRouter();
@@ -39,7 +38,7 @@ const ManageAddedCamp = () => {
   });
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {

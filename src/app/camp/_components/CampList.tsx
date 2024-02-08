@@ -1,13 +1,13 @@
 'use client';
-import styles from '../_styles/CampList.module.css';
-import { FaStar } from 'react-icons/fa';
-import Hashtag from './Hashtag';
-import Link from 'next/link';
-import Photo from './Photo';
-import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
-import type { ParamsCamp, SearchCamp } from '@/types/campList';
-import { useSearchParams } from 'next/navigation';
 import AddressSvg from '@/components/AddressSvg';
+import type { ParamsCamp, SearchCamp } from '@/types/campList';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { FaStar } from 'react-icons/fa';
+import styles from '../_styles/CampList.module.css';
+import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
+import Hashtag from './Hashtag';
+import Photo from './Photo';
 
 type Props = {
   campList: ParamsCamp | SearchCamp;

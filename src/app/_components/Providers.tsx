@@ -1,9 +1,9 @@
 'use client';
 
-import AuthSession from './AuthSession';
-import QueryProvider from './QueryProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.css';
+import AuthSession from './AuthSession';
+import QueryProvider from './QueryProvider';
 
 type Props = {
   children: React.ReactNode;

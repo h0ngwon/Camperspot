@@ -1,12 +1,11 @@
 'use client';
+import ko from 'date-fns/locale/ko';
 import React, { ReactNode } from 'react';
 import ReactDatePicker, {
   CalendarContainer,
   registerLocale,
 } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ko from 'date-fns/locale/ko';
-import svg from '@/asset/Calendar.svg';
 import styles from '../_styles/Calendar.module.css';
 registerLocale('ko', ko);
 

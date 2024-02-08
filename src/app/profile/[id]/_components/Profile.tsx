@@ -31,6 +31,7 @@ const Profile = () => {
                 width={120}
                 height={120}
                 alt='profile'
+                priority
                 className={styles['profile-image']}
                 onClick={toggleModal}
               />
@@ -67,13 +68,13 @@ const Profile = () => {
             <span className={styles['provider-info']}>가입정보</span>
             <div className={styles['provider-inner']}>
               <span>
-                {profile?.provider === 'kakao' && '카카오 이메일 간편가입'}
+                {profile?.provider === 'kakao' && '카카오 이메일 간편가입'}{' '}
                 {profile?.provider === 'kakao' && (
                   <Image src={kakao} width={16} height={16} alt='kakao' />
                 )}
               </span>
               <span>
-                {profile?.provider === 'naver' && '네이버 이메일 간편가입'}
+                {profile?.provider === 'naver' && '네이버 이메일 간편가입'}{' '}
                 {profile?.provider === 'naver' && (
                   <Image src={naver} width={16} height={16} alt='naver' />
                 )}

@@ -1,4 +1,3 @@
-import React from 'react';
 import ReviewStarSvg from '../_svg/ReviewStarSvg';
 
 type Props = {

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import svg from '@/asset/Calendar.svg';
+import ko from 'date-fns/locale/ko';
+import React from 'react';
 import ReactDatePicker, {
   CalendarContainer,
   registerLocale,
 } from 'react-datepicker';
-import svg from '@/asset/Calendar.svg';
-import ko from 'date-fns/locale/ko';
 import 'react-datepicker/dist/react-datepicker.css';
+import QuestionMarkSvg from '../../_svg/QuestionMarkSvg';
 import styles from '../_styles/Calendar.module.css';
 import Tooltip from './Tooltip';
-import QuestionMarkSvg from '../../_svg/QuestionMarkSvg';
 registerLocale('ko', ko);
 
 type Props = {
