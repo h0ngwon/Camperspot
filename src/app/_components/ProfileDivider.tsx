@@ -7,6 +7,7 @@ import Company from '../_Svg/CompanySvg';
 import styles from '../_styles/ProfileDiveder.module.css';
 import { getUserData } from '../profile/[id]/_lib/profile';
 import ProfileDropDown from './ProfileDropDown';
+import MyProfileSvg from '@/components/MyProfileSvg';
 
 type Props = {
   session: Session;
@@ -55,7 +56,7 @@ const ProfileDivider = ({ session }: Props) => {
         ) : (
           <>
             <Image
-              src={data?.profile_url!}
+              src={data?.profile_url ?? <MyProfileSvg/>}
               alt=''
               width={36}
               height={36}
