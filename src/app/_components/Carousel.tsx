@@ -35,7 +35,7 @@ const Carousel = () => {
         <Slider {...settings}>
           {banners.map((banner, idx) => (
             <figure key={idx}>
-              <Image src={banner} alt='' />
+              <Image src={banner} alt='' priority/>
             </figure>
           ))}
         </Slider>

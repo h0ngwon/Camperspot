@@ -13,6 +13,7 @@ const NotFoundPage = () => {
         height={400}
         quality={100}
         alt='not found page'
+        priority={true}
       />
       <h1>페이지를 찾을 수 없습니다.</h1>
 

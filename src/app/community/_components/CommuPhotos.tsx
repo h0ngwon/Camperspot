@@ -41,8 +41,11 @@ export default function CommuPhotos({ photo }: Props) {
           <Image
             src={pic.photo_url}
             alt={`이미지`}
-            layout='fill'
-            objectFit='cover'
+            fill
+            sizes='(min-width: 900px) 450px, 100vw'
+            priority
+            quality={100}
+            className={styles.image}
           />
         </div>
       ))}

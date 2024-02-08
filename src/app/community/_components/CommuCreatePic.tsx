@@ -47,7 +47,14 @@ export default function CommuCreatePic({
       {postPic.map((item, index) => (
         <div key={index}>
           <div className={styles.slideWrap}>
-            <Image src={item} alt={`이미지`} layout='fill' objectFit='cover' />
+            <Image
+              src={item}
+              alt={`이미지`}
+              fill
+              priority
+              className={styles['preview-img']}
+              sizes='(min-width: 900px) 450px, 100vw'
+            />
           </div>
           <div className={styles.deleteWrap}>
             <button type='button' onClick={() => handleDeleteCampImg(index)}>

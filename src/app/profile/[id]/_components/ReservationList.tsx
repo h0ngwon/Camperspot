@@ -104,6 +104,7 @@ const ReservationList = ({
                     width={120}
                     height={120}
                     alt='camping'
+                    priority
                     style={{ borderRadius: '8px' }}
                   />
                 </Link>

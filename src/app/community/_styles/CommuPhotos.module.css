@@ -5,6 +5,10 @@
   overflow: hidden;
 }
 
+.image {
+  object-fit: cover;
+}
+
 .slideWrap {
   position: relative;
   width: 100%;
@@ -47,4 +51,12 @@
 
 .uploadPic > p {
   color: #fff;
+}
+
+.preview-img {
+  object-fit: cover;
+}
+
+.slide-wrap-img {
+  object-fit: cover;
 }

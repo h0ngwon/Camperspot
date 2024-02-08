@@ -20,8 +20,7 @@ const MyPostContent = ({ post }: Props) => {
             width={381}
             height={381}
             alt='커뮤니티 사진'
-            priority={true}
-            quality={100}
+            priority
           />
         </div>
         <div className={styles['mics']}>

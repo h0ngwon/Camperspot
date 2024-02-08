@@ -54,8 +54,11 @@ export default function CommuEditPic({
             <Image
               src={item.photo_url}
               alt={`이미지`}
-              layout='fill'
-              objectFit='cover'
+              fill
+              priority
+              quality={100}
+              sizes='(min-width: 900px) 450px, 100vw'
+              className={styles['slide-wrap-img']}
             />
           </div>
           <div className={styles.deleteWrap}>
