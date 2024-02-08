@@ -20,10 +20,10 @@
 
     width: 56px;
     height: 19px;
-
 }
 
 
 .profileImg {
     border-radius: 50%;
+    object-fit: cover;
 }
