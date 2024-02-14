@@ -7,6 +7,7 @@ import { supabase } from '@/app/api/db';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
 import CommuEditPic from './CommuPic';
+import { isEmptyValue, sanitizeHashTag } from '../_lib/hashTag';
 
 import styles from '../_styles/CommuModal.module.css';
 import CloseSvg from '../_svg/CloseSvg';
@@ -129,25 +130,13 @@ export default function CommuEditModal({
     });
   };
 
-  const isEmptyValue = (value: string | any[]) => {
-    return !value || (Array.isArray(value) && value.length === 0);
-  };
+  const handleHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!['Enter', 'Space', 'NumpadEnter'].includes(e.code)) return;
 
-  const addHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const allowedCommand = ['Comma', 'Enter', 'Space', 'NumpadEnter'];
-    if (!allowedCommand.includes(e.code)) return;
+    let newHashTag = sanitizeHashTag(e.currentTarget.value);
 
     if (isEmptyValue(e.currentTarget.value.trim())) {
       return setInputHashTagEdit('');
-    }
-
-    let newHashTag = e.currentTarget.value.trim();
-    const regExp = /[\{\}\[\]\/?.;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
-    if (regExp.test(newHashTag)) {
-      newHashTag = newHashTag.replace(regExp, '');
-    }
-    if (newHashTag.includes(',')) {
-      newHashTag = newHashTag.split(',').join('');
     }
 
     if (hashTagsEdit.length >= 10 || newHashTag.length > 20) {
@@ -174,17 +163,15 @@ export default function CommuEditModal({
     setInputHashTagEdit('');
   };
 
-  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code !== 'Enter' && e.code !== 'NumpadEnter') return;
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!['Enter', 'NumpadEnter'].includes(e.code)) return;
     e.preventDefault();
 
     const regExp = /^[a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ|0-9| \t|]+$/g;
-    if (!regExp.test(e.currentTarget.value)) {
-      setInputHashTagEdit('');
-    }
+    if (!regExp.test(e.currentTarget.value)) setInputHashTagEdit('');
   };
 
-  const changeHashTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputHashTagEdit(e.target.value);
   };
 
@@ -335,27 +322,25 @@ export default function CommuEditModal({
               <div className={styles.tagsCon}>
                 <label className={styles.blind}>해시태그</label>
                 <input
-                  id='hashTagInput'
                   value={inputHashTagEdit}
-                  onChange={(e) => changeHashTagInput(e)}
-                  onKeyUp={(e) => addHashTag(e)}
-                  onKeyDown={(e) => keyDownHandler(e)}
+                  onChange={handleChange}
+                  onKeyUp={handleHashTag}
+                  onKeyDown={handleEnterKey}
                   placeholder='#해시태그를 등록해보세요. (최대 10개)'
                 />
-                {hashTagsEdit.length > 0 &&
-                  hashTagsEdit.map((item) => {
-                    return (
-                      <span key={item.id}>
-                        # {item.tag}
-                        <button
-                          type='button'
-                          onClick={() => handleDeleteHashtag(item.tag)}
-                        >
-                          <CloseSvg />
-                        </button>
-                      </span>
-                    );
-                  })}
+                {hashTagsEdit.map((hashTag) => {
+                  return (
+                    <span key={hashTag.id}>
+                      # {hashTag.tag}
+                      <button
+                        type='button'
+                        onClick={() => handleDeleteHashtag(hashTag.tag)}
+                      >
+                        <CloseSvg />
+                      </button>
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
