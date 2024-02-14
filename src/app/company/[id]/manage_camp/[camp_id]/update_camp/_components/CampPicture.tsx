@@ -1,8 +1,8 @@
+import Image from 'next/image';
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
-import Image from 'next/image';
-import CancelBtnSvg from '../_svg/CancelBtnSvg';
 import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
+import CancelBtnSvg from '../_svg/CancelBtnSvg';
 
 type Props = {
   campPicture: string[];
@@ -56,7 +56,7 @@ const CampPicture = ({ campPicture, setCampPicture }: Props) => {
                     objectFit: 'cover',
                     objectPosition: '50% 50%',
                   }}
-                  priority
+                  loading='lazy'
                 />
                 <button
                   type='button'

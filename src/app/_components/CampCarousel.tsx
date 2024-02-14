@@ -1,13 +1,12 @@
 'use client';
-import React from 'react';
-import Slider from 'react-slick';
-import CampCard from './CampCard';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import styles from '../_styles/CampCarousel.module.css';
 import NextArrow from '@/components/NextArrow';
 import PrevArrow from '@/components/PrevArrow';
 import { TopReservedCamp } from '@/types/campList';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import styles from '../_styles/CampCarousel.module.css';
+import CampCard from './CampCard';
 
 type Props = {
   camp: TopReservedCamp[];

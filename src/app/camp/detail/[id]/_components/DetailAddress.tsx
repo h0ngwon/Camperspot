@@ -1,6 +1,7 @@
 import LocationSvg from '../_svg/LocationSvg';
 
 import styles from '../_styles/DetailAddress.module.css';
+import { toast } from 'react-toastify';
 
 type Props = {
   address: string | undefined;
@@ -12,7 +13,7 @@ export default function DetailAddress({ address }: Props) {
       navigator.clipboard
         .writeText(address)
         .then(() => {
-          alert('복사되었습니다.');
+          toast.success('클립보드에 복사되었습니다!');
         })
         .catch((error) => {
           console.error(error);

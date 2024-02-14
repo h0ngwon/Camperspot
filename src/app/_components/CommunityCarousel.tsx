@@ -1,10 +1,10 @@
 'use client';
-import React, { Component } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import styles from '../_styles/CommunityCarousel.module.css';
 import Image from 'next/image';
+import { Component } from 'react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import styles from '../_styles/CommunityCarousel.module.css';
 
 type Props = {
   pics: { camp_id: string; id: string; photo_url: string }[];
@@ -27,6 +27,7 @@ export default class CommunityCarousel extends Component<Props> {
       autoplaySpeed: 0,
       arrows: false,
       rtl: rtl,
+      pauseOnHover: false,
     };
     return (
       <div className={styles.box}>
@@ -41,6 +42,7 @@ export default class CommunityCarousel extends Component<Props> {
                     height={133}
                     alt=''
                     className={styles.pic}
+                    loading='lazy'
                   />
                 </figure>
               </div>

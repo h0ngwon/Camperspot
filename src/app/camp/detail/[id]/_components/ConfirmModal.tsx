@@ -1,5 +1,5 @@
-import styles from '../_styles/ConfirmModal.module.css';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
+import styles from '../_styles/ConfirmModal.module.css';
 
 type Props = {
   title: string;
@@ -7,6 +7,7 @@ type Props = {
   onClose: () => void;
   onConfirm: () => void;
 };
+
 const ConfirmModal = ({ title, open, onClose, onConfirm }: Props) => {
   if (!open) return <></>;
   const handleConfirm = () => {

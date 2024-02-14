@@ -1,11 +1,11 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
-import { getUserReservation } from '../_lib/getUserReservation';
-import { useParams } from 'next/navigation';
-import styles from '../_styles/ReservationDetail.module.css';
-import ReservationList from './ReservationList';
-import { NothingReservation } from './NothingReservation';
 import Loading from '@/app/loading';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { getUserReservation } from '../_lib/getUserReservation';
+import styles from '../_styles/ReservationDetail.module.css';
+import { NothingReservation } from './NothingReservation';
+import ReservationList from './ReservationList';
 
 export const ReservationDetail = () => {
   const params = useParams();
@@ -56,13 +56,20 @@ export const ReservationDetail = () => {
           />
         </ul>
       ) : (
-        <NothingReservation />
+        <NothingReservation text={'예약된 캠핑장이 없습니다.'} />
       )}
 
       <p className={styles.p1}>이용 완료</p>
-      <ul className={styles.ul}>
-        <ReservationList reservations={passedReservation!} isPlanned={false} />
-      </ul>
+      {passedReservation?.length ? (
+        <ul className={styles.ul}>
+          <ReservationList
+            reservations={passedReservation!}
+            isPlanned={false}
+          />
+        </ul>
+      ) : (
+        <NothingReservation text={'이용 완료된 캠핑장이 없습니다.'} />
+      )}
     </div>
   );
 };

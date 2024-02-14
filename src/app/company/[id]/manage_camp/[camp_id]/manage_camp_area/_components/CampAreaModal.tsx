@@ -1,5 +1,10 @@
 'use client';
-import React, {
+import { supabase } from '@/app/api/db';
+import useInput from '@/hooks/useInput';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import {
   ChangeEvent,
   Dispatch,
   FormEvent,
@@ -7,17 +12,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import styles from '../_styles/CampAreaForm.module.css';
-import useInput from '@/hooks/useInput';
-import { supabase } from '@/app/api/db';
-import { useParams } from 'next/navigation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { v4 as uuid } from 'uuid';
-import Image from 'next/image';
 import { toast } from 'react-toastify';
-import RemoveBtnSvg from '../_svg/RemoveBtnSvg';
-import CancelBtnSvg from '../_svg/CancelBtnSvg';
+import { v4 as uuid } from 'uuid';
+import styles from '../_styles/CampAreaForm.module.css';
 import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
+import CancelBtnSvg from '../_svg/CancelBtnSvg';
+import RemoveBtnSvg from '../_svg/RemoveBtnSvg';
 
 type Props = { setCampAreaModal: Dispatch<SetStateAction<boolean>> };
 

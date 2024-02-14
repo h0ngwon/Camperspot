@@ -1,7 +1,7 @@
 import DetailReveiwStar from './DetailReveiwStar';
 
-import styles from '../_styles/DetailReview.module.css';
 import Image from 'next/image';
+import styles from '../_styles/DetailReview.module.css';
 
 type Props = {
   review:

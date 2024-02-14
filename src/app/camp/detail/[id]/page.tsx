@@ -1,21 +1,21 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { supabase } from '@/app/api/db';
 import { useQuery } from '@tanstack/react-query';
-import KakaoMap from './_components/KakaoMap';
-import DetailShareBtn from './_components/DetailShareBtn';
-import DetailLikeBtn from './_components/DetailLikeBtn';
-import DetailReviews from './_components/DetailReviews';
-import DetailImg from './_components/DetailImg';
-import DetailHashtags from './_components/DetailHashtags';
+import { useParams } from 'next/navigation';
+import DetailAddress from './_components/DetailAddress';
 import DetailCampZone from './_components/DetailCampZone';
 import DetailFacility from './_components/DetailFacility';
-import DetailAddress from './_components/DetailAddress';
+import DetailHashtags from './_components/DetailHashtags';
+import DetailImg from './_components/DetailImg';
+import DetailLikeBtn from './_components/DetailLikeBtn';
+import DetailReviews from './_components/DetailReviews';
+import DetailShareBtn from './_components/DetailShareBtn';
+import KakaoMap from './_components/KakaoMap';
 
-import styles from './_styles/Detail.module.css';
-import DetailAvg from './_components/DetailAvg';
 import Loading from '@/app/loading';
+import DetailAvg from './_components/DetailAvg';
+import styles from './_styles/Detail.module.css';
 
 export default function DetailPage() {
   const params = useParams() as { id: string };
@@ -45,7 +45,7 @@ export default function DetailPage() {
   });
 
   if (isLoading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   if (isError) {

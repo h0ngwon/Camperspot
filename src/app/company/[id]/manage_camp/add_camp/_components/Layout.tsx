@@ -1,7 +1,6 @@
+import Image from 'next/image';
 import React, { ChangeEvent, useRef } from 'react';
 import styles from '../_styles/CampForm.module.css';
-import Image from 'next/image';
-import removePicBtn from '@/asset/ico_cancel_btn.png';
 import AddImgBtnSvg from '../_svg/AddImgBtnSvg';
 import CancelBtnSvg from '../_svg/CancelBtnSvg';
 

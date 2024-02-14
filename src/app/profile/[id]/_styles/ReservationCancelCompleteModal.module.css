@@ -3,7 +3,7 @@
   height: 190px;
   padding: 2rem;
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   border: 1px solid #999999;
   border-radius: 1rem;
@@ -12,29 +12,21 @@
   z-index: 999;
 }
 
+.close-btn {
+  position: absolute;
+  top: 4%;
+  right: 5%;
+}
+
 .h2 {
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 2rem;
 }
 
-.buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.no-cancel-btn {
-  width: 120px;
-  margin: 0 0.5rem;
-  padding: 0.5rem 0.8rem;
-  cursor: pointer;
-  border: 1px solid #4db635;
-  border-radius: 0.5rem;
-}
-
-.cancel-btn {
-  width: 120px;
+.button {
+  width: 270px;
+  height: 40px;
   margin: 0 0.5rem;
   padding: 0.5rem 0.8rem;
   cursor: pointer;

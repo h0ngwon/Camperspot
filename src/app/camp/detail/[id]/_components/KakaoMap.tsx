@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 import DetailAddress from './DetailAddress';
 
 import styles from '../_styles/kakaoMap.module.css';
@@ -43,34 +43,40 @@ export default function KakaoMap({ campAddress }: Props) {
     return () => mapScript.removeEventListener('load', () => {});
   }, []);
 
-  const searchAddress = (address: string) => {
-    if (map) {
-      const geocoder = new window.kakao.maps.services.Geocoder();
+  const searchAddress = useCallback(
+    (address: string) => {
+      if (map) {
+        const geocoder = new window.kakao.maps.services.Geocoder();
 
-      geocoder.addressSearch(address, (result: any, status: any) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
-          const marker = new window.kakao.maps.Marker({
-            map: map,
-            position: coords,
-          });
+        geocoder.addressSearch(address, (result: any, status: any) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const coords = new window.kakao.maps.LatLng(
+              result[0].y,
+              result[0].x,
+            );
+            const marker = new window.kakao.maps.Marker({
+              map: map,
+              position: coords,
+            });
 
-          const infowindow = new window.kakao.maps.InfoWindow({
-            content: `<div style="width:150px;text-align:center;padding:6px 0;">${campAddress}</div>`,
-          });
+            const infowindow = new window.kakao.maps.InfoWindow({
+              content: `<div style="width:150px;text-align:center;padding:6px 0;">${campAddress}</div>`,
+            });
 
-          infowindow.open(map, marker);
-          map.setCenter(coords);
-        }
-      });
-    }
-  };
+            infowindow.open(map, marker);
+            map.setCenter(coords);
+          }
+        });
+      }
+    },
+    [campAddress, map],
+  );
 
   useEffect(() => {
     if (map) {
       searchAddress(`${campAddress}`);
     }
-  }, [map, campAddress]);
+  }, [map, campAddress, searchAddress]);
 
   return (
     <>

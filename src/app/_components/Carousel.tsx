@@ -1,15 +1,14 @@
 'use client';
 
-import React from 'react';
-import Slider from 'react-slick';
-import styles from '../_styles/Carousel.module.css';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import banner1 from '@/asset/main_banner_1.png';
 import banner2 from '@/asset/main_banner_2.png';
 import banner3 from '@/asset/main_banner_3.png';
 import banner4 from '@/asset/main_banner_4.png';
 import Image from 'next/image';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import styles from '../_styles/Carousel.module.css';
 
 const Carousel = () => {
   const banners = [banner1, banner2, banner3, banner4];
@@ -25,8 +24,8 @@ const Carousel = () => {
     arrows: false,
     centerPadding: '360px',
 
-    className: 'center',
-    centerMode: true,
+    // className: 'center',
+    // centerMode: true,
   };
 
   return (
@@ -35,7 +34,7 @@ const Carousel = () => {
         <Slider {...settings}>
           {banners.map((banner, idx) => (
             <figure key={idx}>
-              <Image src={banner} alt='' />
+              <Image src={banner} alt='' priority />
             </figure>
           ))}
         </Slider>

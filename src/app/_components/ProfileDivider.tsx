@@ -1,12 +1,13 @@
 'use client';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../_styles/ProfileDiveder.module.css';
-import { Session } from 'next-auth';
 import { useQuery } from '@tanstack/react-query';
+import { Session } from 'next-auth';
+import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
+import Company from '../_Svg/CompanySvg';
+import styles from '../_styles/ProfileDiveder.module.css';
 import { getUserData } from '../profile/[id]/_lib/profile';
-import Company from '../_Svg/Company';
 import ProfileDropDown from './ProfileDropDown';
+import MyProfileSvg from '@/components/MyProfileSvg';
 
 type Props = {
   session: Session;
@@ -23,7 +24,6 @@ const ProfileDivider = ({ session }: Props) => {
     setIsOpen((prev) => !prev);
   };
 
-  //돔 직접 조작 다른방법...
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropDownRef.current &&
@@ -56,7 +56,7 @@ const ProfileDivider = ({ session }: Props) => {
         ) : (
           <>
             <Image
-              src={data?.profile_url!}
+              src={data?.profile_url ?? <MyProfileSvg/>}
               alt=''
               width={36}
               height={36}

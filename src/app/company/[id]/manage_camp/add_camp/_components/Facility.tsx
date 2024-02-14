@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import type { Tables } from '@/types/supabase';
 import { supabase } from '@/app/api/db';
+import type { Tables } from '@/types/supabase';
+import React, { useCallback, useEffect } from 'react';
 import styles from '../_styles/CampForm.module.css';
 
 type Props = {
@@ -17,16 +17,16 @@ const Facility = ({
   setCheckedFacility,
 }: Props) => {
   // facility 테이블에서 option 가져오는거
-  async function fetchFacilityData() {
+  const fetchFacilityData = useCallback(async () => {
     const { data: facilityData } = await supabase.from('facility').select('*');
     if (facilityData) {
       setFacility(facilityData);
     }
-  }
+  }, [setFacility]);
 
   useEffect(() => {
     fetchFacilityData();
-  }, []);
+  }, [fetchFacilityData]);
 
   // 시설 정보 체크, 체크해제 로직
   const onHandleCheckFacility = (value: number) => {

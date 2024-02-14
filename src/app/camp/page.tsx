@@ -1,12 +1,12 @@
-import { supabase } from '../api/db';
-import CampList from './_components/CampList';
 import Spacer from '@/components/Spacer';
-import styles from './_styles/Camp.module.css';
+import { Suspense } from 'react';
+import { supabase } from '../api/db';
+import Loading from '../loading';
 import CampFilter from './_components/CampFilter';
+import CampList from './_components/CampList';
 import Pagination from './_components/Pagination';
 import { getPageControllerProps } from './_lib/getPageControllerProps';
-import { Suspense } from 'react';
-import Loading from '../loading';
+import styles from './_styles/Camp.module.css';
 
 export const revalidate = 0;
 
@@ -41,7 +41,7 @@ const Camp = async ({
       <div className={styles.container}>
         <Spacer y={30} />
         <div className={styles.mainWrapper}>
-          <div className={styles.mainHeader}>
+          <div className={styles.mainHeadercamp}>
             <h1 className={styles.title}>{pageTitle}</h1>
             <div className={styles.campFilter}>
               <CampFilter />

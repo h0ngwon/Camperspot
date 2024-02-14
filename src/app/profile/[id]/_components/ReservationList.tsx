@@ -1,22 +1,23 @@
 'use client';
-import { ReviewInfo, UserReservationInfo } from '@/types/reservation';
-import styles from '../_styles/ReservationList.module.css';
-import copy from 'clipboard-copy';
-import { toast } from 'react-toastify';
-import { useState } from 'react';
-import ReservationDetailModal from './ReservationDetailModal';
-import { useRouter } from 'next/navigation';
-import ModalPortal from '@/components/ModalPortal';
 import Modal from '@/components/Modal';
-import useModalStore from '@/store/modal';
-import ReviewModal from './ReviewModal';
-import Image from 'next/image';
+import ModalPortal from '@/components/ModalPortal';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
-import CoordiateSvg from '../_svg/CoordiateSvg';
+import useModalStore from '@/store/modal';
+import { ReviewInfo, UserReservationInfo } from '@/types/reservation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import copy from 'clipboard-copy';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { deleteUserReservation } from '../_lib/deleteUserReservation';
-import ConfirmModal from './ConfirmModal';
-import CompleteModal from './CompleteModal';
+import styles from '../_styles/ReservationList.module.css';
+import CoordiateSvg from '../_svg/CoordiateSvg';
+import ReservationCancelCompleteModal from './ReservationCancelCompleteModal';
+import ReservationCancelConfirmModal from './ReservationCancelConfirmModal';
+import ReservationDetailModal from './ReservationDetailModal';
+import ReviewModal from './ReviewModal';
 
 const ReservationList = ({
   reservations,
@@ -28,11 +29,15 @@ const ReservationList = ({
   const router = useRouter();
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<number | null>();
-  const [isOpenConfirm, setIsOpenComfirm] = useState<string | null>();
-  const [isOpenComplete, setIsOpenComplete] = useState<string | null>();
+  const [isOpenReservationConfirm, setIsOpenReservationComfirm] = useState<
+    string | null
+  >();
+  const [isOpenReservationComplete, setIsOpenReservationComplete] = useState<
+    string | null
+  >();
   const queryClient = useQueryClient();
   const deleteReservationMutaion = useMutation({
-    mutationFn: () => deleteUserReservation(isOpenComplete!),
+    mutationFn: () => deleteUserReservation(isOpenReservationComplete!),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['mypage', 'profile', 'reservation'],
@@ -41,7 +46,7 @@ const ReservationList = ({
   });
   const handleDelete = () => {
     deleteReservationMutaion.mutate();
-    //setIsOpenComplete(null)
+    // setIsOpenComplete(null);
   };
   const { show, toggleModal } = useModalStore();
 
@@ -50,11 +55,11 @@ const ReservationList = ({
     toast.success('클립보드에 복사되었습니다');
   };
 
-  const handleOpenModal = (index: number) => {
+  const handleOpenReservationModal = (index: number) => {
     setIsOpenDetailModal(index);
     toggleModal();
   };
-  const handleCloseModal = () => {
+  const handleCloseReservationModal = () => {
     setIsOpenDetailModal(null);
     toggleModal();
   };
@@ -91,15 +96,18 @@ const ReservationList = ({
             photo_url,
           };
           return (
-            <>
-              <li className={styles.td} key={id}>
-                <Image
-                  src={photo_url}
-                  width={120}
-                  height={120}
-                  alt='camping'
-                  style={{ borderRadius: '8px' }}
-                />
+            <React.Fragment key={id}>
+              <li className={styles.li}>
+                <Link href={`/camp/detail/${campId}`}>
+                  <Image
+                    src={photo_url}
+                    width={120}
+                    height={120}
+                    alt='camping'
+                    priority
+                    style={{ borderRadius: '8px' }}
+                  />
+                </Link>
                 <div className={styles['camp-info']}>
                   <p className={styles['camp-name']}>
                     {campName}{' '}
@@ -108,9 +116,9 @@ const ReservationList = ({
                     </span>
                   </p>
                   {isPlanned && (
-                    <div className={styles.address}>
+                    <div className={styles['address-info']}>
                       <CoordiateSvg />
-                      <p>{address}</p>
+                      <p className={styles.address}>{address}</p>
                       <div className={styles.div}>
                         <span
                           className={styles.copy}
@@ -135,14 +143,14 @@ const ReservationList = ({
                       className={`${styles.button} ${
                         isPlanned ? styles.highlight : ''
                       }`}
-                      onClick={() => handleOpenModal(idx)}
+                      onClick={() => handleOpenReservationModal(idx)}
                     >
                       상세보기
                     </button>
                     {isPlanned && (
                       <button
                         className={styles.button}
-                        onClick={() => setIsOpenComfirm(id)}
+                        onClick={() => setIsOpenReservationComfirm(id)}
                       >
                         취소하기
                       </button>
@@ -174,7 +182,7 @@ const ReservationList = ({
                           })
                           .replace(/\.\s*\((.)\)$/, ' ($1)')}
                       </p>
-                      <p className={styles.hour}>체크인 {check_in} ~ </p>
+                      <p>체크인 {check_in} ~ </p>
                     </div>
                     <ReservationArrowSvg />
                     <div>
@@ -188,7 +196,7 @@ const ReservationList = ({
                           })
                           .replace(/\.\s*\((.)\)$/, ' ($1)')}
                       </p>
-                      <p className={styles.hour}>체크아웃 ~ {check_out} </p>
+                      <p>체크아웃 ~ {check_out} </p>
                     </div>
                   </div>
                 )}
@@ -211,30 +219,26 @@ const ReservationList = ({
                   <Modal customWidth={450} customHeight={680}>
                     <ReservationDetailModal
                       reservation={reservations[idx]}
-                      onClose={handleCloseModal}
+                      onClose={handleCloseReservationModal}
                     />
                   </Modal>
                 </ModalPortal>
               ) : (
                 ''
               )}
-              {isOpenConfirm == id && (
-                <ConfirmModal
-                  title={'예약을 취소하시겠습니까?'}
+              {isOpenReservationConfirm == id && (
+                <ReservationCancelConfirmModal
                   onCancel={() => {
-                    setIsOpenComfirm(null);
-                    setIsOpenComplete(id);
+                    setIsOpenReservationComfirm(null);
+                    setIsOpenReservationComplete(id);
                   }}
-                  onClose={() => setIsOpenComfirm(null)}
+                  onClose={() => setIsOpenReservationComfirm(null)}
                 />
               )}
-              {isOpenComplete == id && (
-                <CompleteModal
-                  title={'예약이 취소되었습니다.'}
-                  onClose={handleDelete}
-                />
+              {isOpenReservationComplete == id && (
+                <ReservationCancelCompleteModal onClose={handleDelete} />
               )}
-            </>
+            </React.Fragment>
           );
         })}
     </>

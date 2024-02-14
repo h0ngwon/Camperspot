@@ -1,16 +1,15 @@
 'use client';
 
-import Link from 'next/link';
-import React from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import styles from '../_styles/RegionFiltter.module.css';
-import Spacer from '@/components/Spacer';
-import { regions } from '../_lib/regions';
-import Image from 'next/image';
 import NextArrow from '@/components/NextArrow';
 import PrevArrow from '@/components/PrevArrow';
+import Spacer from '@/components/Spacer';
+import Image from 'next/image';
+import Link from 'next/link';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
+import { regions } from '../_lib/regions';
+import styles from '../_styles/RegionFiltter.module.css';
 
 const RegionCarousel = () => {
   const settings = {
@@ -28,7 +27,10 @@ const RegionCarousel = () => {
 
   return (
     <div className={styles.container}>
-      <p>지역별 캠핑장</p>
+      <div className={styles.regionIntro}>
+        <p>지역별 캠핑장</p>
+        <p>지역별 캠핑장을 둘러보세요</p>
+      </div>
       <Spacer y={20} />
 
       <Slider {...settings}>
@@ -41,10 +43,11 @@ const RegionCarousel = () => {
               <figure>
                 <Image
                   src={region.pic}
-                  width={250}
-                  height={200}
+                  width={285}
+                  height={285}
                   alt=''
                   className={styles.pic}
+                  loading='lazy'
                 />
               </figure>
               <p>{region.name}</p>

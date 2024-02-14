@@ -1,7 +1,7 @@
 'use client';
 import Drop from '@/components/Drop';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from '../_styles/CampFilter.module.css';
 
 const CampFilter = () => {
@@ -14,6 +14,7 @@ const CampFilter = () => {
   const pathname = usePathname();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
+  const sortRef = useRef<HTMLDivElement | null>(null);
 
   const handleSelectItem = (list: string) => {
     setSelectedItem(list);
@@ -29,9 +30,23 @@ const CampFilter = () => {
     '낮은가격순',
     '높은가격순',
   ];
+  const handleClickOutside = (event: MouseEvent) => {
+    if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
+      setTimeout(() => {
+        setIsOpen(false);
+      }, 0);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <div className={styles.dropDownBtnBox}>
+    <div className={styles.dropDownBtnBox} ref={sortRef}>
       <button onClick={onHandleOpenDropdown} className={styles.dropDownBtn}>
         <p className={styles.filterText}>{selectedItem}</p>
         <Drop />

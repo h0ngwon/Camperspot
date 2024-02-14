@@ -1,15 +1,15 @@
 'use client';
+import { supabase } from '@/app/api/db';
+import Loading from '@/app/loading';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 import CampAreaModal from './_components/CampAreaModal';
 import styles from './_styles/CampAreaForm.module.css';
-import { supabase } from '@/app/api/db';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { toast } from 'react-toastify';
-import Loading from '@/app/loading';
-import RemoveBtnSvg from './_svg/RemoveBtnSvg';
 import AddBtnSvg from './_svg/AddBtnSvg';
+import RemoveBtnSvg from './_svg/RemoveBtnSvg';
 
 const AddCampArea = () => {
   const [isCampAreaModal, setCampAreaModal] = useState(false);
@@ -104,7 +104,9 @@ const AddCampArea = () => {
                   alt='캠핑존 이미지'
                   width={150}
                   height={150}
-                  priority
+                  loading='lazy'
+                  placeholder='blur'
+                  blurDataURL={camparea.photo_url}
                   className={styles.img}
                 />
                 <div className={styles.textBox}>

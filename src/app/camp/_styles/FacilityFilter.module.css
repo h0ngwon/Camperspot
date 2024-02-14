@@ -1,3 +1,38 @@
+.filter {
+    display: flex;
+}
+
 .checkBox {
     display: flex;
+    gap: 8px;
+}
+
+.divider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.facility {
+    padding: 6px 16px;
+    background: white;
+    border-radius: 20px;
+    border: 1px #E6E6E9 solid;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkBox>li>input[type='checkbox'] {
+    display: none;
+}
+
+
+.checkedLabel {
+    background: var(--primary-600);
+
+    /* border: 2px black solid; */
 }

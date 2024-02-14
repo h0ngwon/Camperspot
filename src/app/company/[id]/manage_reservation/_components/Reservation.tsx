@@ -1,15 +1,15 @@
 'use client';
-import styles from '../_styles/Reservation.module.css';
-import type { CompanyReservationInfo } from '@/types/reservation';
-import ConfirmModal from '@/app/camp/detail/[id]/_components/ConfirmModal';
-import { useState } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCompanyReservation } from '../_lib/reservation';
-import useModalStore from '@/store/modal';
-import { ReservationDetail } from '@/app/profile/[id]/_components/ReservationDetail';
+import ReservationCancelCompleteModal from '@/app/profile/[id]/_components/ReservationCancelCompleteModal';
+import ReservationCancelConfirmModal from '@/app/profile/[id]/_components/ReservationCancelConfirmModal';
 import ReservationDetailModal from '@/app/profile/[id]/_components/ReservationDetailModal';
-import ModalPortal from '@/components/ModalPortal';
 import Modal from '@/components/Modal';
+import ModalPortal from '@/components/ModalPortal';
+import useModalStore from '@/store/modal';
+import type { CompanyReservationInfo } from '@/types/reservation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+import { deleteCompanyReservation } from '../_lib/reservation';
+import styles from '../_styles/Reservation.module.css';
 
 const Reservation = ({
   reservation,
@@ -18,6 +18,7 @@ const Reservation = ({
 }) => {
   const queryClient = useQueryClient();
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
+  const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
   const [isShowDetail, setIsShowDetail] = useState<string | null>();
   const { show, toggleModal } = useModalStore();
   const currentDate = new Date();
@@ -43,6 +44,7 @@ const Reservation = ({
   });
   const handleDelete = () => {
     deleteReservationMutaion.mutate();
+    setIsOpenComplete(false);
   };
   const handleOpenModal = () => {
     setIsShowDetail(id);
@@ -90,12 +92,24 @@ const Reservation = ({
           </div>
         </td>
       </tr>
-      <ConfirmModal
-        title='예약을 취소하시겠습니까?'
-        open={isOpenConfirm}
-        onClose={() => setIsOpenConfirm(false)}
-        onConfirm={handleDelete}
-      />
+      {isOpenConfirm && (
+        <ReservationCancelConfirmModal
+          customLeft={40}
+          customTop={100}
+          onClose={() => setIsOpenConfirm(false)}
+          onCancel={() => {
+            setIsOpenConfirm(false);
+            setIsOpenComplete(true);
+          }}
+        />
+      )}
+      {isOpenComplete && (
+        <ReservationCancelCompleteModal
+          customLeft={40}
+          customTop={100}
+          onClose={handleDelete}
+        />
+      )}
       {show && isShowDetail === id && (
         <ModalPortal>
           <Modal customWidth={450} customHeight={680}>

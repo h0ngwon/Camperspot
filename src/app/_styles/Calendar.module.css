@@ -1,42 +1,35 @@
-.abbaccaddff>div {
-    background-color: white;
-    border-radius: 24px;
+.date-input {
+  cursor: pointer;
+  border: none;
+  border-radius: 48px;
+  background: var(--neutral-50);
+  width:200px;
+  padding:12px;
+  text-align: center;
+  font-weight: 600;
+  font-family: 'Pretendard';
 }
 
-.abbaccaddff>div>div:first-child {
-    background: #e2ffdb;
-    border: none
+.calendarRef {
+  display: flex;
+  gap: 24px;
+  background: #fff;
+  border-radius: 24px;
+  padding: 12px;
+  -webkit-box-shadow:0px 0px 12px 5px rgba(145,150,149,0.9);
+  -moz-box-shadow: 0px 0px 12px 5px rgba(145,150,149,0.9);
+  box-shadow: 0px 0px 12px 5px rgba(145,150,149,0.9);
+  border: none;
+
 }
 
-.bbbbbbbbbbbb {
-    cursor: pointer;
-    border: none;
-    border-radius: 48px;
-    background: var(--neutral-50);
-
+.calendarRef > div > div {
+  background: #fff;
 }
 
-.bbbbbbbbbbbb>div {
-    display: flex;
-    align-items: center;
-}
-
-
-.abbaccaddff [aria-selected="true"] {
-    background: var(--primary-600, #4DB635);
-}
-
-.abbaccaddff>div>div:last-child>div>div react-datepicker__day react-datepicker__day--001 {
-    background-color: rebeccapurple;
-    color: #4DB635;
-}
-
-.abbaccaddff>.react-datepicker__day.react-datepicker__day--keyboard-selected.react-datepicker__day--in-selecting-range.react-datepicker__day--selecting-range-start.react-datepicker__day--selecting-range-end {
-    /* 스타일을 추가하세요 */
-    background-color: red;
-    color: white;
-}
-
-.aaa {
-    background-color: red;
+.calendarRef [aria-selected="true"] {
+  border-radius: 50%;
+  background: var(--primary-600, #4DB635);
+  color:#fff;
+  font-weight: 600;
 }

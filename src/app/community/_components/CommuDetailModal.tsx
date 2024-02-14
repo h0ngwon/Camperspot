@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import CommuUser from './CommuUsers';
-import CommuComment from './CommuComment';
-import CommuPhotos from './CommuPhotos';
 import CommuBtns from './CommuBtns';
+import CommuComment from './CommuComment';
 import CommuHashTags from './CommuHashTags';
+import CommuPhotos from './CommuPhotos';
+import CommuUser from './CommuUsers';
 
 import styles from '../_styles/CommuDetailModal.module.css';
 

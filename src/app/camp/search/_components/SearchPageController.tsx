@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
+import { Dispatch, MouseEvent, SetStateAction } from 'react';
 import styles from '../../_styles/Pagination.module.css';
 
 type Props = {
@@ -6,6 +6,7 @@ type Props = {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
 };
+
 const SearchPageController = ({
   totalData,
   currentPage,

@@ -1,13 +1,14 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
-import styles from '../_styles/SearchBar.module.css';
-import Calendar from './Calendar';
-import formatDate from '../_utils/date';
 import SearchSvg from '@/components/SearchSvg';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { formattedDate } from '../camp/_lib/formattedDate';
+import React, { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
+import styles from '../_styles/SearchBar.module.css';
+import formatDate from '../_utils/date';
+import { formattedDate } from '../camp/_lib/formattedDate';
+import Calendar from './Calendar';
 import PeopleCount from './PeopleCount';
+
 const SearchBar = () => {
   const [searchedCamp, setSearchedCamp] = useState<string>('');
   const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
@@ -61,11 +62,11 @@ const SearchBar = () => {
     setIsOpen((prev) => !prev);
   };
   //
-  const dropDownRef = useRef<HTMLDivElement | null>(null);
-  const handleClickOutside = (event: MouseEvent) => {
+  const peopleRef = useRef<HTMLDivElement | null>(null);
+  const handleClickOutside2 = (event: MouseEvent) => {
     if (
-      dropDownRef.current &&
-      !dropDownRef.current.contains(event.target as Node)
+      peopleRef.current &&
+      !peopleRef.current.contains(event.target as Node)
     ) {
       setTimeout(() => {
         setIsOpen(false);
@@ -73,10 +74,10 @@ const SearchBar = () => {
     }
   };
   useEffect(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('click', handleClickOutside2);
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('click', handleClickOutside2);
     };
   }, []);
   return (
@@ -106,17 +107,21 @@ const SearchBar = () => {
         </label>
         <Calendar dateRange={dateRange} setDateRange={setDateRange} />
       </div>
-      <div className={styles.searchBox}>
-        <div onClick={onHandlePeoPleController} ref={dropDownRef}>
+      <div
+        className={styles.searchBox}
+        onClick={onHandlePeoPleController}
+        ref={peopleRef}
+      >
+        <div>
           <label htmlFor='people' className={styles.regionSearchText}>
             인원
           </label>
           <div>
-            <span>게스트</span> {count}
+            <span>총 인원</span> {count}
             <span>{count > 9 ? '명 이상' : '명'}</span>
           </div>
+          {isOpen && <PeopleCount count={count} setCount={setCount} />}
         </div>
-        {isOpen && <PeopleCount count={count} setCount={setCount} />}
       </div>
       <button type='submit' className={`${styles.searchBtn} ${styles.active}`}>
         <SearchSvg />

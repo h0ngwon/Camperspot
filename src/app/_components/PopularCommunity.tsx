@@ -1,9 +1,9 @@
-import CommunityCarousel from './CommunityCarousel';
-import styles from '../_styles/PopularCommunity.module.css';
-import Link from 'next/link';
 import Spacer from '@/components/Spacer';
-import RightArrowSvg from './RightArrowSvg';
+import Link from 'next/link';
+import styles from '../_styles/PopularCommunity.module.css';
 import { supabase } from '../api/db';
+import CommunityCarousel from './CommunityCarousel';
+import RightArrowSvg from './RightArrowSvg';
 
 const PopularCommunity = async () => {
   const { data, error } = await supabase.rpc('get_random_pic');

@@ -1,12 +1,11 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
+import ko from 'date-fns/locale/ko';
+import React, { ReactNode } from 'react';
 import ReactDatePicker, {
   CalendarContainer,
   registerLocale,
 } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ko from 'date-fns/locale/ko';
-import svg from '@/asset/Calendar.svg';
 import styles from '../_styles/Calendar.module.css';
 registerLocale('ko', ko);
 
@@ -24,8 +23,8 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
 
   const MyContainer = ({ children }: { children: ReactNode }) => {
     return (
-      <CalendarContainer>
-        <div style={{ position: 'relative' }} className={styles.abbaccaddff}>
+      <CalendarContainer className={styles.popper}>
+        <div style={{ position: 'relative' }} className={styles.calendarRef}>
           {children}
         </div>
       </CalendarContainer>
@@ -43,11 +42,10 @@ const Calendar = ({ dateRange, setDateRange }: Props) => {
       }}
       locale='ko'
       minDate={new Date()}
-      dateFormat='yyyy-MM-dd'
-      showIcon
+      dateFormat='yyyy.MM.dd'
       calendarContainer={MyContainer}
-      icon={svg}
-      className={styles.bbbbbbbbbbbb}
+      className={styles['date-input']}
+      monthsShown={2}
     />
   );
 };

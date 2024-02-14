@@ -1,13 +1,13 @@
 'use client';
-import styles from '../_styles/CampList.module.css';
-import { FaStar } from 'react-icons/fa';
-import Hashtag from './Hashtag';
-import Link from 'next/link';
-import Photo from './Photo';
-import Spacer from '@/components/Spacer';
-import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
+import AddressSvg from '@/components/AddressSvg';
 import type { ParamsCamp, SearchCamp } from '@/types/campList';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { FaStar } from 'react-icons/fa';
+import styles from '../_styles/CampList.module.css';
+import DetailLikeBtn from '../detail/[id]/_components/DetailLikeBtn';
+import Hashtag from './Hashtag';
+import Photo from './Photo';
 
 type Props = {
   campList: ParamsCamp | SearchCamp;
@@ -32,41 +32,47 @@ const CampList = ({ campList }: Props) => {
               <div className={styles.photoAndLike}>
                 <Photo photos={camp_pic} />
               </div>
-              <Spacer y={30} />
-              <div className={styles.cardMiddle}>
-                <div className={styles.campInfoBox1}>
-                  <p>{camp.name}</p>
-                  {param === '높은가격순' ? (
-                    <p>
-                      {camp.camp_area_max_price === 0
-                        ? '무료'
-                        : `${camp.camp_area_max_price?.toLocaleString()}원~`}
-                    </p>
-                  ) : (
-                    <p>
-                      {camp.camp_area_min_price === 0
-                        ? '무료'
-                        : `${camp.camp_area_min_price?.toLocaleString()}원~`}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className={styles.cardMiddle}>
-                <div className={styles.campInfoBox2}>
+
+              <div className={styles.campInfo}>
+                {camp.review_count === null ? (
+                  <p>
+                    <FaStar size='15' color='#fff384' />
+                    0(0)
+                  </p>
+                ) : (
                   <p>
                     <FaStar size='15' color='#fff384' /> {reviewAverage}(
                     {camp.review_count})
                   </p>
+                )}
+                <p className={styles.campTitle}>{camp.name}</p>
+                <div className={styles.campAddress}>
+                  <AddressSvg width={'16'} height={'17'} />
                   <p>{camp.address}</p>
                 </div>
+
+                {param === '높은가격순' ? (
+                  <p className={styles.campPrice}>
+                    {camp.camp_area_max_price === 0
+                      ? '무료'
+                      : `${camp.camp_area_max_price?.toLocaleString()}원~`}
+                  </p>
+                ) : (
+                  <p className={styles.campPrice}>
+                    {camp.camp_area_min_price === 0
+                      ? '무료'
+                      : `${camp.camp_area_min_price?.toLocaleString()}원~`}
+                  </p>
+                )}
               </div>
             </Link>
-            <div className={styles.likeWrap}>
-              <DetailLikeBtn campId={camp.id} showCount={false} />
-            </div>
             <ul className={styles.cardTag}>
               <Hashtag tags={hashtag} />
             </ul>
+
+            <div className={styles.likeWrap}>
+              <DetailLikeBtn campId={camp.id} showCount={false} />
+            </div>
           </div>
         );
       })}

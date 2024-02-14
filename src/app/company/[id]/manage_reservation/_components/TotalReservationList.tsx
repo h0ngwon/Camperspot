@@ -1,18 +1,18 @@
 'use client';
-import React, { useState } from 'react';
+import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
+import Loading from '@/app/loading';
+import type { CompanyReservationInfo } from '@/types/reservation';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { getStartDate, getEndDate } from '../_lib/getDateRange';
+import { useState } from 'react';
 import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
-import Calendar from './Calendar';
-import ResrevationSearchSvg from '../../_svg/ResrevationSearchSvg';
-import Reservation from './Reservation';
-import NothingReservation from './NothingReservation';
-import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
-import type { CompanyReservationInfo } from '@/types/reservation';
-import styles from '../_styles/TotalReservationList.module.css';
 import InputEraserSvg from '../../_svg/InputEraserSvg';
-import Loading from '@/app/loading';
+import ResrevationSearchSvg from '../../_svg/ResrevationSearchSvg';
+import { getEndDate, getStartDate } from '../_lib/getDateRange';
+import styles from '../_styles/TotalReservationList.module.css';
+import Calendar from './Calendar';
+import NothingReservation from './NothingReservation';
+import Reservation from './Reservation';
 
 const TotalReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(getStartDate);
@@ -37,7 +37,7 @@ const TotalReservationList = () => {
       ),
   });
 
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
 
   const handleSearch = () => {
     if (!text.trim()) return;
@@ -122,7 +122,9 @@ const TotalReservationList = () => {
         </div>
       </div>
       {reservations?.length ? (
-        <div>
+        <div
+          className={isSearch && !result?.length ? undefined : styles.scroll}
+        >
           <table className={styles.table}>
             <thead>
               <tr>

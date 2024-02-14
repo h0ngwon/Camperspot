@@ -32,7 +32,7 @@
 }
 
 .card {
-    width: 265px;
+    width: 284px;
     height: 417px;
     padding: 19px 16px;
     display: flex;
@@ -104,7 +104,7 @@
 
 .price {
     width: 100%;
-    color: #1A2035;
+    color: rgb(58, 138, 40);
     font-size: 24px;
     font-family: Pretendard;
     font-weight: 600;

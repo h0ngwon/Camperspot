@@ -1,8 +1,9 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import styles from '../_styles/Pagination.module.css';
 import { MouseEvent, useEffect, useState } from 'react';
+import styles from '../_styles/Pagination.module.css';
+
 interface Props {
   hasNextPage: boolean;
   hasPrevPage: boolean;

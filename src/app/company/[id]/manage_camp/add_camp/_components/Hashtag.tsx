@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../_styles/CampForm.module.css';
 import { toast } from 'react-toastify';
+import styles from '../_styles/CampForm.module.css';
 import RemoveBtnSvg from '../_svg/RemoveBtnSvg';
 
 type Props = {

@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode';
 import styles from '../_styles/SearchAddress.module.css';
 

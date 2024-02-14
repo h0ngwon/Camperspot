@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import empty_camp from '@/asset/ico_empty_camp.png';
+import Image from 'next/image';
 import styles from '../_styles/NothingReservation.module.css';
 
 const NothingReservation = ({ text }: { text: string }) => {

@@ -12,7 +12,15 @@ export default function DetailImg({ campPic }: Props) {
       {campPic?.map((photo, index) => {
         return (
           <div key={index}>
-            <Image src={photo?.photo_url} alt='' fill />
+            <Image
+              src={photo?.photo_url}
+              alt=''
+              fill
+              priority
+              placeholder='blur'
+              blurDataURL={photo.photo_url}
+              sizes='(min-width: 900px) 450px, 100vw'
+            />
           </div>
         );
       })}

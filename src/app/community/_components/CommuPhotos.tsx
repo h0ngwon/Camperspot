@@ -1,10 +1,10 @@
+import NextArrow from '@/components/NextArrow';
+import PrevArrow from '@/components/PrevArrow';
 import Image from 'next/image';
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'slick-carousel/slick/slick.css';
 import styles from '../_styles/CommuPhotos.module.css';
-import PrevArrow from '@/components/PrevArrow';
-import NextArrow from '@/components/NextArrow';
 
 type Props = {
   photo: {
@@ -41,8 +41,13 @@ export default function CommuPhotos({ photo }: Props) {
           <Image
             src={pic.photo_url}
             alt={`이미지`}
-            layout='fill'
-            objectFit='cover'
+            fill
+            sizes='(min-width: 900px) 450px, 100vw'
+            loading='lazy'
+            placeholder='blur'
+            blurDataURL={pic.photo_url}
+            quality={100}
+            className={styles.image}
           />
         </div>
       ))}

@@ -2,22 +2,22 @@ import React from 'react';
 import MinusSvg from '../_Svg/MinusSvg';
 import PlusSvg from '../_Svg/PlusSvg';
 import styles from '../_styles/PeopleCount.module.css';
+
 type Props = {
   count: number;
   setCount: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const PeopleCount = ({ count, setCount }: Props) => {
-  const handleClickInside = (
+  const onHandleClickInside = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
     e.stopPropagation();
-    // 여기에 필요한 기능 구현
   };
   return (
     <div
       className={styles.countControlBox}
-      onClick={(e) => handleClickInside(e)}
+      onClick={(e) => onHandleClickInside(e)}
     >
       <div>
         <div className={styles.boxLeft}>

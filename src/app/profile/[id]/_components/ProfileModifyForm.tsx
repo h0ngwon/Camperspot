@@ -1,36 +1,32 @@
 'use client';
+import Loading from '@/app/loading';
 import ModalCloseSvg from '@/components/ModalCloseSvg';
 import useInput from '@/hooks/useInput';
+import { useProfileQuery } from '@/hooks/useProfileQuery';
 import useModalStore from '@/store/modal';
-import { UserType } from '@/types/auth';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { modifyUserData } from '../_lib/modifyUserData';
 import styles from '../_styles/ProfileModifyForm.module.css';
-import Loading from '@/app/loading';
 
 const ProfileModifyForm = () => {
-  const queryClient = useQueryClient();
   const params = useParams();
-  const id = params.id as string;
+  const userId = params.id as string;
+  const { profile, profileMutate, isProfileLoading, isProfilePending } =
+    useProfileQuery();
   const { toggleModal } = useModalStore();
-  const { data } = useQuery<UserType>({
-    queryKey: ['mypage', 'profile', params.id],
-  });
   const [prevImage, setPrevImage] = useState<string | undefined>();
   const [file, setFile] = useState<File | string | undefined>();
-  const [nickname, nicknameHandler] = useInput(data?.nickname);
-  const mutation = useMutation({
-    mutationFn: modifyUserData,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['mypage', 'profile', params.id],
-      });
-    },
-  });
+  const [nickname, nicknameHandler] = useInput(profile?.nickname);
+
+  if (isProfileLoading) {
+    return <Loading />;
+  }
+
+  if (isProfilePending) {
+    return <Loading />;
+  }
 
   const prevImg = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const fileInput = event.target;
@@ -42,7 +38,7 @@ const ProfileModifyForm = () => {
       setPrevImage(imageUrl);
     }
   };
-  //route handler -> post -> storage upload -> db 수정
+
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
@@ -52,7 +48,7 @@ const ProfileModifyForm = () => {
       return;
     }
 
-    if (nickname === data?.nickname && file === undefined) {
+    if (nickname === profile?.nickname && file === undefined) {
       toast.error('변경사항이 없습니다!');
       return;
     }
@@ -63,7 +59,7 @@ const ProfileModifyForm = () => {
       formData.append('file', file as File, 'profile_pic');
     }
 
-    mutation.mutate({ id, formData });
+    profileMutate({ userId, formData });
     toast.success('프로필 변경 완료!');
     toggleModal();
   };
@@ -84,10 +80,11 @@ const ProfileModifyForm = () => {
         <label>
           <div className={styles['img-wrapper']}>
             <Image
-              src={prevImage ?? (data?.profile_url as string)}
+              src={prevImage ?? (profile?.profile_url as string)}
               width={120}
               height={120}
               alt='profile'
+              priority
               className={styles['profile-image']}
             />
           </div>
@@ -105,7 +102,7 @@ const ProfileModifyForm = () => {
           name='nickname'
           type='text'
           accept='image/*'
-          defaultValue={data?.nickname}
+          defaultValue={profile?.nickname}
           maxLength={12}
           onChange={nicknameHandler}
           required

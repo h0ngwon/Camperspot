@@ -1,21 +1,26 @@
 'use client';
 
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../api/db';
 import { toast } from 'react-toastify';
+
 import Image from 'next/image';
-import CommuPhotos from './_components/CommuPhotos';
-import CommuHashTags from './_components/CommuHashTags';
-import CommuUsers from './_components/CommuUsers';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { supabase } from '../api/db';
 import CommuBtns from './_components/CommuBtns';
 import CommuCreateModal from './_components/CommuCreateModal';
+import CommuHashTags from './_components/CommuHashTags';
+import CommuPhotos from './_components/CommuPhotos';
+import CommuUsers from './_components/CommuUsers';
 
-import styles from './_styles/Commu.module.css';
 import CampingImg from '@/asset/camping_illust.jpg';
-import CreateSvg from './_svg/CreateSvg';
 import Loading from '../loading';
+import styles from './_styles/Commu.module.css';
+import CreateSvg from './_svg/CreateSvg';
 
 export default function CommunityPage() {
   const [isCommuCreateModal, setIsCommuCreateModal] = useState<boolean>(false);

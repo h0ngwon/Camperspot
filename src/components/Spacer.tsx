@@ -1,6 +1,7 @@
 type Props = {
   y: number;
 };
+
 const Spacer = ({ y }: Props) => {
   return (
     <div

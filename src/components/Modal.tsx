@@ -1,4 +1,3 @@
-import useModalStore from '@/store/modal';
 import styles from '../styles/Modal.module.css';
 
 interface Props {

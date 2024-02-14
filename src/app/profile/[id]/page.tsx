@@ -1,9 +1,7 @@
 import Profile from './_components/Profile';
 
 const MyPage = () => {
-  return (
-      <Profile />
-  );
+  return <Profile />;
 };
 
 export default MyPage;

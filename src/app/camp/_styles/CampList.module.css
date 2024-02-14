@@ -10,36 +10,24 @@
     right: 10px;
 }
 
-
-.cardMiddle {
+.campAddress {
     display: flex;
+    align-items: center;
 }
 
-.campInfoBox1 {
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-}
-
-.campInfoBox1>p {
-    font-size: 20px;
-
-}
-
-
-.campInfoBox2 {
-    display: flex;
-}
-
-.campInfoBox2>p {
-    width: 200px;
+.campAddress>p {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    color: rgb(173, 176, 183);
+    font-size: 16px;
+    font-family: Pretendard;
+    font-weight: 400;
 
 }
 
 .cardTag {
+    margin-top: 12px;
     width: 450px;
     display: flex;
     gap: 5px;
@@ -47,4 +35,45 @@
 
 .tag {
     cursor: pointer;
+
+    padding: 10px;
+    border-radius: 16px;
+    border: 1px #D4D5D9 solid;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+
+
+    color: black;
+    font-size: 14px;
+    font-family: Pretendard;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.tag:hover {
+    background-color: #D4D5D9;
+    color: white;
+}
+
+
+.campTitle {
+    color: black;
+    font-size: 24px;
+    font-family: Pretendard;
+    font-weight: 600;
+}
+
+.campPrice {
+    color: rgb(58, 138, 40);
+    font-size: 24px;
+    font-family: Pretendard;
+    font-weight: 600;
+}
+
+.campInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }

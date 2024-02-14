@@ -1,7 +1,7 @@
 import React from 'react';
 import { Address } from 'react-daum-postcode';
-import AddressModal from './AddressModal';
 import styles from '../_styles/CampForm.module.css';
+import AddressModal from './AddressModal';
 
 type Props = {
   setAddress: React.Dispatch<React.SetStateAction<string>>;
