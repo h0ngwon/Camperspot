@@ -2,17 +2,18 @@
 
 import { supabase } from '@/app/api/db';
 import { useSession } from 'next-auth/react';
+import { v4 as uuid } from 'uuid';
 import Image from 'next/image';
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import { v4 as uuid } from 'uuid';
+import CommuCreatePic from './CommuCreatePic';
+import { isEmptyValue, sanitizeHashTag } from '../_lib/hashtag';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../_styles/CommuModal.module.css';
 import CloseSvg from '../_svg/CloseSvg';
 
 import type { Tables } from '@/types/supabase';
-import CommuCreatePic from './CommuCreatePic';
 
 type Props = {
   onClose: () => void;
@@ -30,8 +31,6 @@ export default function CommuCreateModal({ onClose }: Props) {
 
   const userEmail = session?.user?.email as string;
   const userImg = session?.user?.image as string;
-
-  const MAX_HASHTAG_LENGTH = 20;
 
   // post 테이블에서 option 가져오는거
   async function fetchPostData() {
@@ -68,53 +67,32 @@ export default function CommuCreateModal({ onClose }: Props) {
   };
 
   // 해시태그
-  const isEmptyValue = (value: string | any[]) => {
-    if (!value.length) {
-      return true;
-    }
-    return false;
-  };
+  const handleHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!['Enter', 'Space', 'NumpadEnter'].includes(e.code)) return;
 
-  const addHashTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const allowedCommand = ['Comma', 'Enter', 'Space', 'NumpadEnter'];
-    if (!allowedCommand.includes(e.code)) return;
+    let newHashTag = sanitizeHashTag(e.currentTarget.value);
 
-    if (isEmptyValue(e.currentTarget.value.trim())) {
-      return setInputHashTag('');
-    }
-
-    let newHashTag = e.currentTarget.value.trim();
-    const regExp = /[\{\}\[\]\/?.;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
-    if (regExp.test(newHashTag)) {
-      newHashTag = newHashTag.replace(regExp, '');
-    }
-    if (newHashTag.includes(',')) {
-      newHashTag = newHashTag.split(',').join('');
-    }
-
-    if (hashTags.length >= 10 || newHashTag.length > MAX_HASHTAG_LENGTH) {
+    if (hashTags.length >= 10 || newHashTag.length > 20) {
       return;
     }
 
-    setHashTags((prevHashTags) => {
-      const uniqueHashTags = new Set([...prevHashTags, newHashTag]);
-      return Array.from(uniqueHashTags);
-    });
-
-    setInputHashTag('');
-  };
-
-  const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code !== 'Enter' && e.code !== 'NumpadEnter') return;
-    e.preventDefault();
-
-    const regExp = /^[a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ|0-9| \t|]+$/g;
-    if (!regExp.test(e.currentTarget.value)) {
+    if (!isEmptyValue(newHashTag) && !hashTags.includes(newHashTag)) {
+      setHashTags((prevHashTags) =>
+        Array.from(new Set([...prevHashTags, newHashTag])),
+      );
       setInputHashTag('');
     }
   };
 
-  const changeHashTagInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEnterKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!['Enter', 'NumpadEnter'].includes(e.code)) return;
+    e.preventDefault();
+
+    const regExp = /^[a-z|A-Z|가-힣|ㄱ-ㅎ|ㅏ-ㅣ|0-9| \t|]+$/g;
+    if (!regExp.test(e.currentTarget.value)) setInputHashTag('');
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputHashTag(e.target.value);
   };
 
@@ -283,27 +261,25 @@ export default function CommuCreateModal({ onClose }: Props) {
               <div className={styles.tagsCon}>
                 <label className={styles.blind}>해시태그</label>
                 <input
-                  id='hashTagInput'
                   value={inputHashTag}
-                  onChange={(e) => changeHashTagInput(e)}
-                  onKeyUp={(e) => addHashTag(e)}
-                  onKeyDown={(e) => keyDownHandler(e)}
+                  onChange={handleChange}
+                  onKeyUp={handleHashTag}
+                  onKeyDown={handleEnterKey}
                   placeholder='#해시태그를 등록해보세요. (최대 10개)'
                 />
-                {hashTags.length > 0 &&
-                  hashTags.map((item, index) => {
-                    return (
-                      <span key={index}>
-                        # {item}
-                        <button
-                          type='button'
-                          onClick={() => handleDeleteHashtag(item)}
-                        >
-                          <CloseSvg />
-                        </button>
-                      </span>
-                    );
-                  })}
+                {hashTags.map((hashTag) => {
+                  return (
+                    <span key={hashTag}>
+                      #{hashTag}
+                      <button
+                        type='button'
+                        onClick={() => handleDeleteHashtag(hashTag)}
+                      >
+                        <CloseSvg />
+                      </button>
+                    </span>
+                  );
+                })}
               </div>
             </div>
           </div>
