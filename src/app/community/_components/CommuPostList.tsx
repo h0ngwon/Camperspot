@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { supabase } from '@/app/api/db';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import CommuHashTags from '../_components/CommuHashTags';
 import CommuPhotos from '../_components/CommuPhotos';
@@ -39,6 +39,8 @@ const fetchPage = async (pageParam: number) => {
 };
 
 export default function CommuPostList({ userId }: Props) {
+  const queryClient = useQueryClient();
+
   const {
     data,
     fetchNextPage,

@@ -41,7 +41,7 @@ export default function CommuUser({ user, data }: Props) {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['post'] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
 
