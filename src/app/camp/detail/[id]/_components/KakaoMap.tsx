@@ -1,6 +1,5 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import DetailAddress from './DetailAddress';
 
@@ -18,8 +17,6 @@ type Props = {
 
 export default function KakaoMap({ campAddress }: Props) {
   const [map, setMap] = useState<any>(null);
-
-  const params = useParams() as { id: string };
 
   useEffect(() => {
     const mapScript = document.createElement('script');

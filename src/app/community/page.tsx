@@ -1,19 +1,11 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { supabase } from '../api/db';
-import CommuBtns from './_components/CommuBtns';
 import CommuCreateModal from './_components/CommuCreateModal';
-import CommuHashTags from './_components/CommuHashTags';
-import CommuPhotos from './_components/CommuPhotos';
-import CommuUsers from './_components/CommuUsers';
+import CommuPostList from './_components/CommuPostList';
 
-import CampingImg from '@/asset/camping_illust.jpg';
-import Loading from '../loading';
 import styles from './_styles/Commu.module.css';
 import CreateSvg from './_svg/CreateSvg';
 
@@ -22,33 +14,6 @@ export default function CommunityPage() {
 
   const { data: session } = useSession();
   const userId = session?.user.id as string;
-
-  const {
-    data: post,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['post'],
-    queryFn: async () => {
-      try {
-        const { data: post, error } = await supabase
-          .from('post')
-          .select(
-            '*,post_pic(*),post_hashtag(*),user(id,nickname,profile_url),comment(id)',
-          )
-          .order('created_at', { ascending: false });
-
-        if (error) {
-          throw error;
-        }
-
-        return post;
-      } catch (error) {
-        console.error(error);
-        throw error;
-      }
-    },
-  });
 
   const handleCreateModalOpen = () => {
     // 로그인 상태에서만 모달을 열도록 체크
@@ -66,14 +31,6 @@ export default function CommunityPage() {
     }
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return <div>에러 발생</div>;
-  }
-
   return (
     <>
       <div className={styles.container}>
@@ -83,31 +40,7 @@ export default function CommunityPage() {
         {isCommuCreateModal && (
           <CommuCreateModal onClose={() => setIsCommuCreateModal(false)} />
         )}
-        {post && post.length === 0 && (
-          <div className={styles.noPosts}>
-            <Image
-              className={styles.img}
-              src={CampingImg}
-              alt='image'
-              width={700}
-              height={550}
-            />
-            <p>등록된 글이 없습니다.</p>
-          </div>
-        )}
-        <ul>
-          {post?.map((item) => {
-            return (
-              <li className={styles.card} key={item.id}>
-                <CommuUsers user={item.user} data={item} />
-                <CommuPhotos photo={item.post_pic} />
-                <CommuBtns data={item} userId={userId} />
-                <p className={styles.content}>{item.content}</p>
-                <CommuHashTags hashTag={item.post_hashtag} />
-              </li>
-            );
-          })}
-        </ul>
+        <CommuPostList userId={userId} />
       </div>
     </>
   );
