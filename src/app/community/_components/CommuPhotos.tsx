@@ -43,7 +43,7 @@ export default function CommuPhotos({ photo }: Props) {
             alt={`이미지`}
             fill
             sizes='(min-width: 900px) 450px, 100vw'
-            loading='lazy'
+            priority
             placeholder='blur'
             blurDataURL={pic.photo_url}
             quality={100}
