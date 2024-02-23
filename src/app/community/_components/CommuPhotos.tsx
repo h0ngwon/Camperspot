@@ -46,7 +46,6 @@ export default function CommuPhotos({ photo }: Props) {
             priority
             placeholder='blur'
             blurDataURL={pic.photo_url}
-            quality={100}
             className={styles.image}
           />
         </div>
