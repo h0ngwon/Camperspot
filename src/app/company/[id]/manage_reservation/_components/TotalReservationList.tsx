@@ -2,10 +2,7 @@
 import { NAME_REGEX, PHONE_REGEX } from '@/app/_utils/regex';
 import Loading from '@/app/loading';
 import type { CompanyReservationInfo } from '@/types/reservation';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { getCompanyReservation } from '../../_lib/getCompanyUserReservation';
 import InputEraserSvg from '../../_svg/InputEraserSvg';
 import ResrevationSearchSvg from '../../_svg/ResrevationSearchSvg';
 import { getEndDate, getStartDate } from '../_lib/getDateRange';
@@ -13,6 +10,7 @@ import styles from '../_styles/TotalReservationList.module.css';
 import Calendar from './Calendar';
 import NothingReservation from './NothingReservation';
 import Reservation from './Reservation';
+import { useCompanyUserTotalReservationQuery } from '@/hooks/useCompanyUserTotalReservationQuery';
 
 const TotalReservationList = () => {
   const [startDate, setStartDate] = useState<Date>(getStartDate);
@@ -20,24 +18,11 @@ const TotalReservationList = () => {
   const [text, setText] = useState<string>('');
   const [result, setResult] = useState<CompanyReservationInfo[]>();
   const [isSearch, setIsSearch] = useState<boolean>(false);
-  const params = useParams();
-  const { isLoading, data: reservations } = useQuery({
-    queryKey: [
-      'company',
-      'reservation',
-      params.id,
-      startDate.toISOString(),
-      endDate.toISOString(),
-    ],
-    queryFn: () =>
-      getCompanyReservation(
-        params.id as string,
-        startDate.toISOString(),
-        endDate.toISOString(),
-      ),
-  });
 
-  if (isLoading) return <Loading />;
+  const { isCompanyUserReservationLoading, reservations } =
+    useCompanyUserTotalReservationQuery({ startDate, endDate });
+
+  if (isCompanyUserReservationLoading) return <Loading />;
 
   const handleSearch = () => {
     if (!text.trim()) return;

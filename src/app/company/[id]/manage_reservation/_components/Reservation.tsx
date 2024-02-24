@@ -6,17 +6,15 @@ import Modal from '@/components/Modal';
 import ModalPortal from '@/components/ModalPortal';
 import useModalStore from '@/store/modal';
 import type { CompanyReservationInfo } from '@/types/reservation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { deleteCompanyReservation } from '../_lib/reservation';
 import styles from '../_styles/Reservation.module.css';
+import { useDeleteCompanyUserReservationQuery } from '@/hooks/useDeleteCompanyUserTotalResevationQuery';
 
 const Reservation = ({
   reservation,
 }: {
   reservation: CompanyReservationInfo;
 }) => {
-  const queryClient = useQueryClient();
   const [isOpenConfirm, setIsOpenConfirm] = useState<boolean>(false);
   const [isOpenComplete, setIsOpenComplete] = useState<boolean>(false);
   const [isShowDetail, setIsShowDetail] = useState<string | null>();
@@ -33,17 +31,10 @@ const Reservation = ({
   const { name: camp_name } = reservation.camp_area?.camp!;
   const { name: camp_area_name } = reservation.camp_area!;
   const { id: companyId } = reservation.camp_area?.camp?.company_user!;
+  const { reservationMutate } = useDeleteCompanyUserReservationQuery(id);
 
-  const deleteReservationMutaion = useMutation({
-    mutationFn: () => deleteCompanyReservation(id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['company', 'reservation', companyId],
-      });
-    },
-  });
   const handleDelete = () => {
-    deleteReservationMutaion.mutate();
+    reservationMutate();
     setIsOpenComplete(false);
   };
   const handleOpenModal = () => {
