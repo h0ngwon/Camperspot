@@ -7,8 +7,8 @@ export const useCompanyUserTodayReservationQuery = () => {
   const companyId = params.id;
   const { isLoading: isCompanyUserReservationLoading, data: reservations } =
     useQuery({
-      queryKey: ['company', 'reservation', 'today'],
-      queryFn: () => getTodayReservation(companyId as string),
+      queryKey: ['company', 'reservation', 'today', companyId],
+      queryFn: getTodayReservation,
     });
 
   return { isCompanyUserReservationLoading, reservations };

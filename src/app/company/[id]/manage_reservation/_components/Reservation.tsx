@@ -31,10 +31,10 @@ const Reservation = ({
   const { name: camp_name } = reservation.camp_area?.camp!;
   const { name: camp_area_name } = reservation.camp_area!;
   const { id: companyId } = reservation.camp_area?.camp?.company_user!;
-  const { reservationMutate } = useDeleteCompanyUserReservationQuery(id);
+  const { reservationsMutate } = useDeleteCompanyUserReservationQuery(id);
 
   const handleDelete = () => {
-    reservationMutate();
+    reservationsMutate();
     setIsOpenComplete(false);
   };
   const handleOpenModal = () => {

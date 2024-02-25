@@ -17,9 +17,7 @@ const ReservationList = () => {
         <h3 className={styles.h3}>오늘의 예약 현황</h3>
 
         {reservations?.length ? (
-          <div>
-            <CampFilter reservation={reservations} />
-          </div>
+          <CampFilter reservation={reservations} />
         ) : (
           <NothingReservation text={'오늘 예약 현황이 없습니다.'} />
         )}

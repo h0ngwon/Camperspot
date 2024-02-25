@@ -11,8 +11,8 @@ export const useMyReservationQuery = (reservationId?: string) => {
     error: myReservationError,
     data: reservations,
   } = useQuery({
-    queryKey: ['mypage', 'profile', 'reservation'],
-    queryFn: () => getUserReservation(userId as string),
+    queryKey: ['mypage', 'reservation', userId],
+    queryFn: getUserReservation,
   });
 
   const queryClient = useQueryClient();
@@ -20,7 +20,7 @@ export const useMyReservationQuery = (reservationId?: string) => {
     mutationFn: () => deleteUserReservation(reservationId as string),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['mypage', 'profile', 'reservation'],
+        queryKey: ['mypage', 'reservation', userId],
       });
     },
   });

@@ -19,12 +19,7 @@ export const useCompanyUserTotalReservationQuery = ({
         startDate!.toISOString(),
         endDate!.toISOString(),
       ],
-      queryFn: () =>
-        getCompanyReservation(
-          companyId,
-          startDate!.toISOString(),
-          endDate!.toISOString(),
-        ),
+      queryFn: getCompanyReservation,
     });
   return { isCompanyUserReservationLoading, reservations };
 };

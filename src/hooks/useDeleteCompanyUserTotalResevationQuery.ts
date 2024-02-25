@@ -6,7 +6,7 @@ export const useDeleteCompanyUserReservationQuery = (reservationId: string) => {
   const queryClient = useQueryClient();
   const params = useParams();
   const companyId = params.id as string;
-  const { mutate: reservationMutate } = useMutation({
+  const { mutate: reservationsMutate } = useMutation({
     mutationFn: () => deleteCompanyReservation(reservationId),
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -14,5 +14,5 @@ export const useDeleteCompanyUserReservationQuery = (reservationId: string) => {
       });
     },
   });
-  return { reservationMutate };
+  return { reservationsMutate };
 };

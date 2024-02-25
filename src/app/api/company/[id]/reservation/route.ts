@@ -15,7 +15,7 @@ export const GET = async (
     .eq('camp_area.camp.company_user.id', params.id as string)
     .gte('check_in_date', startDate)
     .lte('check_in_date', endDate)
-    .order('created_at', { ascending: true });
+    .order('check_in_date', { ascending: true });
   console.log('error', error);
   return NextResponse.json(data);
 };
