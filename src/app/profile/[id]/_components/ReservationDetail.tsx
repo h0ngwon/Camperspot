@@ -1,23 +1,13 @@
 'use client';
 import Loading from '@/app/loading';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { getUserReservation } from '../_lib/getUserReservation';
 import styles from '../_styles/ReservationDetail.module.css';
 import { NothingReservation } from './NothingReservation';
 import ReservationList from './ReservationList';
+import { useMyReservationQuery } from '@/hooks/useMyReservationQuery';
 
 export const ReservationDetail = () => {
-  const params = useParams();
-  const { id: userId } = params;
-  const {
-    isLoading,
-    error,
-    data: reservations,
-  } = useQuery({
-    queryKey: ['mypage', 'profile', 'reservation'],
-    queryFn: () => getUserReservation(userId as string),
-  });
+  const { isMyReservationLoading, myReservationError, reservations } =
+    useMyReservationQuery();
   const currentDate = new Date();
 
   const plannedReservation = reservations?.filter(
@@ -41,8 +31,8 @@ export const ReservationDetail = () => {
       ).getTime() <= new Date(new Date().setHours(0, 0, 0, 0)).getTime(),
   );
 
-  if (isLoading) return <Loading />;
-  if (error) return <p>{error.message}</p>;
+  if (isMyReservationLoading) return <Loading />;
+  if (myReservationError) return <p>{myReservationError.message}</p>;
 
   return (
     <div className={styles.layout}>

@@ -4,20 +4,19 @@ import ModalPortal from '@/components/ModalPortal';
 import ReservationArrowSvg from '@/components/ReservationArrowSvg';
 import useModalStore from '@/store/modal';
 import { ReviewInfo, UserReservationInfo } from '@/types/reservation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import copy from 'clipboard-copy';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import { deleteUserReservation } from '../_lib/deleteUserReservation';
 import styles from '../_styles/ReservationList.module.css';
 import CoordiateSvg from '../_svg/CoordiateSvg';
 import ReservationCancelCompleteModal from './ReservationCancelCompleteModal';
 import ReservationCancelConfirmModal from './ReservationCancelConfirmModal';
 import ReservationDetailModal from './ReservationDetailModal';
 import ReviewModal from './ReviewModal';
+import { useMyReservationQuery } from '@/hooks/useMyReservationQuery';
 
 const ReservationList = ({
   reservations,
@@ -35,18 +34,12 @@ const ReservationList = ({
   const [isOpenReservationComplete, setIsOpenReservationComplete] = useState<
     string | null
   >();
-  const queryClient = useQueryClient();
-  const deleteReservationMutaion = useMutation({
-    mutationFn: () => deleteUserReservation(isOpenReservationComplete!),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['mypage', 'profile', 'reservation'],
-      });
-    },
-  });
+  const { reservationsMutate } = useMyReservationQuery(
+    isOpenReservationComplete ?? isOpenReservationComplete!,
+  );
+
   const handleDelete = () => {
-    deleteReservationMutaion.mutate();
-    // setIsOpenComplete(null);
+    reservationsMutate();
   };
   const { show, toggleModal } = useModalStore();
 
