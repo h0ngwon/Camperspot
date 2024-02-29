@@ -3,11 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (
   req: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string, page: number } },
 ) => {
-  const searchParam = Number(req.nextUrl.searchParams.get('page'));
-  const from = searchParam * 4; // 0 4 8 12
-  const to = searchParam + 3; // 3 7 11
+  const page = params.page;
+  const from = page * 4; // 0 4 8 12
+  const to = page + 3; // 3 7 11
   const { data, error } = await supabase
     .from('post')
     .select(

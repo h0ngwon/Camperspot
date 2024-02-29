@@ -12,11 +12,13 @@ export const useMyPostQuery = () => {
     isLoading: isMyPostLoading,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery<MyPostType>({
+  } = useInfiniteQuery({
     queryKey: ['mypage', 'bookmark', 'post', userId],
-    queryFn: ({ pageParam = 1 }) => getUserPost(userId, pageParam as number),
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.length ? allPages.length : undefined,
+    queryFn: ({ pageParam = 0 }) => getUserPost(userId, pageParam as number),
+    getNextPageParam: (lastPage, allPages, lastPageParam) => {
+      const nextPage = lastPageParam + 1;
+        return lastPage.length === 0 ? undefined : nextPage;
+    },
     initialPageParam: 0,
   });
 

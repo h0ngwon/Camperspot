@@ -36,11 +36,17 @@ export const getUserLikeCamp = async ({
   return fetchData;
 };
 
-export const getUserPost = async (userId: string, pageParam: number): Promise<MyPostType> => {
-  const res = await fetch(`/api/profile/${userId}/community/user/post?page=${pageParam}`, {
-    method: 'GET',
-  });
-
+export const getUserPost = async (
+  userId: string,
+  pageParam: number,
+): Promise<MyPostType> => {
+  const res = await fetch(
+    `/api/profile/${userId}/community/user/post/${pageParam}`,
+    {
+      method: 'GET',
+    },
+  );
+  console.log(pageParam);
   const data = await res.json();
   return data;
 };
