@@ -6,8 +6,8 @@ export const GET = async (
   { params }: { params: { id: string } },
 ) => {
   const searchParam = Number(req.nextUrl.searchParams.get('page'));
-  const from = searchParam * 3;
-  const to = searchParam + 3;
+  const from = searchParam * 4; // 0 4 8 12
+  const to = searchParam + 3; // 3 7 11
   const { data, error } = await supabase
     .from('post')
     .select(
