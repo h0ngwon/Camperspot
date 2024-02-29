@@ -16,7 +16,7 @@ const MyPostContent = ({ post }: Props) => {
       <div className={styles['container']}>
         <div className={styles['img-wrapper']}>
           <Image
-            src={post.post_pic[0].photo_url}
+            src={post.post_pic[0]?.photo_url}
             width={381}
             height={381}
             alt='커뮤니티 사진'
