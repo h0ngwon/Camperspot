@@ -46,7 +46,7 @@ export const getUserPost = async (
       method: 'GET',
     },
   );
-  console.log(pageParam);
+  
   const data = await res.json();
   return data;
 };
