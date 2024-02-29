@@ -1,5 +1,4 @@
 import { getUserPost } from '@/app/profile/[id]/_lib/profile';
-import { MyPostType } from '@/types/profile';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useIntersectionObserver } from './useIntersectionObserver';
