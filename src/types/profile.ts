@@ -16,13 +16,13 @@ export type LikeCampType = {
 
 export type MyPostType = {
   post_id: string;
-    content: string;
-    post_pic: {
-      photo_url: string;
-    }[];
-    post_hashtag: {
-      tag: string;
-    }[];
-    like: {id: string}[];
-    comment : {id: string}[];
-}[]
+  content: string;
+  post_pic: {
+    photo_url: string;
+  }[];
+  post_hashtag: {
+    tag: string;
+  }[];
+  like: { id: string }[];
+  comment: { id: string }[];
+}[];

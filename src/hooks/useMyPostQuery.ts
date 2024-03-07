@@ -1,17 +1,30 @@
 import { getUserPost } from '@/app/profile/[id]/_lib/profile';
-import { MyPostType } from '@/types/profile';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+import { useIntersectionObserver } from './useIntersectionObserver';
 
 export const useMyPostQuery = () => {
   const params = useParams();
   const userId = params.id as string;
-  const { data: myPost, isLoading: isMyPostLoading } = useQuery<MyPostType>({
+  const {
+    data: myPost,
+    isLoading: isMyPostLoading,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteQuery({
     queryKey: ['mypage', 'bookmark', 'post', userId],
-    queryFn: getUserPost,
-    refetchOnWindowFocus: true,
-    refetchOnMount: true,
+    queryFn: ({ pageParam = 0 }) => getUserPost(userId, pageParam as number),
+    getNextPageParam: (lastPage, _, lastPageParam) => {
+      const nextPage = lastPageParam + 1;
+      return lastPage.length === 0 ? undefined : nextPage;
+    },
+    initialPageParam: 0,
   });
-  
-  return {myPost, isMyPostLoading}
-}
+
+  const { setTarget } = useIntersectionObserver({
+    hasNextPage,
+    fetchNextPage,
+  });
+
+  return { myPost, isMyPostLoading, setTarget };
+};
