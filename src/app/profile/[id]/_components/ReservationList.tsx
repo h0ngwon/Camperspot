@@ -7,7 +7,7 @@ import { ReviewInfo, UserReservationInfo } from '@/types/reservation';
 import copy from 'clipboard-copy';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import styles from '../_styles/ReservationList.module.css';
@@ -25,21 +25,19 @@ const ReservationList = ({
   reservations: UserReservationInfo[];
   isPlanned: boolean;
 }) => {
+  const { reservationMutate } = useMyReservationQuery();
   const router = useRouter();
+  const params = useParams();
+  const userId = params.id as string;
   const [isOpenDetailModal, setIsOpenDetailModal] = useState<number | null>();
   const [isOpenReviewModal, setIsOpenReviewModal] = useState<number | null>();
-  const [isOpenReservationConfirm, setIsOpenReservationComfirm] = useState<
+  const [reservationId, setReservationId] = useState<string | null>();
+  const [deleteReservationId, setDeleteReservationId] = useState<
     string | null
   >();
-  const [isOpenReservationComplete, setIsOpenReservationComplete] = useState<
-    string | null
-  >();
-  const { reservationsMutate } = useMyReservationQuery(
-    isOpenReservationComplete ?? isOpenReservationComplete!,
-  );
 
   const handleDelete = () => {
-    reservationsMutate();
+    reservationMutate({ userId, reservationId: deleteReservationId! });
   };
   const { show, toggleModal } = useModalStore();
 
@@ -97,7 +95,7 @@ const ReservationList = ({
                     width={120}
                     height={120}
                     alt='camping'
-                    priority
+                    priority={true}
                     style={{ borderRadius: '8px' }}
                   />
                 </Link>
@@ -143,7 +141,7 @@ const ReservationList = ({
                     {isPlanned && (
                       <button
                         className={styles.button}
-                        onClick={() => setIsOpenReservationComfirm(id)}
+                        onClick={() => setReservationId(id)}
                       >
                         취소하기
                       </button>
@@ -219,16 +217,16 @@ const ReservationList = ({
               ) : (
                 ''
               )}
-              {isOpenReservationConfirm == id && (
+              {reservationId == id && (
                 <ReservationCancelConfirmModal
                   onCancel={() => {
-                    setIsOpenReservationComfirm(null);
-                    setIsOpenReservationComplete(id);
+                    setReservationId(null);
+                    setDeleteReservationId(id);
                   }}
-                  onClose={() => setIsOpenReservationComfirm(null)}
+                  onClose={() => setReservationId(null)}
                 />
               )}
-              {isOpenReservationComplete == id && (
+              {deleteReservationId == id && (
                 <ReservationCancelCompleteModal onClose={handleDelete} />
               )}
             </React.Fragment>
