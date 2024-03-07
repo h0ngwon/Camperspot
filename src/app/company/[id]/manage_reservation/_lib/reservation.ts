@@ -21,10 +21,10 @@ export const getCampAreaReservation = async (campAreaId: string) => {
   return reservations;
 };
 
-export const deleteCompanyReservation = async (companyId: string) => {
+export const deleteCompanyReservation = async (reservationId: string) => {
   const { error } = await supabase
     .from('reservation')
     .delete()
-    .eq('id', companyId);
+    .eq('id', reservationId);
   return error;
 };
