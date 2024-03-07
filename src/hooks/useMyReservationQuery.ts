@@ -1,23 +1,25 @@
-import { deleteUserReservation } from '@/app/profile/[id]/_lib/deleteUserReservation';
-import { getUserReservation } from '@/app/profile/[id]/_lib/getUserReservation';
+import {
+  getUserReservation,
+  deleteUserReservation,
+} from '@/app/profile/[id]/_lib/reservation';
+import type { UserReservationInfo } from '@/types/reservation';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
-export const useMyReservationQuery = (reservationId?: string) => {
+export const useMyReservationQuery = () => {
   const params = useParams();
   const userId = params.id;
   const {
     isLoading: isMyReservationLoading,
     error: myReservationError,
     data: reservations,
-  } = useQuery({
+  } = useQuery<UserReservationInfo[]>({
     queryKey: ['mypage', 'reservation', userId],
     queryFn: getUserReservation,
   });
-
   const queryClient = useQueryClient();
-  const { mutate: reservationsMutate } = useMutation({
-    mutationFn: () => deleteUserReservation(reservationId as string),
+  const { mutate: reservationMutate } = useMutation({
+    mutationFn: deleteUserReservation,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['mypage', 'reservation', userId],
@@ -29,6 +31,6 @@ export const useMyReservationQuery = (reservationId?: string) => {
     isMyReservationLoading,
     myReservationError,
     reservations,
-    reservationsMutate,
+    reservationMutate,
   };
 };
